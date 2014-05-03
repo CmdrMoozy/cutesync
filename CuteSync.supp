@@ -1,0 +1,29 @@
+{
+   fontconfig_bug_8428
+   Memcheck:Leak
+   fun:realloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+}
+
+{
+   # This has been fixed upstream: http://cgit.freedesktop.org/xcb/libxcb/commit/?id=5755582444ad0ba79e661ab3173cc38e9e588d83
+   libxcb_bug
+   Memcheck:Leak
+   fun:malloc
+   fun:get_peer_sock_name
+   fun:_xcb_get_auth_info
+   fun:xcb_connect_to_display_with_auth_info
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+}
+
+{
+   qt_bug_6791
+   Memcheck:Leak
+   fun:calloc
+   fun:_XimOpenIM
+   fun:_XimRegisterIMInstantiateCallback
+   fun:XRegisterIMInstantiateCallback
+   fun:_ZN16QXIMInputContextC1Ev
+}
