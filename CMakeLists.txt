@@ -44,6 +44,62 @@ SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${REL_FLAGS}")
 
 INCLUDE_DIRECTORIES("src" ${GLIB_INCLUDE_DIRS} ${GDK-PIXBUF_INCLUDE_DIRS})
 
+# Define libcute's source files.
+
+SET(libcute_HEADERS
+
+	src/libcute/Defines.h
+
+	src/libcute/collections/CuteSyncAbstractCollection.h
+	src/libcute/collections/CuteSyncAbstractCollectionConfigWidget.h
+	src/libcute/collections/CuteSyncCollectionTypeResolver.h
+	src/libcute/collections/CuteSyncDirCollection.h
+	src/libcute/collections/CuteSyncDirCollectionConfigWidget.h
+	src/libcute/collections/CuteSyncDirTrack.h
+	src/libcute/collections/CuteSyncGeneralCollectionConfigWidget.h
+	src/libcute/collections/CuteSyncIPodCollection.h
+	src/libcute/collections/CuteSyncIPodCollectionConfigWidget.h
+	src/libcute/collections/CuteSyncIPodTrack.h
+	src/libcute/collections/CuteSyncTrack.h
+
+	src/libcute/tags/CuteSyncFileTypeResolver.h
+	src/libcute/tags/CuteSyncTaggedFile.h
+
+	src/libcute/thread/CuteSyncCollectionLocker.h
+
+	src/libcute/util/CuteSyncMMIOHandle.h
+	src/libcute/util/CuteSyncSystemUtils.h
+
+	src/libcute/widgets/CuteSyncCollectionModel.h
+
+)
+
+SET(libcute_SOURCES
+
+	src/libcute/collections/CuteSyncAbstractCollection.cpp
+	src/libcute/collections/CuteSyncAbstractCollectionConfigWidget.cpp
+	src/libcute/collections/CuteSyncCollectionTypeResolver.cpp
+	src/libcute/collections/CuteSyncDirCollection.cpp
+	src/libcute/collections/CuteSyncDirCollectionConfigWidget.cpp
+	src/libcute/collections/CuteSyncDirTrack.cpp
+	src/libcute/collections/CuteSyncGeneralCollectionConfigWidget.cpp
+	src/libcute/collections/CuteSyncIPodCollection.cpp
+	src/libcute/collections/CuteSyncIPodCollectionConfigWidget.cpp
+	src/libcute/collections/CuteSyncIPodTrack.cpp
+	src/libcute/collections/CuteSyncTrack.cpp
+
+	src/libcute/tags/CuteSyncFileTypeResolver.cpp
+	src/libcute/tags/CuteSyncTaggedFile.cpp
+
+	src/libcute/thread/CuteSyncCollectionLocker.cpp
+
+	src/libcute/util/CuteSyncMMIOHandle.cpp
+	src/libcute/util/CuteSyncSystemUtils.cpp
+
+	src/libcute/widgets/CuteSyncCollectionModel.cpp
+
+)
+
 # Define CuteSync's source files.
 
 SET(cutesync_RESOURCES
@@ -55,99 +111,60 @@ SET(cutesync_RESOURCES
 
 SET(cutesync_HEADERS
 
-	src/CuteSyncConfig.h
-	src/CuteSyncDefines.h
-	src/CuteSyncMainWindow.h
+	src/cutesync/CuteSyncMainWindow.h
 
-	src/collections/CuteSyncAbstractCollection.h
-	src/collections/CuteSyncAbstractCollectionConfigWidget.h
-	src/collections/CuteSyncCollectionTypeResolver.h
-	src/collections/CuteSyncDirCollection.h
-	src/collections/CuteSyncDirCollectionConfigWidget.h
-	src/collections/CuteSyncDirTrack.h
-	src/collections/CuteSyncGeneralCollectionConfigWidget.h
-	src/collections/CuteSyncIPodCollection.h
-	src/collections/CuteSyncIPodCollectionConfigWidget.h
-	src/collections/CuteSyncIPodTrack.h
-	src/collections/CuteSyncTrack.h
+	src/cutesync/dialogs/CuteSyncAboutDialog.h
+	src/cutesync/dialogs/CuteSyncNewCollectionDialog.h
+	src/cutesync/dialogs/CuteSyncSyncDIalog.h
 
-	src/dialogs/CuteSyncAboutDialog.h
-	src/dialogs/CuteSyncNewCollectionDialog.h
-	src/dialogs/CuteSyncSyncDIalog.h
+	src/cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.h
+	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h
+	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.h
 
-	src/dialogs/inspector/CuteSyncInspectorAboutDialog.h
-	src/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h
-	src/dialogs/inspector/CuteSyncInspectorConfigDialog.h
+	src/cutesync/settings/CuteSyncSettingsManager.h
 
-	src/settings/CuteSyncSettingsManager.h
-
-	src/tags/CuteSyncTaggedFile.h
-	src/tags/CuteSyncFileTypeResolver.h
-
-	src/thread/CuteSyncCollectionLocker.h
-
-	src/util/CuteSyncMMIOHandle.h
-	src/util/CuteSyncSystemUtils.h
-
-	src/widgets/CuteSyncCollectionDelegate.h
-	src/widgets/CuteSyncCollectionListWidget.h
-	src/widgets/CuteSyncCollectionModel.h
-	src/widgets/CuteSyncDDSelectorModel.h
-	src/widgets/CuteSyncDDSelectorWidget.h
-	src/widgets/CuteSyncIconListWidget.h
+	src/cutesync/widgets/CuteSyncCollectionDelegate.h
+	src/cutesync/widgets/CuteSyncCollectionListWidget.h
+	src/cutesync/widgets/CuteSyncDDSelectorModel.h
+	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
+	src/cutesync/widgets/CuteSyncIconListWidget.h
 
 )
 
 SET(cutesync_SOURCES
 
-	src/CuteSync.cpp
-	src/CuteSyncMainWindow.cpp
+	src/cutesync/CuteSync.cpp
+	src/cutesync/CuteSyncMainWindow.cpp
 
-	src/collections/CuteSyncAbstractCollection.cpp
-	src/collections/CuteSyncAbstractCollectionConfigWidget.cpp
-	src/collections/CuteSyncCollectionTypeResolver.cpp
-	src/collections/CuteSyncDirCollection.cpp
-	src/collections/CuteSyncDirCollectionConfigWidget.cpp
-	src/collections/CuteSyncDirTrack.cpp
-	src/collections/CuteSyncGeneralCollectionConfigWidget.cpp
-	src/collections/CuteSyncIPodCollection.cpp
-	src/collections/CuteSyncIPodCollectionConfigWidget.cpp
-	src/collections/CuteSyncIPodTrack.cpp
-	src/collections/CuteSyncTrack.cpp
+	src/cutesync/dialogs/CuteSyncAboutDialog.cpp
+	src/cutesync/dialogs/CuteSyncNewCollectionDialog.cpp
+	src/cutesync/dialogs/CuteSyncSyncDialog.cpp
 
-	src/dialogs/CuteSyncAboutDialog.cpp
-	src/dialogs/CuteSyncNewCollectionDialog.cpp
-	src/dialogs/CuteSyncSyncDialog.cpp
+	src/cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.cpp
+	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.cpp
+	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.cpp
 
-	src/dialogs/inspector/CuteSyncInspectorAboutDialog.cpp
-	src/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.cpp
-	src/dialogs/inspector/CuteSyncInspectorConfigDialog.cpp
+	src/cutesync/settings/CuteSyncSettingsManager.cpp
 
-	src/settings/CuteSyncSettingsManager.cpp
-
-	src/tags/CuteSyncFileTypeResolver.cpp
-	src/tags/CuteSyncTaggedFile.cpp
-
-	src/thread/CuteSyncCollectionLocker.cpp
-
-	src/util/CuteSyncMMIOHandle.cpp
-	src/util/CuteSyncSystemUtils.cpp
-
-	src/widgets/CuteSyncCollectionDelegate.cpp
-	src/widgets/CuteSyncCollectionInspector.cpp
-	src/widgets/CuteSyncCollectionListWidget.cpp
-	src/widgets/CuteSyncCollectionModel.cpp
-	src/widgets/CuteSyncDDSelectorModel.cpp
-	src/widgets/CuteSyncDDSelectorWidget.cpp
-	src/widgets/CuteSyncIconListWidget.cpp
+	src/cutesync/widgets/CuteSyncCollectionDelegate.cpp
+	src/cutesync/widgets/CuteSyncCollectionInspector.cpp
+	src/cutesync/widgets/CuteSyncCollectionListWidget.cpp
+	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp
+	src/cutesync/widgets/CuteSyncDDSelectorWidget.cpp
+	src/cutesync/widgets/CuteSyncIconListWidget.cpp
 
 )
 
 # Build our project!
 
+ADD_LIBRARY(cute STATIC ${libcute_SOURCES})
+TARGET_LINK_LIBRARIES(cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+
+
 QT5_ADD_RESOURCES(cutesync_RESOURCES_RCC ${cutesync_RESOURCES})
 
 ADD_EXECUTABLE(CuteSync ${cutesync_RESOURCES_RCC} ${cutesync_SOURCES})
-TARGET_LINK_LIBRARIES(CuteSync m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(CuteSync cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
 
+QT5_USE_MODULES(cute Widgets Network)
 QT5_USE_MODULES(CuteSync Widgets Network)
