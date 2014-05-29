@@ -21,7 +21,7 @@
 
 #include <QDirIterator>
 
-#include "util/CuteSyncMMIOHandle.h"
+#include "libcute/util/CuteSyncMMIOHandle.h"
 
 inline bool uclt(char a, char b)
 {

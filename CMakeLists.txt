@@ -155,16 +155,68 @@ SET(cutesync_SOURCES
 
 )
 
+# Define id3ck's source files.
+
+SET(id3ck_HEADERS
+
+
+
+)
+
+SET(id3ck_SOURCES
+
+	src/id3ck/id3ck.cpp
+
+)
+
+# Define ifsck's source files.
+
+SET(ifsck_HEADERS
+
+
+
+)
+
+SET(ifsck_SOURCES
+
+	src/ifsck/ifsck.cpp
+
+)
+
+# Define mkipod's source files.
+
+SET(mkipod_HEADERS
+
+
+
+)
+
+SET(mkipod_SOURCES
+
+	src/mkipod/mkipod.cpp
+
+)
+
 # Build our project!
 
 ADD_LIBRARY(cute STATIC ${libcute_SOURCES})
 TARGET_LINK_LIBRARIES(cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
 
-
 QT5_ADD_RESOURCES(cutesync_RESOURCES_RCC ${cutesync_RESOURCES})
-
 ADD_EXECUTABLE(CuteSync ${cutesync_RESOURCES_RCC} ${cutesync_SOURCES})
 TARGET_LINK_LIBRARIES(CuteSync cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
 
+ADD_EXECUTABLE(id3ck ${id3ck_SOURCES})
+TARGET_LINK_LIBRARIES(id3ck cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+
+ADD_EXECUTABLE(ifsck ${ifsck_SOURCES})
+TARGET_LINK_LIBRARIES(ifsck m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+
+ADD_EXECUTABLE(mkipod ${mkipod_SOURCES})
+TARGET_LINK_LIBRARIES(mkipod m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+
 QT5_USE_MODULES(cute Widgets Network)
 QT5_USE_MODULES(CuteSync Widgets Network)
+QT5_USE_MODULES(id3ck Widgets Network)
+QT5_USE_MODULES(ifsck Widgets Network)
+QT5_USE_MODULES(mkipod Widgets Network)
