@@ -20,8 +20,8 @@
 
 #include <QStyleOptionViewItemV4>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
-#include "libcute/widgets/CuteSyncCollectionModel.h"
+#include "libcute/collections/AbstractCollection.h"
+#include "libcute/widgets/CollectionModel.h"
 
 /*!
  * This constructor creates a new collection delegate with the given parent object.

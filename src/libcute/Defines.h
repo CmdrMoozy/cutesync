@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_DEFINES_H
-#define INCLUDE_CUTE_SYNC_DEFINES_H
+#ifndef INCLUDE_LIBCUTE_DEFINES_H
+#define INCLUDE_LIBCUTE_DEFINES_H
 
 	#define SERIALIZATION_VERSION QDataStream::Qt_4_0
 

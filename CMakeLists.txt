@@ -50,53 +50,53 @@ SET(libcute_HEADERS
 
 	src/libcute/Defines.h
 
-	src/libcute/collections/CuteSyncAbstractCollection.h
-	src/libcute/collections/CuteSyncAbstractCollectionConfigWidget.h
-	src/libcute/collections/CuteSyncCollectionTypeResolver.h
-	src/libcute/collections/CuteSyncDirCollection.h
-	src/libcute/collections/CuteSyncDirCollectionConfigWidget.h
-	src/libcute/collections/CuteSyncDirTrack.h
-	src/libcute/collections/CuteSyncGeneralCollectionConfigWidget.h
-	src/libcute/collections/CuteSyncIPodCollection.h
-	src/libcute/collections/CuteSyncIPodCollectionConfigWidget.h
-	src/libcute/collections/CuteSyncIPodTrack.h
-	src/libcute/collections/CuteSyncTrack.h
+	src/libcute/collections/AbstractCollection.h
+	src/libcute/collections/AbstractCollectionConfigWidget.h
+	src/libcute/collections/CollectionTypeResolver.h
+	src/libcute/collections/DirCollection.h
+	src/libcute/collections/DirCollectionConfigWidget.h
+	src/libcute/collections/DirTrack.h
+	src/libcute/collections/GeneralCollectionConfigWidget.h
+	src/libcute/collections/IPodCollection.h
+	src/libcute/collections/IPodCollectionConfigWidget.h
+	src/libcute/collections/IPodTrack.h
+	src/libcute/collections/Track.h
 
-	src/libcute/tags/CuteSyncFileTypeResolver.h
-	src/libcute/tags/CuteSyncTaggedFile.h
+	src/libcute/tags/FileTypeResolver.h
+	src/libcute/tags/TaggedFile.h
 
-	src/libcute/thread/CuteSyncCollectionLocker.h
+	src/libcute/thread/CollectionLocker.h
 
-	src/libcute/util/CuteSyncMMIOHandle.h
-	src/libcute/util/CuteSyncSystemUtils.h
+	src/libcute/util/MMIOHandle.h
+	src/libcute/util/SystemUtils.h
 
-	src/libcute/widgets/CuteSyncCollectionModel.h
+	src/libcute/widgets/CollectionModel.h
 
 )
 
 SET(libcute_SOURCES
 
-	src/libcute/collections/CuteSyncAbstractCollection.cpp
-	src/libcute/collections/CuteSyncAbstractCollectionConfigWidget.cpp
-	src/libcute/collections/CuteSyncCollectionTypeResolver.cpp
-	src/libcute/collections/CuteSyncDirCollection.cpp
-	src/libcute/collections/CuteSyncDirCollectionConfigWidget.cpp
-	src/libcute/collections/CuteSyncDirTrack.cpp
-	src/libcute/collections/CuteSyncGeneralCollectionConfigWidget.cpp
-	src/libcute/collections/CuteSyncIPodCollection.cpp
-	src/libcute/collections/CuteSyncIPodCollectionConfigWidget.cpp
-	src/libcute/collections/CuteSyncIPodTrack.cpp
-	src/libcute/collections/CuteSyncTrack.cpp
+	src/libcute/collections/AbstractCollection.cpp
+	src/libcute/collections/AbstractCollectionConfigWidget.cpp
+	src/libcute/collections/CollectionTypeResolver.cpp
+	src/libcute/collections/DirCollection.cpp
+	src/libcute/collections/DirCollectionConfigWidget.cpp
+	src/libcute/collections/DirTrack.cpp
+	src/libcute/collections/GeneralCollectionConfigWidget.cpp
+	src/libcute/collections/IPodCollection.cpp
+	src/libcute/collections/IPodCollectionConfigWidget.cpp
+	src/libcute/collections/IPodTrack.cpp
+	src/libcute/collections/Track.cpp
 
-	src/libcute/tags/CuteSyncFileTypeResolver.cpp
-	src/libcute/tags/CuteSyncTaggedFile.cpp
+	src/libcute/tags/FileTypeResolver.cpp
+	src/libcute/tags/TaggedFile.cpp
 
-	src/libcute/thread/CuteSyncCollectionLocker.cpp
+	src/libcute/thread/CollectionLocker.cpp
 
-	src/libcute/util/CuteSyncMMIOHandle.cpp
-	src/libcute/util/CuteSyncSystemUtils.cpp
+	src/libcute/util/MMIOHandle.cpp
+	src/libcute/util/SystemUtils.cpp
 
-	src/libcute/widgets/CuteSyncCollectionModel.cpp
+	src/libcute/widgets/CollectionModel.cpp
 
 )
 
@@ -199,21 +199,27 @@ SET(mkipod_SOURCES
 
 # Build our project!
 
+SET(CUTESYNC_LIBS m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES})
+SET(CUTESYNC_LIBS ${CUTESYNC_LIBS} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES})
+SET(CUTESYNC_LIBS ${CUTESYNC_LIBS} ${GDK-PIXBUF_LIBRARIES} rt gpod tag)
+SET(CUTESYNC_LIBS ${CUTESYNC_LIBS} ${Qt5Widgets_LIBRARIES})
+SET(CUTESYNC_LIBS ${CUTESYNC_LIBS} ${Qt5Network_LIBRARIES})
+
 ADD_LIBRARY(cute STATIC ${libcute_SOURCES})
-TARGET_LINK_LIBRARIES(cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(cute ${CUTESYNC_LIBS})
 
 QT5_ADD_RESOURCES(cutesync_RESOURCES_RCC ${cutesync_RESOURCES})
 ADD_EXECUTABLE(CuteSync ${cutesync_RESOURCES_RCC} ${cutesync_SOURCES})
-TARGET_LINK_LIBRARIES(CuteSync cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(CuteSync cute ${CUTESYNC_LIBS})
 
 ADD_EXECUTABLE(id3ck ${id3ck_SOURCES})
-TARGET_LINK_LIBRARIES(id3ck cute m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(id3ck cute ${CUTESYNC_LIBS})
 
 ADD_EXECUTABLE(ifsck ${ifsck_SOURCES})
-TARGET_LINK_LIBRARIES(ifsck m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(ifsck cute ${CUTESYNC_LIBS})
 
 ADD_EXECUTABLE(mkipod ${mkipod_SOURCES})
-TARGET_LINK_LIBRARIES(mkipod m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES} ${GLIB_GTHREAD_LIBRARIES} ${GLIB_LIBRARIES} ${GDK-PIXBUF_LIBRARIES} rt gpod tag ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES})
+TARGET_LINK_LIBRARIES(mkipod cute ${CUTESYNC_LIBS})
 
 QT5_USE_MODULES(cute Widgets Network)
 QT5_USE_MODULES(CuteSync Widgets Network)

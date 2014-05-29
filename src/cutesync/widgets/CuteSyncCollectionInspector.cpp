@@ -27,12 +27,12 @@
 #include <QProgressBar>
 #include <QTimerEvent>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
+#include "libcute/collections/AbstractCollection.h"
 #include "cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.h"
 #include "cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h"
 #include "cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.h"
 #include "cutesync/settings/CuteSyncSettingsManager.h"
-#include "libcute/util/CuteSyncSystemUtils.h"
+#include "libcute/util/SystemUtils.h"
 
 /*!
  * This is our default constructor, which creates a new inspector widget.

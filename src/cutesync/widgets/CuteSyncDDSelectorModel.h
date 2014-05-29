@@ -21,7 +21,7 @@
 
 #include <QAbstractListModel>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
+#include "libcute/collections/AbstractCollection.h"
 
 /*!
  * \brief This class provides a model for our display descriptor selector widget.

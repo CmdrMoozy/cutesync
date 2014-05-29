@@ -23,8 +23,8 @@
 #include <QComboBox>
 #include <QPushButton>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
-#include "libcute/widgets/CuteSyncCollectionModel.h"
+#include "libcute/collections/AbstractCollection.h"
+#include "libcute/widgets/CollectionModel.h"
 
 /*!
  * This is our default constructor, which creates a new sync dialog.

@@ -23,7 +23,7 @@
 #include <QString>
 #include <QSettings>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
+#include "libcute/collections/AbstractCollection.h"
 
 // Load our default settings values into our static defaults list.
 

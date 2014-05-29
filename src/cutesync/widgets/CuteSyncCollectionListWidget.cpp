@@ -18,11 +18,11 @@
 
 #include "CuteSyncCollectionListWidget.h"
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
-#include "libcute/collections/CuteSyncDirCollection.h"
-#include "libcute/collections/CuteSyncIPodCollection.h"
+#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/DirCollection.h"
+#include "libcute/collections/IPodCollection.h"
 #include "cutesync/widgets/CuteSyncCollectionDelegate.h"
-#include "libcute/widgets/CuteSyncCollectionModel.h"
+#include "libcute/widgets/CollectionModel.h"
 
 /*!
  * This is our default constructor, which creates a new collection list with the given parent widget.

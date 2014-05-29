@@ -44,7 +44,7 @@
 #include "cutesync/settings/CuteSyncSettingsManager.h"
 #include "cutesync/widgets/CuteSyncCollectionInspector.h"
 #include "cutesync/widgets/CuteSyncCollectionListWidget.h"
-#include "libcute/widgets/CuteSyncCollectionModel.h"
+#include "libcute/widgets/CollectionModel.h"
 
 /*!
  * Create a new main window object with the given parent object and window flags.

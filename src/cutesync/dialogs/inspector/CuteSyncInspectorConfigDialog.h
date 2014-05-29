@@ -23,7 +23,7 @@
 #include <QAbstractListModel>
 #include <QStringList>
 
-#include "libcute/collections/CuteSyncAbstractCollection.h"
+#include "libcute/collections/AbstractCollection.h"
 
 class QGridLayout;
 class QPushButton;

@@ -3,7 +3,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 
-#include "libcute/collections/CuteSyncAbstractCollectionConfigWidget.h"
+#include "libcute/collections/AbstractCollectionConfigWidget.h"
 
 /*!
  * This is our default constructor, which creates a new dialog. By default, we do not display a configuration widget,
