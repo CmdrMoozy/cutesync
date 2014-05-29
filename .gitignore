@@ -1,7 +1,2 @@
-*.o
-moc_*
 /sandbox/
-/CuteSync
-/id3ck
-/ifsck
-/mkipod
+/build/

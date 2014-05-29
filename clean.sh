@@ -1,9 +1,8 @@
 #!/bin/bash
 #
-# This script cleans up the build files produced from "./release.sh" or "./debug.sh".
+# Script to clean our source tree.
 
-rm -fr ./CuteSync ./ifsck ./mkipod ./id3ck
-rm -fr ./*.o
-rm -fr ./moc_*.cpp
-rm -fr ./qrc_*.cpp
-rm -fr ./Makefile
+# Clean up our old build.
+rm -fr build/*
+
+exit 0

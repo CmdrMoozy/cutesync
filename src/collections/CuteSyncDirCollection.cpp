@@ -613,7 +613,7 @@ QString CuteSyncDirCollection::filenameProcess(const QString &s) const
 {
 	// Remove or replace nonstandard characters.
 
-	QByteArray b = s.toAscii();
+	QByteArray b = s.toLatin1();
 
 	b.replace('&', "And");
 	b.replace('+', "Plus");
@@ -711,7 +711,7 @@ QString CuteSyncDirCollection::filenameProcess(const QString &s) const
 
 	// Return our string!
 
-	return QString::fromAscii(b.constData());
+	return QString::fromLatin1(b.constData());
 }
 
 /*!

@@ -272,7 +272,6 @@ void CuteSyncAbstractCollection::sort() const
 bool CuteSyncAbstractCollection::reload()
 {
 	bool r = loadCollectionFromPath( getMountPoint(), false );
-	emit reset();
 	return r;
 }
 

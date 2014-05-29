@@ -2,27 +2,32 @@
 #
 # Script to clean up & rebuild CuteSync.
 # This will build our application in DEBUG mode.
+#
+# NOTE: Any arguments passed to this script will be propgated along to cmake.
+# This can be used, e.g., to set various cmake defines or etc. for a custom
+# build type.
 
-# Build CuteSync
-qmake CONFIG+=csdebug CONFIG+=cutesync
-make clean
-rm -fr ./CuteSync
-make
+# Clean up our previous build, if any.
 
-# Build mkipod
-qmake CONFIG+=csdebug CONFIG+=mkipod
-make clean
-rm -fr ./mkipod
-make
+./clean.sh
 
-# Build ifsck
-qmake CONFIG+=csdebug CONFIG+=ifsck
-make clean
-rm -fr ./ifsck
-make
+if [[ $? -ne 0 ]];
+then
+	echo "FATAL: Couldn't find clean.sh."
+	exit 1
+fi
 
-# Build id3ck
-qmake CONFIG+=csdebug CONFIG+=id3ck
-make clean
-rm -fr ./id3ck
+# Make sure the directories we need exist.
+
+./dir-prepare.sh
+
+if [[ $? -ne 0 ]];
+then
+	echo "FATAL: Couldn't find dir-prepare.sh."
+	exit 1
+fi
+
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug "$@" ..
 make
+cd ..
