@@ -43,8 +43,8 @@
 
 extern "C" {
 	/*
-	 * We need to undef 'signals' since it is also defined by GTK and we need to prevent this collision
-	 * in order to use GdkPixbuf.
+	 * We need to undef 'signals' since it is also defined by GTK and we
+	 * need to prevent this collision in order to use GdkPixbuf.
 	 */
 	#undef signals
 
@@ -52,59 +52,66 @@ extern "C" {
 }
 
 /*!
- * This is our default constructor, which creates a new uninitialized IPodCollection with the given QObject
- * as a parent.
+ * This is our default constructor, which creates a new uninitialized
+ * IPodCollection with the given QObject as a parent.
  *
  * \param p Our parent object.
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(CuteSyncCollectionModel *p)
-	: CuteSyncAbstractCollection(p), optionsModified(false), artwork(true), caselessSort(true),
-	ignorePrefixes(true), itdb(NULL), root("")
+	: CuteSyncAbstractCollection(p), optionsModified(false), artwork(true),
+		caselessSort(true), ignorePrefixes(true), itdb(NULL), root("")
 {
 }
 
 /*!
- * This constructor allows our collection's name to be set upon creation, but otherwise leaves it uninitialized.
+ * This constructor allows our collection's name to be set upon creation, but
+ * otherwise leaves it uninitialized.
  *
  * \param n Our collection's name.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n, CuteSyncCollectionModel *p)
-	: CuteSyncAbstractCollection(n, p), optionsModified(false), artwork(true), caselessSort(true),
-	ignorePrefixes(true), itdb(NULL), root("")
+CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
+	CuteSyncCollectionModel *p)
+	: CuteSyncAbstractCollection(n, p), optionsModified(false),
+		artwork(true), caselessSort(true), ignorePrefixes(true),
+		itdb(NULL), root("")
 {
 }
 
 /*!
- * This constructor allows our collection's display descriptor to be set upon creation, but otherwise leaves it
- * uninitialized.
+ * This constructor allows our collection's display descriptor to be set upon
+ * creation, but otherwise leaves it uninitialized.
  *
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d, CuteSyncCollectionModel *p)
-	: CuteSyncAbstractCollection(d, p), optionsModified(false), artwork(true), caselessSort(true),
-	ignorePrefixes(true), itdb(NULL), root("")
+CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
+	CuteSyncCollectionModel *p)
+	: CuteSyncAbstractCollection(d, p), optionsModified(false),
+		artwork(true), caselessSort(true), ignorePrefixes(true),
+		itdb(NULL), root("")
 {
 }
 
 /*!
- * This constructor allows our collection's name and display descriptor to be set upon creation, but otherwise
- * leaves it uninitialized.
+ * This constructor allows our collection's name and display descriptor to be
+ * set upon creation, but otherwise leaves it uninitialized.
  *
  * \param n Our collection's name.
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n, const DisplayDescriptor *d, CuteSyncCollectionModel *p)
-	: CuteSyncAbstractCollection(n, d, p), optionsModified(false), artwork(true), caselessSort(true),
-	ignorePrefixes(true), itdb(NULL), root("")
+CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
+	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	: CuteSyncAbstractCollection(n, d, p), optionsModified(false),
+		artwork(true), caselessSort(true), ignorePrefixes(true),
+		itdb(NULL), root("")
 {
 }
 
 /*!
- * This is our default destructor. It flushes the current iTunes DB to the disk (if any), and then
- * frees any memory we still have allocated.
+ * This is our default destructor. It flushes the current iTunes DB to the disk
+ * (if any), and then frees any memory we still have allocated.
  */
 CuteSyncIPodCollection::~CuteSyncIPodCollection()
 {
@@ -112,8 +119,8 @@ CuteSyncIPodCollection::~CuteSyncIPodCollection()
 }
 
 /*!
- * This function returns the icon we would like to be displayed with, based on this particular type of
- * connection.
+ * This function returns the icon we would like to be displayed with, based on
+ * this particular type of connection.
  *
  * \return Our collection's preferred icon.
  */
@@ -123,8 +130,9 @@ QIcon CuteSyncIPodCollection::getDisplayIcon() const
 }
 
 /*!
- * This function returns text that might be displayed in an "about collection" window of sorts. Basically, it provides
- * some more detailed information than might be in a normal collection display widget.
+ * This function returns text that might be displayed in an "about collection"
+ * window of sorts. Basically, it provides some more detailed information than
+ * might be in a normal collection display widget.
  *
  * \return Our about text.
  */
@@ -135,51 +143,65 @@ QString CuteSyncIPodCollection::getAboutText() const
 	r += QString("Collection Type: iPod\n");
 	r += QString("Collection Path: ") + getMountPoint() + QString("\n");
 	r += QString("Total Tracks: ") + QString::number(count()) + QString("\n");
-	r += QString("Used Space: ") + QString::fromStdString(CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceUsed(getMountPoint().toLatin1().data()))) + QString("\n");
-	r += QString("Free Space: ") + QString::fromStdString(CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceAvailable(getMountPoint().toLatin1().data()))) + QString("\n");
-	r += QString("Total Space: ") + QString::fromStdString(CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceCapacity(getMountPoint().toLatin1().data()))) + QString("\n");
+	r += QString("Used Space: ") + QString::fromStdString(
+		CuteSyncSystemUtils::getHumanReadableSize(
+		CuteSyncSystemUtils::getDeviceUsed(
+		getMountPoint().toLatin1().data()))) + QString("\n");
+	r += QString("Free Space: ") + QString::fromStdString(
+		CuteSyncSystemUtils::getHumanReadableSize(
+		CuteSyncSystemUtils::getDeviceAvailable(
+		getMountPoint().toLatin1().data()))) + QString("\n");
+	r += QString("Total Space: ") + QString::fromStdString(
+		CuteSyncSystemUtils::getHumanReadableSize(
+		CuteSyncSystemUtils::getDeviceCapacity(
+		getMountPoint().toLatin1().data()))) + QString("\n");
 
 	if(itdb != NULL)
 	{
-		const Itdb_IpodInfo *itdbInfo = itdb_device_get_ipod_info(itdb->device);
+		const Itdb_IpodInfo *itdbInfo =
+			itdb_device_get_ipod_info(itdb->device);
 
 		r += QString("\n");
-		r += QString("iPod Model Number: ") + QString::fromUtf8(itdbInfo->model_number) + QString("\n");
-		r += QString("iPod Generation: ") + QString::fromUtf8(itdb_info_get_ipod_generation_string(itdbInfo->ipod_generation)) +
-			QString("\n");
-		r += QString("iPod Reported Capacity: ") + QString::number(itdbInfo->capacity, 'f', 2) + QString(" GiB\n");
+		r += QString("iPod Model Number: ") + QString::fromUtf8(
+			itdbInfo->model_number) + QString("\n");
+		r += QString("iPod Generation: ") + QString::fromUtf8(
+			itdb_info_get_ipod_generation_string(
+			itdbInfo->ipod_generation)) + QString("\n");
+		r += QString("iPod Reported Capacity: ") + QString::number(
+			itdbInfo->capacity, 'f', 2) + QString(" GiB\n");
 		r += QString("\n");
-		r += QString("Supports artwork? ") + QString(itdb_device_supports_artwork(itdb->device) ? "Yes!" : "No") +
-			QString("\n");
-		r += QString("Supports chapter image? ") + QString(itdb_device_supports_chapter_image(itdb->device) ? "Yes!" : "No") +
-			QString("\n");
-		r += QString("Supports photos? ") + QString(itdb_device_supports_photo(itdb->device) ? "Yes!" : "No") +
-			QString("\n");
-		r += QString("Supports podcsts? ") + QString(itdb_device_supports_podcast(itdb->device) ? "Yes!" : "No") +
-			QString("\n");
-		r += QString("Supports videos? ") + QString(itdb_device_supports_video(itdb->device) ? "Yes!" : "No") +
-			QString("\n");
+		r += QString("Supports artwork? ") + QString(
+			itdb_device_supports_artwork(itdb->device) ?
+			"Yes!" : "No") + QString("\n");
+		r += QString("Supports chapter image? ") + QString(
+			itdb_device_supports_chapter_image(itdb->device) ?
+			"Yes!" : "No") + QString("\n");
+		r += QString("Supports photos? ") + QString(
+			itdb_device_supports_photo(itdb->device) ?
+			"Yes!" : "No") + QString("\n");
+		r += QString("Supports podcsts? ") + QString(
+			itdb_device_supports_podcast(itdb->device) ?
+			"Yes!" : "No") + QString("\n");
+		r += QString("Supports videos? ") + QString(
+			itdb_device_supports_video(itdb->device) ?
+			"Yes!" : "No") + QString("\n");
 	}
 
 	return r;
 }
 
 /*!
- * This function loads a new iTunes DB from the given iPod mount point. By default we flush the current
- * collection (if any), although this behavior is optional.
+ * This function loads a new iTunes DB from the given iPod mount point. By
+ * default we flush the current collection (if any), although this behavior is
+ * optional.
  *
  * \param p The path at which an iPod is mounted.
- * \param f Whether or not we should flush the current collection or just discard it.
+ * \param f Whether or not we flush the current collection or just discard it.
  * \return True on success, or false on failure.
  */
 bool CuteSyncIPodCollection::loadCollectionFromPath(const QString &p, bool f)
 {
-	#ifdef __GNUC__
-		#warning TODO - Use slotsignal error reporting
-	#endif
+#pragma message "TODO - Use slotsignal error reporting"
 
 	GList *trackList = NULL;
 	GError *error = NULL;
@@ -202,7 +224,8 @@ bool CuteSyncIPodCollection::loadCollectionFromPath(const QString &p, bool f)
 		if(error != NULL)
 		{
 #ifdef CUTESYNC_DEBUG
-std::cout << "Error while loading collection from path: " << error->message << "\n";
+std::cout << "Error while loading collection from path: " <<
+	error->message << "\n";
 #endif
 
 			g_error_free(error);
@@ -221,7 +244,7 @@ std::cout << "Unknown error while loading collection from path.\n";
 
 	itdb = i;
 
-	// Iterate through the collection we just loaded, and grab the tracks we care about.
+	// Iterate through the collection, and grab the tracks we care about.
 
 	emit progressLimitsUpdated(0, itdb_tracks_number(itdb));
 	trackList = g_list_first(itdb->tracks);
@@ -237,8 +260,11 @@ std::cout << "Unknown error while loading collection from path.\n";
 		trackList = trackList->next;
 		emit progressUpdated(++pr);
 
-		if(t->mediatype == 0x00000001) // 0x 00 00 00 01 means AUDIO, which is all we are interested in.
+		if(t->mediatype == 0x00000001)
+		{
+			// 0x 00 00 00 01 means AUDIO; all we care about.
 			addTrack(new CuteSyncIPodTrack(t));
+		}
 	}
 
 	// Set our class members.
@@ -259,8 +285,9 @@ std::cout << "Unknown error while loading collection from path.\n";
 }
 
 /*!
- * This function returns our collection's mount point - i.e., the path that was passed to loadCollectionFromPath().
- * If a collection hasn't been successfully loaded yet, a blank string is returned instead.
+ * This function returns our collection's mount point - i.e., the path that was
+ * passed to loadCollectionFromPath(). If a collection hasn't been successfully
+ * loaded yet, a blank string is returned instead.
  *
  * \return Our collection's mount point.
  */
@@ -270,8 +297,9 @@ QString CuteSyncIPodCollection::getMountPoint() const
 }
 
 /*!
- * This function returns the path of the track denoted by the given key relative to our colleciton's mount point.
- * If the given key is not in our collection, a blank string is returned instead.
+ * This function returns the path of the track denoted by the given key
+ * relative to our colleciton's mount point. If the given key is not in our
+ * collection, a blank string is returned instead.
  *
  * \param k The key to search for.
  * \return The track's path relative to our mount point.
@@ -290,21 +318,24 @@ QString CuteSyncIPodCollection::getRelativePath(const QString &k) const
 }
 
 /*!
- * This function returns the absolute path of the track denoted by the given key. This is equivalent, more or less,
- * to simply appending the track's relative path to our collection's mount point. If the given key is not in our
- * collection, a blank string is returned instead.
+ * This function returns the absolute path of the track denoted by the given
+ * key. This is equivalent, more or less, to simply appending the track's
+ * relative path to our collection's mount point. If the given key is not in
+ * our collection, a blank string is returned instead.
  *
  * \param k The key to search for.
  * \return The track's absolute path.
  */
 QString CuteSyncIPodCollection::getAbsolutePath(const QString &k) const
 {
-	return containsKey(k) ? (getMountPoint() + getRelativePath(k)) : QString("");
+	return containsKey(k) ? (getMountPoint() +
+		getRelativePath(k)) : QString("");
 }
 
 /*!
- * This function returns whether or not album artwork syncing is enabled. When enabled, we will automatically try
- * to find appropriate album artwork for tracks being added to this collection, and add them to the iTunes DB
+ * This function returns whether or not album artwork syncing is enabled. When
+ * enabled, we will automatically try to find appropriate album artwork for
+ * tracks being added to this collection, and add them to the iTunes DB
  * appropriately.
  *
  * \return True if album artwork is enabled, or false otherwise.
@@ -315,8 +346,9 @@ bool CuteSyncIPodCollection::getAlbumArtworkEnabled() const
 }
 
 /*!
- * This function sets whether or not album artwork syncing is enabled. When enabled, we will automatically try to
- * find appropriate album artwork for tracks being added to this collection, and add them to the iTunes DB
+ * This function sets whether or not album artwork syncing is enabled. When
+ * enabled, we will automatically try to find appropriate album artwork for
+ * tracks being added to this collection, and add them to the iTunes DB
  * appropriately.
  *
  * \param a True if album artwork should be enabled, or false otherwise.
@@ -327,8 +359,8 @@ void CuteSyncIPodCollection::setAlbumArtworkEnabled(bool a)
 }
 
 /*!
- * This function returns whether or not we configure the iPod to sort things case-insensitively when
- * we are used as a sync destination.
+ * This function returns whether or not we configure the iPod to sort things
+ * case-insensitively when we are used as a sync destination.
  *
  * \return True if sorting should be case-insensitive, or false otherwise.
  */
@@ -338,8 +370,8 @@ bool CuteSyncIPodCollection::getCaseInsensitiveSort() const
 }
 
 /*!
- * This function sets whether or not we configure the iPod to sort things case-insensitively when
- * we are used as a sync destination.
+ * This function sets whether or not we configure the iPod to sort things
+ * case-insensitively when we are used as a sync destination.
  *
  * \param c True if sorting should be case-insensitive, or false otherwise.
  */
@@ -350,8 +382,9 @@ void CuteSyncIPodCollection::setCaseInsensitiveSort(bool c)
 }
 
 /*!
- * This function returns whether or not we configure the iPod to ignore common title prefixes for sorting
- * purposes (e.g., "The ...") when we are used as a sync destination.
+ * This function returns whether or not we configure the iPod to ignore common
+ * title prefixes for sorting purposes (e.g., "The ...") when we are used as a
+ * sync destination.
  *
  * \return True if we should ignore common title prefixes, or false otherwise.
  */
@@ -361,8 +394,9 @@ bool CuteSyncIPodCollection::getIgnoreCommonPrefixes() const
 }
 
 /*!
- * This function sets whether or not we configure the iPod to ignore common title prefixes for sorting
- * purposes (e.g., "The ...") when we are used as a sync destination.
+ * This function sets whether or not we configure the iPod to ignore common
+ * title prefixes for sorting purposes (e.g., "The ...") when we are used as a
+ * sync destination.
  *
  * \param i True if we should ignore common title prefixes, or false otherwise.
  */
@@ -373,8 +407,9 @@ void CuteSyncIPodCollection::setIgnoreCommonPrefixes(bool i)
 }
 
 /*!
- * This function flushes the iTunes DB we are currently working on to the disk. That is, it will be written to
- * the device, and we will mark ourself as no longer having been modified.
+ * This function flushes the iTunes DB we are currently working on to the disk.
+ * That is, it will be written to the device, and we will mark ourself as no
+ * longer having been modified.
  *
  * \return True on success, or false on failure.
  */
@@ -382,14 +417,19 @@ bool CuteSyncIPodCollection::flush()
 {
 	if(itdb == NULL) return false;
 
-	// If our options have changed, apply them to the iTunes DB before it is flushed to the device.
+	/* If our options have changed, apply them to the iTunes DB before it
+	 * is flushed to the device.
+	 */
 
 	if(optionsModified)
 	{
 		// Write our new options to the options file.
 
-		QFile optionsFile(getMountPoint() + "/iPod_Control/iTunes/CuteSync.prefs");
-		if(optionsFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
+		QFile optionsFile(getMountPoint() +
+			"/iPod_Control/iTunes/CuteSync.prefs");
+
+		if(optionsFile.open(QIODevice::WriteOnly |
+			QIODevice::Truncate))
 		{
 			char options[16];
 			for(int i = 0; i < 16; ++i)
@@ -409,12 +449,21 @@ bool CuteSyncIPodCollection::flush()
 		QList<CuteSyncTrack *> tracks = allTracks();
 		while(!tracks.empty())
 		{
-			CuteSyncIPodTrack *t = dynamic_cast<CuteSyncIPodTrack *>(tracks.takeFirst());
+			CuteSyncIPodTrack *t =
+				dynamic_cast<CuteSyncIPodTrack *>(
+				tracks.takeFirst());
+
 			if(t != NULL)
-				t->applySortOptions(caselessSort, ignorePrefixes);
+			{
+				t->applySortOptions(
+					caselessSort, ignorePrefixes);
+			}
 		}
 
-		// The new options have been applied successfully, but our tracks have (potentially) been modified.
+		/*
+		 * The new options have been applied successfully, but our
+		 * tracks have (potentially) been modified.
+		 */
 
 		optionsModified = false;
 		setModified(true);
@@ -453,8 +502,8 @@ std::cout << "Unknown error writing iTunes DB.\n";
 }
 
 /*!
- * This function does some cleanup specific to this type of collection, in addition to calling our
- * superclass's clear() function.
+ * This function does some cleanup specific to this type of collection, in
+ * addition to calling our superclass's clear() function.
  *
  * \param f Whether or not we should flush before clearing our collection.
  */
@@ -472,8 +521,9 @@ void CuteSyncIPodCollection::clear(bool f)
 }
 
 /*!
- * This function serializes our collection into a QByteArray so it could be, e.g., saved to the disk to be loaded
- * later. Note that, because of the way iPods work, we don't bother to serialize track descriptors - it is already
+ * This function serializes our collection into a QByteArray so it could be,
+ * e.g., saved to the disk to be loaded later. Note that, because of the way
+ * iPods work, we don't bother to serialize track descriptors - it is already
  * really fast to load them from the device, so it isn't worth it.
  *
  * \return A QByteArray containing our collection's state.
@@ -503,15 +553,16 @@ QByteArray CuteSyncIPodCollection::serialize() const
 }
 
 /*!
- * This function restores our collection from a serialized QByteArray. This mostly just restores the collection
- * name and path; tracks are re-loaded from the iTunes database on the device.
+ * This function restores our collection from a serialized QByteArray. This
+ * mostly just restores the collection name and path; tracks are re-loaded from
+ * the iTunes database on the device.
  *
  * \param d The QByteArray to restore our state from.
  */
 void CuteSyncIPodCollection::unserialize(const QByteArray &d)
 {
 	qint32 version;
-	QString name;
+	QString n;
 
 	clear(true);
 
@@ -530,8 +581,8 @@ void CuteSyncIPodCollection::unserialize(const QByteArray &d)
 
 	// Read our name.
 
-	in >> name;
-	setName(name);
+	in >> n;
+	setName(n);
 
 	// Read + set our path.
 
@@ -552,30 +603,37 @@ void CuteSyncIPodCollection::unserialize(const QByteArray &d)
 }
 
 /*!
- * This function returns a configuration widget specific to this type of collection.
+ * This function returns a configuration widget specific to this type of
+ * collection.
  *
  * \param t The GUI thread our widget should be in.
  * \return A Pointer to the new configuration widget.
  */
-CuteSyncAbstractCollectionConfigWidget *CuteSyncIPodCollection::getConfigurationWidget(QThread *t) const
+CuteSyncAbstractCollectionConfigWidget *
+	CuteSyncIPodCollection::getConfigurationWidget(QThread *t) const
 {
-	CuteSyncIPodCollectionConfigWidget *w = new CuteSyncIPodCollectionConfigWidget(t);
+	CuteSyncIPodCollectionConfigWidget *w =
+		new CuteSyncIPodCollectionConfigWidget(t);
 
-	QObject::connect(w, SIGNAL(applyRequest()), this, SLOT(doConfigurationApply()));
-	QObject::connect(w, SIGNAL(resetRequest()), this, SLOT(doConfigurationReset()));
+	QObject::connect(w, SIGNAL(applyRequest()),
+		this, SLOT(doConfigurationApply()));
+	QObject::connect(w, SIGNAL(resetRequest()),
+		this, SLOT(doConfigurationReset()));
 
 	return w;
 }
 
 /*!
- * This function deletes a track from our collection by performing the following steps:
+ * This function deletes a track from our collection by performing the
+ * following steps:
+ *
  *     - Deleting the actual file from the device.
  *     - Removing the file from any playlists it's a member of.
  *         - Removing any playlists that are now empty as a result.
  *     - Removing the track from the iTunes DB.
  *
- * This function doesn't write the iTunes DB to the disk directly; you need to call flush() to
- * do that.
+ * This function doesn't write the iTunes DB to the disk directly; you need to
+ * call flush() to do that.
  *
  * \param k The key of the track that we are about to remove.
  * \return True on success, or false on failure.
@@ -583,7 +641,8 @@ CuteSyncAbstractCollectionConfigWidget *CuteSyncIPodCollection::getConfiguration
 bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
 {
 	if(itdb == NULL) return false;
-	CuteSyncIPodTrack *track = dynamic_cast<CuteSyncIPodTrack *>(trackAt(k));
+	CuteSyncIPodTrack *track = dynamic_cast<CuteSyncIPodTrack *>(
+		trackAt(k));
 	if(track == NULL) return false;
 
 	// Delete the file itself from the iPod's disk.
@@ -612,7 +671,11 @@ bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
 			emptyPlaylists.append(pl);
 	}
 
-	// Go back and remove any playlists that are now empty (as long as they aren't the MPL!).
+	/*
+	 * Go back and remove any playlists that are now empty (as long as they
+	 * aren't the MPL!).
+	 */
+
 	for(int i = 0; i < emptyPlaylists.count(); ++i)
 	{
 		if(!itdb_playlist_is_mpl(emptyPlaylists.at(i)))
@@ -631,18 +694,17 @@ bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
 }
 
 /*!
- * This function copies a single track from the given source collection, and with the given key, to this
- * collection.
+ * This function copies a single track from the given source collection, and
+ * with the given key, to this collection.
  *
  * \param s The source collection we are copying from.
  * \param k The key of the track we are copying.
  * \return True on success, or false on failure.
  */
-bool CuteSyncIPodCollection::quietCopyTrack(const CuteSyncAbstractCollection *s, const QString &k)
+bool CuteSyncIPodCollection::quietCopyTrack(
+	const CuteSyncAbstractCollection *s, const QString &k)
 {
-	#ifdef __GNUC__
-		#warning TODO - Use slotsignal error reporting
-	#endif
+#pragma message "TODO - Use slotsignal error reporting"
 
 	if(itdb == NULL) return false;
 	if(!s->containsKey(k)) return false;
@@ -661,9 +723,15 @@ std::cout << "Error creating new track object.\n";
 		return false;
 	}
 
-	track->applySortOptions(caselessSort, ignorePrefixes); // Apply sorting options to the track.
+	// Apply sorting options to the track.
+	track->applySortOptions(caselessSort, ignorePrefixes);
 
-	track->getTrack()->itdb = itdb; // Since we are doing itdb_cp_track_to_ipod before adding it to itdb, we need to set this.
+	/*
+	 * Since we are doing itdb_cp_track_to_ipod before adding it to itdb,
+	 * we need to set this.
+	 */
+
+	track->getTrack()->itdb = itdb;
 
 	// Try to set the track's artwork, if it is enabled.
 
@@ -672,10 +740,12 @@ std::cout << "Error creating new track object.\n";
 		gpointer cover = getTrackCoverArt(s, k);
 		if(cover != NULL)
 		{
-			if(!itdb_track_set_thumbnails_from_pixbuf(track->getTrack(), cover))
+			if(!itdb_track_set_thumbnails_from_pixbuf(
+				track->getTrack(), cover))
 			{
 #ifdef CUTESYNC_DEBUG
-std::cout << "Error setting track thumbnail: " << s->getAbsolutePath(k).toLatin1().data() << "\n";
+std::cout << "Error setting track thumbnail: " <<
+	s->getAbsolutePath(k).toLatin1().data() << "\n";
 #endif
 			}
 		}
@@ -685,7 +755,8 @@ std::cout << "Error setting track thumbnail: " << s->getAbsolutePath(k).toLatin1
 
 	GError *error = NULL;
 //itdb_cp_track_to_ipod @ itdb_itunesdb.c:7563
-	if(!itdb_cp_track_to_ipod(track->getTrack(), p.toUtf8().data(), &error))
+	if(!itdb_cp_track_to_ipod(track->getTrack(),
+		p.toUtf8().data(), &error))
 	{
 		if(error != NULL)
 		{
@@ -707,10 +778,11 @@ std::cout << "Unknown error copying track to iPod!\n";
 		return false;
 	}
 
-	// Add the track to the iTunes DB, the MPL, our lists, and set ourself modified.
+	// Add track to the ITDB, the MPL, our lists, and set ourself modified.
 
 	itdb_track_add(itdb, track->getTrack(), -1);
-	itdb_playlist_add_track(itdb_playlist_mpl(itdb), track->getTrack(), -1);
+	itdb_playlist_add_track(itdb_playlist_mpl(itdb),
+		track->getTrack(), -1);
 	addTrack(track);
 	setModified(true);
 
@@ -718,22 +790,25 @@ std::cout << "Unknown error copying track to iPod!\n";
 }
 
 /*!
- * This function tries to load the appropriate cover art for the given source track. This is used to set the cover
- * art appropriately when the track is, e.g., being copied into this collection.
+ * This function tries to load the appropriate cover art for the given source
+ * track. This is used to set the cover art appropriately when the track is,
+ * e.g., being copied into this collection.
  *
  * We search the following locations (in order) for appropriate artwork:
  *     - The tag of the track itself.
  *     - "cover.(image extension)" in the same directory as the track.
  *     - "folder.(image extension)" in the same directory as the track.
  *
- * Note that the filenames we search for are case-insensitive - "COVER" works as well as "cover". If none of these
- * are present, then this function simply returns NULL instead.
+ * Note that the filenames we search for are case-insensitive - "COVER" works
+ * as well as "cover". If none of these are present, then this function simply
+ * returns NULL instead.
  *
  * \param s The source collection.
  * \param k The key for the track in the source collection.
  * \return A GdkPixbuf object of the artwork, or NULL if it cannot be found.
  */
-gpointer CuteSyncIPodCollection::getTrackCoverArt(const CuteSyncAbstractCollection *s, const QString &k)
+gpointer CuteSyncIPodCollection::getTrackCoverArt(
+	const CuteSyncAbstractCollection *s, const QString &k)
 {
 	gpointer pixbuf = NULL;
 	QString path;
@@ -751,7 +826,7 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(const CuteSyncAbstractCollecti
 		pdir = f.dir();
 	}
 
-	// First, try to retrieve the cover art embedded in the file itself, if any.
+	// Try to retrieve the cover art embedded in the file itself, if any.
 
 	{
 		CuteSyncFileTypeResolver resolv;
@@ -764,11 +839,15 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(const CuteSyncAbstractCollecti
 
 	if(pixbuf == NULL)
 	{
-		QStringList entries = pdir.entryList(QStringList("cover.*"), QDir::Files);
+		QStringList entries = pdir.entryList(
+			QStringList("cover.*"), QDir::Files);
 
 		if(entries.size() == 1)
 		{
-			pixbuf = gdk_pixbuf_new_from_file(pdir.absoluteFilePath(entries.first()).toLatin1().data(), &error);
+			pixbuf = gdk_pixbuf_new_from_file(
+				pdir.absoluteFilePath(entries.first())
+				.toLatin1().data(), &error);
+
 			if(error != NULL)
 			{
 				g_error_free(error);
@@ -783,11 +862,15 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(const CuteSyncAbstractCollecti
 
 	if(pixbuf == NULL)
 	{
-		QStringList entries = pdir.entryList(QStringList("folder.*"), QDir::Files);
+		QStringList entries = pdir.entryList(
+			QStringList("folder.*"), QDir::Files);
 
 		if(entries.size() == 1)
 		{
-			pixbuf = gdk_pixbuf_new_from_file(pdir.absoluteFilePath(entries.first()).toLatin1().data(), &error);
+			pixbuf = gdk_pixbuf_new_from_file(
+				pdir.absoluteFilePath(
+				entries.first()).toLatin1().data(), &error);
+
 			if(error != NULL)
 			{
 				g_error_free(error);
@@ -804,16 +887,20 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(const CuteSyncAbstractCollecti
 }
 
 /*!
- * This function tries to read our collection options from the current collection, or sets them to our normal
- * defaults if they haven't ever been set before.
+ * This function tries to read our collection options from the current
+ * collection, or sets them to our normal defaults if they haven't ever been
+ * set before.
  */
 void CuteSyncIPodCollection::refreshCollectionOptions()
 {
 	if(itdb != NULL)
 	{
 
-		QFile optionsFile(getMountPoint() + "/iPod_Control/iTunes/CuteSync.prefs");
-		if(optionsFile.exists() && optionsFile.open(QIODevice::ReadOnly))
+		QFile optionsFile(getMountPoint() +
+			"/iPod_Control/iTunes/CuteSync.prefs");
+
+		if(optionsFile.exists() &&
+			optionsFile.open(QIODevice::ReadOnly))
 		{
 			char options[16];
 			if(optionsFile.read(options, 16) != 16)
@@ -845,13 +932,14 @@ void CuteSyncIPodCollection::refreshCollectionOptions()
 }
 
 /*!
- * This slot handles one of our configuration widgets requesting that its current state be applied to our
- * collection.
+ * This slot handles one of our configuration widgets requesting that its
+ * current state be applied to our collection.
  */
 void CuteSyncIPodCollection::doConfigurationApply()
 { /* SLOT */
 
-	CuteSyncIPodCollectionConfigWidget *w = dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
+	CuteSyncIPodCollectionConfigWidget *w =
+		dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -864,13 +952,14 @@ void CuteSyncIPodCollection::doConfigurationApply()
 }
 
 /*!
- * This slot handles our configuration widget requesting a reset by resetting its options to our
- * currently stored values.
+ * This slot handles our configuration widget requesting a reset by resetting
+ * its options to our currently stored values.
  */
 void CuteSyncIPodCollection::doConfigurationReset()
 { /* SLOT */
 
-	CuteSyncIPodCollectionConfigWidget *w = dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
+	CuteSyncIPodCollectionConfigWidget *w =
+		dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{

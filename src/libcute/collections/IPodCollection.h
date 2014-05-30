@@ -38,8 +38,8 @@ class CuteSyncCollectionModel;
 /*!
  * \brief This class implements an iPod collection.
  *
- * It is designed to load an iTunes DB stored on an iPod device via libgpod and parse the information
- * into a usable format.
+ * It is designed to load an iTunes DB stored on an iPod device via libgpod and
+ * parse the information into a usable format.
  */
 class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 {
@@ -47,15 +47,20 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 
 	public:
 		CuteSyncIPodCollection(CuteSyncCollectionModel *p = 0);
-		CuteSyncIPodCollection(const QString &n, CuteSyncCollectionModel *p = 0);
-		CuteSyncIPodCollection(const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
-		CuteSyncIPodCollection(const QString &n, const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
+		CuteSyncIPodCollection(const QString &n,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncIPodCollection(const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncIPodCollection(const QString &n,
+			const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
 		virtual ~CuteSyncIPodCollection();
 
 		virtual QIcon getDisplayIcon() const;
 		virtual QString getAboutText() const;
 
-		virtual bool loadCollectionFromPath(const QString &p, bool f = true);
+		virtual bool loadCollectionFromPath(const QString &p,
+			bool f = true);
 
 		virtual QString getMountPoint() const;
 		virtual QString getRelativePath(const QString &k) const;
@@ -76,11 +81,13 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 		virtual QByteArray serialize() const;
 		virtual void unserialize(const QByteArray &d);
 
-		virtual CuteSyncAbstractCollectionConfigWidget *getConfigurationWidget(QThread *t) const;
+		virtual CuteSyncAbstractCollectionConfigWidget *
+			getConfigurationWidget(QThread *t) const;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k);
-		virtual bool quietCopyTrack(const CuteSyncAbstractCollection *s, const QString &k);
+		virtual bool quietCopyTrack(
+			const CuteSyncAbstractCollection *s, const QString &k);
 
 	private:
 		bool optionsModified, artwork, caselessSort, ignorePrefixes;
@@ -88,7 +95,8 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 		bool itdbModified;
 		QString root;
 
-		gpointer getTrackCoverArt(const CuteSyncAbstractCollection *s, const QString &k);
+		gpointer getTrackCoverArt(const CuteSyncAbstractCollection *s,
+			const QString &k);
 
 		void refreshCollectionOptions();
 
