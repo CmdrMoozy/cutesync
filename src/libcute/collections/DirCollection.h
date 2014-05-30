@@ -36,8 +36,8 @@ class CuteSyncCollectionModel;
 /*!
  * \brief This class implements a flat file collection.
  *
- * It is designed to load a collection of music from a flat directory, interpreting the files
- * literally.
+ * It is designed to load a collection of music from a flat directory,
+ * interpreting the files literally.
  */
 class CuteSyncDirCollection : public CuteSyncAbstractCollection
 {
@@ -45,15 +45,20 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 
 	public:
 		CuteSyncDirCollection(CuteSyncCollectionModel *p = 0);
-		CuteSyncDirCollection(const QString &n, CuteSyncCollectionModel *p = 0);
-		CuteSyncDirCollection(const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
-		CuteSyncDirCollection(const QString &n, const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
+		CuteSyncDirCollection(const QString &n,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncDirCollection(const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncDirCollection(const QString &n,
+			const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
 		virtual ~CuteSyncDirCollection();
 
 		virtual QIcon getDisplayIcon() const;
 		virtual QString getAboutText() const;
 
-		virtual bool loadCollectionFromPath(const QString &p, bool f = true);
+		virtual bool loadCollectionFromPath(const QString &p,
+			bool f = true);
 		virtual bool refresh();
 
 		virtual QString getMountPoint() const;
@@ -72,18 +77,22 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 		virtual QByteArray serialize() const;
 		virtual void unserialize(const QByteArray &d);
 
-		virtual CuteSyncAbstractCollectionConfigWidget *getConfigurationWidget(QThread *t) const;
+		virtual CuteSyncAbstractCollectionConfigWidget *
+			getConfigurationWidget(QThread *t) const;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k);
-		virtual bool quietCopyTrack(const CuteSyncAbstractCollection *s, const QString &k);
+		virtual bool quietCopyTrack(
+			const CuteSyncAbstractCollection *s, const QString &k);
 
 	private:
 		bool recursive, organize;
 		QString root;
 
 		QString filenameProcess(const QString &s) const;
-		QString getAbsoluteWritePath(const CuteSyncAbstractCollection *s, const QString &k) const;
+		QString getAbsoluteWritePath(
+			const CuteSyncAbstractCollection *s,
+			const QString &k) const;
 
 		void startJob(const QString &j);
 		void finishJob();
