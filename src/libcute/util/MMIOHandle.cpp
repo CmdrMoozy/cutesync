@@ -33,7 +33,8 @@
 #endif
 
 /*!
- * This is our default constructor, which creates a new MMIO handle with the given (optional) file path.
+ * This is our default constructor, which creates a new MMIO handle with the
+ * given (optional) file path.
  *
  * \param p The path to the file you want to work with, or "".
  */
@@ -51,12 +52,30 @@ CuteSyncMMIOHandle::CuteSyncMMIOHandle(const std::string &p)
 }
 
 /*!
- * This is our default destructor, which flushes any outstanding I/O operations (if any), closes all of our
- * file descriptors, and then destroys our object.
+ * This is our default destructor, which flushes any outstanding I/O operations
+ * (if any), closes all of our file descriptors, and then destroys our object.
  */
 CuteSyncMMIOHandle::~CuteSyncMMIOHandle()
 {
 	close();
+}
+
+/*!
+ * This is our array subscript operator, which returns a reference to the byte
+ * at the given offset in our currently mapped file. Note that, unlike our at()
+ * function, this operator doesn't check if our file is open, or if the offset
+ * is in-bounds. It is up to the caller to do this.
+ *
+ * \param o The offset of the byte to return.
+ * \return A reference to the byte at the given offset.
+ */
+uint8_t &CuteSyncMMIOHandle::operator[](uint64_t o)
+{
+	#ifdef _WIN32
+		return view[o];
+	#else
+		return view[o];
+	#endif
 }
 
 /*!
@@ -70,8 +89,9 @@ std::string CuteSyncMMIOHandle::getPath() const
 }
 
 /*!
- * This function sets the path we are currently working with. Note that, if we are already open, this function
- * takes no action - it doesn't make sense for our path to be different than the file we actually have open.
+ * This function sets the path we are currently working with. Note that, if we
+ * are already open, this function takes no action - it doesn't make sense for
+ * our path to be different than the file we actually have open.
  *
  * \param p The new path to work with.
  */
@@ -82,8 +102,9 @@ void CuteSyncMMIOHandle::setPath(const std::string &p)
 }
 
 /*!
- * This function returns our current open mode. Note that if our handle is not currently open, this value is
- * meaningless and arbitrary. This value is, likewise, set via the open() function.
+ * This function returns our current open mode. Note that if our handle is not
+ * currently open, this value is meaningless and arbitrary. This value is,
+ * likewise, set via the open() function.
  *
  * \return Our current open mode.
  */
@@ -93,30 +114,37 @@ CuteSyncMMIOHandle::OpenMode CuteSyncMMIOHandle::getMode() const
 }
 
 /*!
- * This function opens our handle's current path with the given open mode, optionally creating a new file to work with of a
- * specified size.
+ * This function opens our handle's current path with the given open mode,
+ * optionally creating a new file to work with of a specified size.
  *
- * Note that the file creation parameters are only used if the open mode is ReadWrite. It doesn't make sense why one would
- * want to create a new, empty file of some given size and then only be able to /read/ its contents. Likewise, these  options
- * are very useful when writing a file, because by definition MMIO can only write to existing offsets in a file; it will
- * not "append" to the file, increasing its size. If you open in ReadWrite mode and don't provide these parameters, then the
- * file will be opened as-is, and its size and contents will not be messed with.
+ * Note that the file creation parameters are only used if the open mode is
+ * ReadWrite. It doesn't make sense why one would want to create a new, empty
+ * file of some given size and then only be able to /read/ its contents.
+ * Likewise, these  options are very useful when writing a file, because by
+ * definition MMIO can only write to existing offsets in a file; it will not
+ * "append" to the file, increasing its size. If you open in ReadWrite mode and
+ * don't provide these parameters, then the file will be opened as-is, and its
+ * size and contents will not be messed with.
  *
- * Our behavior when told to create a file of a given size, if it already exists, is to simply truncate the existing file and
- * then updating its size to the size specified.
+ * Our behavior when told to create a file of a given size, if it already
+ * exists, is to simply truncate the existing file and then updating its size
+ * to the size specified.
  *
- * It should also be noted that opening empty files will fail; a file must contain at least one byte for us to map to.
+ * It should also be noted that opening empty files will fail; a file must
+ * contain at least one byte for us to map to.
  *
- * It should ALSO be noted that, on Windows, some Win32 API functions are really finnicky about filenames and/or paths. They
- * are sometimes CASE SENSITIVE even, so you should make sure to canonicalize the path you give us before calling this, or
- * it may fail unexpectedly.
+ * It should ALSO be noted that, on Windows, some Win32 API functions are
+ * really finnicky about filenames and/or paths. They are sometimes CASE
+ * SENSITIVE even, so you should make sure to canonicalize the path you give us
+ * before calling this, or it may fail unexpectedly.
  *
  * \param m The mode to open our path with.
- * \param c Whether or not to create a new file (only for ReadWrite). This is false by default.
- * \param s The size of the new file to be created, in bytes. This MUST be specified if c is true, and it must be > 0.
+ * \param c Whether or not to create a new file (for ReadWrite).
+ * \param s The new file's size, in bytes. Required when creating.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s)
+bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m,
+	bool c, uint64_t s)
 {
 	mode = m;
 	if(getPath().empty()) return false;
@@ -127,6 +155,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 		// Open the file handle.
 
 		DWORD fAccess;
+
 		switch(getMode())
 		{
 			case ReadOnly:
@@ -138,8 +167,10 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 				break;
 		};
 
-		fileHandle = CreateFile(getPath().c_str(), fAccess, 0, NULL, (c ? CREATE_NEW | TRUNCATE_EXISTING : OPEN_EXISTING),
+		fileHandle = CreateFile(getPath().c_str(), fAccess, 0, NULL,
+			(c ? CREATE_NEW | TRUNCATE_EXISTING : OPEN_EXISTING),
 			FILE_ATTRIBUTE_NORMAL, NULL);
+
 		if(fileHandle == INVALID_HANDLE_VALUE)
 		{
 			fileHandle = NULL;
@@ -164,7 +195,9 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 
 			while(w > 0)
 			{
-				if(!WriteFile(fileHandle, buf, static_cast<DWORD>(w % 1048576), &written, NULL))
+				if(!WriteFile(fileHandle, buf,
+					static_cast<DWORD>(w % 1048576),
+					&written, NULL))
 				{
 					CloseHandle(fileHandle);
 					fileHandle = NULL;
@@ -203,7 +236,9 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 				break;
 		};
 
-		mmioHandle = CreateFileMapping(fileHandle, NULL, mAccess, 0, 0, NULL);
+		mmioHandle = CreateFileMapping(fileHandle,
+			NULL, mAccess, 0, 0, NULL);
+
 		if(CuteSyncMMIOHandle == NULL)
 		{
 			CloseHandle(fileHandle);
@@ -226,7 +261,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 				break;
 		};
 
-		view = (char *) MapViewOfFile(mmioHandle, vAccess, 0, 0, 0);
+		view = (uint8_t *) MapViewOfFile(mmioHandle, vAccess, 0, 0, 0);
 		if(view == NULL)
 		{
 			CloseHandle(mmioHandle);
@@ -258,7 +293,9 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 				break;
 		};
 
-		fd = MMAP::open(getPath().c_str(), fFlags, (mode_t) S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		fd = MMAP::open(getPath().c_str(), fFlags,
+			(mode_t) S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
 		if(fd == -1)
 			return false;
 
@@ -286,6 +323,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 		// Get our file stats.
 
 		fstats = new MMAP::FileStats;
+
 		if(MMAP::fstat(fd, fstats) != 0)
 		{
 			delete fstats;
@@ -309,6 +347,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 		// Create our file map.
 
 		int mFlags = 0;
+
 		switch(getMode())
 		{
 			case ReadOnly:
@@ -320,7 +359,9 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 				break;
 		}
 
-		view = (char *) MMAP::mmap(NULL, fstats->st_size, mFlags, MAP_SHARED, fd, 0);
+		view = (uint8_t *) MMAP::mmap(NULL,
+			fstats->st_size, mFlags, MAP_SHARED, fd, 0);
+
 		if(view == MAP_FAILED)
 		{
 			delete fstats;
@@ -339,7 +380,8 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m, bool c, uint64_t s
 }
 
 /*!
- * This function tests if our handle is currently open, and as such is ready to be used.
+ * This function tests if our handle is currently open, and as such is ready to
+ * be used.
  *
  * \return True if we are open, or false otherwise.
  */
@@ -353,9 +395,10 @@ bool CuteSyncMMIOHandle::isOpen() const
 }
 
 /*!
- * This function flushes any outstanding I/O operations to the disk. Note that, on platforms that DO NOT use buffered
- * I/O for MMIO (i.e., Linux/UNIX/Mac), this function does nothing. Also note that this function similarly does nothing
- * if our handle is not open.
+ * This function flushes any outstanding I/O operations to the disk. Note that,
+ * on platforms that DO NOT use buffered I/O for MMIO (i.e., Linux/UNIX/Mac),
+ * this function does nothing. Also note that this function similarly does
+ * nothing if our handle is not open.
  */
 void CuteSyncMMIOHandle::flush()
 {
@@ -364,14 +407,15 @@ void CuteSyncMMIOHandle::flush()
 		#ifdef _WIN32
 			FlushViewOfFile(view, 0);
 		#else
-			// Linux/UNIX don't buffer memory-mapped IO; nothing to flush.
+			// Linux/UNIX don't buffer memory-mapped IO; do nothing.
 		#endif
 	}
 }
 
 /*!
- * This function flushes any outstanding I/O operations to the disk and then closes our MMIO handle. Note that if we are
- * not already open, then no action is taken.
+ * This function flushes any outstanding I/O operations to the disk and then
+ * closes our MMIO handle. Note that if we are not already open, then no actio
+ * is taken.
  */
 void CuteSyncMMIOHandle::close()
 {
@@ -398,9 +442,9 @@ void CuteSyncMMIOHandle::close()
 }
 
 /*!
- * This function returns the length of the file we are currently working with, in bytes. Note that if we don't
- * currently have a file opened, or we are unable to retrieve the file's size for some reason, 0 is returned
- * instead.
+ * This function returns the length of the file we are currently working with,
+ * in bytes. Note that if we don't currently have a file opened, or we are
+ * unable to retrieve the file's size for some reason, 0 is returned instead.
  *
  * \return The size of our current file.
  */
@@ -423,14 +467,15 @@ uint64_t CuteSyncMMIOHandle::getLength() const
 }
 
 /*!
- * This is one of our read functions, which retrieves a single byte from our file at the given offset. If we
- * don't have a file opened, a null-terminator ('\0') is returned instead. Also note that we don't do any
- * bounds checking; it is up to the caller to make sure that 0 <= o < filesize.
+ * This is one of our read functions, which retrieves a single byte from our
+ * file at the given offset. If we don't have a file opened, a null-terminator
+ * ('\0') is returned instead. Also note that we don't do any bounds checking;
+ * it is up to the caller to make sure that 0 <= o < filesize.
  *
  * \param o The offset of the desired byte.
  * \return The desired byte, or a null-terminator if an error occurs.
  */
-char CuteSyncMMIOHandle::at(uint64_t o) const
+uint8_t CuteSyncMMIOHandle::at(uint64_t o) const
 {
 	if(isOpen())
 	{
@@ -445,18 +490,20 @@ char CuteSyncMMIOHandle::at(uint64_t o) const
 }
 
 /*!
- * This is another one of our read functions. It is similar to our single-byte at() function, except it grabs
- * a whole series of bytes from the file, and places them in a given buffer. If we don't have a file opened,
- * the buffer is filled with null-terminators ('\0'), and false is returned. Also note that we don't do any
- * bounds checking; it is up to the caller to make sure that the offsets in our file are in-bounds, and that
- * the buffer provided is large enough to store the amount of data requested.
+ * This is another one of our read functions. It is similar to our single-byte
+ * at() function, except it grabs a whole series of bytes from the file, and
+ * places them in a given buffer. If we don't have a file opened, the buffer is
+ * filled with null-terminators ('\0'), and false is returned. Also note that
+ * we don't do any bounds checking; it is up to the caller to make sure that
+ * the offsets in our file are in-bounds, and that the buffer provided is large
+ * enough to store the amount of data requested.
  *
  * \param o The offset in the file to start at.
  * \param b The buffer to store the data in.
  * \param l The length of the desired data, in bytes.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::at(uint64_t o, char *b, uint64_t l) const
+bool CuteSyncMMIOHandle::at(uint64_t o, uint8_t *b, uint64_t l) const
 {
 	if(isOpen())
 	{
@@ -480,15 +527,17 @@ bool CuteSyncMMIOHandle::at(uint64_t o, char *b, uint64_t l) const
 }
 
 /*!
- * This is one of our write functions. It sets the byte at a given offset in our current file to the given value.
- * Note that if we don't have a file opened in ReadWrite mode, we don't write anything and instead just return
- * failure. Also note that we don't do bounds checking; it is up to the caller to make sure that 0 <= o < filesize.
+ * This is one of our write functions. It sets the byte at a given offset in
+ * our current file to the given value. Note that if we don't have a file
+ * opened in ReadWrite mode, we don't write anything and instead just return
+ * failure. Also note that we don't do bounds checking; it is up to the caller
+ * to make sure that 0 <= o < filesize.
  *
  * \param o The offset of the desired byte.
  * \param c The new value for the specified byte.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::set(uint64_t o, char c)
+bool CuteSyncMMIOHandle::set(uint64_t o, uint8_t c)
 {
 	if( isOpen() && (getMode() == CuteSyncMMIOHandle::ReadWrite) )
 	{
@@ -505,18 +554,20 @@ bool CuteSyncMMIOHandle::set(uint64_t o, char c)
 }
 
 /*!
- * This is another one of our write functions. It is similar to our single-byte set() function, except we set a whole
- * series of bytes using data from the given buffer. Note that if we don't have a file opened in ReadWrite mode, we
- * don't write anything and instead just return failure. Also note that we don't do bounds checking; it is up to the
- * caller to make sure that the given offsets in our file are in-bounds, and that the buffer given actually contains
- * the amount of data specified.
+ * This is another one of our write functions. It is similar to our single-byte
+ * set() function, except we set a whole series of bytes using data from the
+ * given buffer. Note that if we don't have a file opened in ReadWrite mode, we
+ * don't write anything and instead just return failure. Also note that we
+ * don't do bounds checking; it is up to the caller to make sure that the given
+ * offsets in our file are in-bounds, and that the buffer given actually
+ * contains the amount of data specified.
  *
  * \param o The offset to start writing at.
  * \param b The buffer storing the new data.
  * \param l The length of the data to write, in bytes.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::set(uint64_t o, const char *c, uint64_t l)
+bool CuteSyncMMIOHandle::set(uint64_t o, const uint8_t *c, uint64_t l)
 {
 	if( isOpen() && (getMode() == CuteSyncMMIOHandle::ReadWrite) )
 	{

@@ -49,8 +49,8 @@
 #endif
 
 /*
- * However, if <string> is included first on, e.g., Linux, then it will interfere with
- * our other includes, so it needs to be included AFTER.
+ * However, if <string> is included first on, e.g., Linux, then it will
+ * interfere with our other includes, so it needs to be included AFTER.
  */
 #ifndef __APPLE__
 	#include <string>
@@ -59,15 +59,10 @@
 #include <cstdint>
 
 /*!
- * \brief This class provides an interface to do memory-mapped IO in a platform-independent way.
+ * \brief This class allows us to use MMIO in a platform-independent way.
  *
- * Our interface is currently implemented on:
- *     Windows
- *     Linux/UNIX
- *     Mac
- *
- * It should be noted that Windows, unlike other platforms, DOES use buffered I/O when doing MMIO, so this
- * class may not be as performant on that platform.
+ * It should be noted that Windows, unlike other platforms, DOES use buffered
+ * I/O when doing MMIO, so this class may not be as performant on that platform.
  */
 class CuteSyncMMIOHandle
 {
@@ -81,6 +76,8 @@ class CuteSyncMMIOHandle
 		CuteSyncMMIOHandle(const std::string &p = "");
 		virtual ~CuteSyncMMIOHandle();
 
+		uint8_t &operator[](uint64_t o);
+
 		std::string getPath() const;
 		void setPath(const std::string &p);
 		OpenMode getMode() const;
@@ -92,10 +89,10 @@ class CuteSyncMMIOHandle
 
 		uint64_t getLength() const;
 
-		char at(uint64_t o) const;
-		bool at(uint64_t o, char *b, uint64_t l) const;
-		bool set(uint64_t o, char c);
-		bool set(uint64_t o, const char *c, uint64_t l);
+		uint8_t at(uint64_t o) const;
+		bool at(uint64_t o, uint8_t *b, uint64_t l) const;
+		bool set(uint64_t o, uint8_t c);
+		bool set(uint64_t o, const uint8_t *c, uint64_t l);
 
 	private:
 		std::string path;
@@ -104,10 +101,10 @@ class CuteSyncMMIOHandle
 		#ifdef _WIN32
 			HANDLE fileHandle;
 			HANDLE mmioHandle;
-			char *view;
+			uint8_t *view;
 		#else
 			MMAP::FileStats *fstats;
-			char *view;
+			uint8_t *view;
 		#endif
 };
 

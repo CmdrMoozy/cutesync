@@ -28,10 +28,11 @@ class CuteSyncMMIOHandle;
 /*!
  * \brief This class provides a way to resolve the file type of input files.
  *
- * We determine the filetype not by file extension (which can be sort of unrealiable) but rather by reading
- * a very small portion of the file and checking it against known header signatures. We extend TagLib's
- * FileTypeResolver class so we can be used directly with TagLib, or you can simply call createFile() manually
- * and use that file pointer directly.
+ * We determine the filetype not by file extension (which can be sort of
+ * unrealiable) but rather by reading a very small portion of the file and
+ * checking it against known header signatures. We extend TagLib's
+ * FileTypeResolver class so we can be used directly with TagLib, or you can
+ * simply call createFile() manually and use that file pointer directly.
  */
 class CuteSyncFileTypeResolver : public TagLib::FileRef::FileTypeResolver
 {
@@ -39,18 +40,16 @@ class CuteSyncFileTypeResolver : public TagLib::FileRef::FileTypeResolver
 		CuteSyncFileTypeResolver();
 		virtual ~CuteSyncFileTypeResolver();
 
-		virtual TagLib::File *createFile(TagLib::FileName fn, bool ap = true,
-			TagLib::AudioProperties::ReadStyle aps = TagLib::AudioProperties::Average) const;
+		virtual TagLib::File *createFile(TagLib::FileName fn,
+			bool ap = true,
+			TagLib::AudioProperties::ReadStyle aps =
+			TagLib::AudioProperties::Average) const;
 
 	private:
-		bool isValidFtyp(const CuteSyncMMIOHandle &f, uint64_t o) const;
-		uint32_t fromSynchsafeInt32(const CuteSyncMMIOHandle &f, uint64_t o) const;
-
-		inline bool uclt(char a, char b) const;
-		inline bool uclte(char a, char b) const;
-		inline bool uceq(char a, char b) const;
-		inline bool ucgte(char a, char b) const;
-		inline bool ucgt(char a, char b) const;
+		bool isValidFtyp(const CuteSyncMMIOHandle &f,
+			uint64_t o) const;
+		uint32_t fromSynchsafeInt32(const CuteSyncMMIOHandle &f,
+			uint64_t o) const;
 };
 
 #endif
