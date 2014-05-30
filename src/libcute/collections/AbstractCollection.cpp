@@ -30,74 +30,92 @@
 #include "libcute/widgets/CollectionModel.h"
 
 /*!
- * This is our default constructor, which creates a new uninitialized collection with the given QObject
- * as a parent.
+ * This is our default constructor, which creates a new uninitialized collection
+ * with the given QObject as a parent.
  *
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(CuteSyncCollectionModel *p)
-	: QAbstractTableModel(p), name(""), modified(false), enabled(true), interruptible(true),
-		interrupted(false), active(false), saveOnExit(false), displayDescriptor(NULL)
+CuteSyncAbstractCollection::CuteSyncAbstractCollection(
+	CuteSyncCollectionModel *p)
+	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
+		interruptible(true), interrupted(false), active(false),
+		saveOnExit(false), displayDescriptor(NULL)
 {
 	locker = new QMutex(QMutex::Recursive);
 
-	QObject::connect( this, SIGNAL( jobStarted(const QString &)  ), this, SLOT( doJobStarted()  ) );
-	QObject::connect( this, SIGNAL( jobFinished(const QString &) ), this, SLOT( doJobFinished() ) );
+	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
+		this, SLOT(doJobStarted()));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished()));
 }
 
 /*!
- * This constructor allows our collection's name to be set upon creation, but otherwise leaves it uninitialized.
+ * This constructor allows our collection's name to be set upon creation, but
+ * otherwise leaves it uninitialized.
  *
  * \param n Our collection's name.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n, CuteSyncCollectionModel *p)
-	: QAbstractTableModel(p), name(n), modified(false), enabled(true), interruptible(true),
-		interrupted(false), active(false), saveOnExit(false), displayDescriptor(NULL)
+CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
+	CuteSyncCollectionModel *p)
+	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
+		interruptible(true), interrupted(false), active(false),
+		saveOnExit(false), displayDescriptor(NULL)
 {
 	locker = new QMutex(QMutex::Recursive);
 
-	QObject::connect( this, SIGNAL( jobStarted(const QString &)  ), this, SLOT( doJobStarted()  ) );
-	QObject::connect( this, SIGNAL( jobFinished(const QString &) ), this, SLOT( doJobFinished() ) );
+	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
+		this, SLOT(doJobStarted()));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished()));
 }
 
 /*!
- * This constructor allows our collection's display descriptor to be set upon creation, but otherwise leaves it
- * uninitialized.
+ * This constructor allows our collection's display descriptor to be set upon
+ * creation, but otherwise leaves it uninitialized.
  *
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(const DisplayDescriptor *d, CuteSyncCollectionModel *p)
-	: QAbstractTableModel(p), name(""), modified(false), enabled(true), interruptible(true),
-		interrupted(false), active(false), saveOnExit(false), displayDescriptor(d)
+CuteSyncAbstractCollection::CuteSyncAbstractCollection(
+	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
+		interruptible(true), interrupted(false), active(false),
+		saveOnExit(false), displayDescriptor(d)
 {
 	locker = new QMutex(QMutex::Recursive);
 
-	QObject::connect( this, SIGNAL( jobStarted(const QString &)  ), this, SLOT( doJobStarted()  ) );
-	QObject::connect( this, SIGNAL( jobFinished(const QString &) ), this, SLOT( doJobFinished() ) );
+	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
+		this, SLOT(doJobStarted()));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished()));
 }
 
 /*!
- * This constructor allows our collection's name and display descriptor to be set upon creation, but otherwise
- * leaves it uninitialized.
+ * This constructor allows our collection's name and display descriptor to be
+ * set upon creation, but otherwise leaves it uninitialized.
  *
  * \param n Our collection's name.
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n, const DisplayDescriptor *d, CuteSyncCollectionModel *p)
-	: QAbstractTableModel(p), name(n), modified(false), enabled(true), interruptible(true),
-		interrupted(false), active(false), saveOnExit(false), displayDescriptor(d)
+CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
+	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
+		interruptible(true), interrupted(false), active(false),
+		saveOnExit(false), displayDescriptor(d)
 {
 	locker = new QMutex(QMutex::Recursive);
 
-	QObject::connect( this, SIGNAL( jobStarted(const QString &)  ), this, SLOT( doJobStarted()  ) );
-	QObject::connect( this, SIGNAL( jobFinished(const QString &) ), this, SLOT( doJobFinished() ) );
+	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
+		this, SLOT(doJobStarted()));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished()));
 }
 
 /*!
- * This is a placeholder destructor, so we can properly subclass QAbstractTableModel.
+ * This is a placeholder destructor, so we can properly subclass
+ * QAbstractTableModel.
  */
 CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
 {
@@ -105,33 +123,41 @@ CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
 }
 
 /*!
- * This function returns our collection configuration widget. This widget controls the settings our collection
- * has (e.g., whether or not it is saved on exit). This particular function will return only options that are
- * common to all collection types.
+ * This function returns our collection configuration widget. This widget
+ * controls the settings our collection has (e.g., whether or not it is saved
+ * on exit). This particular function will return only options that are common
+ * to all collection types.
  *
- * If your subclass has its own special options, then you should override this method which returns a widget
- * containing both the widget returned by the superclass, as well as your custom configuration widget.
+ * If your subclass has its own special options, then you should override this
+ * method which returns a widget containing both the widget returned by the
+ * superclass, as well as your custom configuration widget.
  *
- * Note that we create this widget without a 'parent' QObject, due to the fact that the collection is necessarily
- * in a different thread than the GUI. This means that IT IS UP TO THE CALLER TO ENSURE THAT THE WIDGET RETURNED
- * IS DELETED.
+ * Note that we create this widget without a 'parent' QObject, due to the fact
+ * that the collection is necessarily in a different thread than the GUI. This
+ * means that IT IS UP TO THE CALLER TO ENSURE THAT THE WIDGET RETURNED IS
+ * DELETED.
  *
- * \param t The thread our configuration widget should be a member of (the GUI thread).
+ * \param t The thread our config widget should be a member of (the GUI thread).
  * \return Our collection's configuration widget.
  */
-CuteSyncAbstractCollectionConfigWidget *CuteSyncAbstractCollection::getConfigurationWidget(QThread *t) const
+CuteSyncAbstractCollectionConfigWidget *
+	CuteSyncAbstractCollection::getConfigurationWidget(QThread *t) const
 {
-	CuteSyncGeneralCollectionConfigWidget *w = new CuteSyncGeneralCollectionConfigWidget(t);
+	CuteSyncGeneralCollectionConfigWidget *w =
+		new CuteSyncGeneralCollectionConfigWidget(t);
 
-	QObject::connect(w, SIGNAL(applyRequest()), this, SLOT(doConfigurationApply()));
-	QObject::connect(w, SIGNAL(resetRequest()), this, SLOT(doConfigurationReset()));
+	QObject::connect(w, SIGNAL(applyRequest()),
+		this, SLOT(doConfigurationApply()));
+	QObject::connect(w, SIGNAL(resetRequest()),
+		this, SLOT(doConfigurationReset()));
 
 	return w;
 }
 
 /*!
- * This function returns the data for the element at the given row and column in a format that should be
- * displayed directly. The data returned by this function probably shouldn't be compared.
+ * This function returns the data for the element at the given row and column
+ * in a format that should be displayed directly. The data returned by this
+ * function probably shouldn't be compared.
  *
  * \param r The desired row.
  * \param c The desired column.
@@ -139,35 +165,42 @@ CuteSyncAbstractCollectionConfigWidget *CuteSyncAbstractCollection::getConfigura
  */
 QVariant CuteSyncAbstractCollection::getDisplayData(int r, int c) const
 {
-	if(displayDescriptor == NULL) return QVariant(QVariant::Invalid);
-	if(!displayDescriptor->columns.contains(c)) return QVariant(QVariant::Invalid);
+	if(displayDescriptor == NULL)
+		return QVariant(QVariant::Invalid);
 
-	CuteSyncAbstractCollection::Column col = displayDescriptor->columns.value(c);
-	QVariant data = getSortData(r, col);
+	if(!displayDescriptor->columns.contains(c))
+		return QVariant(QVariant::Invalid);
+
+	CuteSyncAbstractCollection::Column col =
+		displayDescriptor->columns.value(c);
+	QVariant d = getSortData(r, col);
 
 	switch(col)
 	{
 		// Convert the length to an hh:mm:ss format.
 		case CuteSyncAbstractCollection::Length:
-			data = QVariant(CuteSyncTrack::getLengthDisplay(data.value<int>()));
+			d = QVariant(CuteSyncTrack::getLengthDisplay(
+				d.value<int>()));
 			break;
 
 		default:
 			break;
 	};
 
-	return data;
+	return d;
 }
 
 /*!
- * This function returns the sorting data for the element at the given row and column. This is not to be
- * modified from the data stored by each track -- it should be in a format that is comparable.
+ * This function returns the sorting data for the element at the given row and
+ * column. This is not to be modified from the data stored by each track --
+ * it should be in a format that is comparable.
  *
  * \param r The desired row.
  * \param c The desired column.
  * \return The data at the given position, or Invalid if row/column was invalid.
  */
-QVariant CuteSyncAbstractCollection::getSortData(int r, CuteSyncAbstractCollection::Column c) const
+QVariant CuteSyncAbstractCollection::getSortData(int r,
+	CuteSyncAbstractCollection::Column c) const
 {
 	if(displayDescriptor == NULL) return QVariant(QVariant::Invalid);
 	if( (r < 0) || (r >= count()) ) return QVariant(QVariant::Invalid);
@@ -176,11 +209,11 @@ QVariant CuteSyncAbstractCollection::getSortData(int r, CuteSyncAbstractCollecti
 }
 
 /*!
- * This function clears our current collection, making our object equivalent to a default-constructed one. Whether or not
- * we flush() first is optional.
+ * This function clears our current collection, making our object equivalent to
+ * a default-constructed one. Whether or not we flush() first is optional.
  *
- * Please note that IF YOU OVERRIDE THIS FUNCTION to perform your own cleanup, you STILL NEED TO CALL THIS FUNCTION, or your
- * subclass will leak memory.
+ * Please note that IF YOU OVERRIDE THIS FUNCTION to perform your own cleanup,
+ * you STILL NEED TO CALL THIS FUNCTION, or your subclass will leak memory.
  *
  * \param f Whether or not we should flush before clearing our collection.
  */
@@ -196,7 +229,8 @@ void CuteSyncAbstractCollection::clear(bool f)
 }
 
 /*!
- * This function returns our collection's current name. See setName() for more details.
+ * This function returns our collection's current name. See setName() for more
+ * details.
  *
  * \return Our collection's name.
  */
@@ -206,9 +240,11 @@ QString CuteSyncAbstractCollection::getName() const
 }
 
 /*!
- * This function sets the name of our collection. This should be a short (10-ish characters would be pretty
- * reasonable) identifier that can be used in a GUI to represent our collection. We don't do any validity
- * checking on this value here; it is up to our parent object to make sure it is usable/unique/etc.
+ * This function sets the name of our collection. This should be a short
+ * (10-ish characters would be pretty reasonable) identifier that can be used
+ * in a GUI to represent our collection. We don't do any validity checking on
+ * this value here; it is up to our parent object to make sure it is
+ * usable/unique/etc.
  *
  * \param n Our collection's new name.
  */
@@ -218,10 +254,12 @@ void CuteSyncAbstractCollection::setName(const QString &n)
 }
 
 /*!
- * This function tests whether or not this collection is currently enabled. Collections should be disabled
- * when some action is being taken on them that could be messed up if something else happens at the same time.
- * For instance, synchronizing means that the collection shouldn't be displayed until it's done, and you
- * probably shouldn't try to copy tracks or delete tracks at the same time either.
+ * This function tests whether or not this collection is currently enabled.
+ * Collections should be disabled when some action is being taken on them that
+ * could be messed up if something else happens at the same time. For instance,
+ * synchronizing means that the collection shouldn't be displayed until it's
+ * done, and you probably shouldn't try to copy tracks or delete tracks at the
+ * same time either.
  *
  * \return True if we are enabled, or false otherwise.
  */
@@ -231,8 +269,9 @@ bool CuteSyncAbstractCollection::isEnabled() const
 }
 
 /*!
- * This function sets whether or not our collection is enabled. You should probably call this in subclasses in
- * functions that are starting some big action, e.g., synchronizing.
+ * This function sets whether or not our collection is enabled. You should
+ * probably call this in subclasses in functions that are starting some big
+ * action, e.g., synchronizing.
  *
  * \param e Our new enabled state (true means enabled, false means disabled).
  */
@@ -243,9 +282,10 @@ void CuteSyncAbstractCollection::setEnabled(bool e)
 }
 
 /*!
- * This function tests whether or not our collection expects to be saved on program exit. Saving a collection
- * means serializing it and storing it on the disk, so the next time the program is launched it can be
- * refreshed far more quickly than the initial collection loading.
+ * This function tests whether or not our collection expects to be saved on
+ * program exit. Saving a collection means serializing it and storing it on the
+ * disk, so the next time the program is launched it can be refreshed far more
+ * quickly than the initial collection loading.
  *
  * \return True if we should be saved on exit, or false otherwise.
  */
@@ -255,8 +295,8 @@ bool CuteSyncAbstractCollection::isSavedOnExit() const
 }
 
 /*!
- * This function sorts our collection according to our display descriptor. If no display descriptor has been set,
- * then no action is taken.
+ * This function sorts our collection according to our display descriptor. If
+ * no display descriptor has been set, then no action is taken.
  */
 void CuteSyncAbstractCollection::sort() const
 {
@@ -265,7 +305,8 @@ void CuteSyncAbstractCollection::sort() const
 }
 
 /*!
- * This function discards any changes that have been made to our current collection and simply reloads it.
+ * This function discards any changes that have been made to our current
+ * collection and simply reloads it.
  *
  * \return True on success, or false on failure.
  */
@@ -276,8 +317,9 @@ bool CuteSyncAbstractCollection::reload()
 }
 
 /*!
- * This function refreshes the contents of our collection. By default, it is equivalent to calling reload(), but a
- * subclass could override it to, for instance, avoid reloading tracks that haven't changed.
+ * This function refreshes the contents of our collection. By default, it is
+ * equivalent to calling reload(), but a subclass could override it to, for
+ * instance, avoid reloading tracks that haven't changed.
  *
  * \return True on success, or false on failure.
  */
@@ -299,9 +341,10 @@ void CuteSyncAbstractCollection::setSaveOnExit(bool s)
 }
 
 /*!
- * This function deletes a series of tracks from our collection, if present. If you give us track keys that
- * are not present in the collection, then we just ignore them. Errors are reported through our jobFinished()
- * signal, as well as through our return value.
+ * This function deletes a series of tracks from our collection, if present. If
+ * you give us track keys that are not present in the collection, then we just
+ * ignore them. Errors are reported through our jobFinished() signal, as well
+ * as through our return value.
  *
  * \param k The list of track keys that should be deleted.
  * \return True if no errors occured, or false otherwise.
@@ -324,7 +367,10 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 		}
 
 		if(!quietDeleteTrack(k.at(p)))
-			r.append(QString("Failed to delete: %1\n").arg(k.at(p)));
+		{
+			r.append(QString("Failed to delete: %1\n")
+				.arg(k.at(p)));
+		}
 
 		emit progressUpdated(p+1);
 	}
@@ -334,15 +380,17 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 }
 
 /*!
- * This function copies a series of tracks from a given other collection to our collection. If you give us track
- * keys that are not present in the soruce collection, then we just ignore them. Errors are reported through
- * our jobFinished() signal, as well as through our return value.
+ * This function copies a series of tracks from a given other collection to our
+ * collection. If you give us track keys that are not present in the soruce
+ * collection, then we just ignore them. Errors are reported through our
+ * jobFinished() signal, as well as through our return value.
  *
  * \param s The source collection to get the tracks from.
  * \param k A list of track keys that should be copied.
  * \return True if no errors occurred, or false otherwise.
  */
-bool CuteSyncAbstractCollection::copyTracks(const CuteSyncAbstractCollection *s, const QStringList &k)
+bool CuteSyncAbstractCollection::copyTracks(
+	const CuteSyncAbstractCollection *s, const QStringList &k)
 { /* SLOT */
 	CuteSyncCollectionLocker l(this);
 	QString r, t;
@@ -370,9 +418,11 @@ bool CuteSyncAbstractCollection::copyTracks(const CuteSyncAbstractCollection *s,
 }
 
 /*!
- * This is a convenience function that syncs our collection to the given other collection. That is, after we are done,
- * our two collections will contain the same tracks. Note that we DO NOT touch the source collection. Errors are
- * reported through our jobFinished() signal, as well as through our return value.
+ * This is a convenience function that syncs our collection to the given other
+ * collection. That is, after we are done, our two collections will contain the
+ * same tracks. Note that we DO NOT touch the source collection. Errors are
+ * reported through our jobFinished() signal, as well as through our return
+ * value.
  *
  * \param o The source collection to sync from.
  * \return True on success, or false on failure.
@@ -435,7 +485,8 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 }
 
 /*!
- * This function tests whether or not our collection contains a track with the given key.
+ * This function tests whether or not our collection contains a track with the
+ * given key.
  *
  * \param k The key to search for.
  * \return True if the key is found, or false otherwise.
@@ -456,7 +507,8 @@ int CuteSyncAbstractCollection::count() const
 }
 
 /*!
- * This is a convenience function that merely tests if our collection is empty or not.
+ * This is a convenience function that merely tests if our collection is empty
+ * or not.
  *
  * \return True if our collection is empty, or false otherwise.
  */
@@ -466,7 +518,8 @@ bool CuteSyncAbstractCollection::isEmpty() const
 }
 
 /*!
- * This function returns a QList containing all of the keys present in our collection.
+ * This function returns a QList containing all of the keys present in our
+ * collection.
  *
  * \return A list of our keys.
  */
@@ -476,17 +529,17 @@ QList<QString> CuteSyncAbstractCollection::getKeysList() const
 }
 
 /*!
- * This function returns a QList containing all of the keys that ARE present in our collection, but that are NOT
- * present in the given other collection. This can be useful e.g. for syncing two collections.
+ * This function returns a QList containing all of the keys that ARE present in
+ * our collection, but that are NOT present in the given other collection. This
+ * can be useful e.g. for syncing two collections.
  *
  * \param o The other collection to compare ourself to.
  * \return A list of keys in our collection that are not in the other one.
  */
-QList<QString> CuteSyncAbstractCollection::keysDifference(const CuteSyncAbstractCollection *o) const
+QList<QString> CuteSyncAbstractCollection::keysDifference(
+	const CuteSyncAbstractCollection *o) const
 {
-	#ifdef __GNUC__
-		#warning TODO - This functions performance should be improved
-	#endif
+#pragma message "TODO - This functions performance should be improved"
 
 	QList<QString> srcK = getKeysList(), destK = o->getKeysList();
 	QList<QString> diff;
@@ -499,7 +552,8 @@ QList<QString> CuteSyncAbstractCollection::keysDifference(const CuteSyncAbstract
 }
 
 /*!
- * This function returns whether or not our collection has been modified since we last called flush().
+ * This function returns whether or not our collection has been modified since
+ * we last called flush().
  *
  * \return True if our collection has been modified, or false otherwise.
  */
@@ -509,10 +563,12 @@ bool CuteSyncAbstractCollection::isModified() const
 }
 
 /*!
- * This is one of our two functions that allow our collection to behave like a mutex. This one tries to lock the
- * collection, so the calling thread can, e.g. modify it or something. This function will block until our
- * collection is unlocked. Note that our collections do recursive locking, so the same thread can lock() more
- * than once, but the same number of unlock() calls need to be made to fully unlock it.
+ * This is one of our two functions that allow our collection to behave like a
+ * mutex. This one tries to lock the collection, so the calling thread can,
+ * e.g. modify it or something. This function will block until our collection
+ * is unlocked. Note that our collections do recursive locking, so the same
+ * thread can lock() more than once, but the same number of unlock() calls need
+ * to be made to fully unlock it.
  */
 void CuteSyncAbstractCollection::lock() const
 {
@@ -520,8 +576,9 @@ void CuteSyncAbstractCollection::lock() const
 }
 
 /*!
- * This is one of our two functions that allow our collection to behave like a mutex. This one unlocks the
- * collection so someone else can do some work with it.
+ * This is one of our two functions that allow our collection to behave like a
+ * mutex. This one unlocks the collection so someone else can do some work with
+ * it.
  */
 void CuteSyncAbstractCollection::unlock() const
 {
@@ -529,31 +586,36 @@ void CuteSyncAbstractCollection::unlock() const
 }
 
 /*!
- * This function retrieves our collection's display descriptor, or returns NULL if none has been set as of yet.
+ * This function retrieves our collection's display descriptor, or returns NULL
+ * if none has been set as of yet.
  *
  * \return Our display descriptor.
  */
-const CuteSyncAbstractCollection::DisplayDescriptor *CuteSyncAbstractCollection::getDisplayDescriptor() const
+const CuteSyncAbstractCollection::DisplayDescriptor *
+	CuteSyncAbstractCollection::getDisplayDescriptor() const
 {
 	return displayDescriptor;
 }
 
 /*!
- * This function sets our collection's current display descriptor. Note that if one hasn's been set (either
- * via a constructor or this function) then it is assumed that our object is not going to be displayed
- * by a QTableView. If you try to do so anyway, we will just be returning invalid QVariants for all
+ * This function sets our collection's current display descriptor. Note that if
+ * one hasn's been set (either via a constructor or this function) then it is
+ * assumed that our object is not going to be displayed by a QTableView. If you
+ * try to do so anyway, we will just be returning invalid QVariants for all
  * requested data; create a display descriptor first.
  *
- * Also note that we never take ownership of the display descriptor; it is ALWAYS going to be something
- * created by our displaying object and given to us, and as such it is up to our display object to free
- * it if need be.
+ * Also note that we never take ownership of the display descriptor; it is
+ * ALWAYS going to be something created by our displaying object and given to
+ * us, and as such it is up to our display object to free it if need be.
  *
- * Note that this function automagically sorts the data in our model, updates our column count, and then
- * emits the appropriate signals to alert any views using us.
+ * Note that this function automagically sorts the data in our model, updates
+ * our column count, and then emits the appropriate signals to alert any views
+ * using us.
  *
  * \param d The display descriptor to use.
  */
-void CuteSyncAbstractCollection::setDisplayDescriptor(const DisplayDescriptor *d)
+void CuteSyncAbstractCollection::setDisplayDescriptor(
+	const DisplayDescriptor *d)
 {
 	emit beginResetModel();
 
@@ -564,8 +626,8 @@ void CuteSyncAbstractCollection::setDisplayDescriptor(const DisplayDescriptor *d
 }
 
 /*!
- * This is one of our QAbstractTableModel functions. It returns the number of rows in our collection. This is
- * equivalent to count().
+ * This is one of our QAbstractTableModel functions. It returns the number of
+ * rows in our collection. This is equivalent to count().
  *
  * \param p Our parent model index. This is ignored.
  * \return The number of rows in our collection.
@@ -576,7 +638,8 @@ int CuteSyncAbstractCollection::rowCount(const QModelIndex &UNUSED(p)) const
 }
 
 /*!
- * This is one of our QAbstractTableModel functions. It returns the number of columns in our collection.
+ * This is one of our QAbstractTableModel functions. It returns the number of
+ * columns in our collection.
  *
  * \param p Our parent model index. This is ignored.
  * \return The number of columns in our collection.
@@ -590,8 +653,8 @@ int CuteSyncAbstractCollection::columnCount(const QModelIndex &UNUSED(p)) const
 }
 
 /*!
- * This is one of our QAbstractTableModel functions. It returns (as a QVariant) the data that should be displayed
- * in a specific cell in our table.
+ * This is one of our QAbstractTableModel functions. It returns (as a QVariant)
+ * the data that should be displayed in a specific cell in our table.
  *
  * \param i The index of the cell whose data we are retrieving.
  * \param r The cell's display role.
@@ -613,7 +676,8 @@ QVariant CuteSyncAbstractCollection::data(const QModelIndex &i, int r) const
 			break;
 
 		case Qt::AccessibleDescriptionRole:
-			return headerData(i.column(), Qt::Horizontal, Qt::DisplayRole);
+			return headerData(i.column(),
+				Qt::Horizontal, Qt::DisplayRole);
 			break;
 
 		default:
@@ -623,44 +687,37 @@ QVariant CuteSyncAbstractCollection::data(const QModelIndex &i, int r) const
 }
 
 /*!
- * This is one of our QAbstractTableModel functions. It returns (as a QVariant) the data that should be displayed
- * in a specific spot in our table header.
+ * This is one of our QAbstractTableModel functions. It returns (as a QVariant)
+ * the data that should be displayed in a specific spot in our table header.
  *
  * \param s The section (i.e., column) desired.
  * \param o The orientation (either horizontal or vertical).
  * \param r The header cell's display role.
  * \return The data to be displayed.
  */
-QVariant CuteSyncAbstractCollection::headerData(int s, Qt::Orientation o, int r) const
+QVariant CuteSyncAbstractCollection::headerData(
+	int s, Qt::Orientation o, int r) const
 {
 	if(o != Qt::Horizontal)
 		return QVariant(QVariant::Invalid);
 
-	switch(r)
-	{
-		case Qt::DisplayRole:
-			{
-				if(!displayDescriptor->columns.contains(s))
-				{
-					return QVariant(QVariant::Invalid);
-				}
-				else
-				{
-					return QVariant(CuteSyncAbstractCollection::getColumnName(
-						displayDescriptor->columns.value(s)));
-				}
-			}
-			break;
+	if(r != Qt::DisplayRole)
+		return QVariant(QVariant::Invalid);
 
-		default:
-			return QVariant(QVariant::Invalid);
-			break;
-	};
+	if(!displayDescriptor->columns.contains(s))
+	{
+		return QVariant(QVariant::Invalid);
+	}
+	else
+	{
+		return QVariant(CuteSyncAbstractCollection::getColumnName(
+			displayDescriptor->columns.value(s)));
+	}
 }
 
 /*!
- * This function tests whether or not our collection is currently active - i.e., if a job is running in our
- * worker thread.
+ * This function tests whether or not our collection is currently active -
+ * i.e., if a job is running in our worker thread.
  *
  * \return True if we are doing something, or false otherwise.
  */
@@ -670,12 +727,14 @@ bool CuteSyncAbstractCollection::isActive() const
 }
 
 /*!
- * This function returns whether or not the current job we are performing (if any) is considered interruptible.
- * If a job is interruptible, that means that if it is stopped part-way through completion, it is guaranteed to
- * not cause any damage to the collection. For instance, loading a collection from the disk is interruptible,
- * but copying tracks to a collection is not.
+ * This function returns whether or not the current job we are performing (if
+ * any) is considered interruptible. If a job is interruptible, that means that
+ * if it is stopped part-way through completion, it is guaranteed to not cause
+ * any damage to the collection. For instance, loading a collection from the
+ * disk is interruptible, but copying tracks to a collection is not.
  *
- * If no action is being performed, then this function is guaranteed to return false.
+ * If no action is being performed, then this function is guaranteed to return
+ * false.
  *
  * \return True if we are interruptible, or false otherwise.
  */
@@ -685,10 +744,12 @@ bool CuteSyncAbstractCollection::isInterruptible() const
 }
 
 /*!
- * This function sets whether or not our current job has been interrupted. If you interrupt a job, then the job
- * is expected to notice and halt itself after some reasonably short amount of time. Note that this will work
- * identically regardless if the job is interruptible or not - if you want to be really nice about it, you are
- * expected to check isInterruptible() yourself.
+ * This function sets whether or not our current job has been interrupted. If
+ * you interrupt a job, then the job is expected to notice and halt itself
+ * after some reasonably short amount of time. Note that this will work
+ * identically regardless if the job is interruptible or not - if you want to
+ * be really nice about it, you are expected to check isInterruptible()
+ * yourself.
  *
  * \param i True means interrupt, false means don't.
  */
@@ -698,9 +759,10 @@ void CuteSyncAbstractCollection::setInterrupted(bool i)
 }
 
 /*!
- * This is a utility function for our subclasses which returns a list of all of our tracks, in an arbitrary order.
- * This is useful if the subclass, for instance, needs to perform some action to ALL tracks, so using trackAt() would
- * be inefficient.
+ * This is a utility function for our subclasses which returns a list of all of
+ * our tracks, in an arbitrary order. This is useful if the subclass, for
+ * instance, needs to perform some action to ALL tracks, so using trackAt()
+ * would be inefficient.
  *
  * \return A list of all of the tracks in our collection.
  */
@@ -710,8 +772,9 @@ QList<CuteSyncTrack *> CuteSyncAbstractCollection::allTracks() const
 }
 
 /*!
- * This function returns a pointer to the track descriptor stored at the given row in our collection.
- * This function returns NULL if the given index is out-of-bounds.
+ * This function returns a pointer to the track descriptor stored at the given
+ * row in our collection. This function returns NULL if the given index is
+ * out-of-bounds.
  *
  * \param r The row of the desired track.
  * \return The desired track descriptor, or NULL.
@@ -723,8 +786,9 @@ CuteSyncTrack *CuteSyncAbstractCollection::trackAt(int r) const
 }
 
 /*!
- * This function returns a pointer to the track descriptor stored with the given key in our collection.
- * This function returns NULL if the given key is not in our collection.
+ * This function returns a pointer to the track descriptor stored with the
+ * given key in our collection. This function returns NULL if the given key is
+ * not in our collection.
  *
  * \param k They key of the desired track.
  * \return The desired track descriptor, or NULL.
@@ -735,9 +799,10 @@ CuteSyncTrack *CuteSyncAbstractCollection::trackAt(const QString &k) const
 }
 
 /*!
- * This function removes the track descriptor at the given row. If the given index is out-of-bounds, then
- * no action is taken. Note that we have ownership of all track pointers - so the memory will be freed
- * appropriately. Note, though, that we won't delete anything from the disk.
+ * This function removes the track descriptor at the given row. If the given
+ * index is out-of-bounds, then no action is taken. Note that we have ownership
+ * of all track pointers - so the memory will be freed appropriately. Note,
+ * though, that we won't delete anything from the disk.
  *
  * \param r The row of the desired track.
  */
@@ -751,9 +816,10 @@ void CuteSyncAbstractCollection::removeTrack(int r)
 }
 
 /*!
- * This function removes the track descriptor with the given hash. If the given hash is not present in our
- * collection, then no action is taken. Note that we have ownership of all track pointers - so the memory
- * will be freed appropriately. Note, though, that we won't delete anything from the disk.
+ * This function removes the track descriptor with the given hash. If the given
+ * hash is not present in our collection, then no action is taken. Note that we
+ * have ownership of all track pointers - so the memory will be freed
+ * appropriately. Note, though, that we won't delete anything from the disk.
  *
  * \param k The key of the desired track.
  */
@@ -766,12 +832,14 @@ void CuteSyncAbstractCollection::removeTrack(const QString &k)
 }
 
 /*!
- * This function appends the given track descriptor to our collection. Note that you may want to manually call
- * sort() after doing this. Note that if our collection already contains a track with the same hash, then no
- * action is taken. You should be updating the existing track, if necessary.
+ * This function appends the given track descriptor to our collection. Note
+ * that you may want to manually call sort() after doing this. Note that if our
+ * collection already contains a track with the same hash, then no action is
+ * taken. You should be updating the existing track, if necessary.
  *
- * Also note that if the track is successfully added (i.e., we return true), then we take ownership of that
- * track object - you SHOULD NOT free it yourself.
+ * Also note that if the track is successfully added (i.e., we return true),
+ * then we take ownership of that track object - you SHOULD NOT free it
+ * yourself.
  *
  * \param t The track descriptor to add.
  * \return True if the track was added, or false otherwise.
@@ -787,8 +855,9 @@ bool CuteSyncAbstractCollection::addTrack(CuteSyncTrack *t)
 }
 
 /*!
- * This function sets whether or not the current job is interruptible. See isInterruptible() for more information.
- * This function should be called by subclasses whenever a new job is started.
+ * This function sets whether or not the current job is interruptible. See
+ * isInterruptible() for more information. This function should be called by
+ * subclasses whenever a new job is started.
  *
  * \param i Whether or not the current job is interruptible.
  */
@@ -798,10 +867,11 @@ void CuteSyncAbstractCollection::setInterruptible(bool i)
 }
 
 /*!
- * This function tests if the current job has been asked to interrupt itself. See setInterrupted() for more information.
- * Subclasses are expected to check the return value of this function periodically while performing a job, so as to
- * exit as nicely as possible when asked. Note that you should terminate REGARDLESS of whether or not your job is considered
- * "interruptible."
+ * This function tests if the current job has been asked to interrupt itself.
+ * See setInterrupted() for more information. Subclasses are expected to check
+ * the return value of this function periodically while performing a job, so as
+ * to exit as nicely as possible when asked. Note that you should terminate
+ * REGARDLESS of whether or not your job is considered "interruptible."
  *
  * \return True if we have been interrupted, or false otherwise.
  */
@@ -811,9 +881,9 @@ bool CuteSyncAbstractCollection::isInterrupted() const
 }
 
 /*!
- * This function sets whether our collection has been modified since the last time flush() was
- * called. This function should be called by our subclasses so our flush() functionality will work
- * correctly.
+ * This function sets whether our collection has been modified since the last
+ * time flush() was called. This function should be called by our subclasses so
+ * our flush() functionality will work correctly.
  *
  * \param m True if the collection has been modified, or false otherwise.
  */
@@ -823,9 +893,11 @@ void CuteSyncAbstractCollection::setModified(bool m)
 }
 
 /*!
- * This is our backend quicksort function that sorts our collection's items. It accepts a left and right index, so it
- * can be used recursively. It decides /how/ to do the sorting based on our display descriptor. WE EXPECT OUR
- * CALLER TO MAKE SURE OUR OBJECT HAS A VALID DISPLAY DESCRIPTOR IF YOU DON'T IT WILL SEGFAULT!
+ * This is our backend quicksort function that sorts our collection's items. It
+ * accepts a left and right index, so it can be used recursively. It decides
+ * /how/ to do the sorting based on our display descriptor. WE EXPECT OUR
+ * CALLER TO MAKE SURE OUR OBJECT HAS A VALID DISPLAY DESCRIPTOR IF YOU DON'T
+ * IT WILL SEGFAULT!
  *
  * \param l The left-most index to sort.
  * \param r The right-most index to sort.
@@ -841,19 +913,38 @@ void CuteSyncAbstractCollection::quicksort(int l, int r) const
 	i = l;
 	j = r;
 
-	// Get a compare modifier; if we are descending, we need to flip our compares.
+	// Get a compare modifier; if descending, we need to flip our compares.
+
 	int cm = displayDescriptor->s_order == Qt::AscendingOrder ? 1 : -1;
 
-	// Keep looping until we have swapped all of the values to the correct side of the pivot.
+	/*
+	 * Keep looping until we have swapped all values to the correct side of
+	 * the pivot.
+	 */
+
 	while(i <= j)
 	{
-		// Move right until we find a value on the wrong side of the pivot.
-		while( (sortCmp(i, pivot)*cm) == -1) ++i;
+		/*
+		 * Move right until we find a value on the wrong side of the
+		 * pivot.
+		 */
 
-		// Move left until we find a value that is on the wrong side of the pivot.
-		while( (sortCmp(j, pivot)*cm) == 1) --j;
+		while((sortCmp(i, pivot) * cm) == -1)
+			++i;
 
-		// If our left index is still left of our right index, then swap the two items.
+		/*
+		 * Move left until we find a value that is on the wrong side of
+		 * the pivot.
+		 */
+
+		while((sortCmp(j, pivot) * cm) == 1)
+			--j;
+
+		/*
+		 * If our left index is still left of our right index, then
+		 * swap the two items.
+		 */
+
 		if(i < j)
 		{
 			// Update our pivot if we are swapping its location.
@@ -866,7 +957,8 @@ void CuteSyncAbstractCollection::quicksort(int l, int r) const
 			trackSort.swap(i, j);
 		}
 
-		// Move our indices one more place for the next iteration of the loop.
+		// Move indices one more place for the next iteration.
+
 		if(i <= j)
 		{
 			++i;
@@ -882,8 +974,9 @@ void CuteSyncAbstractCollection::quicksort(int l, int r) const
 }
 
 /*!
- * This function compares two track descriptors. It returns -1 if a < b, 0 if a = b, and 1 if a > b. WE EXPECT OUR
- * CALLER TO MAKE SURE OUR OBJECT HAS A VALID DISPLAY DESCRIPTOR IF YOU DON'T IT WILL SEGFAULT!
+ * This function compares two track descriptors. It returns -1 if a < b, 0 if
+ * a = b, and 1 if a > b. WE EXPECT OUR CALLER TO MAKE SURE OUR OBJECT HAS A
+ * VALID DISPLAY DESCRIPTOR IF YOU DON'T IT WILL SEGFAULT!
  *
  * \param ra The first row to compare.
  * \param rb The second row to compare.
@@ -893,8 +986,10 @@ int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
 {
 	Column c;
 
-	// If we were given two of the same inputs, they are by definition equal.
-	if(ra == rb) return 0;
+	// A row is obviously equal to itself.s
+
+	if(ra == rb)
+		return 0;
 
 	for(int i = 0; i < displayDescriptor->s_columns.count(); ++i)
 	{
@@ -907,13 +1002,18 @@ int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
 			case Artist:
 			case Album:
 			case Title:
+			{
+				if(ad.value<QString>() < bd.value<QString>())
 				{
-					if(ad.value<QString>() < bd.value<QString>())
-						return -1;
-					else if(ad.value<QString>() > bd.value<QString>())
-						return 1;
+					return -1;
 				}
-				break;
+				else if(ad.value<QString>() >
+					bd.value<QString>())
+				{
+					return 1;
+				}
+			}
+			break;
 
 			// Integer type columns.
 			case DiscNumber:
@@ -921,13 +1021,13 @@ int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
 			case TrackCount:
 			case Length:
 			case Year:
-				{
-					if(ad.value<int>() < bd.value<int>())
-						return -1;
-					else if(ad.value<int>() > bd.value<int>())
-						return 1;
-				}
-				break;
+			{
+				if(ad.value<int>() < bd.value<int>())
+					return -1;
+				else if(ad.value<int>() > bd.value<int>())
+					return 1;
+			}
+			break;
 		};
 	}
 
@@ -935,7 +1035,8 @@ int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
 }
 
 /*!
- * This slot handles our job started signal being emitted by updating our active status.
+ * This slot handles our job started signal being emitted by updating our
+ * active status.
  */
 void CuteSyncAbstractCollection::doJobStarted()
 { /* SLOT */
@@ -945,7 +1046,8 @@ void CuteSyncAbstractCollection::doJobStarted()
 }
 
 /*!
- * This slot handles our job finished signal being emitted by updating our active status.
+ * This slot handles our job finished signal being emitted by updating our
+ * active status.
  */
 void CuteSyncAbstractCollection::doJobFinished()
 { /* SLOT */
@@ -955,13 +1057,14 @@ void CuteSyncAbstractCollection::doJobFinished()
 }
 
 /*!
- * This slot handles one of our configuration widgets requesting that its current state be applied to our
- * collection.
+ * This slot handles one of our configuration widgets requesting that its
+ * current state be applied to our collection.
  */
 void CuteSyncAbstractCollection::doConfigurationApply()
 { /* SLOT */
 
-	CuteSyncGeneralCollectionConfigWidget *w = dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
+	CuteSyncGeneralCollectionConfigWidget *w =
+		dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -971,13 +1074,14 @@ void CuteSyncAbstractCollection::doConfigurationApply()
 }
 
 /*!
- * This slot handles our configuration widget requesting a reset by resetting its options to our
- * currently stored values.
+ * This slot handles our configuration widget requesting a reset by resetting
+ * its options to our currently stored values.
  */
 void CuteSyncAbstractCollection::doConfigurationReset()
 { /* SLOT */
 
-	CuteSyncGeneralCollectionConfigWidget *w = dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
+	CuteSyncGeneralCollectionConfigWidget *w =
+		dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -987,44 +1091,49 @@ void CuteSyncAbstractCollection::doConfigurationReset()
 }
 
 /*!
- * This function returns a default display descriptor for use with collections. This descriptor uses sane defaults,
- * so all columns are enabled in a reasonable order, and sorting goes by Artist, then Album, then DiscNumber, then
- * TrackNumber (which is, probably, what most people expect anyway).
+ * This function returns a default display descriptor for use with collections.
+ * This descriptor uses sane defaults, so all columns are enabled in a
+ * reasonable order, and sorting goes by Artist, then Album, then DiscNumber,
+ * then TrackNumber (which is, probably, what most people expect anyway).
  *
  * \return A default display descriptor.
  */
-CuteSyncAbstractCollection::DisplayDescriptor CuteSyncAbstractCollection::getDefaultDisplayDescriptor()
+CuteSyncAbstractCollection::DisplayDescriptor
+	CuteSyncAbstractCollection::getDefaultDisplayDescriptor()
 {
 	DisplayDescriptor d;
 
 	d.s_order = Qt::AscendingOrder;
 
 	d.s_columns.clear();
-	d.s_columns.append( CuteSyncAbstractCollection::Artist      );
-	d.s_columns.append( CuteSyncAbstractCollection::Album       );
-	d.s_columns.append( CuteSyncAbstractCollection::DiscNumber  );
-	d.s_columns.append( CuteSyncAbstractCollection::TrackNumber );
+	d.s_columns.append(CuteSyncAbstractCollection::Artist);
+	d.s_columns.append(CuteSyncAbstractCollection::Album);
+	d.s_columns.append(CuteSyncAbstractCollection::DiscNumber);
+	d.s_columns.append(CuteSyncAbstractCollection::TrackNumber);
 
 	d.columns.clear();
-	d.columns.insert( 0, CuteSyncAbstractCollection::Artist      );
-	d.columns.insert( 1, CuteSyncAbstractCollection::Album       );
-	d.columns.insert( 2, CuteSyncAbstractCollection::Title       );
-	d.columns.insert( 3, CuteSyncAbstractCollection::DiscNumber  );
-	d.columns.insert( 4, CuteSyncAbstractCollection::TrackNumber );
-	d.columns.insert( 5, CuteSyncAbstractCollection::Length      );
-	d.columns.insert( 6, CuteSyncAbstractCollection::Year        );
+	d.columns.insert(0, CuteSyncAbstractCollection::Artist);
+	d.columns.insert(1, CuteSyncAbstractCollection::Album);
+	d.columns.insert(2, CuteSyncAbstractCollection::Title);
+	d.columns.insert(3, CuteSyncAbstractCollection::DiscNumber);
+	d.columns.insert(4, CuteSyncAbstractCollection::TrackNumber);
+	d.columns.insert(5, CuteSyncAbstractCollection::Length);
+	d.columns.insert(6, CuteSyncAbstractCollection::Year);
 
 	return d;
 }
 
 /*!
- * This function takes a display descriptor and serializes it into a QByteArray, which could (for instance) be saved to a
- * file on the disk so as to be loaded later on. The original object can be restored using unserializeDisplayDescriptor().
+ * This function takes a display descriptor and serializes it into a
+ * QByteArray, which could (for instance) be saved to a file on the disk so as
+ * to be loaded later on. The original object can be restored using
+ * unserializeDisplayDescriptor().
  *
  * \param d The display descriptor to serialize.
  * \return A serialized byte array representing the given descriptor.
  */
-QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(const CuteSyncAbstractCollection::DisplayDescriptor &d)
+QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(
+	const CuteSyncAbstractCollection::DisplayDescriptor &d)
 {
 	QByteArray obuf;
 	QDataStream out(&obuf, QIODevice::ReadWrite);
@@ -1046,7 +1155,10 @@ QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(const CuteSync
 	QList<int> dcolskeys = d.columns.keys();
 	QHash<QString, QVariant> dcols;
 	for(int i = 0; i < dcolskeys.count(); ++i)
-		dcols.insert(QString::number(dcolskeys.at(i)), QVariant(d.columns.value(dcolskeys.at(i))));
+	{
+		dcols.insert(QString::number(dcolskeys.at(i)),
+			QVariant(d.columns.value(dcolskeys.at(i))));
+	}
 
 	out << order;
 	out << scols;
@@ -1056,12 +1168,15 @@ QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(const CuteSync
 }
 
 /*!
- * This function attempts to restore a display descriptor object from the given serialized QByteArray.
+ * This function attempts to restore a display descriptor object from the given
+ * serialized QByteArray.
  *
  * \param d The byte array to read a display descriptor from.
  * \return A new display descriptor object containing the desired data.
  */
-CuteSyncAbstractCollection::DisplayDescriptor CuteSyncAbstractCollection::unserializeDisplayDescriptor(const QByteArray &d)
+CuteSyncAbstractCollection::DisplayDescriptor
+	CuteSyncAbstractCollection::unserializeDisplayDescriptor(
+	const QByteArray &d)
 {
 	DisplayDescriptor dd;
 	qint32 version;
@@ -1069,15 +1184,18 @@ CuteSyncAbstractCollection::DisplayDescriptor CuteSyncAbstractCollection::unseri
 	// Create our input stream.
 
 	QDataStream in(d);
-	if(in.status() != QDataStream::Ok) return getDefaultDisplayDescriptor();
+	if(in.status() != QDataStream::Ok)
+		return getDefaultDisplayDescriptor();
 
 	// Read our version.
 
 	in >> version;
-	if(version > SERIALIZATION_VERSION) return getDefaultDisplayDescriptor();
+	if(version > SERIALIZATION_VERSION)
+		return getDefaultDisplayDescriptor();
 
 	in.setVersion(version);
-	if(in.status() != QDataStream::Ok) return getDefaultDisplayDescriptor();
+	if(in.status() != QDataStream::Ok)
+		return getDefaultDisplayDescriptor();
 
 	// Try to read our display descriptor.
 
@@ -1095,22 +1213,28 @@ CuteSyncAbstractCollection::DisplayDescriptor CuteSyncAbstractCollection::unseri
 
 	dd.s_columns.clear();
 	for(int i = 0; i < scols.count(); ++i)
-		dd.s_columns.append(static_cast<CuteSyncAbstractCollection::Column>(scols.at(i).value<qint32>()));
+	{
+		dd.s_columns.append(
+			static_cast<CuteSyncAbstractCollection::Column>(
+			scols.at(i).value<qint32>()));
+	}
 
 	dd.columns.clear();
 	QList<QString> dcolskeys = dcols.keys();
 	for(int i = 0; i < dcolskeys.count(); ++i)
 	{
 		dd.columns.insert(dcolskeys.at(i).toInt(),
-			static_cast<CuteSyncAbstractCollection::Column>( dcols.value(dcolskeys.at(i)).value<qint32>()) );
+			static_cast<CuteSyncAbstractCollection::Column>(
+				dcols.value(dcolskeys.at(i)).value<qint32>()));
 	}
 
 	return dd;
 }
 
 /*!
- * This function returns the "pretty name" for a column. These strings are typically a bit longer than what is returned by
- * getColumnName(), but they are probably better to use in settings where space is not limited.
+ * This function returns the "pretty name" for a column. These strings are
+ * typically a bit longer than what is returned by getColumnName(), but they
+ * are probably better to use in settings where space is not limited.
  *
  * \param c The column whose name is desired.
  * \return The "pretty name" for the given column.
@@ -1148,9 +1272,10 @@ QString CuteSyncAbstractCollection::getColumnPrettyName(Column c)
 }
 
 /*!
- * This function returns the string name of the provided column. These are typically shorter than those returned by
- * getColumnPrettyName(), and are appropriate in settings where the length of the string to be displayed should be as
- * small as possible.
+ * This function returns the string name of the provided column. These are
+ * typically shorter than those returned by getColumnPrettyName(), and are
+ * appropriate in settings where the length of the string to be displayed
+ * should be as small as possible.
  *
  * \param c The desired column
  * \return The column's string name.

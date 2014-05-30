@@ -38,9 +38,11 @@ class CuteSyncGeneralCollectionConfigWidget;
 /*!
  * \brief This class provides an interface for music collections.
  *
- * It is designed to ensure that subclasses provide functionality such that we can take two arbitrary music collections -
- * for example, a directory full of music and an iPod, and then compare and sync them. This class tries to provide as
- * much general, common functionality as possible, but requires subclasses to implement base functionality.
+ * It is designed to ensure that subclasses provide functionality such that we
+ * can take two arbitrary music collections - for example, a directory full of
+ * music and an iPod, and then compare and sync them. This class tries to
+ * provide as much general, common functionality as possible, but requires
+ * subclasses to implement base functionality.
  *
  * Things that should notify of progress via our signals:
  *
@@ -59,10 +61,11 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 	public:
 		/*!
-		 * This enumeration identifies a single column, independent of the "column index" in whatever
-		 * widget is displaying us.
+		 * This enumeration identifies a single column, independent of
+		 * the "column index" in whatever widget is displaying us.
 		 *
-		 * NOTE THAT IF THIS ENUMERATION IS CHANGED OUR SETTINGS FILE FORMAT WILL ALSO BE CHANGED.
+		 * NOTE THAT IF THIS ENUMERATION IS CHANGED OUR SETTINGS FILE
+		 * FORMAT WILL ALSO BE CHANGED.
 		 */
 		enum Column
 		{
@@ -77,15 +80,18 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		};
 
 		/*!
-		 * This structure stores: whether we should sort ascending/descending, what columns to sort by,
-		 * and what display widget column index maps to what column.
+		 * This structure stores: whether we should sort
+		 * ascending/descending, what columns to sort by, and what
+		 * display widget column index maps to what column.
 		 *
-		 * Note that the column order parameter, c, is encoded. That is, each column's index is stored in
-		 * 4 bits, and they are arranged in order so the index occupying the low bits is the next-most
-		 * important column for sorting.
+		 * Note that the column order parameter, c, is encoded. That
+		 * is, each column's index is stored in 4 bits, and they are
+		 * arranged in order so the index occupying the low bits is the
+		 * next-most important column for sorting.
 		 *
-		 * Note that if this structure is updated, then its related serialize/unserialize functions need to
-		 * be updated to reflect that change as well.
+		 * Note that if this structure is updated, then its related
+		 * serialize/unserialize functions need to be updated to
+		 * reflect that change as well.
 		 */
 		typedef struct DisplayDescriptor
 		{
@@ -95,9 +101,13 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		} DisplayDescriptor;
 
 		CuteSyncAbstractCollection(CuteSyncCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const QString &n, CuteSyncCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const QString &n, const DisplayDescriptor *d, CuteSyncCollectionModel *p = 0);
+		CuteSyncAbstractCollection(const QString &n,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncAbstractCollection(const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
+		CuteSyncAbstractCollection(const QString &n,
+			const DisplayDescriptor *d,
+			CuteSyncCollectionModel *p = 0);
 		virtual ~CuteSyncAbstractCollection();
 
 	/*
@@ -118,21 +128,25 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		virtual void unserialize(const QByteArray &d) = 0;
 
 	public slots:
-		virtual bool loadCollectionFromPath(const QString &p, bool f = true) = 0;
+		virtual bool loadCollectionFromPath(const QString &p,
+			bool f = true) = 0;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k) = 0;
-		virtual bool quietCopyTrack(const CuteSyncAbstractCollection *s, const QString &k) = 0;
+		virtual bool quietCopyTrack(const CuteSyncAbstractCollection *s,
+			const QString &k) = 0;
 
 	/*
 	 * Things you CAN override, if you really want to:
 	 */
 
 	public:
-		virtual CuteSyncAbstractCollectionConfigWidget *getConfigurationWidget(QThread *t) const;
+		virtual CuteSyncAbstractCollectionConfigWidget *
+			getConfigurationWidget(QThread *t) const;
 
 		virtual QVariant getDisplayData(int r, int c) const;
-		virtual QVariant getSortData(int r, CuteSyncAbstractCollection::Column c) const;
+		virtual QVariant getSortData(int r,
+			CuteSyncAbstractCollection::Column c) const;
 
 		void clear(bool f = true);
 
@@ -151,7 +165,8 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		virtual void setSaveOnExit(bool s);
 
 		virtual bool deleteTracks(const QStringList &k);
-		virtual bool copyTracks(const CuteSyncAbstractCollection *s, const QStringList &k);
+		virtual bool copyTracks(const CuteSyncAbstractCollection *s,
+			const QStringList &k);
 		virtual bool syncFrom(CuteSyncAbstractCollection *o);
 
 	/*
@@ -164,7 +179,8 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		bool isEmpty() const;
 
 		QList<QString> getKeysList() const;
-		QList<QString> keysDifference(const CuteSyncAbstractCollection *o) const;
+		QList<QString> keysDifference(
+			const CuteSyncAbstractCollection *o) const;
 
 		bool isModified() const;
 
@@ -174,10 +190,14 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		const DisplayDescriptor *getDisplayDescriptor() const;
 		void setDisplayDescriptor(const DisplayDescriptor *d);
 
-		virtual int rowCount(const QModelIndex &p = QModelIndex()) const;
-		virtual int columnCount(const QModelIndex &p = QModelIndex()) const;
-		virtual QVariant data(const QModelIndex &i, int r = Qt::DisplayRole) const;
-		virtual QVariant headerData(int s, Qt::Orientation o, int r = Qt::DisplayRole) const;
+		virtual int rowCount(
+			const QModelIndex &p = QModelIndex()) const;
+		virtual int columnCount(
+			const QModelIndex &p = QModelIndex()) const;
+		virtual QVariant data(const QModelIndex &i,
+			int r = Qt::DisplayRole) const;
+		virtual QVariant headerData(int s, Qt::Orientation o,
+			int r = Qt::DisplayRole) const;
 
 		bool isActive() const;
 		bool isInterruptible() const;
@@ -213,8 +233,10 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 	public:
 		static DisplayDescriptor getDefaultDisplayDescriptor();
-		static QByteArray serializeDisplayDescriptor(const DisplayDescriptor &d);
-		static DisplayDescriptor unserializeDisplayDescriptor(const QByteArray &d);
+		static QByteArray serializeDisplayDescriptor(
+			const DisplayDescriptor &d);
+		static DisplayDescriptor unserializeDisplayDescriptor(
+			const QByteArray &d);
 
 		static QString getColumnPrettyName(Column c);
 		static QString getColumnName(Column c);
@@ -239,7 +261,12 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 	private:
 		mutable QMutex *locker;
 		QString name;
-		bool modified, enabled, interruptible, interrupted, active, saveOnExit;
+		bool modified;
+		bool enabled;
+		bool interruptible;
+		bool interrupted;
+		bool active;
+		bool saveOnExit;
 		const DisplayDescriptor *displayDescriptor;
 		mutable QList<CuteSyncTrack *> trackSort;
 		QHash<QString, CuteSyncTrack *> trackHash;
