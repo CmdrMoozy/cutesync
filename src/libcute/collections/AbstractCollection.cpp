@@ -278,7 +278,7 @@ bool CuteSyncAbstractCollection::isEnabled() const
 void CuteSyncAbstractCollection::setEnabled(bool e)
 {
 	enabled = e;
-	emit enabledChanged();
+	Q_EMIT enabledChanged();
 }
 
 /*!
@@ -355,14 +355,14 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 	QString r, t;
 	interruptible = false;
 
-	emit jobStarted(tr("Deleting tracks..."));
-	emit progressLimitsUpdated(0, k.count());
+	Q_EMIT jobStarted(tr("Deleting tracks..."));
+	Q_EMIT progressLimitsUpdated(0, k.count());
 
 	for(int p = 0; p < k.count(); ++p)
 	{
 		if(interrupted)
 		{
-			emit jobFinished(QString());
+			Q_EMIT jobFinished(QString());
 			return false;
 		}
 
@@ -372,10 +372,10 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 				.arg(k.at(p)));
 		}
 
-		emit progressUpdated(p+1);
+		Q_EMIT progressUpdated(p+1);
 	}
 
-	emit jobFinished(r);
+	Q_EMIT jobFinished(r);
 	return r.isEmpty();
 }
 
@@ -396,24 +396,24 @@ bool CuteSyncAbstractCollection::copyTracks(
 	QString r, t;
 	interruptible = false;
 
-	emit jobStarted(tr("Copying tracks..."));
-	emit progressLimitsUpdated(0, k.count());
+	Q_EMIT jobStarted(tr("Copying tracks..."));
+	Q_EMIT progressLimitsUpdated(0, k.count());
 
 	for(int p = 0; p < k.count(); ++p)
 	{
 		if(interrupted)
 		{
-			emit jobFinished(QString());
+			Q_EMIT jobFinished(QString());
 			return false;
 		}
 
 		if(!quietCopyTrack(s, k.at(p)))
 			r.append(QString("Failed to copy: %1\n").arg(k.at(p)));
 
-		emit progressUpdated(p+1);
+		Q_EMIT progressUpdated(p+1);
 	}
 
-	emit jobFinished(r);
+	Q_EMIT jobFinished(r);
 	return r.isEmpty();
 }
 
@@ -433,12 +433,12 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 	QString r, t;
 	interruptible = false;
 
-	emit jobStarted(tr("Synchronizing collections..."));
+	Q_EMIT jobStarted(tr("Synchronizing collections..."));
 	o->setEnabled(false);
 
 	QList<QString> del = keysDifference(o), cp = o->keysDifference(this);
 
-	emit progressLimitsUpdated(0, del.count() + cp.count());
+	Q_EMIT progressLimitsUpdated(0, del.count() + cp.count());
 	int p = 0;
 
 	// Delete stuff first.
@@ -448,7 +448,7 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 		{
 			flush();
 			o->setEnabled(true);
-			emit jobFinished(QString());
+			Q_EMIT jobFinished(QString());
 			return false;
 		}
 
@@ -456,7 +456,7 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 		if(!quietDeleteTrack(t))
 			r.append(QString("Failed to delete: %1\n").arg(t));
 
-		emit progressUpdated(++p);
+		Q_EMIT progressUpdated(++p);
 	}
 
 	// Now copy new stuff.
@@ -466,7 +466,7 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 		{
 			flush();
 			o->setEnabled(true);
-			emit jobFinished(QString());
+			Q_EMIT jobFinished(QString());
 			return false;
 		}
 
@@ -474,13 +474,13 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 		if(!quietCopyTrack(o, t))
 			r.append(QString("Failed to copy: %1\n").arg(t));
 
-		emit progressUpdated(++p);
+		Q_EMIT progressUpdated(++p);
 	}
 
 	flush();
 
 	o->setEnabled(true);
-	emit jobFinished(r);
+	Q_EMIT jobFinished(r);
 	return r.isEmpty();
 }
 
@@ -617,12 +617,12 @@ const CuteSyncAbstractCollection::DisplayDescriptor *
 void CuteSyncAbstractCollection::setDisplayDescriptor(
 	const DisplayDescriptor *d)
 {
-	emit beginResetModel();
+	Q_EMIT beginResetModel();
 
 	displayDescriptor = d;
 	sort();
 
-	emit endResetModel();
+	Q_EMIT endResetModel();
 }
 
 /*!

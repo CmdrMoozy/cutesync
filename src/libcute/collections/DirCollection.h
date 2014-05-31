@@ -97,7 +97,7 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 		void startJob(const QString &j);
 		void finishJob();
 
-	private slots:
+	private Q_SLOTS:
 		void doConfigurationApply();
 		void doConfigurationReset();
 };

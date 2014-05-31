@@ -58,7 +58,7 @@ CuteSyncGeneralCollectionConfigWidget::~CuteSyncGeneralCollectionConfigWidget()
  */
 void CuteSyncGeneralCollectionConfigWidget::apply()
 {
-	emit applyRequest();
+	Q_EMIT applyRequest();
 }
 
 /*!
@@ -66,7 +66,7 @@ void CuteSyncGeneralCollectionConfigWidget::apply()
  */
 void CuteSyncGeneralCollectionConfigWidget::reset()
 {
-	emit resetRequest();
+	Q_EMIT resetRequest();
 }
 
 /*!

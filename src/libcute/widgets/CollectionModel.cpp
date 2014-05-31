@@ -179,13 +179,13 @@ void CuteSyncCollectionModel::removeCollectionAt(int i)
 {
 	if( (i < 0) || (i >= count()) ) return;
 
-	emit beginResetModel();
+	Q_EMIT beginResetModel();
 
 	itemList.at(i)->disconnect();
 	CuteSyncAbstractCollection *c = itemList.takeAt(i);
 	c->deleteLater();
 
-	emit endResetModel();
+	Q_EMIT endResetModel();
 }
 
 /*!
@@ -205,7 +205,7 @@ void CuteSyncCollectionModel::appendCollection(CuteSyncAbstractCollection *c)
 
 		itemList.append(c);
 
-		emit dataChanged(createIndex(itemList.count()-1, 0), createIndex(itemList.count()-1, 0));
+		Q_EMIT dataChanged(createIndex(itemList.count()-1, 0), createIndex(itemList.count()-1, 0));
 	}
 }
 
@@ -460,7 +460,7 @@ void CuteSyncCollectionModel::doCollectionEnabledChanged()
 	int i = itemList.indexOf(c);
 	if(i == -1) return;
 
-	emit rowEnabledChanged(createIndex(i, 0));
+	Q_EMIT rowEnabledChanged(createIndex(i, 0));
 }
 
 /*!
@@ -475,7 +475,7 @@ void CuteSyncCollectionModel::doJobStarted(const QString &j)
 
 	if(s != NULL) s->setEnabled(false);
 
-	emit jobStarted(j);
+	Q_EMIT jobStarted(j);
 }
 
 /*!
@@ -486,7 +486,7 @@ void CuteSyncCollectionModel::doJobStarted(const QString &j)
  */
 void CuteSyncCollectionModel::doProgressLimitsUpdated(int min, int max)
 { /* SLOT */
-	emit progressLimitsUpdated(min, max);
+	Q_EMIT progressLimitsUpdated(min, max);
 }
 
 /*!
@@ -496,7 +496,7 @@ void CuteSyncCollectionModel::doProgressLimitsUpdated(int min, int max)
  */
 void CuteSyncCollectionModel::doProgressUpdated(int p)
 { /* SLOT */
-	emit progressUpdated(p);
+	Q_EMIT progressUpdated(p);
 }
 
 /*!
@@ -512,5 +512,5 @@ void CuteSyncCollectionModel::doJobFinished(const QString &r)
 
 	currentJob = NULL;
 
-	emit jobFinished(r);
+	Q_EMIT jobFinished(r);
 }

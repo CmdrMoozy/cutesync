@@ -30,8 +30,8 @@ class QSettings;
 /*!
  * \brief This class provides a settings manager for our application.
  *
- * It implements some functionality on top of that provided by RSettingsManager, and it provides
- * a set of default options specific to our application.
+ * It implements some functionality on top of that provided by QSettings, and
+ * it provides a set of default options specific to our application.
  */
 class CuteSyncSettingsManager : public QObject
 {
@@ -57,7 +57,7 @@ class CuteSyncSettingsManager : public QObject
 
 		void initializeDefaults();
 
-	signals:
+	Q_SIGNALS:
 		void settingChanged(const QString &, const QVariant &);
 };
 

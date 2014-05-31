@@ -191,7 +191,7 @@ void CuteSyncInspectorConfigDialog::applyDisplayDescriptor()
 void CuteSyncInspectorConfigDialog::doOk()
 { /* SLOT */
 	applyDisplayDescriptor();
-	emit accepted();
+	Q_EMIT accepted();
 	close();
 }
 
@@ -202,5 +202,5 @@ void CuteSyncInspectorConfigDialog::doOk()
 void CuteSyncInspectorConfigDialog::doApply()
 { /* SLOT */
 	applyDisplayDescriptor();
-	emit accepted();
+	Q_EMIT accepted();
 }

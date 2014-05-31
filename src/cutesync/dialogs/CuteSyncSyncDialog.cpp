@@ -119,7 +119,7 @@ void CuteSyncSyncDialog::updateGUI()
 void CuteSyncSyncDialog::doDoIt()
 { /* SLOT */
 
-	emit accepted(collections->collectionAt(sourceComboBox->currentIndex()),
+	Q_EMIT accepted(collections->collectionAt(sourceComboBox->currentIndex()),
 		collections->collectionAt(destinationComboBox->currentIndex()));
 
 	close();

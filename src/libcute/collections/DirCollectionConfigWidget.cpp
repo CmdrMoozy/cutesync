@@ -67,7 +67,7 @@ CuteSyncDirCollectionConfigWidget::~CuteSyncDirCollectionConfigWidget()
  */
 void CuteSyncDirCollectionConfigWidget::apply()
 {
-	emit applyRequest();
+	Q_EMIT applyRequest();
 }
 
 /*!
@@ -75,7 +75,7 @@ void CuteSyncDirCollectionConfigWidget::apply()
  */
 void CuteSyncDirCollectionConfigWidget::reset()
 {
-	emit resetRequest();
+	Q_EMIT resetRequest();
 }
 
 /*!

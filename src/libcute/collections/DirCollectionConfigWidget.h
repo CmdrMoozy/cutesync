@@ -29,11 +29,12 @@ class QCheckBox;
 /*!
  * \brief This class provides configuration specifically for DirCollections.
  *
- * We offer options above and beyond what general collection configuration widgets do; namely
- * sync options, e.g. allowing for our application to handle file naming / directory structure for
- * this collection.
+ * We offer options above and beyond what general collection configuration
+ * widgets do; namely sync options, e.g. allowing for our application to handle
+ * file naming / directory structure for this collection.
  */
-class CuteSyncDirCollectionConfigWidget : public CuteSyncAbstractCollectionConfigWidget
+class CuteSyncDirCollectionConfigWidget :
+	public CuteSyncAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
@@ -61,7 +62,7 @@ class CuteSyncDirCollectionConfigWidget : public CuteSyncAbstractCollectionConfi
 		QGridLayout *syncLayout;
 		QCheckBox *organizeCheckBox;
 
-	signals:
+	Q_SIGNALS:
 		void applyRequest();
 		void resetRequest();
 };

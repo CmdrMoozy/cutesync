@@ -29,10 +29,11 @@ class QCheckBox;
 /*!
  * \brief This class provides configuration specifically for IPodCollections.
  *
- * We offer some advanced options specifically for the iPod, e.g. allowing advanced track sorting
- * (case-insensitivity, ignoring "The" in titles, etc.).
+ * We offer some advanced options specifically for the iPod, e.g. allowing
+ * advanced track sorting (case-insensitivity, ignoring "The" in titles, etc.).
  */
-class CuteSyncIPodCollectionConfigWidget : public CuteSyncAbstractCollectionConfigWidget
+class CuteSyncIPodCollectionConfigWidget :
+	public CuteSyncAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
@@ -68,7 +69,7 @@ class CuteSyncIPodCollectionConfigWidget : public CuteSyncAbstractCollectionConf
 		QCheckBox *caseSortCheckBox;
 		QCheckBox *ignoreCommonPrefixCheckBox;
 
-	signals:
+	Q_SIGNALS:
 		void applyRequest();
 		void resetRequest();
 };

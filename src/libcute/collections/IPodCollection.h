@@ -100,7 +100,7 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 
 		void refreshCollectionOptions();
 
-	private slots:
+	private Q_SLOTS:
 		void doConfigurationApply();
 		void doConfigurationReset();
 };

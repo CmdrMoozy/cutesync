@@ -42,12 +42,6 @@
 #include "libcute/widgets/CollectionModel.h"
 
 extern "C" {
-	/*
-	 * We need to undef 'signals' since it is also defined by GTK and we
-	 * need to prevent this collision in order to use GdkPixbuf.
-	 */
-	#undef signals
-
 	#include <gdk-pixbuf/gdk-pixbuf.h>
 }
 
@@ -209,7 +203,7 @@ bool CuteSyncIPodCollection::loadCollectionFromPath(const QString &p, bool f)
 	int pr = 0;
 
 	setInterruptible(true);
-	emit jobStarted(tr("Loading collection from path..."));
+	Q_EMIT jobStarted(tr("Loading collection from path..."));
 
 	// Clean up the current collection.
 
@@ -246,7 +240,7 @@ std::cout << "Unknown error while loading collection from path.\n";
 
 	// Iterate through the collection, and grab the tracks we care about.
 
-	emit progressLimitsUpdated(0, itdb_tracks_number(itdb));
+	Q_EMIT progressLimitsUpdated(0, itdb_tracks_number(itdb));
 	trackList = g_list_first(itdb->tracks);
 	while(trackList != NULL)
 	{
@@ -258,7 +252,7 @@ std::cout << "Unknown error while loading collection from path.\n";
 
 		Itdb_Track *t = static_cast<Itdb_Track *>(trackList->data);
 		trackList = trackList->next;
-		emit progressUpdated(++pr);
+		Q_EMIT progressUpdated(++pr);
 
 		if(t->mediatype == 0x00000001)
 		{
@@ -280,7 +274,7 @@ std::cout << "Unknown error while loading collection from path.\n";
 
 	// Return success!
 
-	emit jobFinished(QString());
+	Q_EMIT jobFinished(QString());
 	return true;
 }
 

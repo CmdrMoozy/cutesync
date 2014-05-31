@@ -85,7 +85,7 @@ void CuteSyncDDSelectorModel::loadSortColumns(const CuteSyncAbstractCollection::
 	while(!colsList.isEmpty())
 		items.append( {colsList.takeFirst(), false} );
 
-	emit dataChanged(index(0, 0), index(rowCount() - 1, 0));
+	Q_EMIT dataChanged(index(0, 0), index(rowCount() - 1, 0));
 }
 
 /*!
@@ -119,7 +119,7 @@ void CuteSyncDDSelectorModel::loadDisplayColumns(const CuteSyncAbstractCollectio
 	while(!colsList.isEmpty())
 		items.append( {colsList.takeFirst(), false} );
 
-	emit dataChanged(index(0, 0), index(rowCount() - 1, 0));
+	Q_EMIT dataChanged(index(0, 0), index(rowCount() - 1, 0));
 }
 
 /*!
@@ -184,7 +184,7 @@ bool CuteSyncDDSelectorModel::setData(const QModelIndex &i, const QVariant &v, i
 	{
 		case Qt::CheckStateRole:
 			items[i.row()].enabled = v.value<bool>();
-			emit dataChanged(index(i.row(), 0), index(i.row(), 0));
+			Q_EMIT dataChanged(index(i.row(), 0), index(i.row(), 0));
 			return true;
 
 		default: return false;

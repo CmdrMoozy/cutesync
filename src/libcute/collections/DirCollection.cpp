@@ -151,7 +151,7 @@ QString CuteSyncDirCollection::getAboutText() const
 bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 {
 	setInterruptible(true);
-	emit jobStarted(tr("Loading collection from path..."));
+	Q_EMIT jobStarted(tr("Loading collection from path..."));
 
 	// Clear the old collection.
 	clear(f);
@@ -160,7 +160,7 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 
 	int fileCount = static_cast<int>(CuteSyncSystemUtils::getFileCount(
 		p.toStdString()));
-	emit progressLimitsUpdated(0, fileCount);
+	Q_EMIT progressLimitsUpdated(0, fileCount);
 
 	// Iterate through again to process each file.
 
@@ -188,16 +188,16 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 			delete track;
 			track = NULL;
 
-			emit progressUpdated(++fileCount);
+			Q_EMIT progressUpdated(++fileCount);
 			continue;
 		}
 
 		addTrack(track);
-		emit progressUpdated(++fileCount);
+		Q_EMIT progressUpdated(++fileCount);
 	}
 
 	root = walker.path();
-	emit jobFinished(QString());
+	Q_EMIT jobFinished(QString());
 
 	return true;
 }
@@ -212,13 +212,13 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 bool CuteSyncDirCollection::refresh()
 {
 	setInterruptible(true);
-	emit jobStarted(tr("Refreshing collection..."));
+	Q_EMIT jobStarted(tr("Refreshing collection..."));
 
 	// Setup progress bounds.
 
 	int fileCount = static_cast<int>(CuteSyncSystemUtils::getFileCount(
 		root.toStdString()));
-	emit progressLimitsUpdated(0, fileCount);
+	Q_EMIT progressLimitsUpdated(0, fileCount);
 
 	// Some temporary variables.
 
@@ -262,7 +262,7 @@ bool CuteSyncDirCollection::refresh()
 
 		}
 
-		emit progressUpdated(++pcount);
+		Q_EMIT progressUpdated(++pcount);
 	}
 
 	// Check if there are any new tracks that need to be added.
@@ -293,17 +293,17 @@ bool CuteSyncDirCollection::refresh()
 				delete track;
 				track = NULL;
 
-				emit progressUpdated(++pcount);
+				Q_EMIT progressUpdated(++pcount);
 				continue;
 			}
 
 			addTrack(track);
 		}
 
-		emit progressUpdated(++pcount);
+		Q_EMIT progressUpdated(++pcount);
 	}
 
-	emit jobFinished(QString());
+	Q_EMIT jobFinished(QString());
 	return true;
 }
 

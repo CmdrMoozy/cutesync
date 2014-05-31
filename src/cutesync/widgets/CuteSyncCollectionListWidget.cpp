@@ -103,7 +103,7 @@ void CuteSyncCollectionListWidget::doCollectionClicked(const QModelIndex &i)
 		CuteSyncAbstractCollection *c = mdl->collectionAt(i.row());
 
 		if( (c != NULL) && (c->isEnabled()) )
-			emit selectionChanged(mdl->collectionAt(i.row()));
+			Q_EMIT selectionChanged(mdl->collectionAt(i.row()));
 		else
 			clearSelection();
 	}

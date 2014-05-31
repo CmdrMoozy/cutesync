@@ -26,7 +26,8 @@ class QGroupBox;
 class QCheckBox;
 class QThread;
 
-class CuteSyncGeneralCollectionConfigWidget : public CuteSyncAbstractCollectionConfigWidget
+class CuteSyncGeneralCollectionConfigWidget :
+	public CuteSyncAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
@@ -46,7 +47,7 @@ class CuteSyncGeneralCollectionConfigWidget : public CuteSyncAbstractCollectionC
 		QGridLayout *optionsLayout;
 		QCheckBox *saveCheckBox;
 
-	signals:
+	Q_SIGNALS:
 		void applyRequest();
 		void resetRequest();
 };

@@ -28,8 +28,9 @@ class CuteSyncCollectionDelegate;
 /*!
  * \brief This class provides a list widget for storing collections.
  *
- * We have ownership of all of the collections, so you don't need to worry about freeing them later. We also
- * handle creating the correct type of object based on the collection type.
+ * We have ownership of all of the collections, so you don't need to worry
+ * about freeing them later. We also handle creating the correct type of object
+ * based on the collection type.
  */
 class CuteSyncCollectionListWidget : public CuteSyncIconListWidget
 {
@@ -48,11 +49,11 @@ class CuteSyncCollectionListWidget : public CuteSyncIconListWidget
 
 		virtual void setModel(QAbstractItemModel *m);
 
-	private slots:
+	private Q_SLOTS:
 		void doCollectionClicked(const QModelIndex &i);
 		void doRowEnabledChanged(const QModelIndex &i);
 
-	signals:
+	Q_SIGNALS:
 		void selectionChanged(CuteSyncAbstractCollection *);
 };
 

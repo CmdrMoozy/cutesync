@@ -93,7 +93,7 @@ void CuteSyncSettingsManager::setSetting(const QString &k, const QVariant &v)
 	QMutexLocker locker(sync);
 
 	settings->setValue(k, v);
-	emit settingChanged(k, v);
+	Q_EMIT settingChanged(k, v);
 }
 
 bool CuteSyncSettingsManager::containsSetting(const QString &k) const

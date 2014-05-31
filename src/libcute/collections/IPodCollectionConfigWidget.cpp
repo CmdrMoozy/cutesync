@@ -73,7 +73,7 @@ CuteSyncIPodCollectionConfigWidget::~CuteSyncIPodCollectionConfigWidget()
  */
 void CuteSyncIPodCollectionConfigWidget::apply()
 {
-	emit applyRequest();
+	Q_EMIT applyRequest();
 }
 
 /*!
@@ -81,7 +81,7 @@ void CuteSyncIPodCollectionConfigWidget::apply()
  */
 void CuteSyncIPodCollectionConfigWidget::reset()
 {
-	emit resetRequest();
+	Q_EMIT resetRequest();
 }
 
 /*!

@@ -35,12 +35,6 @@
 #include <taglib/wavpackfile.h>
 
 extern "C" {
-	/*
-	 * We need to undef 'signals' since it is also defined by GTK and we need to prevent this collision
-	 * in order to use GdkPixbuf.
-	 */
-	#undef signals
-
 	#include <gio/gio.h>
 	#include <gdk-pixbuf/gdk-pixbuf.h>
 }

@@ -62,7 +62,7 @@ class CuteSyncCollectionModel : public QAbstractListModel
 
 		QList<QVariant> getSerializedList() const;
 
-	public slots:
+	public Q_SLOTS:
 		void loadSerializedList(const QList<QVariant> &c);
 		void newCollection(const QString &n, const QString &p, bool s);
 		void reloadCollection(CuteSyncAbstractCollection *c);
@@ -76,7 +76,7 @@ class CuteSyncCollectionModel : public QAbstractListModel
 		QList<CuteSyncAbstractCollection *> itemList;
 		CuteSyncAbstractCollection *currentJob;
 
-	private slots:
+	private Q_SLOTS:
 		void doCollectionEnabledChanged();
 
 		void doJobStarted(const QString &j);
@@ -84,7 +84,7 @@ class CuteSyncCollectionModel : public QAbstractListModel
 		void doProgressUpdated(int p);
 		void doJobFinished(const QString &r);
 
-	signals:
+	Q_SIGNALS:
 		void rowEnabledChanged(const QModelIndex &i);
 
 		void jobStarted(const QString &);

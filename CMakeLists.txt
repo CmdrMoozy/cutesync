@@ -34,10 +34,11 @@ ENDIF()
 
 SET(DBG_FLAGS "-rdynamic -Wall -Wextra -ansi -pedantic -Wshadow")
 SET(DBG_FLAGS "${DBG_FLAGS} -Wpointer-arith -Wcast-qual -std=c++0x -O0")
-SET(DBG_FLAGS "${DBG_FLAGS} -DCUTESYNC_DEBUG")
+SET(DBG_FLAGS "${DBG_FLAGS} -DCUTESYNC_DEBUG -DQT_NO_KEYWORDS")
 
 SET(REL_FLAGS "-Wall -Wextra -ansi -pedantic -Wshadow -Wpointer-arith")
 SET(REL_FLAGS "${REL_FLAGS} -Wcast-qual -std=c++0x -fomit-frame-pointer")
+SET(REL_FLAGS "${REL_FLAGS} -DQT_NO_KEYWORDS")
 
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${DBG_FLAGS}")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${REL_FLAGS}")

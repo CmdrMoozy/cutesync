@@ -24,10 +24,10 @@
 #include "libcute/collections/AbstractCollection.h"
 
 /*!
- * \brief This class provides a model for our display descriptor selector widget.
+ * \brief This class provides a model for our selector widget.
  *
- * It more or less just maintains a list of columns (thereby storing their order), and whether or not
- * they are "enabled" for display or sorting.
+ * It more or less just maintains a list of columns (thereby storing their
+ * order), and whether or not they are "enabled" for display or sorting.
  */
 class CuteSyncDDSelectorModel : public QAbstractListModel
 {
@@ -37,19 +37,26 @@ class CuteSyncDDSelectorModel : public QAbstractListModel
 
 		QList<CuteSyncAbstractCollection::Column> getColumnList() const;
 
-		void loadSortColumns(const CuteSyncAbstractCollection::DisplayDescriptor *d);
-		void loadDisplayColumns(const CuteSyncAbstractCollection::DisplayDescriptor *d);
+		void loadSortColumns(
+			const CuteSyncAbstractCollection::DisplayDescriptor *d);
+		void loadDisplayColumns(
+			const CuteSyncAbstractCollection::DisplayDescriptor *d);
 
 		virtual Qt::ItemFlags flags(const QModelIndex &i) const;
-		virtual int rowCount(const QModelIndex &p = QModelIndex()) const;
-		virtual QVariant data(const QModelIndex &i, int r = Qt::DisplayRole) const;
-		virtual bool setData(const QModelIndex &i, const QVariant &v, int r = Qt::EditRole);
-		virtual QVariant headerData(int s, Qt::Orientation o, int r = Qt::DisplayRole);
+		virtual int rowCount(
+			const QModelIndex &p = QModelIndex()) const;
+		virtual QVariant data(const QModelIndex &i,
+			int r = Qt::DisplayRole) const;
+		virtual bool setData(const QModelIndex &i,
+			const QVariant &v, int r = Qt::EditRole);
+		virtual QVariant headerData(int s,
+			Qt::Orientation o, int r = Qt::DisplayRole);
 
 		void moveUp(int i);
 		void moveDown(int i);
 
-		virtual QModelIndex index(int r, int c, const QModelIndex &p = QModelIndex()) const;
+		virtual QModelIndex index(int r, int c,
+			const QModelIndex &p = QModelIndex()) const;
 
 	private:
 		typedef struct SelectorItem

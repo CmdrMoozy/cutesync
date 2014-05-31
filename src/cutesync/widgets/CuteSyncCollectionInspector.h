@@ -36,26 +36,30 @@ class CuteSyncInspectorConfigDialog;
 class CuteSyncSettingsManager;
 
 /*!
- * \brief This class provides a widget to display information about a collection.
+ * \brief This class provides a widget to display info about a collection.
  *
- * It should be noted that this widget DOES NOT take ownership of any collections you give it; that is, it's
- * your responsibility to free them when they aren't needed any more!
+ * It should be noted that this widget DOES NOT take ownership of any
+ * collections you give it; that is, it's your responsibility to free them when
+ * they aren't needed any more!
  */
 class CuteSyncCollectionInspector : public QWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncCollectionInspector(CuteSyncSettingsManager *s, QWidget *p = 0);
-		CuteSyncCollectionInspector(CuteSyncSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p = 0);
+		CuteSyncCollectionInspector(CuteSyncSettingsManager *s,
+			QWidget *p = 0);
+		CuteSyncCollectionInspector(CuteSyncSettingsManager *s,
+			CuteSyncAbstractCollection *c, QWidget *p = 0);
 		virtual ~CuteSyncCollectionInspector();
 
 		void clearCollection();
 
-		CuteSyncAbstractCollection::DisplayDescriptor getDisplayDescriptor() const;
+		CuteSyncAbstractCollection::DisplayDescriptor
+			getDisplayDescriptor() const;
 		CuteSyncAbstractCollection *getCollection() const;
 
-	public slots:
+	public Q_SLOTS:
 		void setCollection(CuteSyncAbstractCollection *c);
 
 	protected:
@@ -89,7 +93,7 @@ class CuteSyncCollectionInspector : public QWidget
 		void createDialogs();
 		void loadDisplayDescriptor();
 
-	private slots:
+	private Q_SLOTS:
 		void doSortAccepted();
 
 		void doAboutDevice();
@@ -102,7 +106,7 @@ class CuteSyncCollectionInspector : public QWidget
 
 		void doSettingChanged(const QString &k, const QVariant &v);
 
-	signals:
+	Q_SIGNALS:
 		void reloadRequested(CuteSyncAbstractCollection *);
 		void refreshRequested(CuteSyncAbstractCollection *);
 };

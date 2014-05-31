@@ -127,7 +127,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		virtual QByteArray serialize() const = 0;
 		virtual void unserialize(const QByteArray &d) = 0;
 
-	public slots:
+	public Q_SLOTS:
 		virtual bool loadCollectionFromPath(const QString &p,
 			bool f = true) = 0;
 
@@ -161,7 +161,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		virtual bool reload();
 		virtual bool refresh();
 
-	public slots:
+	public Q_SLOTS:
 		virtual void setSaveOnExit(bool s);
 
 		virtual bool deleteTracks(const QStringList &k);
@@ -220,7 +220,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		void quicksort(int l, int r) const;
 		int sortCmp(int ra, int rb) const;
 
-	private slots:
+	private Q_SLOTS:
 		void doJobStarted();
 		void doJobFinished();
 
@@ -245,7 +245,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 	 * Signals we define.
 	 */
 
-	signals:
+	Q_SIGNALS:
 		void enabledChanged();
 		void contentsChanged();
 

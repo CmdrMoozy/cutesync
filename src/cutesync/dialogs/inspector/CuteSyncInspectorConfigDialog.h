@@ -34,21 +34,24 @@ class CuteSyncDDSelectorWidget;
 class CuteSyncDDSelectorModel;
 
 /*!
- * \brief This class provides an interface for configuring our CollectionInspector widget.
+ * \brief This class provides an interface for configuring our inspector widget.
  *
- * It allows the user to control the order we sort in, the columns we sort by, and the columns we
- * display.
+ * It allows the user to control the order we sort in, the columns we sort by,
+ * and the columns we display.
  */
 class CuteSyncInspectorConfigDialog : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncInspectorConfigDialog(QWidget *p = 0, Qt::WindowFlags f = 0);
+		CuteSyncInspectorConfigDialog(
+			QWidget *p = 0, Qt::WindowFlags f = 0);
 		virtual ~CuteSyncInspectorConfigDialog();
 
-		void setDisplayDescriptor(const CuteSyncAbstractCollection::DisplayDescriptor &d);
-		const CuteSyncAbstractCollection::DisplayDescriptor *getDisplayDescriptor() const;
+		void setDisplayDescriptor(
+			const CuteSyncAbstractCollection::DisplayDescriptor &d);
+		const CuteSyncAbstractCollection::DisplayDescriptor *
+			getDisplayDescriptor() const;
 
 	protected:
 		virtual void showEvent(QShowEvent *e);
@@ -81,11 +84,11 @@ class CuteSyncInspectorConfigDialog : public QDialog
 
 		void applyDisplayDescriptor();
 
-	private slots:
+	private Q_SLOTS:
 		void doOk();
 		void doApply();
 
-	signals:
+	Q_SIGNALS:
 		void accepted();
 };
 

@@ -166,7 +166,7 @@ CuteSyncMainWindow::CuteSyncMainWindow(CuteSyncSettingsManager *s, QWidget *p, Q
 
 	// Restore other stuff from settings.
 
-	emit startUnserialize(settingsManager->getSetting("saved-collections").value< QList<QVariant> >());
+	Q_EMIT startUnserialize(settingsManager->getSetting("saved-collections").value< QList<QVariant> >());
 }
 
 /*!
@@ -331,7 +331,7 @@ void CuteSyncMainWindow::doDuplicateInstanceDetected()
 void CuteSyncMainWindow::doNewCollectionAccepted()
 { /* SLOT */
 
-	emit startNew(newCollectionDialog->getName(), newCollectionDialog->getPath(), newCollectionDialog->getSave());
+	Q_EMIT startNew(newCollectionDialog->getName(), newCollectionDialog->getPath(), newCollectionDialog->getSave());
 
 }
 
@@ -364,7 +364,7 @@ void CuteSyncMainWindow::doSyncAccepted(CuteSyncAbstractCollection *s, CuteSyncA
 
 	// Sync our collections!
 
-	emit startSync(s, d);
+	Q_EMIT startSync(s, d);
 
 }
 

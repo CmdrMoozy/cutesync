@@ -310,7 +310,7 @@ void CuteSyncCollectionInspector::doRefresh()
 #pragma message "TODO - We need to re-activate the collection automatically after refreshing"
 
 	if(collection != NULL)
-		emit refreshRequested(collection);
+		Q_EMIT refreshRequested(collection);
 
 
 }
