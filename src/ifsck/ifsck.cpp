@@ -42,11 +42,15 @@ int main(int argc, char *argv[])
 
 	if(argc != 2)
 	{
-		std::cout << "You must provide the path of an existing iPod to check.\n";
+		std::cout << "You must provide the path of an " <<
+			"existing iPod to check.\n";
 		return 1;
 	}
 
-	// Get an absolute mount point, because libgpod's get_mountpoint function is made of failure.
+	/*
+	 * Get an absolute mount point, because libgpod's get_mountpoint
+	 * function is made of failure.
+	 */
 
 	QDir mp(QString::fromUtf8(argv[1]));
 	QString mountPoint = mp.absolutePath();
@@ -62,12 +66,14 @@ int main(int argc, char *argv[])
 	{
 		if(error != NULL)
 		{
-			std::cout << "Error while loading iPod from path: " << error->message << "\n";
+			std::cout << "Error while loading iPod from path: " <<
+				error->message << "\n";
 			g_error_free(error);
 		}
 		else
 		{
-			std::cout << "Unknown error while loading iPod from path.\n";
+			std::cout <<
+				"Unknown error while loading iPod from path.\n";
 		}
 
 		if(itdb != NULL) itdb_free(itdb);
@@ -78,28 +84,40 @@ int main(int argc, char *argv[])
 
 	const Itdb_IpodInfo *itdbInfo = itdb_device_get_ipod_info(itdb->device);
 
-	std::cout << "Successfully loaded iPod at " << mountPoint.toLatin1().data() << "\n";
-	std::cout << "\tModel Number:  " << itdbInfo->model_number                                                   << "\n";
-	std::cout << "\tGeneration:    " << itdb_info_get_ipod_generation_string(itdbInfo->ipod_generation)          << "\n";
-	std::cout << "\tCapacity:      " << itdbInfo->capacity << " GiB"                                             << "\n";
-	std::cout << "\tArtwork?       " << std::boolalpha << (bool)itdb_device_supports_artwork(itdb->device)       << "\n";
-	std::cout << "\tChapter Image? " << std::boolalpha << (bool)itdb_device_supports_chapter_image(itdb->device) << "\n";
-	std::cout << "\tPhotos?        " << std::boolalpha << (bool)itdb_device_supports_photo(itdb->device)         << "\n";
-	std::cout << "\tPodcasts?      " << std::boolalpha << (bool)itdb_device_supports_podcast(itdb->device)       << "\n";
-	std::cout << "\tVideos?        " << std::boolalpha << (bool)itdb_device_supports_video(itdb->device)         << "\n";
+	std::cout << "Successfully loaded iPod at " <<
+		mountPoint.toLatin1().data() << "\n";
+	std::cout << "\tModel Number:  " << itdbInfo->model_number << "\n";
+	std::cout << "\tGeneration:    " <<
+		itdb_info_get_ipod_generation_string(
+		itdbInfo->ipod_generation) << "\n";
+	std::cout << "\tCapacity:      " << itdbInfo->capacity <<
+		" GiB" << "\n";
+	std::cout << "\tArtwork?       " << std::boolalpha <<
+		(bool) itdb_device_supports_artwork(itdb->device) << "\n";
+	std::cout << "\tChapter Image? " << std::boolalpha <<
+		(bool) itdb_device_supports_chapter_image(itdb->device) << "\n";
+	std::cout << "\tPhotos?        " << std::boolalpha <<
+		(bool) itdb_device_supports_photo(itdb->device) << "\n";
+	std::cout << "\tPodcasts?      " << std::boolalpha <<
+		(bool) itdb_device_supports_podcast(itdb->device) << "\n";
+	std::cout << "\tVideos?        " << std::boolalpha <<
+		(bool) itdb_device_supports_video(itdb->device) << "\n";
 
 	// First thing's first: build a list of files on the iPod.
 
 	QSet<QString> ipodFiles;
 	mp.cd("iPod_Control");
 	mp.cd("Music");
-	QDirIterator walker(mp.absolutePath(), QDir::Files | QDir::NoSymLinks, QDirIterator::Subdirectories);
+	QDirIterator walker(mp.absolutePath(), QDir::Files | QDir::NoSymLinks,
+		QDirIterator::Subdirectories);
 
 	while(walker.hasNext())
 	{
 		walker.next();
+
 		ipodFiles.insert(
-			QDir::cleanPath(walker.fileInfo().absoluteFilePath()).replace(mountPoint, "")
+			QDir::cleanPath(walker.fileInfo()
+				.absoluteFilePath()).replace(mountPoint, "")
 				.replace(QDir::separator(), ":")
 		);
 	}
@@ -115,7 +133,10 @@ int main(int argc, char *argv[])
 		ipodDBFiles.insert(QString::fromUtf8(t->ipod_path));
 	}
 
-	// Now, to start checking things: find any files that are on the device, but not in the database.
+	/*
+	 * Now, to start checking things: find any files that are on the
+	 * device, but not in the database.
+	 */
 
 	std::cout << "\n\nChecking for orphaned files...\n";
 
@@ -125,19 +146,24 @@ int main(int argc, char *argv[])
 	if(difference.count() > 0)
 	{
 		QSetIterator<QString> ofIter(difference);
+
 		while(ofIter.hasNext())
-			std::cout << "\t" << ofIter.next().toUtf8().data() << "\n";
+		{
+			std::cout << "\t" << ofIter.next()
+				.toUtf8().data() << "\n";
+		}
 	}
 	else
 	{
 		std::cout << "\tNONE! :-)\n";
 	}
 
-	#ifdef __GNUC__
-		#warning TODO - Delete these files
-	#endif
+#pragma message "TODO - Delete these files"
 
-	// Next, check the reverse: things that are in the database, but are not present on the device.
+	/*
+	 * Next, check the reverse: things that are in the database, but are
+	 * not present on the device.
+	 */
 
 	std::cout << "\n\nChecking for orphaned database entries...\n";
 
@@ -148,16 +174,17 @@ int main(int argc, char *argv[])
 	{
 		QSetIterator<QString> odIter(difference);
 		while(odIter.hasNext())
-			std::cout << "\t" << odIter.next().toUtf8().data() << "\n";
+		{
+			std::cout << "\t" << odIter.next()
+				.toUtf8().data() << "\n";
+		}
 	}
 	else
 	{
 		std::cout << "\tNONE! :-)\n";
 	}
 
-	#ifdef __GNUC__
-		#warning TODO - Prompt the user for repairs instead of proceeding automatically
-	#endif
+#pragma message "TODO - Prompt the user for repairs instead of proceeding automatically"
 
 	// Remove these orphaned database entries from the database.
 
@@ -180,7 +207,10 @@ int main(int argc, char *argv[])
 			GList *playlistList = g_list_first(itdb->playlists);
 			while(playlistList != NULL)
 			{
-				itdb_playlist_remove_track(static_cast<Itdb_Playlist *>(playlistList->data), t);
+				itdb_playlist_remove_track(
+					static_cast<Itdb_Playlist *>(
+					playlistList->data), t);
+
 				playlistList = playlistList->next;
 			}
 
@@ -190,11 +220,12 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	// Next, we want to see if there are any tracks in the iTunes DB that are not in the MPL.
+	/*
+	 * Next, we want to see if there are any tracks in the iTunes DB that
+	 * are not in the MPL.
+	 */
 
-	#ifdef __GNUC__
-		#warning TODO - This should only check for tracks that SHOULD be in the MPL ie not podcasts
-	#endif
+#pragma message "TODO - This should only check for tracks that SHOULD be in the MPL ie not podcasts"
 
 	std::cout << "\n\nChecking for MPL inconsistencies...\n";
 	uint64_t mplc;
@@ -203,9 +234,12 @@ int main(int argc, char *argv[])
 	mplc = 0;
 	while(trackList != NULL)
 	{
-		if(!itdb_playlist_contains_track( itdb_playlist_mpl(itdb), static_cast<Itdb_Track *>(trackList->data) ))
+		if(!itdb_playlist_contains_track(itdb_playlist_mpl(itdb),
+			static_cast<Itdb_Track *>(trackList->data)))
 		{
-			std::cout << "\t" << static_cast<Itdb_Track *>(trackList->data)->ipod_path << "\n";
+			std::cout << "\t" << static_cast<Itdb_Track *>(
+				trackList->data)->ipod_path << "\n";
+
 			++mplc;
 		}
 
@@ -215,9 +249,7 @@ int main(int argc, char *argv[])
 	if(mplc == 0)
 		std::cout << "\tNONE! :-)\n";
 
-	#ifdef __GNUC__
-		#warning TODO - Add these track to the MPL
-	#endif
+#pragma message "TODO - Add these track to the MPL"
 
 	// Save the iTunes DB to the device.
 
@@ -225,7 +257,8 @@ int main(int argc, char *argv[])
 	{
 		if(error != NULL)
 		{
-			std::cout << "Error writing iTunes DB: " << error->message << "\n";
+			std::cout << "Error writing iTunes DB: " <<
+				error->message << "\n";
 
 			g_error_free(error);
 			error = NULL;

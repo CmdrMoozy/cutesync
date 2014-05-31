@@ -23,14 +23,16 @@
 #include "libcute/tags/TaggedFile.h"
 
 /*!
- * This function constructs a new Itdb_Track from a normal flat file. If for whatever reason we are
- * unable to read the file given, NULL is returned instead.
+ * This function constructs a new Itdb_Track from a normal flat file. If for
+ * whatever reason we are unable to read the file given, NULL is returned
+ * instead.
  *
- * Note that it is up to the caller to ensure that the resulting pointer gets free()'d appropriately
- * when it is no longer needed.
+ * Note that it is up to the caller to ensure that the resulting pointer gets
+ * free()'d appropriately when it is no longer needed.
  *
- * Also note that we DO NOT SET track->itdb. You may need to set this manually if you are going to be
- * doing things with the resulting track BEFORE calling itdb_track_add on it.
+ * Also note that we DO NOT SET track->itdb. You may need to set this manually
+ * if you are going to be doing things with the resulting track BEFORE calling
+ * itdb_track_add on it.
  *
  * \param p The path to the file we are looking at.
  * \return A new track, or NULL on failure.
@@ -42,34 +44,41 @@ CuteSyncIPodTrack *CuteSyncIPodTrack::createTrackFromFile(const QString &p)
 	CuteSyncFileTypeResolver resolver;
 	CuteSyncTaggedFile f(p, resolver);
 
-	track->title       = g_strdup( f.getTitle().toUtf8().data()       );
-	track->album       = g_strdup( f.getAlbum().toUtf8().data()       );
-	track->artist      = g_strdup( f.getArtist().toUtf8().data()      );
-	track->genre       = g_strdup( f.getGenre().toUtf8().data()       );
-	track->comment     = g_strdup( f.getComment().toUtf8().data()     );
-	track->composer    = g_strdup( f.getComposer().toUtf8().data()    );
-	track->albumartist = g_strdup( f.getAlbumArtist().toUtf8().data() );
-	track->keywords    = g_strdup( f.getKeywords().toUtf8().data()    );
+	track->title = g_strdup(f.getTitle().toUtf8().data());
+	track->album = g_strdup(f.getAlbum().toUtf8().data());
+	track->artist = g_strdup(f.getArtist().toUtf8().data());
+	track->genre = g_strdup(f.getGenre().toUtf8().data());
+	track->comment = g_strdup(f.getComment().toUtf8().data());
+	track->composer = g_strdup(f.getComposer().toUtf8().data());
+	track->albumartist = g_strdup(f.getAlbumArtist().toUtf8().data());
+	track->keywords = g_strdup(f.getKeywords().toUtf8().data());
 
-	track->size       = static_cast<gint32>(f.getSize());
-	track->tracklen   = static_cast<gint32>(f.getTrackLength() * 1000); // Multiply by 1,000 to get milliseconds.
-	track->cd_nr      = static_cast<gint32>(f.getDiscNumber());
-	track->track_nr   = static_cast<gint32>(f.getTrackNumber());
-	track->tracks     = static_cast<gint32>(f.getTrackCount());
-	track->bitrate    = static_cast<gint32>(f.getBitrate());
+	track->size = static_cast<gint32>(f.getSize());
+
+	// Multiply by 1,000 to get milliseconds.
+	track->tracklen = static_cast<gint32>(f.getTrackLength() * 1000);
+
+	track->cd_nr = static_cast<gint32>(f.getDiscNumber());
+	track->track_nr = static_cast<gint32>(f.getTrackNumber());
+	track->tracks = static_cast<gint32>(f.getTrackCount());
+	track->bitrate = static_cast<gint32>(f.getBitrate());
 	track->samplerate = static_cast<guint16>(f.getSampleRate());
-	track->year       = static_cast<gint32>(f.getYear());
-	track->mediatype  = static_cast<guint32>(0x00000001); // 0x 00 00 00 01 means AUDIO.
+	track->year = static_cast<gint32>(f.getYear());
 
-	track->filetype = g_strdup(f.getSuffix().toUpper().append("-File").toUtf8().data()); // E.g., MP3-File
+	// 0x 00 00 00 01 means AUDIO.
+	track->mediatype  = static_cast<guint32>(0x00000001);
+
+	// E.g., "MP3-File"
+	track->filetype = g_strdup(f.getSuffix().toUpper()
+		.append("-File").toUtf8().data());
 
 	return new CuteSyncIPodTrack(track);
 }
 
 /*!
- * This constructor creates a new iPod track descriptor based on the given existing libgpod track object.
- * Note that we take ownership of this track object; we will call itdb_track_free on it, so DO NOT do it
- * yourself!
+ * This constructor creates a new iPod track descriptor based on the given
+ * existing libgpod track object. Note that we take ownership of this track
+ * object; we will call itdb_track_free on it, so DO NOT do it yourself!
  *
  * \param t The track object we will represent.
  */
@@ -79,7 +88,8 @@ CuteSyncIPodTrack::CuteSyncIPodTrack(Itdb_Track *t)
 }
 
 /*!
- * This is our default destructor, which frees our libgpod track (if any) and cleans up our object.
+ * This is our default destructor, which frees our libgpod track (if any) and
+ * cleans up our object.
  */
 CuteSyncIPodTrack::~CuteSyncIPodTrack()
 {
@@ -88,12 +98,14 @@ CuteSyncIPodTrack::~CuteSyncIPodTrack()
 }
 
 /*!
- * This function returns a pointer to the libgpod track we are representing. Note that, depending on
- * what you gave the constructor, this function can return NULL.
+ * This function returns a pointer to the libgpod track we are representing.
+ * Note that, depending on what you gave the constructor, this function can
+ * return NULL.
  *
- * Also note that these track descriptors ALWAYS maintain ownership of their libgpod track objects; this
- * class will handle freeing memory appropriately, so you should never do that manually on the pointer
- * returned by this function.
+ * Also note that these track descriptors ALWAYS maintain ownership of their
+ * libgpod track objects; this class will handle freeing memory appropriately,
+ * so you should never do that manually on the pointer returned by this
+ * function.
  *
  * \return A pointer to the libgpod track we represent.
  */
@@ -103,23 +115,22 @@ Itdb_Track *CuteSyncIPodTrack::getTrack() const
 }
 
 /*!
- * This function returns the absolute path to the track we represent. This is going to be a path on the iPod
- * device.
+ * This function returns the absolute path to the track we represent. This is
+ * going to be a path on the iPod device.
  *
  * \return Our track's absolute path.
  */
 QString CuteSyncIPodTrack::getPath() const
 {
-	#ifdef __GNUC__
-		#warning TODO - Implement me
-	#endif
+#pragma message "TODO - Implement me"
 
 	return QString("");
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's title.
  */
@@ -132,8 +143,9 @@ QString CuteSyncIPodTrack::getTitle() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's artist.
  */
@@ -146,8 +158,9 @@ QString CuteSyncIPodTrack::getArtist() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's album.
  */
@@ -160,8 +173,9 @@ QString CuteSyncIPodTrack::getAlbum() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's comment.
  */
@@ -174,8 +188,9 @@ QString CuteSyncIPodTrack::getComment() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's genre.
  */
@@ -188,8 +203,9 @@ QString CuteSyncIPodTrack::getGenre() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's album artist.
  */
@@ -202,8 +218,9 @@ QString CuteSyncIPodTrack::getAlbumArtist() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's composer.
  */
@@ -216,8 +233,9 @@ QString CuteSyncIPodTrack::getComposer() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's year.
  */
@@ -230,8 +248,9 @@ int CuteSyncIPodTrack::getYear() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's track number on the CD it is a part of.
  */
@@ -244,8 +263,9 @@ int CuteSyncIPodTrack::getTrackNumber() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return The number of tracks on the CD this track is a part of.
  */
@@ -258,8 +278,9 @@ int CuteSyncIPodTrack::getTrackCount() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Which CD number in a set this track is a part of.
  */
@@ -272,8 +293,9 @@ int CuteSyncIPodTrack::getCDNumber() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return The length of the track, in seconds.
  */
@@ -286,8 +308,9 @@ int CuteSyncIPodTrack::getLength() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's bitrate (exact for CBR, an average for VBR).
  */
@@ -300,8 +323,9 @@ int CuteSyncIPodTrack::getBitrate() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's sample rate, in hertz.
  */
@@ -314,8 +338,9 @@ int CuteSyncIPodTrack::getSamplerate() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's filesize, in bytes.
  */
@@ -328,8 +353,9 @@ int64_t CuteSyncIPodTrack::getSize() const
 }
 
 /*!
- * An attribute accessor function. This will retrieve tag information using libgpod, so no actual reading of the
- * media file itself is done. This means that these functions are very fast.
+ * An attribute accessor function. This will retrieve tag information using
+ * libgpod, so no actual reading of the media file itself is done. This means
+ * that these functions are very fast.
  *
  * \return Our track's last modified time.
  */
@@ -342,8 +368,9 @@ QDateTime CuteSyncIPodTrack::getModifyTime() const
 }
 
 /*!
- * iPod tracks are not serializable. This is because, since all of the information about them is stored in the
- * iTunes DB on an iPod, reading an entire collection of tracks is VERY fast - therefore, there is really no
+ * iPod tracks are not serializable. This is because, since all of the
+ * information about them is stored in the iTunes DB on an iPod, reading an
+ * entire collection of tracks is VERY fast - therefore, there is really no
  * purpose behind serializing track descriptors to read them later.
  *
  * \return An empty byte array.
@@ -354,8 +381,9 @@ QByteArray CuteSyncIPodTrack::serialize() const
 }
 
 /*!
- * iPod tracks are not serializable. This is because, since all of the information about them is stored in the
- * iTunes DB on an iPod, reading an entire collection of tracks is VERY fast - therefore, there is really no
+ * iPod tracks are not serializable. This is because, since all of the
+ * information about them is stored in the iTunes DB on an iPod, reading an
+ * entire collection of tracks is VERY fast - therefore, there is really no
  * purpose behind serializing track descriptors to read them later.
  *
  * As such, this function does nothing.
@@ -367,8 +395,9 @@ void CuteSyncIPodTrack::unserialize(const QByteArray &UNUSED(d))
 }
 
 /*!
- * This function refreshes the metadata stored by our track descriptor. iPod tracks, because of the way the iTunes
- * DB on iPod devices works, do not cache metadata, so this function does effectively nothing.
+ * This function refreshes the metadata stored by our track descriptor. iPod
+ * tracks, because of the way the iTunes DB on iPod devices works, do not cache
+ * metadata, so this function does effectively nothing.
  *
  * \return True, indicating success.
  */
@@ -380,8 +409,8 @@ bool CuteSyncIPodTrack::refresh()
 /*!
  * This function updates our track's sort fields using the given sort options.
  *
- * \param c True means sorting should be case-insensitive, or false otherwise.
- * \param i True means we should ignore common prefixes like 'The ...', or false otherwise.
+ * \param c True means sorting should be case-insensitive.
+ * \param i True means ignore common prefixes like 'The ...'.
  */
 void CuteSyncIPodTrack::applySortOptions(bool c, bool i)
 {
@@ -393,7 +422,7 @@ void CuteSyncIPodTrack::applySortOptions(bool c, bool i)
 		QString sAlbumArtist = getAlbumArtist();
 		QString sComposer = getComposer();
 
-		// If we should ignore common prefixes, remove them from the appropriate fields.
+		// If ignoring common prefixes, remove them from certain fields.
 
 		if(i)
 		{
@@ -415,29 +444,36 @@ void CuteSyncIPodTrack::applySortOptions(bool c, bool i)
 				sAlbum = sAlbum.right(sAlbum.length() - 4);
 
 			if(sAlbumArtist.startsWith("The ", Qt::CaseInsensitive))
-				sAlbumArtist = sAlbumArtist.right(sAlbumArtist.length() - 4);
+			{
+				sAlbumArtist = sAlbumArtist.right(
+					sAlbumArtist.length() - 4);
+			}
 
 			if(sComposer.startsWith("The ", Qt::CaseInsensitive))
-				sComposer = sComposer.right(sComposer.length() - 4);
+			{
+				sComposer = sComposer.right(
+					sComposer.length() - 4);
+			}
 		}
 
-		// If sorting should be case-insensitive, make everything uppercase.
+		// If sorting is case-insensitive, make everything uppercase.
 
 		if(c)
 		{
-			sTitle       = sTitle.toUpper();
-			sArtist      = sArtist.toUpper();
-			sAlbum       = sAlbum.toUpper();
+			sTitle = sTitle.toUpper();
+			sArtist = sArtist.toUpper();
+			sAlbum = sAlbum.toUpper();
 			sAlbumArtist = sAlbumArtist.toUpper();
-			sComposer    = sComposer.toUpper();
+			sComposer = sComposer.toUpper();
 		}
 
 		// Set the sort fields in the actual iTunes DB track.
 
-		track->sort_artist      = g_strdup( sArtist.toUtf8().data()      );
-		track->sort_title       = g_strdup( sTitle.toUtf8().data()       );
-		track->sort_album       = g_strdup( sAlbum.toUtf8().data()       );
-		track->sort_albumartist = g_strdup( sAlbumArtist.toUtf8().data() );
-		track->sort_composer    = g_strdup( sComposer.toUtf8().data()    );
+		track->sort_artist = g_strdup(sArtist.toUtf8().data());
+		track->sort_title = g_strdup(sTitle.toUtf8().data());
+		track->sort_album = g_strdup(sAlbum.toUtf8().data());
+		track->sort_albumartist = g_strdup(
+			sAlbumArtist.toUtf8().data());
+		track->sort_composer = g_strdup(sComposer.toUtf8().data());
 	}
 }

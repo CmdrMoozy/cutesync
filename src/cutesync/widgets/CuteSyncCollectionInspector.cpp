@@ -39,7 +39,8 @@
  *
  * \param p Our parent widget.
  */
-CuteSyncCollectionInspector::CuteSyncCollectionInspector(CuteSyncSettingsManager *s, QWidget *p)
+CuteSyncCollectionInspector::CuteSyncCollectionInspector(
+	CuteSyncSettingsManager *s, QWidget *p)
 	: QWidget(p), settingsManager(s), collection(NULL)
 {
 	createGUI();
@@ -50,18 +51,21 @@ CuteSyncCollectionInspector::CuteSyncCollectionInspector(CuteSyncSettingsManager
 	startTimer(5000);
 
 	// Connect settings manager.
-	QObject::connect(settingsManager, SIGNAL(settingChanged(const QString &, const QVariant &)),
-		this, SLOT(doSettingChanged(const QString &, const QVariant &)));
+	QObject::connect(settingsManager,
+		SIGNAL(settingChanged(const QString &, const QVariant &)),
+		this,
+		SLOT(doSettingChanged(const QString &, const QVariant &)));
 }
 
 /*!
- * This is a convenience constructor, which creates a new inspector widget and immediately sets it to
- * display the contents of the provided collection.
+ * This is a convenience constructor, which creates a new inspector widget and
+ * immediately sets it to display the contents of the provided collection.
  *
  * \param c The collection to display.
  * \param p Our parent widget.
  */
-CuteSyncCollectionInspector::CuteSyncCollectionInspector(CuteSyncSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p)
+CuteSyncCollectionInspector::CuteSyncCollectionInspector(
+	CuteSyncSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p)
 	: QWidget(p), settingsManager(s), collection(NULL)
 {
 	createGUI();
@@ -74,8 +78,10 @@ CuteSyncCollectionInspector::CuteSyncCollectionInspector(CuteSyncSettingsManager
 	startTimer(5000);
 
 	// Connect settings manager.
-	QObject::connect(settingsManager, SIGNAL(settingChanged(const QString &, const QVariant &)),
-		this, SLOT(doSettingChanged(const QString &, const QVariant &)));
+	QObject::connect(settingsManager,
+		SIGNAL(settingChanged(const QString &, const QVariant &)),
+		this,
+		SLOT(doSettingChanged(const QString &, const QVariant &)));
 }
 
 /*!
@@ -86,8 +92,9 @@ CuteSyncCollectionInspector::~CuteSyncCollectionInspector()
 }
 
 /*!
- * This function clears our current collection, making it so we are not displaying anything. This function
- * is just shorthand for setting the collection to NULL.
+ * This function clears our current collection, making it so we are not
+ * displaying anything. This function is just shorthand for setting the
+ * collection to NULL.
  */
 void CuteSyncCollectionInspector::clearCollection()
 {
@@ -95,18 +102,20 @@ void CuteSyncCollectionInspector::clearCollection()
 }
 
 /*!
- * This function returns a copy of the display descriptor our inspector is currently using.
+ * This function returns a copy of the display descriptor our inspector is
+ * currently using.
  *
  * \return Our current display descriptor.
  */
-CuteSyncAbstractCollection::DisplayDescriptor CuteSyncCollectionInspector::getDisplayDescriptor() const
+CuteSyncAbstractCollection::DisplayDescriptor
+	CuteSyncCollectionInspector::getDisplayDescriptor() const
 {
 	return displayDescriptor;
 }
 
 /*!
- * This function returns the collection we are currently displaying, or NULL if one hasn't been given
- * to us yet.
+ * This function returns the collection we are currently displaying, or NULL if
+ * one hasn't been given to us yet.
  *
  * \return Our current collection.
  */
@@ -141,11 +150,14 @@ void CuteSyncCollectionInspector::setCollection(CuteSyncAbstractCollection *c)
 
 		spaceUsedProgressBar->setRange(0, 100);
 		spaceUsedProgressBar->setValue(static_cast<int>(
-			floor(CuteSyncSystemUtils::getDeviceUsedPercent(collection->getMountPoint().toStdString())) ));
+			floor(CuteSyncSystemUtils::getDeviceUsedPercent(
+			collection->getMountPoint().toStdString())) ));
 
 		// Connect the new collection.
-		QObject::connect( collection, SIGNAL( enabledChanged()  ), this, SLOT( doCollectionEnabledChanged()  ) );
-		QObject::connect( collection, SIGNAL( contentsChanged() ), this, SLOT( doCollectionContentsChanged() ) );
+		QObject::connect(collection, SIGNAL(enabledChanged()),
+			this, SLOT(doCollectionEnabledChanged()));
+		QObject::connect(collection, SIGNAL(contentsChanged()),
+			this, SLOT(doCollectionContentsChanged()));
 	}
 	else
 	{
@@ -157,8 +169,9 @@ void CuteSyncCollectionInspector::setCollection(CuteSyncAbstractCollection *c)
 }
 
 /*!
- * Some elements of our GUI may update without us knowing directly about it; this class utilizes QObject's
- * built-in timer functionality to update some elements of the GUI periodically via this function.
+ * Some elements of our GUI may update without us knowing directly about it;
+ * this class utilizes QObject's built-in timer functionality to update some
+ * elements of the GUI periodically via this function.
  *
  * \param e The event we are handling.
  */
@@ -168,15 +181,16 @@ void CuteSyncCollectionInspector::timerEvent(QTimerEvent *e)
 	{
 		// Update our disk space used progress bar.
 		spaceUsedProgressBar->setValue(static_cast<int>(
-			floor(CuteSyncSystemUtils::getDeviceUsedPercent(collection->getMountPoint().toStdString())) ));
+			floor(CuteSyncSystemUtils::getDeviceUsedPercent(
+			collection->getMountPoint().toStdString())) ));
 	}
 
 	e->accept();
 }
 
 /*!
- * This is a helper function that creates our GUI for us; this is so we don't have to copypasta the code to
- * do so between our multiple constructors.
+ * This is a helper function that creates our GUI for us; this is so we don't
+ * have to copypasta the code to do so between our multiple constructors.
  */
 void CuteSyncCollectionInspector::createGUI()
 {
@@ -191,7 +205,8 @@ void CuteSyncCollectionInspector::createGUI()
 
 	configButton = new QPushButton(tr("Options..."), actionsList);
 
-	sortButton = new QPushButton(QIcon(":/icons/inspector/configure.png"), QString(), actionsList);
+	sortButton = new QPushButton(QIcon(":/icons/inspector/configure.png"),
+		QString(), actionsList);
 	sortButton->setToolTip(tr("Configure Inspector"));
 
 	actionsLayout->addWidget( aboutButton,   0, 0 );
@@ -203,28 +218,34 @@ void CuteSyncCollectionInspector::createGUI()
 
 	collectionViewer = new QTableView(this);
 	collectionViewer->setSelectionBehavior(QAbstractItemView::SelectRows);
-	collectionViewer->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	collectionViewer->setSelectionMode(
+		QAbstractItemView::ExtendedSelection);
 	collectionViewer->setSortingEnabled(false);
 
 	spaceUsedLabel = new QLabel(tr("Disk Space Used:"), this);
 	spaceUsedProgressBar = new QProgressBar(this);
 
-	layout->addWidget( actionsList,          0, 0, 1, 2 );
-	layout->addWidget( collectionViewer,     1, 0, 1, 2 );
-	layout->addWidget( spaceUsedLabel,       2, 0, 1, 1 );
-	layout->addWidget( spaceUsedProgressBar, 2, 1, 1, 1 );
+	layout->addWidget(actionsList, 0, 0, 1, 2);
+	layout->addWidget(collectionViewer, 1, 0, 1, 2);
+	layout->addWidget(spaceUsedLabel, 2, 0, 1, 1);
+	layout->addWidget(spaceUsedProgressBar, 2, 1, 1, 1);
 	layout->setColumnStretch(1, 1);
 	layout->setRowStretch(1, 1);
 	setLayout(layout);
 
-	QObject::connect( aboutButton,   SIGNAL( clicked() ), this, SLOT( doAboutDevice() ) );
-	QObject::connect( refreshButton, SIGNAL( clicked() ), this, SLOT( doRefresh()     ) );
-	QObject::connect( configButton,  SIGNAL( clicked() ), this, SLOT( doConfig()      ) );
-	QObject::connect( sortButton,    SIGNAL( clicked() ), this, SLOT( doSort()        ) );
+	QObject::connect(aboutButton, SIGNAL(clicked()),
+		this, SLOT(doAboutDevice()));
+	QObject::connect(refreshButton, SIGNAL(clicked()),
+		this, SLOT(doRefresh()));
+	QObject::connect(configButton, SIGNAL(clicked()),
+		this, SLOT(doConfig()));
+	QObject::connect(sortButton, SIGNAL(clicked()),
+		this, SLOT(doSort()));
 }
 
 /*!
- * This is a helper function that initializes and connects our widget's various dialogs.
+ * This is a helper function that initializes and connects our widget's various
+ * dialogs.
  */
 void CuteSyncCollectionInspector::createDialogs()
 {
@@ -232,21 +253,26 @@ void CuteSyncCollectionInspector::createDialogs()
 	configDialog = new CuteSyncInspectorCollectionConfigDialog(this);
 	sortDialog = new CuteSyncInspectorConfigDialog(this);
 
-	QObject::connect( sortDialog, SIGNAL( accepted() ), this, SLOT( doSortAccepted() ) );
+	QObject::connect(sortDialog, SIGNAL(accepted()),
+		this, SLOT(doSortAccepted()));
 }
 
 /*!
- * This function loads the display descriptor that has been stored by our settings manager.
+ * This function loads the display descriptor that has been stored by our
+ * settings manager.
  */
 void CuteSyncCollectionInspector::loadDisplayDescriptor()
 {
-	displayDescriptor = CuteSyncAbstractCollection::unserializeDisplayDescriptor(
-		settingsManager->getSetting("display-descriptor").value<QByteArray>());
+	displayDescriptor =
+		CuteSyncAbstractCollection::unserializeDisplayDescriptor(
+		settingsManager->getSetting("display-descriptor")
+		.value<QByteArray>());
 }
 
 /*!
- * This function handles our configuration dialog being accepted by updating our display descriptor with the
- * new data, and then applying those changes to the collection we are currently viewing (if any).
+ * This function handles our configuration dialog being accepted by updating
+ * our display descriptor with the new data, and then applying those changes to
+ * the collection we are currently viewing (if any).
  */
 void CuteSyncCollectionInspector::doSortAccepted()
 { /* SLOT */
@@ -260,8 +286,8 @@ void CuteSyncCollectionInspector::doSortAccepted()
 }
 
 /*!
- * This function handles our "About..." button being clicked by displaying the about dialog for the collection we
- * are currently displaying, if any.
+ * This function handles our "About..." button being clicked by displaying the
+ * about dialog for the collection we are currently displaying, if any.
  */
 void CuteSyncCollectionInspector::doAboutDevice()
 { /* SLOT */
@@ -275,14 +301,13 @@ void CuteSyncCollectionInspector::doAboutDevice()
 }
 
 /*!
- * This function handles our refresh button by refreshing the current collection, if any.
+ * This function handles our refresh button by refreshing the current
+ * collection, if any.
  */
 void CuteSyncCollectionInspector::doRefresh()
 { /* SLOT */
 
-	#ifdef __GNUC__
-		#warning TODO - We need to re-activate the collection automatically after refreshing
-	#endif
+#pragma message "TODO - We need to re-activate the collection automatically after refreshing"
 
 	if(collection != NULL)
 		emit refreshRequested(collection);
@@ -291,22 +316,24 @@ void CuteSyncCollectionInspector::doRefresh()
 }
 
 /*!
- * This function handles our collection configuration button being clicked by displaying our collection configuration
- * dialog.
+ * This function handles our collection configuration button being clicked by
+ * displaying our collection configuration dialog.
  */
 void CuteSyncCollectionInspector::doConfig()
 { /* SLOT */
 
 	if(collection != NULL)
 	{
-		configDialog->setWidget(collection->getConfigurationWidget(thread()));
+		configDialog->setWidget(
+			collection->getConfigurationWidget(thread()));
 		configDialog->show();
 	}
 
 }
 
 /*!
- * This function handles our sort configuration button being clicked by displaying our configuration dialog.
+ * This function handles our sort configuration button being clicked by
+ * displaying our configuration dialog.
  */
 void CuteSyncCollectionInspector::doSort()
 { /* SLOT */
@@ -317,8 +344,10 @@ void CuteSyncCollectionInspector::doSort()
 }
 
 /*!
- * This function handles a collection's enabled state being changed by either displaying it if it is now enabled, or
- * unloading it if it is NOT enabled. This is to prevent editing/viewing of collections whose state is not "valid."
+ * This function handles a collection's enabled state being changed by either
+ * displaying it if it is now enabled, or unloading it if it is NOT enabled.
+ * This is to prevent editing/viewing of collections whose state is not
+ * "valid."
  */
 void CuteSyncCollectionInspector::doCollectionEnabledChanged()
 { /* SLOT */
@@ -329,29 +358,37 @@ void CuteSyncCollectionInspector::doCollectionEnabledChanged()
 }
 
 /*!
- * This function handles our collection's contents being modified, which means we need to refresh our GUI appropriately.
+ * This function handles our collection's contents being modified, which means
+ * we need to refresh our GUI appropriately.
  */
 void CuteSyncCollectionInspector::doCollectionContentsChanged()
 { /* SLOT */
 
-	// Because tracks have been added/removed/modified, we need to re-sort the collection.
+	/*
+	 * Because tracks have been added/removed/modified, we need to re-sort
+	 * the collection.
+	 */
+
 	collection->sort();
 
 }
 
 /*!
- * This function handles a setting being changed, and takes appropriate action. For instance, when the display
- * descriptor is changed, we update our GUI accordingly.
+ * This function handles a setting being changed, and takes appropriate action.
+ * For instance, when the display descriptor is changed, we update our GUI
+ * accordingly.
  *
  * \param k The key of the setting that was changed.
  * \param v The setting's new value.
  */
-void CuteSyncCollectionInspector::doSettingChanged(const QString &k, const QVariant &v)
+void CuteSyncCollectionInspector::doSettingChanged(
+	const QString &k, const QVariant &v)
 { /* SLOT */
 
 	if(k == "display-descriptor")
 	{
-		displayDescriptor = CuteSyncAbstractCollection::unserializeDisplayDescriptor(v.value<QByteArray>());
+		displayDescriptor =CuteSyncAbstractCollection
+			::unserializeDisplayDescriptor(v.value<QByteArray>());
 
 		if(collection != NULL)
 		{
