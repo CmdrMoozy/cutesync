@@ -67,6 +67,7 @@ SET(libcute_HEADERS
 
 	src/libcute/thread/CollectionLocker.h
 
+	src/libcute/util/Bitwise.h
 	src/libcute/util/MMIOHandle.h
 	src/libcute/util/SystemUtils.h
 
@@ -93,6 +94,7 @@ SET(libcute_SOURCES
 
 	src/libcute/thread/CollectionLocker.cpp
 
+	src/libcute/util/Bitwise.cpp
 	src/libcute/util/MMIOHandle.cpp
 	src/libcute/util/SystemUtils.cpp
 
@@ -155,20 +157,6 @@ SET(cutesync_SOURCES
 
 )
 
-# Define id3ck's source files.
-
-SET(id3ck_HEADERS
-
-
-
-)
-
-SET(id3ck_SOURCES
-
-	src/id3ck/id3ck.cpp
-
-)
-
 # Define ifsck's source files.
 
 SET(ifsck_HEADERS
@@ -212,9 +200,6 @@ QT5_ADD_RESOURCES(cutesync_RESOURCES_RCC ${cutesync_RESOURCES})
 ADD_EXECUTABLE(CuteSync ${cutesync_RESOURCES_RCC} ${cutesync_SOURCES})
 TARGET_LINK_LIBRARIES(CuteSync cute ${CUTESYNC_LIBS})
 
-ADD_EXECUTABLE(id3ck ${id3ck_SOURCES})
-TARGET_LINK_LIBRARIES(id3ck cute ${CUTESYNC_LIBS})
-
 ADD_EXECUTABLE(ifsck ${ifsck_SOURCES})
 TARGET_LINK_LIBRARIES(ifsck cute ${CUTESYNC_LIBS})
 
@@ -223,6 +208,5 @@ TARGET_LINK_LIBRARIES(mkipod cute ${CUTESYNC_LIBS})
 
 QT5_USE_MODULES(cute Widgets Network)
 QT5_USE_MODULES(CuteSync Widgets Network)
-QT5_USE_MODULES(id3ck Widgets Network)
 QT5_USE_MODULES(ifsck Widgets Network)
 QT5_USE_MODULES(mkipod Widgets Network)

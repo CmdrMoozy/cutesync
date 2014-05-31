@@ -23,6 +23,7 @@
 #include <taglib/mp4file.h>
 #include <taglib/mpegfile.h>
 
+#include "libcute/util/Bitwise.h"
 #include "libcute/util/MMIOHandle.h"
 
 /*!
@@ -101,7 +102,7 @@ TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
 		// Try to read the ID3 header size, and skip past it.
 
 		uint64_t tagsize = static_cast<uint64_t>(
-			fromSynchsafeInt32(file, 6));
+			CuteSyncBitwise::fromSynchsafeInt32(file, 6));
 
 		tagsize += 10; // Account for the first portion of the header.
 
@@ -202,37 +203,4 @@ bool CuteSyncFileTypeResolver::isValidFtyp(const CuteSyncMMIOHandle &f,
 	}
 
 	return false;
-}
-
-/*!
- * This function converts a "32-bit synchsafe integer" found e.g. in MP3
- * headers, and converts it to a standard 32-bit integer type.
- *
- * These "synchsafe integers" are more or less 32-bit integers, except every
- * 8th bit is ignored. So:
- *
- *     1111 1111 1111 1111 (0xFFFF) =>  0011 0111 1111 0111 1111 (0x37F7F)
- *
- * It should be noted that, if you are getting the input from an MP3 header,
- * the number we return DOES NOT INCLUDE THE MP3 FOOTER (IF PRESENT). It is up
- * to you to take our output and turn it into a sane number.
- *
- * Also note that it is your responsibility to make sure the buffer and offset
- * provided are valid; we don't do any bounds-checking.
- *
- * \param f The file handle containing the raw data.
- * \param o The offset in the buffer to start at (by default, 0).
- * \return The value given as a normal 32-bit integer.
- */
-uint32_t CuteSyncFileTypeResolver::fromSynchsafeInt32(
-	const CuteSyncMMIOHandle &f, uint64_t o) const
-{
-	uint32_t result = 0;
-
-	result |= static_cast<uint32_t>( f.at(o+0) & 0x7F ) << 21;
-	result |= static_cast<uint32_t>( f.at(o+1) & 0x7F ) << 14;
-	result |= static_cast<uint32_t>( f.at(o+2) & 0x7F ) << 7;
-	result |= static_cast<uint32_t>( f.at(o+3) & 0x7F );
-
-	return result;
 }

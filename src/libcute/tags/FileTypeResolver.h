@@ -48,8 +48,6 @@ class CuteSyncFileTypeResolver : public TagLib::FileRef::FileTypeResolver
 	private:
 		bool isValidFtyp(const CuteSyncMMIOHandle &f,
 			uint64_t o) const;
-		uint32_t fromSynchsafeInt32(const CuteSyncMMIOHandle &f,
-			uint64_t o) const;
 };
 
 #endif
