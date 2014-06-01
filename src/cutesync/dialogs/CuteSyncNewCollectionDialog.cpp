@@ -31,7 +31,8 @@
  * \param p Our parent object.
  * \param f The window flags to use.
  */
-CuteSyncNewCollectionDialog::CuteSyncNewCollectionDialog(QWidget *p, Qt::WindowFlags f)
+CuteSyncNewCollectionDialog::CuteSyncNewCollectionDialog(
+	QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f)
 {
 	setModal(false);
@@ -70,9 +71,12 @@ CuteSyncNewCollectionDialog::CuteSyncNewCollectionDialog(QWidget *p, Qt::WindowF
 	layout->setColumnStretch(1, 1);
 	setLayout(layout);
 
-	QObject::connect( browseButton, SIGNAL( clicked() ), this, SLOT( doBrowse() ) );
-	QObject::connect( doItButton,   SIGNAL( clicked() ), this, SLOT( doDoIt()   ) );
-	QObject::connect( cancelButton, SIGNAL( clicked() ), this, SLOT( doCancel() ) );
+	QObject::connect(browseButton, SIGNAL(clicked()),
+		this, SLOT(doBrowse()));
+	QObject::connect(doItButton, SIGNAL(clicked()),
+		this, SLOT(doDoIt()));
+	QObject::connect(cancelButton, SIGNAL(clicked()),
+		this, SLOT(doCancel()));
 }
 
 /*!
@@ -103,7 +107,8 @@ QString CuteSyncNewCollectionDialog::getPath() const
 }
 
 /*!
- * This function returns whether or not the user wants the collection's information to be saved.
+ * This function returns whether or not the user wants the collection's
+ * information to be saved.
  *
  * \return Whether or not to save this collection.
  */
@@ -134,30 +139,40 @@ void CuteSyncNewCollectionDialog::reset()
 }
 
 /*!
- * This slot handles our browse button being clicked by popping up a directory chooser dialog and then, if it is
- * accepted, placing the resulting path in our path line edit.
+ * This slot handles our browse button being clicked by popping up a directory
+ * chooser dialog and then, if it is accepted, placing the resulting path in
+ * our path line edit.
  */
 void CuteSyncNewCollectionDialog::doBrowse()
 { /* SLOT */
-	QString path = QFileDialog::getExistingDirectory(this, tr("Select Collection Path"), QDir::homePath());
+
+	QString path = QFileDialog::getExistingDirectory(this,
+		tr("Select Collection Path"), QDir::homePath());
 
 	if(!path.isEmpty())
 		pathLineEdit->setText(path);
+
 }
 
 /*!
- * This function handles our "Do It!" button being clicked by emitting an accepted() signal and closing the dialog.
+ * This function handles our "Do It!" button being clicked by emitting an
+ * accepted() signal and closing the dialog.
  */
 void CuteSyncNewCollectionDialog::doDoIt()
 { /* SLOT */
+
 	Q_EMIT accepted();
 	close();
+
 }
 
 /*!
- * This function handles our cancel button being clicked by simply closing our dialog.
+ * This function handles our cancel button being clicked by simply closing our
+ * dialog.
  */
 void CuteSyncNewCollectionDialog::doCancel()
 { /* SLOT */
+
 	close();
+
 }
