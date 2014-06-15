@@ -21,15 +21,14 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QCheckBox>
-#include <QThread>
 
 /*!
  * This is our default constructor, which initializes our widget.
  *
  * \param p The GUI thread we should be a member of.
  */
-CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget(QThread *t)
-	: CuteSyncAbstractCollectionConfigWidget(t)
+CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget()
+	: CuteSyncAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
 

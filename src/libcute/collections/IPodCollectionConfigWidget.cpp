@@ -18,7 +18,6 @@
 
 #include "IPodCollectionConfigWidget.h"
 
-#include <QThread>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QCheckBox>
@@ -28,8 +27,8 @@
  *
  * \param t The GUI thread for our widget.
  */
-CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget(QThread *t)
-	: CuteSyncAbstractCollectionConfigWidget(t)
+CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
+	: CuteSyncAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
 

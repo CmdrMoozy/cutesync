@@ -28,7 +28,6 @@
 #include <QStringList>
 
 class QMutex;
-class QThread;
 
 class CuteSyncCollectionModel;
 class CuteSyncTrack;
@@ -142,7 +141,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 	public:
 		virtual CuteSyncAbstractCollectionConfigWidget *
-			getConfigurationWidget(QThread *t) const;
+			getConfigurationWidget() const;
 
 		virtual QVariant getDisplayData(int r, int c) const;
 		virtual QVariant getSortData(int r,

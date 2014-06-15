@@ -325,7 +325,7 @@ void CuteSyncCollectionInspector::doConfig()
 	if(collection != NULL)
 	{
 		configDialog->setWidget(
-			collection->getConfigurationWidget(thread()));
+			collection->getConfigurationWidget());
 		configDialog->show();
 	}
 

@@ -21,23 +21,23 @@
 
 #include <QWidget>
 
-class QThread;
-
 /*!
- * \brief This provides a superclass template for collection configuration widgets.
+ * \brief This provides a superclass template for collection config widgets.
  *
- * Note that this superclass provides no configuration functionality - it simply defines the methods our collection configuration
- * dialog expects, which need to be implemented by subclasses, and its constructor handles moving us from the collection's thread
- * to the GUI thread.
+ * Note that this superclass provides no configuration functionality - it
+ * simply defines the methods our collection configuration dialog expects,
+ * which need to be implemented by subclasses, and its constructor handles
+ * moving us from the collection's thread to the GUI thread.
  *
- * It is expected that any subclasses will handle "generic" collection configuration options, such as whether or not the collection
- * should be saved for next time our application is started, in addition to any collection-subclass-specific options that need to
- * be handled.
+ * It is expected that any subclasses will handle "generic" collection
+ * configuration options, such as whether or not the collection should be saved
+ * for next time our application is started, in addition to any collection-
+ * subclass-specific options that need to be handled.
  */
 class CuteSyncAbstractCollectionConfigWidget : public QWidget
 {
 	public:
-		CuteSyncAbstractCollectionConfigWidget(QThread *t);
+		CuteSyncAbstractCollectionConfigWidget();
 		virtual ~CuteSyncAbstractCollectionConfigWidget();
 
 		virtual void apply() = 0;

@@ -28,8 +28,8 @@
  *
  * \param p The GUI thread we should be a member of.
  */
-CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget(QThread *t)
-	: CuteSyncAbstractCollectionConfigWidget(t)
+CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget()
+	: CuteSyncAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
 

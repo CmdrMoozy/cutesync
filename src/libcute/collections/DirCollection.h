@@ -78,7 +78,7 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 		virtual void unserialize(const QByteArray &d);
 
 		virtual CuteSyncAbstractCollectionConfigWidget *
-			getConfigurationWidget(QThread *t) const;
+			getConfigurationWidget() const;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k);

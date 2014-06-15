@@ -539,10 +539,10 @@ void CuteSyncDirCollection::unserialize(const QByteArray &d)
  * \return A Pointer to the new configuration widget.
  */
 CuteSyncAbstractCollectionConfigWidget *
-	CuteSyncDirCollection::getConfigurationWidget(QThread *t) const
+	CuteSyncDirCollection::getConfigurationWidget() const
 {
 	CuteSyncDirCollectionConfigWidget *w =
-		new CuteSyncDirCollectionConfigWidget(t);
+		new CuteSyncDirCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));

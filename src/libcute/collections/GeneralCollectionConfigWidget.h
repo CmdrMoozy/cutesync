@@ -24,7 +24,6 @@
 class QGridLayout;
 class QGroupBox;
 class QCheckBox;
-class QThread;
 
 class CuteSyncGeneralCollectionConfigWidget :
 	public CuteSyncAbstractCollectionConfigWidget
@@ -32,7 +31,7 @@ class CuteSyncGeneralCollectionConfigWidget :
 	Q_OBJECT
 
 	public:
-		CuteSyncGeneralCollectionConfigWidget(QThread *t);
+		CuteSyncGeneralCollectionConfigWidget();
 		virtual ~CuteSyncGeneralCollectionConfigWidget();
 
 		virtual void apply();

@@ -30,7 +30,6 @@
 #include <QDir>
 #include <QIcon>
 #include <QDataStream>
-#include <QThread>
 #include <QFileInfo>
 
 #include "libcute/Defines.h"
@@ -604,10 +603,10 @@ void CuteSyncIPodCollection::unserialize(const QByteArray &d)
  * \return A Pointer to the new configuration widget.
  */
 CuteSyncAbstractCollectionConfigWidget *
-	CuteSyncIPodCollection::getConfigurationWidget(QThread *t) const
+	CuteSyncIPodCollection::getConfigurationWidget() const
 {
 	CuteSyncIPodCollectionConfigWidget *w =
-		new CuteSyncIPodCollectionConfigWidget(t);
+		new CuteSyncIPodCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));

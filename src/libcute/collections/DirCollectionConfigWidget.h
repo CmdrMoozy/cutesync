@@ -21,7 +21,6 @@
 
 #include "AbstractCollectionConfigWidget.h"
 
-class QThread;
 class QGridLayout;
 class QGroupBox;
 class QCheckBox;
@@ -39,7 +38,7 @@ class CuteSyncDirCollectionConfigWidget :
 	Q_OBJECT
 
 	public:
-		CuteSyncDirCollectionConfigWidget(QThread *t);
+		CuteSyncDirCollectionConfigWidget();
 		virtual ~CuteSyncDirCollectionConfigWidget();
 
 		virtual void apply();

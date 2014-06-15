@@ -20,7 +20,6 @@
 
 #include <QMutex>
 #include <QDataStream>
-#include <QThread>
 
 #include "libcute/Defines.h"
 #include "libcute/collections/AbstractCollectionConfigWidget.h"
@@ -141,10 +140,10 @@ CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
  * \return Our collection's configuration widget.
  */
 CuteSyncAbstractCollectionConfigWidget *
-	CuteSyncAbstractCollection::getConfigurationWidget(QThread *t) const
+	CuteSyncAbstractCollection::getConfigurationWidget() const
 {
 	CuteSyncGeneralCollectionConfigWidget *w =
-		new CuteSyncGeneralCollectionConfigWidget(t);
+		new CuteSyncGeneralCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));
