@@ -24,10 +24,12 @@
 #include "libcute/collections/AbstractCollectionConfigWidget.h"
 
 /*!
- * This is our default constructor, which creates a new dialog. By default, we do not display a configuration widget,
- * so the dialog will only contain control buttons. Use setWidget() to give us something to actually configure.
+ * This is our default constructor, which creates a new dialog. By default, we
+ * do not display a configuration widget, so the dialog will only contain
+ * control buttons. Use setWidget() to give us something to actually configure.
  */
-CuteSyncInspectorCollectionConfigDialog::CuteSyncInspectorCollectionConfigDialog(QWidget *p, Qt::WindowFlags f)
+CuteSyncInspectorCollectionConfigDialog::
+	CuteSyncInspectorCollectionConfigDialog(QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f), widget(NULL)
 {
 	layout = new QGridLayout(this);
@@ -49,15 +51,16 @@ CuteSyncInspectorCollectionConfigDialog::CuteSyncInspectorCollectionConfigDialog
 	layout->setRowStretch(0, 1);
 	setLayout(layout);
 
-	QObject::connect( okButton,     SIGNAL( clicked() ), this, SLOT( doOk()    ) );
-	QObject::connect( applyButton,  SIGNAL( clicked() ), this, SLOT( doApply() ) );
-	QObject::connect( cancelButton, SIGNAL( clicked() ), this, SLOT( close()   ) );
+	QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(doOk()));
+	QObject::connect(applyButton, SIGNAL(clicked()), this, SLOT(doApply()));
+	QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 /*!
  * This is our default destructor, which cleans up and destroys our dialog.
  */
-CuteSyncInspectorCollectionConfigDialog::~CuteSyncInspectorCollectionConfigDialog()
+CuteSyncInspectorCollectionConfigDialog::
+	~CuteSyncInspectorCollectionConfigDialog()
 {
 	// Delete the old widget, if applicable.
 
@@ -69,12 +72,14 @@ CuteSyncInspectorCollectionConfigDialog::~CuteSyncInspectorCollectionConfigDialo
 }
 
 /*!
- * This function allows our parent to change the configuration widget we should display. We just
- * disregard the old one, add the new one to our dialog and then reset it to a valid state.
+ * This function allows our parent to change the configuration widget we should
+ * display. We just disregard the old one, add the new one to our dialog and
+ * then reset it to a valid state.
  *
  * \param w The new widget to display.
  */
-void CuteSyncInspectorCollectionConfigDialog::setWidget(CuteSyncAbstractCollectionConfigWidget *w)
+void CuteSyncInspectorCollectionConfigDialog::setWidget(
+	CuteSyncAbstractCollectionConfigWidget *w)
 {
 	// Delete the old widget, if applicable.
 
@@ -117,8 +122,8 @@ void CuteSyncInspectorCollectionConfigDialog::showEvent(QShowEvent *e)
 }
 
 /*!
- * We handle the "OK" button being pressed by telling our current widget (if any) to apply any changes
- * to its parent, and then we close the dialog.
+ * We handle the "OK" button being pressed by telling our current widget (if
+ * any) to apply any changes to its parent, and then we close the dialog.
  */
 void CuteSyncInspectorCollectionConfigDialog::doOk()
 { /* SLOT */
@@ -131,8 +136,8 @@ void CuteSyncInspectorCollectionConfigDialog::doOk()
 }
 
 /*!
- * We handle the "Apply" button being pressed by telling our current widget (if any) to apply any changes
- * to its parent.
+ * We handle the "Apply" button being pressed by telling our current widget (if
+ * any) to apply any changes to its parent.
  */
 void CuteSyncInspectorCollectionConfigDialog::doApply()
 { /* SLOT */
