@@ -114,7 +114,6 @@ CuteSyncMainWindow::CuteSyncMainWindow(CuteSyncSettingsManager *s,
 		centralWidget);
 
 	collectionsListModel = new CuteSyncCollectionModel();
-	collectionsListModel->moveToThread(&worker);
 
 	collectionsListWidget->setCollectionModel(collectionsListModel);
 
@@ -194,10 +193,6 @@ CuteSyncMainWindow::CuteSyncMainWindow(CuteSyncSettingsManager *s,
 		SIGNAL(refreshRequested(CuteSyncAbstractCollection *)),
 		this, SIGNAL(startRefresh(CuteSyncAbstractCollection *)));
 
-	// Start our worker thread rolling.
-
-	worker.start();
-
 	// Finally, restore our window state.
 
 	restoreState(settingsManager->getSetting("window-state")
@@ -211,8 +206,6 @@ CuteSyncMainWindow::CuteSyncMainWindow(CuteSyncSettingsManager *s,
 
 /*!
  * This is our default destructor, which cleans up & destroys our object.
- *
- * MAKE SURE THE WORKER IS STOPPED BEFORE OUR DESTRUCTOR IS CALLED.
  */
 CuteSyncMainWindow::~CuteSyncMainWindow()
 {
@@ -220,46 +213,14 @@ CuteSyncMainWindow::~CuteSyncMainWindow()
 }
 
 /*!
- * This function handles a close event. We need to safely terminate the worker
- * thread; this means:
- *
- *     - If it is idle, just terminate it gracefully.
- *     - If it's doing something but that something is interruptible, go ahead
- *       and terminate.
- *     - Otherwise, ask the user if they really want to exit and do the
- *       appropriate thing.
+ * This function handles a window close event.
  *
  * \param e The close event we are handling.
  */
 void CuteSyncMainWindow::closeEvent(QCloseEvent *e)
 {
-	// Stop our worker as gracefully as possible.
-
-	if(!collectionsListModel->isIdle())
-	{
-		if(!collectionsListModel->isInterruptAdvised())
-		{
-			switch(QMessageBox::question(this,
-				tr("Interrupt action?"),
-				tr("CuteSync is currently performing an action that shouldn't be interrupted. Do you want to edit anyway?"),
-				QMessageBox::Yes | QMessageBox::No))
-			{
-				case QMessageBox::Yes:
-					break;
-
-				default:
-					e->ignore();
-					return;
-			}
-		}
-
-		collectionsListModel->setInterrupted(true);
-	}
-
-	worker.quit();
-	worker.wait();
-
 	// Save everything.
+
 	settingsManager->setSetting("display-descriptor",
 		QVariant(CuteSyncAbstractCollection::serializeDisplayDescriptor(
 		collectionInspector->getDisplayDescriptor())));
@@ -536,7 +497,9 @@ void CuteSyncMainWindow::doAboutCuteSync()
  */
 void CuteSyncMainWindow::doWorkerJobStarted(const QString &j)
 { /* SLOT */
+
 	taskLabel->setText(j);
+
 }
 
 /*!
@@ -549,8 +512,10 @@ void CuteSyncMainWindow::doWorkerJobStarted(const QString &j)
  */
 void CuteSyncMainWindow::doWorkerProgressLimitsUpdated(int min, int max)
 { /* SLOT */
+
 	taskProgressBar->setRange(min, max);
 	taskProgressBar->setValue(0);
+
 }
 
 /*!
@@ -561,7 +526,9 @@ void CuteSyncMainWindow::doWorkerProgressLimitsUpdated(int min, int max)
  */
 void CuteSyncMainWindow::doWorkerProgressUpdated(int p)
 { /* SLOT */
+
 	taskProgressBar->setValue(p);
+
 }
 
 /*!
@@ -572,6 +539,7 @@ void CuteSyncMainWindow::doWorkerProgressUpdated(int p)
  */
 void CuteSyncMainWindow::doWorkerJobFinished(const QString &r)
 { /* SLOT */
+
 	if(!r.isEmpty())
 	{
 		QMessageBox::information(this,
@@ -580,6 +548,7 @@ void CuteSyncMainWindow::doWorkerJobFinished(const QString &r)
 
 	taskProgressBar->reset();
 	taskLabel->setText(tr("Idle."));
+
 }
 
 /*!

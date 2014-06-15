@@ -20,7 +20,6 @@
 #define INCLUDE_CUTE_SYNC_MAIN_WINDOW_H
 
 #include <QMainWindow>
-#include <QThread>
 
 #include "dialogs/CuteSyncNewCollectionDialog.h"
 
@@ -90,8 +89,6 @@ class CuteSyncMainWindow : public QMainWindow
 
 		QProgressBar *taskProgressBar;
 		QLabel *taskLabel;
-
-		QThread worker;
 
 		void createActions();
 		void createMenus();
