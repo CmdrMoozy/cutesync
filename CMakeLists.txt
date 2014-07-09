@@ -114,6 +114,7 @@ SET(cutesync_RESOURCES
 
 SET(cutesync_HEADERS
 
+	src/cutesync/CSApplication.h
 	src/cutesync/CuteSyncMainWindow.h
 
 	src/cutesync/dialogs/CuteSyncAboutDialog.h
@@ -136,6 +137,7 @@ SET(cutesync_HEADERS
 
 SET(cutesync_SOURCES
 
+	src/cutesync/CSApplication.cpp
 	src/cutesync/CuteSync.cpp
 	src/cutesync/CuteSyncMainWindow.cpp
 

@@ -16,27 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QLocalSocket>
+#ifndef INCLUDE_CS_APPLICATION_H
+#define INCLUDE_CS_APPLICATION_H
 
-#include "libcute/Defines.h"
-#include "cutesync/CSApplication.h"
+#include <QApplication>
+#include <QList>
 
-int main(int argc, char *argv[])
+class QLocalServer;
+
+class CuteSyncMainWindow;
+
+/*!
+ * \brief This class extends QApplication, allowing only one instance.
+ */
+class CSApplication : public QApplication
 {
-	CSApplication app(argc, argv);
+	Q_OBJECT
 
-	QLocalSocket s;
-	s.connectToServer(CUTE_SYNC_GUID);
+	public:
+		CSApplication(int &ac, char **av);
+		virtual ~CSApplication();
 
-	if(s.waitForConnected(2000))
-	{
-		// We are already running - bail out.
-		return 0;
-	}
+		void initializeLocalServer();
+		void initializeWindow();
 
-	app.initializeLocalServer();
+	private:
+		QLocalServer *sappServer;
+		CuteSyncMainWindow *window;
 
-	app.initializeWindow();
+	private Q_SLOTS:
+		void doDuplicateInstanceDetected();
+};
 
-	return app.exec();
-}
+#endif

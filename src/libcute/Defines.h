@@ -25,8 +25,14 @@
 	#define CUTE_SYNC_VERSION_MIN 0
 	#define CUTE_SYNC_VERSION_BUG 0
 
-	// This can be used to uniquely identify our app in a guaranteed way.
-	#define CUTE_SYNC_APP_UUID ("ce9aadd4-3947-486a-b267-28fbd8a9c137")
+	/*
+	 * Define a GUID to uniquely identify our application.
+	 */
+	#ifdef CUTESYNC_DEBUG
+		#define CUTE_SYNC_GUID ("1fd477ee-7668-4ad0-a253-e9f3bed4d46d")
+	#else
+		#define CUTE_SYNC_GUID ("d93cca6b-b4e6-4c90-9f03-14602d47f158")
+	#endif
 
 	/*
 	 * Define our LUNUSED macro, which is used on win32 to suppress the

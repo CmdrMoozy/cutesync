@@ -49,8 +49,7 @@ class CuteSyncMainWindow : public QMainWindow
 	Q_OBJECT
 
 	public:
-		CuteSyncMainWindow(CuteSyncSettingsManager *s,
-			QWidget *p = 0, Qt::WindowFlags f = 0);
+		CuteSyncMainWindow(QWidget *p = 0, Qt::WindowFlags f = 0);
 		virtual ~CuteSyncMainWindow();
 
 	protected:
@@ -96,8 +95,6 @@ class CuteSyncMainWindow : public QMainWindow
 		void createDialogs();
 
 	private Q_SLOTS:
-		void doDuplicateInstanceDetected();
-
 		void doNewCollectionAccepted();
 		void doSyncAccepted(CuteSyncAbstractCollection *s,
 			CuteSyncAbstractCollection *d);

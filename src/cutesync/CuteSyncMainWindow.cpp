@@ -34,7 +34,6 @@
 #include <QApplication>
 #include <QSplitter>
 #include <QCloseEvent>
-#include <QLocalServer>
 #include <QMessageBox>
 
 #include "libcute/Defines.h"
@@ -53,41 +52,10 @@
  * \param p Our parent object.
  * \param f The window flags to use.
  */
-CuteSyncMainWindow::CuteSyncMainWindow(CuteSyncSettingsManager *s,
-	QWidget *p, Qt::WindowFlags f)
-	: QMainWindow(p, f), settingsManager(s)
+CuteSyncMainWindow::CuteSyncMainWindow(QWidget *p, Qt::WindowFlags f)
+	: QMainWindow(p, f)
 {
-	/*
-	 * We are going to instantiate a local server and listen for other
-	 * instances of CuteSync to start up.
-	 */
-
-	sappServer = new QLocalServer(this);
-	if(!sappServer->listen(CUTE_SYNC_APP_UUID))
-	{
-		/*
-		 * If we got to this point, it means that we didn't get a
-		 * response from the person that created our socket, but it is
-		 * still present for some reason. Try removing it; if that
-		 * doesn't work, crash.
-		 */
-
-		QLocalServer::removeServer(CUTE_SYNC_APP_UUID);
-		if(!sappServer->listen(CUTE_SYNC_APP_UUID))
-		{
-#ifdef CUTESYNC_DEBUG
-			std::cout << "FATAL: Failed to initialize single-app server! Terminating!\n";
-			std::cout << "QLocalServer reports: " <<
-				sappServer->errorString()
-				.toLatin1().data() << "\n";
-#endif
-
-			qApp->quit();
-		}
-	}
-
-	QObject::connect(sappServer, SIGNAL(newConnection()),
-		this, SLOT(doDuplicateInstanceDetected()));
+	settingsManager = new CuteSyncSettingsManager(this);
 
 	// Set some window properties.
 
@@ -340,22 +308,6 @@ void CuteSyncMainWindow::createDialogs()
 		CuteSyncAbstractCollection *, CuteSyncAbstractCollection *)),
 		this, SLOT(doSyncAccepted(CuteSyncAbstractCollection *,
 		CuteSyncAbstractCollection *)));
-}
-
-/*!
- * This slot is used in conjunction with our QLocalServer to detect duplicate
- * instances of CuteSync being started. In theory, if another instance of
- * CuteSync is started while we are running, it will notify us, and this slot
- * will be called.
- *
- * Note that the behavior of this slot is operating-system dependent; on "most"
- * platforms it will simply make our task bar item flash to alert the user that
- * we were pinged, but on some platforms this may actually bring the window to
- * the front.
- */
-void CuteSyncMainWindow::doDuplicateInstanceDetected()
-{ /* SLOT */
-	activateWindow();
 }
 
 /*!
