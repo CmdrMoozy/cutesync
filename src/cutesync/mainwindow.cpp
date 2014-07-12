@@ -22,28 +22,23 @@
 	#include <iostream>
 #endif
 
-#include <QAction>
-#include <QMenu>
-#include <QToolBar>
 #include <QGridLayout>
 #include <QProgressBar>
 #include <QLabel>
 #include <QSize>
-#include <QMenuBar>
-#include <QIcon>
-#include <QApplication>
 #include <QSplitter>
 #include <QCloseEvent>
 #include <QMessageBox>
 
 #include "libcute/Defines.h"
+#include "libcute/widgets/CollectionModel.h"
+#include "cutesync/mainmenubar.h"
 #include "cutesync/dialogs/CuteSyncAboutDialog.h"
 #include "cutesync/dialogs/CuteSyncNewCollectionDialog.h"
 #include "cutesync/dialogs/CuteSyncSyncDialog.h"
 #include "cutesync/settings/CuteSyncSettingsManager.h"
 #include "cutesync/widgets/CuteSyncCollectionInspector.h"
 #include "cutesync/widgets/CuteSyncCollectionListWidget.h"
-#include "libcute/widgets/CollectionModel.h"
 
 /*!
  * Create a new main window object with the given parent object and window
@@ -65,13 +60,9 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 	restoreGeometry(settingsManager->getSetting(
 		"window-geometry").value<QByteArray>());
 
-	// Create some of our supporting members.
-
-	createActions();
-	createMenus();
-	createToolBars();
-
 	// Create our main GUI.
+
+	createMenus();
 
 	centralWidget = new QWidget(this);
 	layout = new QGridLayout(centralWidget);
@@ -204,93 +195,25 @@ void CSMainWindow::closeEvent(QCloseEvent *e)
 }
 
 /*!
- * This function creates and connects the QAction objects our window uses for,
- * e.g., menus and toolbars.
- */
-void CSMainWindow::createActions()
-{
-	newCollectionAction = new QAction(QIcon(":/icons/new.png"),
-		tr("&New Collection..."), this);
-	newCollectionAction->setShortcut(Qt::CTRL + Qt::Key_N);
-	newCollectionAction->setStatusTip(tr("Create a new collection"));
-
-	syncAction = new QAction(QIcon(":/icons/sync.png"),
-		tr("&Sync..."), this);
-	syncAction->setShortcut(Qt::CTRL + Qt::Key_S);
-	syncAction->setStatusTip(tr("Sync two collections"));
-
-	removeCollectionAction = new QAction(QIcon(":/icons/remove.png"),
-		tr("&Remove Collection..."), this);
-	removeCollectionAction->setStatusTip(
-		tr("Remove the current collection"));
-
-	exitAction = new QAction(QIcon(":/icons/exit.png"), tr("E&xit"), this);
-	exitAction->setStatusTip(tr("Exit CuteSync"));
-
-	resetSettingsAction = new QAction(
-		tr("Reset Settings to Defaults"), this);
-	resetSettingsAction->setStatusTip(
-		tr("Reset all saved data to its default state"));
-
-	aboutCuteSyncAction = new QAction(QIcon(":/icons/about.png"),
-		tr("&About CuteSync..."), this);
-	aboutCuteSyncAction->setStatusTip(
-		tr("Display CuteSync's about dialog"));
-
-	aboutQtAction = new QAction(QIcon(":/icons/about.png"),
-		tr("About &Qt..."), this);
-	aboutQtAction->setStatusTip(
-		tr("Display the Qt library's about dialog"));
-
-	QObject::connect(newCollectionAction, SIGNAL(triggered()),
-		this, SLOT(doNewCollection()));
-	QObject::connect(syncAction, SIGNAL(triggered()),
-		this, SLOT(doSync()));
-	QObject::connect(removeCollectionAction, SIGNAL(triggered()),
-		this, SLOT(doRemoveCollection()));
-	QObject::connect(exitAction, SIGNAL(triggered()),
-		this, SLOT(close()));
-	QObject::connect(resetSettingsAction, SIGNAL(triggered()),
-		this, SLOT(doResetSettings()));
-	QObject::connect(aboutCuteSyncAction, SIGNAL(triggered()),
-		this, SLOT(doAboutCuteSync()));
-	QObject::connect(aboutQtAction, SIGNAL(triggered()),
-		qApp, SLOT(aboutQt()));
-}
-
-/*!
  * This function creates the menus our window has and populates them with our
  * actions.
  */
 void CSMainWindow::createMenus()
 {
-	fileMenu = menuBar()->addMenu(tr("&File"));
-	fileMenu->addAction(newCollectionAction);
-	fileMenu->addAction(syncAction);
-	fileMenu->addAction(removeCollectionAction);
-	fileMenu->addSeparator();
-	fileMenu->addAction(exitAction);
+	mainMenuBar = new CSMainMenuBar(this);
 
-	settingsMenu = menuBar()->addMenu(tr("&Settings"));
-	settingsMenu->addAction(resetSettingsAction);
+	setMenuBar(mainMenuBar);
 
-	helpMenu = menuBar()->addMenu(tr("&Help"));
-	helpMenu->addAction(aboutCuteSyncAction);
-	helpMenu->addAction(aboutQtAction);
-}
-
-/*!
- * This function creates the toolbars our window has and populates them with
- * our actions.
- */
-void CSMainWindow::createToolBars()
-{
-	mainToolBar = addToolBar(tr("Main Tool Bar"));
-	mainToolBar->setObjectName("mainToolBar");
-
-	mainToolBar->addAction(newCollectionAction);
-	mainToolBar->addAction(syncAction);
-	mainToolBar->addAction(removeCollectionAction);
+	QObject::connect(mainMenuBar, SIGNAL(newTriggered()),
+		this, SLOT(doNewCollection()));
+	QObject::connect(mainMenuBar, SIGNAL(syncTriggered()),
+		this, SLOT(doSync()));
+	QObject::connect(mainMenuBar, SIGNAL(removeTriggered()),
+		this, SLOT(doRemoveCollection()));
+	QObject::connect(mainMenuBar, SIGNAL(exitTriggered()),
+		this, SLOT(close()));
+	QObject::connect(mainMenuBar, SIGNAL(resetSettingsTriggered()),
+		this, SLOT(doResetSettings()));
 }
 
 /*!
@@ -300,7 +223,6 @@ void CSMainWindow::createDialogs()
 {
 	newCollectionDialog = new CuteSyncNewCollectionDialog(this);
 	syncDialog = new CuteSyncSyncDialog(collectionsListModel, this);
-	aboutDialog = new CuteSyncAboutDialog(this);
 
 	QObject::connect(newCollectionDialog, SIGNAL(accepted()),
 		this, SLOT(doNewCollectionAccepted()));
@@ -430,15 +352,6 @@ void CSMainWindow::doResetSettings()
 			return;
 	}
 
-}
-
-/*!
- * This function displays our about dialog as a result of the corresponding
- * menu/toolbar action being clicked.
- */
-void CSMainWindow::doAboutCuteSync()
-{ /* SLOT */
-	aboutDialog->show();
 }
 
 /*!

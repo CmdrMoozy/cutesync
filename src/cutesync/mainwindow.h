@@ -32,12 +32,12 @@ class QLabel;
 class QSplitter;
 class QLocalServer;
 
+class CSMainMenuBar;
 class CuteSyncCollectionModel;
 class CuteSyncCollectionListWidget;
 class CuteSyncCollectionInspector;
 class CuteSyncNewCollectionDialog;
 class CuteSyncSyncDialog;
-class CuteSyncAboutDialog;
 class CuteSyncAbstractCollection;
 class CuteSyncSettingsManager;
 
@@ -62,21 +62,8 @@ class CSMainWindow : public QMainWindow
 
 		CuteSyncNewCollectionDialog *newCollectionDialog;
 		CuteSyncSyncDialog *syncDialog;
-		CuteSyncAboutDialog *aboutDialog;
 
-		QAction *newCollectionAction;
-		QAction *syncAction;
-		QAction *removeCollectionAction;
-		QAction *exitAction;
-		QAction *resetSettingsAction;
-		QAction *aboutCuteSyncAction;
-		QAction *aboutQtAction;
-
-		QMenu *fileMenu;
-		QMenu *settingsMenu;
-		QMenu *helpMenu;
-
-		QToolBar *mainToolBar;
+		CSMainMenuBar *mainMenuBar;
 
 		QWidget *centralWidget;
 		QGridLayout *layout;
@@ -89,9 +76,7 @@ class CSMainWindow : public QMainWindow
 		QProgressBar *taskProgressBar;
 		QLabel *taskLabel;
 
-		void createActions();
 		void createMenus();
-		void createToolBars();
 		void createDialogs();
 
 	private Q_SLOTS:
@@ -103,7 +88,6 @@ class CSMainWindow : public QMainWindow
 		void doSync();
 		void doRemoveCollection();
 		void doResetSettings();
-		void doAboutCuteSync();
 
 		void doWorkerJobStarted(const QString &j);
 		void doWorkerProgressLimitsUpdated(int min, int max);
