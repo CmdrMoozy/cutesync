@@ -33,7 +33,6 @@
 #include "libcute/Defines.h"
 #include "libcute/widgets/CollectionModel.h"
 #include "cutesync/mainmenubar.h"
-#include "cutesync/dialogs/CuteSyncAboutDialog.h"
 #include "cutesync/dialogs/CuteSyncNewCollectionDialog.h"
 #include "cutesync/dialogs/CuteSyncSyncDialog.h"
 #include "cutesync/settings/CuteSyncSettingsManager.h"

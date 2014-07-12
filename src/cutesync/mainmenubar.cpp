@@ -23,7 +23,7 @@
 #include <QApplication>
 #include <QIcon>
 
-#include "cutesync/dialogs/CuteSyncAboutDialog.h"
+#include "cutesync/dialogs/aboutdialog.h"
 
 /*!
  * This is our default constructor, which creates a new menu bar populated with
@@ -36,7 +36,7 @@ CSMainMenuBar::CSMainMenuBar(QWidget *p)
 {
 	// Initialize our dialog.
 
-	aboutDialog = new CuteSyncAboutDialog(this);
+	aboutDialog = new CSAboutDialog(this);
 
 	// Initialize the file menu.
 

@@ -24,7 +24,7 @@
 class QMenu;
 class QAction;
 
-class CuteSyncAboutDialog;
+class CSAboutDialog;
 
 /*!
  * \brief This class implements a menu bar for our application.
@@ -38,7 +38,7 @@ class CSMainMenuBar : public QMenuBar
 		virtual ~CSMainMenuBar();
 
 	private:
-		CuteSyncAboutDialog *aboutDialog;
+		CSAboutDialog *aboutDialog;
 
 		QMenu *fileMenu;
 		QAction *newCollectionAction;

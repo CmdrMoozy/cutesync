@@ -118,7 +118,7 @@ SET(cutesync_HEADERS
 	src/cutesync/mainmenubar.h
 	src/cutesync/mainwindow.h
 
-	src/cutesync/dialogs/CuteSyncAboutDialog.h
+	src/cutesync/dialogs/aboutdialog.h
 	src/cutesync/dialogs/CuteSyncNewCollectionDialog.h
 	src/cutesync/dialogs/CuteSyncSyncDIalog.h
 
@@ -143,7 +143,7 @@ SET(cutesync_SOURCES
 	src/cutesync/mainmenubar.cpp
 	src/cutesync/mainwindow.cpp
 
-	src/cutesync/dialogs/CuteSyncAboutDialog.cpp
+	src/cutesync/dialogs/aboutdialog.cpp
 	src/cutesync/dialogs/CuteSyncNewCollectionDialog.cpp
 	src/cutesync/dialogs/CuteSyncSyncDialog.cpp
 
