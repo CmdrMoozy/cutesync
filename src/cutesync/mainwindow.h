@@ -44,13 +44,13 @@ class CuteSyncSettingsManager;
 /*!
  * \brief This class defines the main window for our application.
  */
-class CuteSyncMainWindow : public QMainWindow
+class CSMainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncMainWindow(QWidget *p = 0, Qt::WindowFlags f = 0);
-		virtual ~CuteSyncMainWindow();
+		CSMainWindow(QWidget *p = 0, Qt::WindowFlags f = 0);
+		virtual ~CSMainWindow();
 
 	protected:
 		virtual void closeEvent(QCloseEvent *e);

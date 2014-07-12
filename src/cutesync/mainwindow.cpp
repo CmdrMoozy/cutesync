@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncMainWindow.h"
+#include "mainwindow.h"
 
 #ifdef CUTESYNC_DEBUG
 	#include <iostream>
@@ -52,7 +52,7 @@
  * \param p Our parent object.
  * \param f The window flags to use.
  */
-CuteSyncMainWindow::CuteSyncMainWindow(QWidget *p, Qt::WindowFlags f)
+CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 	: QMainWindow(p, f)
 {
 	settingsManager = new CuteSyncSettingsManager(this);
@@ -175,7 +175,7 @@ CuteSyncMainWindow::CuteSyncMainWindow(QWidget *p, Qt::WindowFlags f)
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncMainWindow::~CuteSyncMainWindow()
+CSMainWindow::~CSMainWindow()
 {
 	delete collectionsListModel;
 }
@@ -185,7 +185,7 @@ CuteSyncMainWindow::~CuteSyncMainWindow()
  *
  * \param e The close event we are handling.
  */
-void CuteSyncMainWindow::closeEvent(QCloseEvent *e)
+void CSMainWindow::closeEvent(QCloseEvent *e)
 {
 	// Save everything.
 
@@ -207,7 +207,7 @@ void CuteSyncMainWindow::closeEvent(QCloseEvent *e)
  * This function creates and connects the QAction objects our window uses for,
  * e.g., menus and toolbars.
  */
-void CuteSyncMainWindow::createActions()
+void CSMainWindow::createActions()
 {
 	newCollectionAction = new QAction(QIcon(":/icons/new.png"),
 		tr("&New Collection..."), this);
@@ -262,7 +262,7 @@ void CuteSyncMainWindow::createActions()
  * This function creates the menus our window has and populates them with our
  * actions.
  */
-void CuteSyncMainWindow::createMenus()
+void CSMainWindow::createMenus()
 {
 	fileMenu = menuBar()->addMenu(tr("&File"));
 	fileMenu->addAction(newCollectionAction);
@@ -283,7 +283,7 @@ void CuteSyncMainWindow::createMenus()
  * This function creates the toolbars our window has and populates them with
  * our actions.
  */
-void CuteSyncMainWindow::createToolBars()
+void CSMainWindow::createToolBars()
 {
 	mainToolBar = addToolBar(tr("Main Tool Bar"));
 	mainToolBar->setObjectName("mainToolBar");
@@ -296,7 +296,7 @@ void CuteSyncMainWindow::createToolBars()
 /*!
  * This function creates and connects the dialogs our window makes use of.
  */
-void CuteSyncMainWindow::createDialogs()
+void CSMainWindow::createDialogs()
 {
 	newCollectionDialog = new CuteSyncNewCollectionDialog(this);
 	syncDialog = new CuteSyncSyncDialog(collectionsListModel, this);
@@ -314,7 +314,7 @@ void CuteSyncMainWindow::createDialogs()
  * This function handles our new collection dialog being accepted by going
  * ahead and trying to add the new collection.
  */
-void CuteSyncMainWindow::doNewCollectionAccepted()
+void CSMainWindow::doNewCollectionAccepted()
 { /* SLOT */
 
 	Q_EMIT startNew(newCollectionDialog->getName(),
@@ -330,7 +330,7 @@ void CuteSyncMainWindow::doNewCollectionAccepted()
  * \param s The source collection.
  * \param d The destination collection.
  */
-void CuteSyncMainWindow::doSyncAccepted(
+void CSMainWindow::doSyncAccepted(
 	CuteSyncAbstractCollection *s, CuteSyncAbstractCollection *d)
 { /* SLOT */
 
@@ -362,7 +362,7 @@ void CuteSyncMainWindow::doSyncAccepted(
  * This function displays our new collection dialog as a result of the
  * corresponding menu/toolbar action being clicked.
  */
-void CuteSyncMainWindow::doNewCollection()
+void CSMainWindow::doNewCollection()
 { /* SLOT */
 	newCollectionDialog->show();
 }
@@ -371,7 +371,7 @@ void CuteSyncMainWindow::doNewCollection()
  * This function displays our sync dialog as a result of the corresponding
  * menu/toolbar action being clicked.
  */
-void CuteSyncMainWindow::doSync()
+void CSMainWindow::doSync()
 { /* SLOT */
 
 	syncDialog->show();
@@ -382,7 +382,7 @@ void CuteSyncMainWindow::doSync()
  * This function tries to remove the current collection, if any. The collection
  * will be flushed, so any outstanding I/O will be performed before it is
  */
-void CuteSyncMainWindow::doRemoveCollection()
+void CSMainWindow::doRemoveCollection()
 { /* SLOT */
 
 	int r = collectionsListWidget->getSelectedRow();
@@ -415,7 +415,7 @@ void CuteSyncMainWindow::doRemoveCollection()
 /*!
  * This function resets all of our settings to their default values.
  */
-void CuteSyncMainWindow::doResetSettings()
+void CSMainWindow::doResetSettings()
 { /* SLOT */
 
 	switch(QMessageBox::question(this, tr("Reset Settings"),
@@ -436,7 +436,7 @@ void CuteSyncMainWindow::doResetSettings()
  * This function displays our about dialog as a result of the corresponding
  * menu/toolbar action being clicked.
  */
-void CuteSyncMainWindow::doAboutCuteSync()
+void CSMainWindow::doAboutCuteSync()
 { /* SLOT */
 	aboutDialog->show();
 }
@@ -447,7 +447,7 @@ void CuteSyncMainWindow::doAboutCuteSync()
  *
  * \param j A string describing the job that was just started.
  */
-void CuteSyncMainWindow::doWorkerJobStarted(const QString &j)
+void CSMainWindow::doWorkerJobStarted(const QString &j)
 { /* SLOT */
 
 	taskLabel->setText(j);
@@ -462,7 +462,7 @@ void CuteSyncMainWindow::doWorkerJobStarted(const QString &j)
  * \param min The minimum half of the new limit.
  * \param max The maximum half of the new limit.
  */
-void CuteSyncMainWindow::doWorkerProgressLimitsUpdated(int min, int max)
+void CSMainWindow::doWorkerProgressLimitsUpdated(int min, int max)
 { /* SLOT */
 
 	taskProgressBar->setRange(min, max);
@@ -476,7 +476,7 @@ void CuteSyncMainWindow::doWorkerProgressLimitsUpdated(int min, int max)
  *
  * \param p The new progress value.
  */
-void CuteSyncMainWindow::doWorkerProgressUpdated(int p)
+void CSMainWindow::doWorkerProgressUpdated(int p)
 { /* SLOT */
 
 	taskProgressBar->setValue(p);
@@ -489,7 +489,7 @@ void CuteSyncMainWindow::doWorkerProgressUpdated(int p)
  *
  * \param r The result text - error messages, status, etc.
  */
-void CuteSyncMainWindow::doWorkerJobFinished(const QString &r)
+void CSMainWindow::doWorkerJobFinished(const QString &r)
 { /* SLOT */
 
 	if(!r.isEmpty())
@@ -510,7 +510,7 @@ void CuteSyncMainWindow::doWorkerJobFinished(const QString &r)
  * \param k The key of the setting that was changed.
  * \param v The new value for this setting.
  */
-void CuteSyncMainWindow::doSettingChanged(
+void CSMainWindow::doSettingChanged(
 	const QString &UNUSED(k), const QVariant &UNUSED(v))
 {
 

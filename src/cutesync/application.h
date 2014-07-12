@@ -24,7 +24,7 @@
 
 class QLocalServer;
 
-class CuteSyncMainWindow;
+class CSMainWindow;
 
 /*!
  * \brief This class extends QApplication, allowing only one instance.
@@ -42,7 +42,7 @@ class CSApplication : public QApplication
 
 	private:
 		QLocalServer *sappServer;
-		CuteSyncMainWindow *window;
+		CSMainWindow *window;
 
 	private Q_SLOTS:
 		void doDuplicateInstanceDetected();

@@ -23,7 +23,7 @@
 #include <QLocalServer>
 
 #include "libcute/Defines.h"
-#include "cutesync/CuteSyncMainWindow.h"
+#include "cutesync/mainwindow.h"
 
 /*!
  * Initializes a new CSApplication instance.
@@ -87,7 +87,7 @@ void CSApplication::initializeWindow()
 	if(window != NULL)
 		return;
 
-	window = new CuteSyncMainWindow();
+	window = new CSMainWindow();
 	window->show();
 }
 
