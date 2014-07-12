@@ -19,7 +19,7 @@
 #include <QLocalSocket>
 
 #include "libcute/Defines.h"
-#include "cutesync/CSApplication.h"
+#include "cutesync/application.h"
 
 int main(int argc, char *argv[])
 {

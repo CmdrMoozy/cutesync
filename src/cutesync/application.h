@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CS_APPLICATION_H
-#define INCLUDE_CS_APPLICATION_H
+#ifndef INCLUDE_CUTE_SYNC_APPLICATION_H
+#define INCLUDE_CUTE_SYNC_APPLICATION_H
 
 #include <QApplication>
 #include <QList>
