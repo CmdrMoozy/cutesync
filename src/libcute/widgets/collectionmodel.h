@@ -32,25 +32,30 @@ class CuteSyncAbstractCollection;
 /*!
  * \brief This class provides a storage container for a list of collections.
  *
- * It provides convenient QList-style access functions, as well as implementing QAbstractListModel,
- * so our items can very easily be displayed in a list widget.
+ * It provides convenient QList-style access functions, as well as implementing
+ * QAbstractListModel, so our items can very easily be displayed in a list
+ * widget.
  */
-class CuteSyncCollectionModel : public QAbstractListModel
+class CSCollectionModel : public QAbstractListModel
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncCollectionModel(QObject *p = 0);
-		virtual ~CuteSyncCollectionModel();
+		CSCollectionModel(QObject *p = 0);
+		virtual ~CSCollectionModel();
 
-		virtual int rowCount(const QModelIndex &p = QModelIndex()) const;
-		virtual QVariant data(const QModelIndex &i, int r = Qt::DisplayRole) const;
-		virtual QVariant headerData(int s, Qt::Orientation o, int r = Qt::DisplayRole) const;
+		virtual int rowCount(const QModelIndex &p =
+			QModelIndex()) const;
+		virtual QVariant data(const QModelIndex &i,
+			int r = Qt::DisplayRole) const;
+		virtual QVariant headerData(int s, Qt::Orientation o,
+			int r = Qt::DisplayRole) const;
 
 		void clear();
 		int count() const;
 		CuteSyncAbstractCollection *collectionAt(int i) const;
-		CuteSyncAbstractCollection *collectionFromName(const QString &n) const;
+		CuteSyncAbstractCollection *collectionFromName(
+			const QString &n) const;
 		void removeCollectionAt(int i);
 		void appendCollection(CuteSyncAbstractCollection *c);
 
@@ -67,7 +72,8 @@ class CuteSyncCollectionModel : public QAbstractListModel
 		void newCollection(const QString &n, const QString &p, bool s);
 		void reloadCollection(CuteSyncAbstractCollection *c);
 		void refreshCollection(CuteSyncAbstractCollection *c);
-		void syncCollections(CuteSyncAbstractCollection *s, CuteSyncAbstractCollection *d);
+		void syncCollections(CuteSyncAbstractCollection *s,
+			CuteSyncAbstractCollection *d);
 		// copy() delete()
 
 	private:

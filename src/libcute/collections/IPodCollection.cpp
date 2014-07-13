@@ -38,7 +38,7 @@
 #include "libcute/tags/FileTypeResolver.h"
 #include "libcute/tags/TaggedFile.h"
 #include "libcute/util/SystemUtils.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 extern "C" {
 	#include <gdk-pixbuf/gdk-pixbuf.h>
@@ -50,7 +50,7 @@ extern "C" {
  *
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(CuteSyncCollectionModel *p)
+CuteSyncIPodCollection::CuteSyncIPodCollection(CSCollectionModel *p)
 	: CuteSyncAbstractCollection(p), optionsModified(false), artwork(true),
 		caselessSort(true), ignorePrefixes(true), itdb(NULL), root("")
 {
@@ -64,7 +64,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(CuteSyncCollectionModel *p)
  * \param p Our parent object.
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: CuteSyncAbstractCollection(n, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")
@@ -79,7 +79,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
  * \param p Our parent object.
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: CuteSyncAbstractCollection(d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")
@@ -95,7 +95,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
  * \param p Our parent object.
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
-	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	const DisplayDescriptor *d, CSCollectionModel *p)
 	: CuteSyncAbstractCollection(n, d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")

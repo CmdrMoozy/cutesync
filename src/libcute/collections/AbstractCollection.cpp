@@ -26,7 +26,7 @@
 #include "libcute/collections/GeneralCollectionConfigWidget.h"
 #include "libcute/collections/Track.h"
 #include "libcute/thread/CollectionLocker.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 /*!
  * This is our default constructor, which creates a new uninitialized collection
@@ -35,7 +35,7 @@
  * \param p Our parent object.
  */
 CuteSyncAbstractCollection::CuteSyncAbstractCollection(
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(NULL)
@@ -56,7 +56,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
  * \param p Our parent object.
  */
 CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(NULL)
@@ -77,7 +77,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
  * \param p Our parent object.
  */
 CuteSyncAbstractCollection::CuteSyncAbstractCollection(
-	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(d)
@@ -99,7 +99,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
  * \param p Our parent object.
  */
 CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
-	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(d)

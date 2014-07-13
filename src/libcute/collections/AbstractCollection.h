@@ -29,7 +29,7 @@
 
 class QMutex;
 
-class CuteSyncCollectionModel;
+class CSCollectionModel;
 class CuteSyncTrack;
 class CuteSyncAbstractCollectionConfigWidget;
 class CuteSyncGeneralCollectionConfigWidget;
@@ -99,14 +99,14 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 			QHash<int, CuteSyncAbstractCollection::Column> columns;
 		} DisplayDescriptor;
 
-		CuteSyncAbstractCollection(CuteSyncCollectionModel *p = 0);
+		CuteSyncAbstractCollection(CSCollectionModel *p = 0);
 		CuteSyncAbstractCollection(const QString &n,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncAbstractCollection(const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncAbstractCollection(const QString &n,
 			const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		virtual ~CuteSyncAbstractCollection();
 
 	/*

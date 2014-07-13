@@ -21,10 +21,11 @@
 #include <QStyleOptionViewItemV4>
 
 #include "libcute/collections/AbstractCollection.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 /*!
- * This constructor creates a new collection delegate with the given parent object.
+ * This constructor creates a new collection delegate with the given parent
+ * object.
  *
  * \param p Our delegate's parent object.
  */
@@ -41,36 +42,40 @@ CuteSyncCollectionDelegate::~CuteSyncCollectionDelegate()
 }
 
 /*!
- * This function returns a pointer to the model our delegate is currently operating on.
+ * This function returns a pointer to the model our delegate is currently
+ * operating on.
  *
  * \return Our current collection model.
  */
-const CuteSyncCollectionModel *CuteSyncCollectionDelegate::getModel() const
+const CSCollectionModel *CuteSyncCollectionDelegate::getModel() const
 {
 	return model;
 }
 
 /*!
- * This function sets the collection model our delegate should be working with. This is necessary so the
- * delegate can detect a given collection's state in order to draw it appropriately. If you give us a NULL
- * model, or an invalid one, you can expect us to simply draw nothing.
+ * This function sets the collection model our delegate should be working with.
+ * This is necessary so the delegate can detect a given collection's state in
+ * order to draw it appropriately. If you give us a NULL model, or an invalid
+ * one, you can expect us to simply draw nothing.
  *
  * \param m The model to work with.
  */
-void CuteSyncCollectionDelegate::setModel(const CuteSyncCollectionModel *m)
+void CuteSyncCollectionDelegate::setModel(const CSCollectionModel *m)
 {
 	model = m;
 }
 
 /*!
- * We implement our superclass's paint method to paint the actual collections. This detects a collection's
- * state, and then paints it appropriately (e.g., greys it out if it is disabled).
+ * We implement our superclass's paint method to paint the actual collections.
+ * This detects a collection's state, and then paints it appropriately (e.g.,
+ * greys it out if it is disabled).
  *
  * \param p The painter to paint with.
  * \param o The style descriptor to work with.
  * \param i The index of the item that is to be painted.
  */
-void CuteSyncCollectionDelegate::paint(QPainter *p, const QStyleOptionViewItem &o, const QModelIndex &i) const
+void CuteSyncCollectionDelegate::paint(QPainter *p,
+	const QStyleOptionViewItem &o, const QModelIndex &i) const
 {
 	if(model != NULL)
 	{

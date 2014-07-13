@@ -72,7 +72,7 @@ SET(libcute_HEADERS
 	src/libcute/util/MMIOHandle.h
 	src/libcute/util/SystemUtils.h
 
-	src/libcute/widgets/CollectionModel.h
+	src/libcute/widgets/collectionmodel.h
 
 )
 
@@ -99,7 +99,7 @@ SET(libcute_SOURCES
 	src/libcute/util/MMIOHandle.cpp
 	src/libcute/util/SystemUtils.cpp
 
-	src/libcute/widgets/CollectionModel.cpp
+	src/libcute/widgets/collectionmodel.cpp
 
 )
 

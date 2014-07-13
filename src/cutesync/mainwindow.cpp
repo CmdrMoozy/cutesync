@@ -31,7 +31,7 @@
 #include <QMessageBox>
 
 #include "libcute/Defines.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 #include "cutesync/mainmenubar.h"
 #include "cutesync/dialogs/CuteSyncNewCollectionDialog.h"
 #include "cutesync/dialogs/CuteSyncSyncDialog.h"
@@ -71,7 +71,7 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 	collectionsListWidget = new CuteSyncCollectionListWidget(
 		centralWidget);
 
-	collectionsListModel = new CuteSyncCollectionModel();
+	collectionsListModel = new CSCollectionModel();
 
 	collectionsListWidget->setCollectionModel(collectionsListModel);
 

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CollectionModel.h"
+#include "collectionmodel.h"
 
 #ifdef CUTESYNC_DEBUG
 	#include <iostream>
@@ -38,7 +38,7 @@
  *
  * \param p Our parent object.
  */
-CuteSyncCollectionModel::CuteSyncCollectionModel(QObject *p)
+CSCollectionModel::CSCollectionModel(QObject *p)
 	: QAbstractListModel(p), currentJob(NULL)
 {
 	mutex = new QMutex(QMutex::Recursive);
@@ -47,7 +47,7 @@ CuteSyncCollectionModel::CuteSyncCollectionModel(QObject *p)
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncCollectionModel::~CuteSyncCollectionModel()
+CSCollectionModel::~CSCollectionModel()
 {
 	clear();
 	delete mutex;
@@ -59,7 +59,7 @@ CuteSyncCollectionModel::~CuteSyncCollectionModel()
  *
  * \return The number of rows in our model.
  */
-int CuteSyncCollectionModel::rowCount(const QModelIndex &UNUSED(p)) const
+int CSCollectionModel::rowCount(const QModelIndex &UNUSED(p)) const
 {
 	return count();
 }
@@ -72,7 +72,7 @@ int CuteSyncCollectionModel::rowCount(const QModelIndex &UNUSED(p)) const
  * \param i The index in our model. The column index is ignored.
  * \param r The display role for the desired data.
  */
-QVariant CuteSyncCollectionModel::data(const QModelIndex &i, int r) const
+QVariant CSCollectionModel::data(const QModelIndex &i, int r) const
 {
 	switch(r)
 	{
@@ -111,7 +111,7 @@ QVariant CuteSyncCollectionModel::data(const QModelIndex &i, int r) const
  * \param o The orientation of the data.
  * \param r The display role of the data.
  */
-QVariant CuteSyncCollectionModel::headerData(int UNUSED(s),
+QVariant CSCollectionModel::headerData(int UNUSED(s),
 	Qt::Orientation UNUSED(o), int UNUSED(r)) const
 {
 	return QVariant(QVariant::Invalid);
@@ -120,7 +120,7 @@ QVariant CuteSyncCollectionModel::headerData(int UNUSED(s),
 /*!
  * This function clears our items list, deleting all items present.
  */
-void CuteSyncCollectionModel::clear()
+void CSCollectionModel::clear()
 {
 	CuteSyncAbstractCollection *c;
 	while(!itemList.isEmpty())
@@ -137,7 +137,7 @@ void CuteSyncCollectionModel::clear()
  *
  * \return The number of items in our list.
  */
-int CuteSyncCollectionModel::count() const
+int CSCollectionModel::count() const
 {
 	return itemList.count();
 }
@@ -150,7 +150,7 @@ int CuteSyncCollectionModel::count() const
  * \param i The index (row) of the desired collection.
  * \return The desired collection.
  */
-CuteSyncAbstractCollection *CuteSyncCollectionModel::collectionAt(int i) const
+CuteSyncAbstractCollection *CSCollectionModel::collectionAt(int i) const
 {
 	if( (i < 0) || (i >= count()) ) return NULL;
 	return itemList.at(i);
@@ -163,7 +163,7 @@ CuteSyncAbstractCollection *CuteSyncCollectionModel::collectionAt(int i) const
  * \param n The name to search for.
  * \return A pointer to the desired collection, or NULL if it is not found.
  */
-CuteSyncAbstractCollection *CuteSyncCollectionModel::collectionFromName(
+CuteSyncAbstractCollection *CSCollectionModel::collectionFromName(
 	const QString &n) const
 {
 	for(int i = 0; i < count(); ++i)
@@ -186,7 +186,7 @@ CuteSyncAbstractCollection *CuteSyncCollectionModel::collectionFromName(
  *
  * \param i The index (row) of the collection to be removed.
  */
-void CuteSyncCollectionModel::removeCollectionAt(int i)
+void CSCollectionModel::removeCollectionAt(int i)
 {
 	if( (i < 0) || (i >= count()) ) return;
 
@@ -208,7 +208,7 @@ void CuteSyncCollectionModel::removeCollectionAt(int i)
  *
  * \param c The collection to add to our model.
  */
-void CuteSyncCollectionModel::appendCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::appendCollection(CuteSyncAbstractCollection *c)
 {
 	if( (c != NULL) && (!itemList.contains(c)) )
 	{
@@ -228,7 +228,7 @@ void CuteSyncCollectionModel::appendCollection(CuteSyncAbstractCollection *c)
  *
  * \return A list of the names in our model.
  */
-QList<QString> CuteSyncCollectionModel::getCollectionNameList() const
+QList<QString> CSCollectionModel::getCollectionNameList() const
 {
 	QList<QString> r;
 
@@ -244,7 +244,7 @@ QList<QString> CuteSyncCollectionModel::getCollectionNameList() const
  *
  * \return True if we are totally idle, or false otherwise.
  */
-bool CuteSyncCollectionModel::isIdle() const
+bool CSCollectionModel::isIdle() const
 {
 	return (currentJob == NULL);
 }
@@ -254,7 +254,7 @@ bool CuteSyncCollectionModel::isIdle() const
  *
  * \return True if we can interrupt the current job, or false otherwise.
  */
-bool CuteSyncCollectionModel::isInterruptAdvised() const
+bool CSCollectionModel::isInterruptAdvised() const
 {
 	if(currentJob != NULL)
 		return currentJob->isInterruptible();
@@ -269,7 +269,7 @@ bool CuteSyncCollectionModel::isInterruptAdvised() const
  *
  * \param i
  */
-void CuteSyncCollectionModel::setInterrupted(bool i)
+void CSCollectionModel::setInterrupted(bool i)
 {
 	if(currentJob != NULL)
 		currentJob->setInterrupted(i);
@@ -285,7 +285,7 @@ void CuteSyncCollectionModel::setInterrupted(bool i)
  *
  * \return A list of QByteArrays containing the saved collections in our model.
  */
-QList<QVariant> CuteSyncCollectionModel::getSerializedList() const
+QList<QVariant> CSCollectionModel::getSerializedList() const
 {
 	QList<QVariant> r;
 
@@ -303,7 +303,7 @@ QList<QVariant> CuteSyncCollectionModel::getSerializedList() const
  *
  * \param c The list of serialized collections to load.
  */
-void CuteSyncCollectionModel::loadSerializedList(const QList<QVariant> &c)
+void CSCollectionModel::loadSerializedList(const QList<QVariant> &c)
 {
 	for(int i = 0; i < c.count(); ++i)
 	{
@@ -394,7 +394,7 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
  * \param p The path to the new collection.
  * \param s Whether or not this collection should be saved when we exit.
  */
-void CuteSyncCollectionModel::newCollection(const QString &n,
+void CSCollectionModel::newCollection(const QString &n,
 	const QString &p, bool s)
 {
 	CuteSyncAbstractCollection *c = NULL;
@@ -454,7 +454,7 @@ void CuteSyncCollectionModel::newCollection(const QString &n,
  *
  * \param c The collection to reload.
  */
-void CuteSyncCollectionModel::reloadCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::reloadCollection(CuteSyncAbstractCollection *c)
 { /* SLOT */
 
 	c->reload();
@@ -469,7 +469,7 @@ void CuteSyncCollectionModel::reloadCollection(CuteSyncAbstractCollection *c)
  *
  * \param c The collection to refresh.
  */
-void CuteSyncCollectionModel::refreshCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::refreshCollection(CuteSyncAbstractCollection *c)
 { /* SLOT */
 
 	c->refresh();
@@ -485,7 +485,7 @@ void CuteSyncCollectionModel::refreshCollection(CuteSyncAbstractCollection *c)
  * \param s The source collection.
  * \param d The destination collection.
  */
-void CuteSyncCollectionModel::syncCollections(CuteSyncAbstractCollection *s,
+void CSCollectionModel::syncCollections(CuteSyncAbstractCollection *s,
 	CuteSyncAbstractCollection *d)
 { /* SLOT */
 
@@ -498,7 +498,7 @@ void CuteSyncCollectionModel::syncCollections(CuteSyncAbstractCollection *s,
  * emit a signal alerting any views that are currently displaying us, so they
  * can show/hide the row as needed.
  */
-void CuteSyncCollectionModel::doCollectionEnabledChanged()
+void CSCollectionModel::doCollectionEnabledChanged()
 { /* SLOT */
 
 	CuteSyncAbstractCollection *c =
@@ -521,7 +521,7 @@ void CuteSyncCollectionModel::doCollectionEnabledChanged()
  *
  * \param j The string describing the job.
  */
-void CuteSyncCollectionModel::doJobStarted(const QString &j)
+void CSCollectionModel::doJobStarted(const QString &j)
 { /* SLOT */
 
 	CuteSyncAbstractCollection *s =
@@ -541,7 +541,7 @@ void CuteSyncCollectionModel::doJobStarted(const QString &j)
  * \param min The new minimum limit.
  * \param max The new maximum limit.
  */
-void CuteSyncCollectionModel::doProgressLimitsUpdated(int min, int max)
+void CSCollectionModel::doProgressLimitsUpdated(int min, int max)
 { /* SLOT */
 
 	Q_EMIT progressLimitsUpdated(min, max);
@@ -554,7 +554,7 @@ void CuteSyncCollectionModel::doProgressLimitsUpdated(int min, int max)
  *
  * \param p The new current progress of the current job.
  */
-void CuteSyncCollectionModel::doProgressUpdated(int p)
+void CSCollectionModel::doProgressUpdated(int p)
 { /* SLOT */
 
 	Q_EMIT progressUpdated(p);
@@ -567,7 +567,7 @@ void CuteSyncCollectionModel::doProgressUpdated(int p)
  *
  * \param r The return text from the job (e.g., errors or whatever).
  */
-void CuteSyncCollectionModel::doJobFinished(const QString &r)
+void CSCollectionModel::doJobFinished(const QString &r)
 { /* SLOT */
 
 	CuteSyncAbstractCollection *c =

@@ -31,7 +31,7 @@ extern "C" {
 }
 
 class CuteSyncAbstractCollectionConfigWidget;
-class CuteSyncCollectionModel;
+class CSCollectionModel;
 
 /*!
  * \brief This class implements an iPod collection.
@@ -44,14 +44,14 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 	Q_OBJECT
 
 	public:
-		CuteSyncIPodCollection(CuteSyncCollectionModel *p = 0);
+		CuteSyncIPodCollection(CSCollectionModel *p = 0);
 		CuteSyncIPodCollection(const QString &n,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncIPodCollection(const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncIPodCollection(const QString &n,
 			const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		virtual ~CuteSyncIPodCollection();
 
 		virtual QIcon getDisplayIcon() const;

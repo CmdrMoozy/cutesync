@@ -24,7 +24,7 @@
 #include <QPushButton>
 
 #include "libcute/collections/AbstractCollection.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 /*!
  * This is our default constructor, which creates a new sync dialog.
@@ -33,7 +33,7 @@
  * \param p Our dialog's parent object.
  * \param f The window flags our dialog should use.
  */
-CuteSyncSyncDialog::CuteSyncSyncDialog(CuteSyncCollectionModel *c, QWidget *p, Qt::WindowFlags f)
+CuteSyncSyncDialog::CuteSyncSyncDialog(CSCollectionModel *c, QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f), collections(c)
 {
 	setWindowTitle("CuteSync - Synchronize Collections");

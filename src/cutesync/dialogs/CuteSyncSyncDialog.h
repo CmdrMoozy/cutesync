@@ -29,7 +29,7 @@ class QComboBox;
 class QPushButton;
 
 class CuteSyncAbstractCollection;
-class CuteSyncCollectionModel;
+class CSCollectionModel;
 
 /*!
  * \brief This dialog allows the user to start a synchronization.
@@ -42,7 +42,7 @@ class CuteSyncSyncDialog : public QDialog
 	Q_OBJECT
 
 	public:
-		CuteSyncSyncDialog(CuteSyncCollectionModel *c,
+		CuteSyncSyncDialog(CSCollectionModel *c,
 			QWidget *p = 0, Qt::WindowFlags f = 0);
 		virtual ~CuteSyncSyncDialog();
 
@@ -50,7 +50,7 @@ class CuteSyncSyncDialog : public QDialog
 		virtual void showEvent(QShowEvent *e);
 
 	private:
-		CuteSyncCollectionModel *collections;
+		CSCollectionModel *collections;
 
 		QGridLayout *layout;
 

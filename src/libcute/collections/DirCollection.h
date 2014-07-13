@@ -31,7 +31,7 @@
 class QThread;
 
 class CuteSyncAbstractCollectionConfigWidget;
-class CuteSyncCollectionModel;
+class CSCollectionModel;
 
 /*!
  * \brief This class implements a flat file collection.
@@ -44,14 +44,14 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 	Q_OBJECT
 
 	public:
-		CuteSyncDirCollection(CuteSyncCollectionModel *p = 0);
+		CuteSyncDirCollection(CSCollectionModel *p = 0);
 		CuteSyncDirCollection(const QString &n,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncDirCollection(const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		CuteSyncDirCollection(const QString &n,
 			const DisplayDescriptor *d,
-			CuteSyncCollectionModel *p = 0);
+			CSCollectionModel *p = 0);
 		virtual ~CuteSyncDirCollection();
 
 		virtual QIcon getDisplayIcon() const;

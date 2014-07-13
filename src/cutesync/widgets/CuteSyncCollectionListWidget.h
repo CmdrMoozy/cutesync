@@ -22,7 +22,7 @@
 #include "cutesync/widgets/CuteSyncIconListWidget.h"
 
 class CuteSyncAbstractCollection;
-class CuteSyncCollectionModel;
+class CSCollectionModel;
 class CuteSyncCollectionDelegate;
 
 /*!
@@ -41,11 +41,11 @@ class CuteSyncCollectionListWidget : public CuteSyncIconListWidget
 		virtual ~CuteSyncCollectionListWidget();
 
 		virtual QAbstractItemModel *model() const;
-		void setCollectionModel(CuteSyncCollectionModel *m);
+		void setCollectionModel(CSCollectionModel *m);
 
 	private:
 		CuteSyncCollectionDelegate *delegate;
-		CuteSyncCollectionModel *mdl;
+		CSCollectionModel *mdl;
 
 		virtual void setModel(QAbstractItemModel *m);
 

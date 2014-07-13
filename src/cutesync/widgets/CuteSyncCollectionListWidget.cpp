@@ -22,10 +22,11 @@
 #include "libcute/collections/DirCollection.h"
 #include "libcute/collections/IPodCollection.h"
 #include "cutesync/widgets/CuteSyncCollectionDelegate.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 /*!
- * This is our default constructor, which creates a new collection list with the given parent widget.
+ * This is our default constructor, which creates a new collection list with
+ * the given parent widget.
  *
  * \param p Our parent widget.
  */
@@ -47,10 +48,11 @@ CuteSyncCollectionListWidget::~CuteSyncCollectionListWidget()
 }
 
 /*!
- * This function returns a pointer to the model we are currently using. Note that, by definition, you can cast
- * this to a CuteSyncCollectionModel pointer, as that is all we accept. Also note that this function, unlike
- * the function on our superclass, CAN RETURN NULL. By default, our class has no model until you provide
- * us with one.
+ * This function returns a pointer to the model we are currently using. Note
+ * that, by definition, you can cast this to a CSCollectionModel pointer, as
+ * that is all we accept. Also note that this function, unlike the function on
+ * our superclass, CAN RETURN NULL. By default, our class has no model until
+ * you provide us with one.
  *
  * \return A pointer to our current model.
  */
@@ -60,12 +62,13 @@ QAbstractItemModel *CuteSyncCollectionListWidget::model() const
 }
 
 /*!
- * This function sets the model we should be displaying. Note that this only accepts a CuteSyncCollectionModel -
- * this class is designed to use those, and not any generic QAbstractItemModel.
+ * This function sets the model we should be displaying. Note that this only
+ * accepts a CSCollectionModel - this class is designed to use those, and not
+ * any generic QAbstractItemModel.
  *
  * \param m The model we should use.
  */
-void CuteSyncCollectionListWidget::setCollectionModel(CuteSyncCollectionModel *m)
+void CuteSyncCollectionListWidget::setCollectionModel(CSCollectionModel *m)
 {
 	if(mdl != NULL) mdl->disconnect(this);
 	mdl = m;
@@ -78,8 +81,9 @@ void CuteSyncCollectionListWidget::setCollectionModel(CuteSyncCollectionModel *m
 }
 
 /*!
- * We make our superclass's implementation of this private to force users to use setCollectionModel() instead.
- * This overridden function just does the same thing as our superclass's implementation, except it is private.
+ * We make our superclass's implementation of this private to force users to
+ * use setCollectionModel() instead. This overridden function just does the
+ * same thing as our superclass's implementation, except it is private.
  *
  * \param m The new model we should be using.
  */
@@ -89,9 +93,10 @@ void CuteSyncCollectionListWidget::setModel(QAbstractItemModel *m)
 }
 
 /*!
- * This function handles a collection being clicked by emitting a signal letting anyone using this widget know
- * about it. Note that if the clicked collection is not enabled, then we clear the selection, since disabled
- * items are not supposed to be used.
+ * This function handles a collection being clicked by emitting a signal
+ * letting anyone using this widget know about it. Note that if the clicked
+ * collection is not enabled, then we clear the selection, since disabled items
+ * are not supposed to be used.
  *
  * \param i The index of the collection that was clicked.
  */
@@ -111,8 +116,8 @@ void CuteSyncCollectionListWidget::doCollectionClicked(const QModelIndex &i)
 }
 
 /*!
- * This function handles the visibility of a specific row being changed by either showing or hiding it,
- * depending on its new visibility state.
+ * This function handles the visibility of a specific row being changed by
+ * either showing or hiding it, depending on its new visibility state.
  *
  * \param i The index of the item in the model whose state has changed.
  */

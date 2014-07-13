@@ -32,7 +32,7 @@
 #include "libcute/tags/FileTypeResolver.h"
 #include "libcute/tags/TaggedFile.h"
 #include "libcute/util/SystemUtils.h"
-#include "libcute/widgets/CollectionModel.h"
+#include "libcute/widgets/collectionmodel.h"
 
 /*!
  * This is our default constructor, which creates a new uninitialized
@@ -40,7 +40,7 @@
  *
  * \param p Our parent object.
  */
-CuteSyncDirCollection::CuteSyncDirCollection(CuteSyncCollectionModel *p)
+CuteSyncDirCollection::CuteSyncDirCollection(CSCollectionModel *p)
 	: CuteSyncAbstractCollection(p), recursive(true), organize(true),
 		root("")
 {
@@ -54,7 +54,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(CuteSyncCollectionModel *p)
  * \param p Our parent object.
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: CuteSyncAbstractCollection(n, p), recursive(true), organize(true),
 		root("")
 {
@@ -68,7 +68,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
  * \param p Our parent object.
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
-	CuteSyncCollectionModel *p)
+	CSCollectionModel *p)
 	: CuteSyncAbstractCollection(d, p), recursive(true), organize(true),
 		root("")
 {
@@ -83,7 +83,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
  * \param p Our parent object.
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
-	const DisplayDescriptor *d, CuteSyncCollectionModel *p)
+	const DisplayDescriptor *d, CSCollectionModel *p)
 	: CuteSyncAbstractCollection(n, d, p), recursive(true), organize(true),
 		root("")
 {
