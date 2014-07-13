@@ -122,7 +122,7 @@ SET(cutesync_HEADERS
 
 	src/cutesync/dialogs/aboutdialog.h
 	src/cutesync/dialogs/CuteSyncNewCollectionDialog.h
-	src/cutesync/dialogs/CuteSyncSyncDIalog.h
+	src/cutesync/dialogs/CuteSyncSyncDialog.h
 
 	src/cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.h
 	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h
@@ -131,7 +131,7 @@ SET(cutesync_HEADERS
 	src/cutesync/settings/settingsmanager.h
 
 	src/cutesync/widgets/collectiondelegate.h
-	src/cutesync/widgets/CuteSyncCollectionListWidget.h
+	src/cutesync/widgets/collectionlistwidget.h
 	src/cutesync/widgets/CuteSyncDDSelectorModel.h
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
 	src/cutesync/widgets/CuteSyncIconListWidget.h
@@ -157,7 +157,7 @@ SET(cutesync_SOURCES
 
 	src/cutesync/widgets/collectiondelegate.cpp
 	src/cutesync/widgets/CuteSyncCollectionInspector.cpp
-	src/cutesync/widgets/CuteSyncCollectionListWidget.cpp
+	src/cutesync/widgets/collectionlistwidget.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.cpp
 	src/cutesync/widgets/CuteSyncIconListWidget.cpp

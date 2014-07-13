@@ -34,7 +34,7 @@ class QLocalServer;
 
 class CSMainMenuBar;
 class CSCollectionModel;
-class CuteSyncCollectionListWidget;
+class CSCollectionListWidget;
 class CuteSyncCollectionInspector;
 class CuteSyncNewCollectionDialog;
 class CuteSyncSyncDialog;
@@ -67,7 +67,7 @@ class CSMainWindow : public QMainWindow
 		QGridLayout *layout;
 
 		QSplitter *collectionsSplitter;
-		CuteSyncCollectionListWidget *collectionsListWidget;
+		CSCollectionListWidget *collectionsListWidget;
 		CSCollectionModel *collectionsListModel;
 		CuteSyncCollectionInspector *collectionInspector;
 

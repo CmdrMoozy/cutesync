@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncCollectionListWidget.h"
+#include "collectionlistwidget.h"
 
 #include "libcute/collections/AbstractCollection.h"
 #include "libcute/collections/DirCollection.h"
@@ -30,7 +30,7 @@
  *
  * \param p Our parent widget.
  */
-CuteSyncCollectionListWidget::CuteSyncCollectionListWidget(QWidget *p)
+CSCollectionListWidget::CSCollectionListWidget(QWidget *p)
 	: CuteSyncIconListWidget(p), mdl(NULL)
 {
 	delegate = new CSCollectionDelegate(this);
@@ -43,7 +43,7 @@ CuteSyncCollectionListWidget::CuteSyncCollectionListWidget(QWidget *p)
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncCollectionListWidget::~CuteSyncCollectionListWidget()
+CSCollectionListWidget::~CSCollectionListWidget()
 {
 }
 
@@ -56,7 +56,7 @@ CuteSyncCollectionListWidget::~CuteSyncCollectionListWidget()
  *
  * \return A pointer to our current model.
  */
-QAbstractItemModel *CuteSyncCollectionListWidget::model() const
+QAbstractItemModel *CSCollectionListWidget::model() const
 {
 	return mdl;
 }
@@ -68,7 +68,7 @@ QAbstractItemModel *CuteSyncCollectionListWidget::model() const
  *
  * \param m The model we should use.
  */
-void CuteSyncCollectionListWidget::setCollectionModel(CSCollectionModel *m)
+void CSCollectionListWidget::setCollectionModel(CSCollectionModel *m)
 {
 	if(mdl != NULL) mdl->disconnect(this);
 	mdl = m;
@@ -87,7 +87,7 @@ void CuteSyncCollectionListWidget::setCollectionModel(CSCollectionModel *m)
  *
  * \param m The new model we should be using.
  */
-void CuteSyncCollectionListWidget::setModel(QAbstractItemModel *m)
+void CSCollectionListWidget::setModel(QAbstractItemModel *m)
 {
 	CuteSyncIconListWidget::setModel(m);
 }
@@ -100,7 +100,7 @@ void CuteSyncCollectionListWidget::setModel(QAbstractItemModel *m)
  *
  * \param i The index of the collection that was clicked.
  */
-void CuteSyncCollectionListWidget::doCollectionClicked(const QModelIndex &i)
+void CSCollectionListWidget::doCollectionClicked(const QModelIndex &i)
 { /* SLOT */
 
 	if(mdl != NULL)
@@ -121,7 +121,7 @@ void CuteSyncCollectionListWidget::doCollectionClicked(const QModelIndex &i)
  *
  * \param i The index of the item in the model whose state has changed.
  */
-void CuteSyncCollectionListWidget::doRowEnabledChanged(const QModelIndex &i)
+void CSCollectionListWidget::doRowEnabledChanged(const QModelIndex &i)
 { /* SLOT */
 
 	// Just update the item so it is painted correctly as per our delegate.

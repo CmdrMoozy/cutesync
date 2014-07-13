@@ -24,7 +24,7 @@
 class CSCollectionModel;
 
 /*!
- * \brief This class provides extra rendering for CuteSyncCollectionListWidget.
+ * \brief This class provides extra rendering for CSCollectionListWidget.
  *
  * We allow items in the list to be "disabled," so they are greyed out and
  * cannot be clicked, but are still visible in the list. This is used when some

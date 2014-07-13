@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_COLLECTION_LIST_WIDGET
-#define INCLUDE_CUTE_SYNC_COLLECTION_LIST_WIDGET
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_LIST_WIDGET
+#define INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_LIST_WIDGET
 
 #include "cutesync/widgets/CuteSyncIconListWidget.h"
 
@@ -32,13 +32,13 @@ class CSCollectionDelegate;
  * about freeing them later. We also handle creating the correct type of object
  * based on the collection type.
  */
-class CuteSyncCollectionListWidget : public CuteSyncIconListWidget
+class CSCollectionListWidget : public CuteSyncIconListWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncCollectionListWidget(QWidget *p = 0);
-		virtual ~CuteSyncCollectionListWidget();
+		CSCollectionListWidget(QWidget *p = 0);
+		virtual ~CSCollectionListWidget();
 
 		virtual QAbstractItemModel *model() const;
 		void setCollectionModel(CSCollectionModel *m);

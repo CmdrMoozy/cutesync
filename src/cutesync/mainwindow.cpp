@@ -37,7 +37,7 @@
 #include "cutesync/dialogs/CuteSyncSyncDialog.h"
 #include "cutesync/settings/settingsmanager.h"
 #include "cutesync/widgets/CuteSyncCollectionInspector.h"
-#include "cutesync/widgets/CuteSyncCollectionListWidget.h"
+#include "cutesync/widgets/collectionlistwidget.h"
 
 /*!
  * Create a new main window object with the given parent object and window
@@ -68,7 +68,7 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 
 	collectionsSplitter = new QSplitter(centralWidget);
 
-	collectionsListWidget = new CuteSyncCollectionListWidget(
+	collectionsListWidget = new CSCollectionListWidget(
 		centralWidget);
 
 	collectionsListModel = new CSCollectionModel();
