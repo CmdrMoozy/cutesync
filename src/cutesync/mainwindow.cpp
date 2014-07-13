@@ -33,10 +33,10 @@
 #include "libcute/Defines.h"
 #include "libcute/widgets/collectionmodel.h"
 #include "cutesync/mainmenubar.h"
-#include "cutesync/dialogs/CuteSyncNewCollectionDialog.h"
-#include "cutesync/dialogs/CuteSyncSyncDialog.h"
+#include "cutesync/dialogs/newcollectiondialog.h"
+#include "cutesync/dialogs/syncdialog.h"
 #include "cutesync/settings/settingsmanager.h"
-#include "cutesync/widgets/CuteSyncCollectionInspector.h"
+#include "cutesync/widgets/collectioninspector.h"
 #include "cutesync/widgets/collectionlistwidget.h"
 
 /*!
@@ -75,7 +75,7 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 
 	collectionsListWidget->setCollectionModel(collectionsListModel);
 
-	collectionInspector = new CuteSyncCollectionInspector(
+	collectionInspector = new CSCollectionInspector(
 		settingsManager, centralWidget);
 
 	collectionsSplitter->addWidget(collectionsListWidget);
@@ -220,8 +220,8 @@ void CSMainWindow::createMenus()
  */
 void CSMainWindow::createDialogs()
 {
-	newCollectionDialog = new CuteSyncNewCollectionDialog(this);
-	syncDialog = new CuteSyncSyncDialog(collectionsListModel, this);
+	newCollectionDialog = new CSNewCollectionDialog(this);
+	syncDialog = new CSSyncDialog(collectionsListModel, this);
 
 	QObject::connect(newCollectionDialog, SIGNAL(accepted()),
 		this, SLOT(doNewCollectionAccepted()));

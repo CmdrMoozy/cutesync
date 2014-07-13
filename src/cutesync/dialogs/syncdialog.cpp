@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncSyncDialog.h"
+#include "syncdialog.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -33,7 +33,7 @@
  * \param p Our dialog's parent object.
  * \param f The window flags our dialog should use.
  */
-CuteSyncSyncDialog::CuteSyncSyncDialog(CSCollectionModel *c, QWidget *p, Qt::WindowFlags f)
+CSSyncDialog::CSSyncDialog(CSCollectionModel *c, QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f), collections(c)
 {
 	setWindowTitle("CuteSync - Synchronize Collections");
@@ -49,17 +49,17 @@ CuteSyncSyncDialog::CuteSyncSyncDialog(CSCollectionModel *c, QWidget *p, Qt::Win
 /*!
  * This is our default destructor, which cleans up and destroys our dialog.
  */
-CuteSyncSyncDialog::~CuteSyncSyncDialog()
+CSSyncDialog::~CSSyncDialog()
 {
 }
 
 /*!
- * We hook into our superclass's show event, in order to reset the GUI when this dialog is displayed, to
- * make it reusable.
+ * We hook into our superclass's show event, in order to reset the GUI when
+ * this dialog is displayed, to make it reusable.
  *
  * \param e The event we are handling.
  */
-void CuteSyncSyncDialog::showEvent(QShowEvent *e)
+void CSSyncDialog::showEvent(QShowEvent *e)
 {
 	updateGUI();
 	QDialog::showEvent(e);
@@ -68,7 +68,7 @@ void CuteSyncSyncDialog::showEvent(QShowEvent *e)
 /*!
  * This function sets up our initial GUI.
  */
-void CuteSyncSyncDialog::createGUI()
+void CSSyncDialog::createGUI()
 {
 	layout = new QGridLayout(this);
 
@@ -98,29 +98,33 @@ void CuteSyncSyncDialog::createGUI()
 	layout->setRowStretch(2, 1);
 	setLayout(layout);
 
-	QObject::connect( doItButton,   SIGNAL( clicked() ), this, SLOT( doDoIt() ) );
-	QObject::connect( cancelButton, SIGNAL( clicked() ), this, SLOT( close()  ) );
+	QObject::connect(doItButton, SIGNAL(clicked()), this, SLOT(doDoIt()));
+	QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 /*!
- * This function resets our GUI with our current data, e.g. when the collections available to us
- * changes.
+ * This function resets our GUI with our current data, e.g. when the
+ * collections available to us changes.
  */
-void CuteSyncSyncDialog::updateGUI()
+void CSSyncDialog::updateGUI()
 {
 	sourceComboBox->setCurrentIndex(-1);
 	destinationComboBox->setCurrentIndex(-1);
 }
 
 /*!
- * This function handles the "do it" button by emititng an accepted signal so our parent can
- * start the actual synchronization.
+ * This function handles the "do it" button by emititng an accepted signal so
+ * our parent can start the actual synchronization.
  */
-void CuteSyncSyncDialog::doDoIt()
+void CSSyncDialog::doDoIt()
 { /* SLOT */
 
-	Q_EMIT accepted(collections->collectionAt(sourceComboBox->currentIndex()),
-		collections->collectionAt(destinationComboBox->currentIndex()));
+	CuteSyncAbstractCollection *src = collections->collectionAt(
+		sourceComboBox->currentIndex());
+	CuteSyncAbstractCollection *dst = collections->collectionAt(
+		destinationComboBox->currentIndex());
+
+	Q_EMIT accepted(src, dst);
 
 	close();
 

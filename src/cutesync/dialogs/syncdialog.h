@@ -16,50 +16,64 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_INSPECTOR_COLLECTION_CONFIG_DIALOG_H
-#define INCLUDE_CUTE_SYNC_INSPECTOR_COLLECTION_CONFIG_DIALOG_H
+#ifndef INCLUDE_CUTE_SYNC_DIALOGS_SYNC_DIALOG_H
+#define INCLUDE_CUTE_SYNC_DIALOGS_SYNC_DIALOG_H
 
 #include <QDialog>
+#include <QString>
+#include <QList>
 
 class QGridLayout;
+class QLabel;
+class QComboBox;
 class QPushButton;
 
-class CuteSyncAbstractCollectionConfigWidget;
+class CuteSyncAbstractCollection;
+class CSCollectionModel;
 
 /*!
- * \brief This dialog provides collection configuration support.
+ * \brief This dialog allows the user to start a synchronization.
  *
- * We utilize a collection's built-in configuration widget in order to allow
- * the user to change its options.
+ * It is designed to provide both generic synchronization options as well as
+ * destination-specific options.
  */
-class CuteSyncInspectorCollectionConfigDialog : public QDialog
+class CSSyncDialog : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncInspectorCollectionConfigDialog(
+		CSSyncDialog(CSCollectionModel *c,
 			QWidget *p = 0, Qt::WindowFlags f = 0);
-		virtual ~CuteSyncInspectorCollectionConfigDialog();
-
-		void setWidget(CuteSyncAbstractCollectionConfigWidget *w);
+		virtual ~CSSyncDialog();
 
 	protected:
 		virtual void showEvent(QShowEvent *e);
 
 	private:
+		CSCollectionModel *collections;
+
 		QGridLayout *layout;
 
-		CuteSyncAbstractCollectionConfigWidget *widget;
+		QLabel *sourceLabel;
+		QComboBox *sourceComboBox;
+		QLabel *destinationLabel;
+		QComboBox *destinationComboBox;
 
 		QWidget *buttonsWidget;
 		QGridLayout *buttonsLayout;
-		QPushButton *okButton;
-		QPushButton *applyButton;
+		QPushButton *doItButton;
 		QPushButton *cancelButton;
 
+		void createGUI();
+		void updateGUI();
+
 	private Q_SLOTS:
-		void doOk();
-		void doApply();
+		void doDoIt();
+
+	Q_SIGNALS:
+		void accepted();
+		void accepted(CuteSyncAbstractCollection *,
+			CuteSyncAbstractCollection *);
 };
 
 #endif

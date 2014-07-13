@@ -16,64 +16,65 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_SYNC_DIALOG_H
-#define INCLUDE_CUTE_SYNC_SYNC_DIALOG_H
+#ifndef INCLUDE_CUTE_SYNC_DIALOGS_NEW_COLLECTION_DIALOG_H
+#define INCLUDE_CUTE_SYNC_DIALOGS_NEW_COLLECTION_DIALOG_H
 
 #include <QDialog>
-#include <QString>
-#include <QList>
 
+class QShowEvent;
 class QGridLayout;
 class QLabel;
-class QComboBox;
+class QLineEdit;
 class QPushButton;
-
-class CuteSyncAbstractCollection;
-class CSCollectionModel;
+class QCheckBox;
 
 /*!
- * \brief This dialog allows the user to start a synchronization.
+ * \brief This dialog gets user input to create a new collection.
  *
- * It is designed to provide both generic synchronization options as well as
- * destination-specific options.
+ * It collects things like the desired collection name, the path to the
+ * collection, what type of collection it is, and whether or not it should be
+ * saved for next time our application is started.
  */
-class CuteSyncSyncDialog : public QDialog
+class CSNewCollectionDialog : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncSyncDialog(CSCollectionModel *c,
+		CSNewCollectionDialog(
 			QWidget *p = 0, Qt::WindowFlags f = 0);
-		virtual ~CuteSyncSyncDialog();
+		virtual ~CSNewCollectionDialog();
+
+		QString getName() const;
+		QString getPath() const;
+		bool getSave() const;
 
 	protected:
 		virtual void showEvent(QShowEvent *e);
 
 	private:
-		CSCollectionModel *collections;
-
 		QGridLayout *layout;
 
-		QLabel *sourceLabel;
-		QComboBox *sourceComboBox;
-		QLabel *destinationLabel;
-		QComboBox *destinationComboBox;
+		QLabel *nameLabel;
+		QLineEdit *nameLineEdit;
+		QLabel *pathLabel;
+		QLineEdit *pathLineEdit;
+		QPushButton *browseButton;
+		QCheckBox *saveCheckBox;
 
 		QWidget *buttonsWidget;
 		QGridLayout *buttonsLayout;
 		QPushButton *doItButton;
 		QPushButton *cancelButton;
 
-		void createGUI();
-		void updateGUI();
+		void reset();
 
 	private Q_SLOTS:
+		void doBrowse();
 		void doDoIt();
+		void doCancel();
 
 	Q_SIGNALS:
 		void accepted();
-		void accepted(CuteSyncAbstractCollection *,
-			CuteSyncAbstractCollection *);
 };
 
 #endif

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncInspectorConfigDialog.h"
+#include "inspectorconfigdialog.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -33,7 +33,7 @@
  * \param p Our parent widget.
  * \param f The window flags to use.
  */
-CuteSyncInspectorConfigDialog::CuteSyncInspectorConfigDialog(QWidget *p, Qt::WindowFlags f)
+CSInspectorConfigDialog::CSInspectorConfigDialog(QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f)
 {
 	setWindowTitle("CuteSync - Inspector Configuration");
@@ -43,28 +43,32 @@ CuteSyncInspectorConfigDialog::CuteSyncInspectorConfigDialog(QWidget *p, Qt::Win
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncInspectorConfigDialog::~CuteSyncInspectorConfigDialog()
+CSInspectorConfigDialog::~CSInspectorConfigDialog()
 {
 }
 
 /*!
- * This function sets our display descriptor to the given value. This could, e.g., be used to update our dialog's
- * state with the state of the inspector we are configuring before displaying us.
+ * This function sets our display descriptor to the given value. This could,
+ * e.g., be used to update our dialog's state with the state of the inspector
+ * we are configuring before displaying us.
  *
  * \param d The new display descriptor to use.
  */
-void CuteSyncInspectorConfigDialog::setDisplayDescriptor(const CuteSyncAbstractCollection::DisplayDescriptor &d)
+void CSInspectorConfigDialog::setDisplayDescriptor(
+	const CuteSyncAbstractCollection::DisplayDescriptor &d)
 {
 	displayDescriptor = d;
 	updateDisplayDescriptor();
 }
 
 /*!
- * This function returns a pointer to the display descriptor we are currently working from.
+ * This function returns a pointer to the display descriptor we are currently
+ * working from.
  *
  * \return A pointer to our display descriptor.
  */
-const CuteSyncAbstractCollection::DisplayDescriptor *CuteSyncInspectorConfigDialog::getDisplayDescriptor() const
+const CuteSyncAbstractCollection::DisplayDescriptor *
+	CSInspectorConfigDialog::getDisplayDescriptor() const
 {
 	return &displayDescriptor;
 }
@@ -74,16 +78,17 @@ const CuteSyncAbstractCollection::DisplayDescriptor *CuteSyncInspectorConfigDial
  *
  * \param e The event we are handling.
  */
-void CuteSyncInspectorConfigDialog::showEvent(QShowEvent *e)
+void CSInspectorConfigDialog::showEvent(QShowEvent *e)
 {
 	updateDisplayDescriptor();
 	QDialog::showEvent(e);
 }
 
 /*!
- * This is a helper function that creates all of the widgets that make up our GUI.
+ * This is a helper function that creates all of the widgets that make up our
+ * GUI.
  */
-void CuteSyncInspectorConfigDialog::createGUI()
+void CSInspectorConfigDialog::createGUI()
 {
 	layout = new QGridLayout(this);
 
@@ -131,16 +136,17 @@ void CuteSyncInspectorConfigDialog::createGUI()
 	layout->setRowStretch(1, 1);
 	setLayout(layout);
 
-	QObject::connect( okButton,     SIGNAL( clicked() ), this, SLOT( doOk()    ) );
-	QObject::connect( applyButton,  SIGNAL( clicked() ), this, SLOT( doApply() ) );
-	QObject::connect( cancelButton, SIGNAL( clicked() ), this, SLOT( close()   ) );
+	QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(doOk()));
+	QObject::connect(applyButton, SIGNAL(clicked()), this, SLOT(doApply()));
+	QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 /*!
- * This is a helper function that updates our GUI to utilize current display descriptor information.
- * This should probably be called, e.g., when our dialog is about to be displayed.
+ * This is a helper function that updates our GUI to utilize current display
+ * descriptor information. This should probably be called, e.g., when our
+ * dialog is about to be displayed.
  */
-void CuteSyncInspectorConfigDialog::updateDisplayDescriptor() const
+void CSInspectorConfigDialog::updateDisplayDescriptor() const
 {
 	sortModel->loadSortColumns(getDisplayDescriptor());
 	displayModel->loadDisplayColumns(getDisplayDescriptor());
@@ -158,37 +164,46 @@ void CuteSyncInspectorConfigDialog::updateDisplayDescriptor() const
 }
 
 /*!
- * This is a helper function that "applies" changes made to our display descriptor. This means that we
- * grab the new information from our widgets, and apply that information to our display descriptor
- * object, so the inspector we are configuring can use it. This should be called, e.g., when our "Apply"
- * or "OK" buttons are pushed.
+ * This is a helper function that "applies" changes made to our display
+ * descriptor. This means that we grab the new information from our widgets,
+ * and apply that information to our display descriptor object, so the
+ * inspector we are configuring can use it. This should be called, e.g., when
+ * our "Apply" or "OK" buttons are pushed.
  */
-void CuteSyncInspectorConfigDialog::applyDisplayDescriptor()
+void CSInspectorConfigDialog::applyDisplayDescriptor()
 {
 	// Sort order.
+
 	if(ascendingButton->isChecked())
 		displayDescriptor.s_order = Qt::AscendingOrder;
 	else
 		displayDescriptor.s_order = Qt::DescendingOrder;
 
 	// Sort columns.
+
 	displayDescriptor.s_columns = sortModel->getColumnList();
 
 	// Display columns.
-	QList<CuteSyncAbstractCollection::Column> displayList = displayModel->getColumnList();
+
+	QList<CuteSyncAbstractCollection::Column> displayList =
+		displayModel->getColumnList();
+
 	displayDescriptor.columns.clear();
+
 	for(int i = 0; i < displayModel->getColumnList().count(); ++i)
 		displayDescriptor.columns.insert(i, displayList.at(i));
 
-	// Update our GUI. :)
+	// Update our GUI.
+
 	updateDisplayDescriptor();
 }
 
 /*!
- * This function handles our "OK" button being clicked by applying our new descriptor settings, emitting an
- * accepted signal for our parent, and then closing the dialog.
+ * This function handles our "OK" button being clicked by applying our new
+ * descriptor settings, emitting an accepted signal for our parent, and then
+ * closing the dialog.
  */
-void CuteSyncInspectorConfigDialog::doOk()
+void CSInspectorConfigDialog::doOk()
 { /* SLOT */
 	applyDisplayDescriptor();
 	Q_EMIT accepted();
@@ -196,10 +211,11 @@ void CuteSyncInspectorConfigDialog::doOk()
 }
 
 /*!
- * This function handles our "Apply" button being clicked by applying our new descriptor settings and
- * emitting an accepted signal for our parent. Since this is just "Apply," we leave the dialog open.
+ * This function handles our "Apply" button being clicked by applying our new
+ * descriptor settings and emitting an accepted signal for our parent. Since
+ * this is just "Apply," we leave the dialog open.
  */
-void CuteSyncInspectorConfigDialog::doApply()
+void CSInspectorConfigDialog::doApply()
 { /* SLOT */
 	applyDisplayDescriptor();
 	Q_EMIT accepted();

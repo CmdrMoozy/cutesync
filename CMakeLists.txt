@@ -121,16 +121,17 @@ SET(cutesync_HEADERS
 	src/cutesync/mainwindow.h
 
 	src/cutesync/dialogs/aboutdialog.h
-	src/cutesync/dialogs/CuteSyncNewCollectionDialog.h
-	src/cutesync/dialogs/CuteSyncSyncDialog.h
+	src/cutesync/dialogs/newcollectiondialog.h
+	src/cutesync/dialogs/syncdialog.h
 
-	src/cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.h
-	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h
-	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.h
+	src/cutesync/dialogs/inspector/inspectoraboutdialog.h
+	src/cutesync/dialogs/inspector/inspectorcollectionconfigdialog.h
+	src/cutesync/dialogs/inspector/inspectorconfigdialog.h
 
 	src/cutesync/settings/settingsmanager.h
 
 	src/cutesync/widgets/collectiondelegate.h
+	src/cutesync/widgets/collectioninspector.h
 	src/cutesync/widgets/collectionlistwidget.h
 	src/cutesync/widgets/CuteSyncDDSelectorModel.h
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
@@ -146,17 +147,17 @@ SET(cutesync_SOURCES
 	src/cutesync/mainwindow.cpp
 
 	src/cutesync/dialogs/aboutdialog.cpp
-	src/cutesync/dialogs/CuteSyncNewCollectionDialog.cpp
-	src/cutesync/dialogs/CuteSyncSyncDialog.cpp
+	src/cutesync/dialogs/newcollectiondialog.cpp
+	src/cutesync/dialogs/syncdialog.cpp
 
-	src/cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.cpp
-	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.cpp
-	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.cpp
+	src/cutesync/dialogs/inspector/inspectoraboutdialog.cpp
+	src/cutesync/dialogs/inspector/inspectorcollectionconfigdialog.cpp
+	src/cutesync/dialogs/inspector/inspectorconfigdialog.cpp
 
 	src/cutesync/settings/settingsmanager.cpp
 
 	src/cutesync/widgets/collectiondelegate.cpp
-	src/cutesync/widgets/CuteSyncCollectionInspector.cpp
+	src/cutesync/widgets/collectioninspector.cpp
 	src/cutesync/widgets/collectionlistwidget.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.cpp

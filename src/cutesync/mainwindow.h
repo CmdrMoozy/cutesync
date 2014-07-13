@@ -21,8 +21,6 @@
 
 #include <QMainWindow>
 
-#include "dialogs/CuteSyncNewCollectionDialog.h"
-
 class QAction;
 class QMenu;
 class QToolBar;
@@ -35,9 +33,9 @@ class QLocalServer;
 class CSMainMenuBar;
 class CSCollectionModel;
 class CSCollectionListWidget;
-class CuteSyncCollectionInspector;
-class CuteSyncNewCollectionDialog;
-class CuteSyncSyncDialog;
+class CSCollectionInspector;
+class CSNewCollectionDialog;
+class CSSyncDialog;
 class CuteSyncAbstractCollection;
 class CSSettingsManager;
 
@@ -58,8 +56,8 @@ class CSMainWindow : public QMainWindow
 	private:
 		CSSettingsManager *settingsManager;
 
-		CuteSyncNewCollectionDialog *newCollectionDialog;
-		CuteSyncSyncDialog *syncDialog;
+		CSNewCollectionDialog *newCollectionDialog;
+		CSSyncDialog *syncDialog;
 
 		CSMainMenuBar *mainMenuBar;
 
@@ -69,7 +67,7 @@ class CSMainWindow : public QMainWindow
 		QSplitter *collectionsSplitter;
 		CSCollectionListWidget *collectionsListWidget;
 		CSCollectionModel *collectionsListModel;
-		CuteSyncCollectionInspector *collectionInspector;
+		CSCollectionInspector *collectionInspector;
 
 		QProgressBar *taskProgressBar;
 		QLabel *taskLabel;

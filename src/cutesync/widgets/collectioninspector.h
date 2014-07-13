@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_COLLECTION_INSPECTOR_H
-#define INCLUDE_CUTE_SYNC_COLLECTION_INSPECTOR_H
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_INSPECTOR_H
+#define INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_INSPECTOR_H
 
 #include <QWidget>
 
@@ -30,9 +30,9 @@ class QLabel;
 class QProgressBar;
 class QDialog;
 
-class CuteSyncInspectorAboutDialog;
-class CuteSyncInspectorCollectionConfigDialog;
-class CuteSyncInspectorConfigDialog;
+class CSInspectorAboutDialog;
+class CSInspectorCollectionConfigDialog;
+class CSInspectorConfigDialog;
 class CSSettingsManager;
 
 /*!
@@ -42,16 +42,16 @@ class CSSettingsManager;
  * collections you give it; that is, it's your responsibility to free them when
  * they aren't needed any more!
  */
-class CuteSyncCollectionInspector : public QWidget
+class CSCollectionInspector : public QWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncCollectionInspector(CSSettingsManager *s,
+		CSCollectionInspector(CSSettingsManager *s,
 			QWidget *p = 0);
-		CuteSyncCollectionInspector(CSSettingsManager *s,
+		CSCollectionInspector(CSSettingsManager *s,
 			CuteSyncAbstractCollection *c, QWidget *p = 0);
-		virtual ~CuteSyncCollectionInspector();
+		virtual ~CSCollectionInspector();
 
 		void clearCollection();
 
@@ -69,9 +69,9 @@ class CuteSyncCollectionInspector : public QWidget
 		CSSettingsManager *settingsManager;
 		CuteSyncAbstractCollection::DisplayDescriptor displayDescriptor;
 
-		CuteSyncInspectorAboutDialog *aboutDialog;
-		CuteSyncInspectorCollectionConfigDialog *configDialog;
-		CuteSyncInspectorConfigDialog *sortDialog;
+		CSInspectorAboutDialog *aboutDialog;
+		CSInspectorCollectionConfigDialog *configDialog;
+		CSInspectorConfigDialog *sortDialog;
 
 		CuteSyncAbstractCollection *collection;
 

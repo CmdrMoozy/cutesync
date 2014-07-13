@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_INSPECTOR_CONFIG_DIALOG_H
-#define INCLUDE_CUTE_SYNC_INSPECTOR_CONFIG_DIALOG_H
+#ifndef INCLUDE_CUTE_SYNC_DIALOGS_INSPECTOR_INSPECTOR_CONFIG_DIALOG_H
+#define INCLUDE_CUTE_SYNC_DIALOGS_INSPECTOR_INSPECTOR_CONFIG_DIALOG_H
 
 #include <QDialog>
 #include <QAbstractListModel>
@@ -39,14 +39,14 @@ class CuteSyncDDSelectorModel;
  * It allows the user to control the order we sort in, the columns we sort by,
  * and the columns we display.
  */
-class CuteSyncInspectorConfigDialog : public QDialog
+class CSInspectorConfigDialog : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncInspectorConfigDialog(
+		CSInspectorConfigDialog(
 			QWidget *p = 0, Qt::WindowFlags f = 0);
-		virtual ~CuteSyncInspectorConfigDialog();
+		virtual ~CSInspectorConfigDialog();
 
 		void setDisplayDescriptor(
 			const CuteSyncAbstractCollection::DisplayDescriptor &d);

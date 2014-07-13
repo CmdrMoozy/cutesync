@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncInspectorCollectionConfigDialog.h"
+#include "inspectorcollectionconfigdialog.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -28,8 +28,8 @@
  * do not display a configuration widget, so the dialog will only contain
  * control buttons. Use setWidget() to give us something to actually configure.
  */
-CuteSyncInspectorCollectionConfigDialog::
-	CuteSyncInspectorCollectionConfigDialog(QWidget *p, Qt::WindowFlags f)
+CSInspectorCollectionConfigDialog::
+	CSInspectorCollectionConfigDialog(QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f), widget(NULL)
 {
 	layout = new QGridLayout(this);
@@ -59,8 +59,8 @@ CuteSyncInspectorCollectionConfigDialog::
 /*!
  * This is our default destructor, which cleans up and destroys our dialog.
  */
-CuteSyncInspectorCollectionConfigDialog::
-	~CuteSyncInspectorCollectionConfigDialog()
+CSInspectorCollectionConfigDialog::
+	~CSInspectorCollectionConfigDialog()
 {
 	// Delete the old widget, if applicable.
 
@@ -78,7 +78,7 @@ CuteSyncInspectorCollectionConfigDialog::
  *
  * \param w The new widget to display.
  */
-void CuteSyncInspectorCollectionConfigDialog::setWidget(
+void CSInspectorCollectionConfigDialog::setWidget(
 	CuteSyncAbstractCollectionConfigWidget *w)
 {
 	// Delete the old widget, if applicable.
@@ -113,7 +113,7 @@ void CuteSyncInspectorCollectionConfigDialog::setWidget(
  *
  * \param e The event we are handling.
  */
-void CuteSyncInspectorCollectionConfigDialog::showEvent(QShowEvent *e)
+void CSInspectorCollectionConfigDialog::showEvent(QShowEvent *e)
 {
 	if(widget != NULL)
 		widget->reset();
@@ -125,7 +125,7 @@ void CuteSyncInspectorCollectionConfigDialog::showEvent(QShowEvent *e)
  * We handle the "OK" button being pressed by telling our current widget (if
  * any) to apply any changes to its parent, and then we close the dialog.
  */
-void CuteSyncInspectorCollectionConfigDialog::doOk()
+void CSInspectorCollectionConfigDialog::doOk()
 { /* SLOT */
 
 	if(widget != NULL)
@@ -139,7 +139,7 @@ void CuteSyncInspectorCollectionConfigDialog::doOk()
  * We handle the "Apply" button being pressed by telling our current widget (if
  * any) to apply any changes to its parent.
  */
-void CuteSyncInspectorCollectionConfigDialog::doApply()
+void CSInspectorCollectionConfigDialog::doApply()
 { /* SLOT */
 
 	if(widget != NULL)

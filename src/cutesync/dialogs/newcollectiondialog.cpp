@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncNewCollectionDialog.h"
+#include "newcollectiondialog.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -31,7 +31,7 @@
  * \param p Our parent object.
  * \param f The window flags to use.
  */
-CuteSyncNewCollectionDialog::CuteSyncNewCollectionDialog(
+CSNewCollectionDialog::CSNewCollectionDialog(
 	QWidget *p, Qt::WindowFlags f)
 	: QDialog(p, f)
 {
@@ -82,7 +82,7 @@ CuteSyncNewCollectionDialog::CuteSyncNewCollectionDialog(
 /*!
  * This is our default destructor, which cleans up and destroys our dialog.
  */
-CuteSyncNewCollectionDialog::~CuteSyncNewCollectionDialog()
+CSNewCollectionDialog::~CSNewCollectionDialog()
 {
 }
 
@@ -91,7 +91,7 @@ CuteSyncNewCollectionDialog::~CuteSyncNewCollectionDialog()
  *
  * \return The collection name.
  */
-QString CuteSyncNewCollectionDialog::getName() const
+QString CSNewCollectionDialog::getName() const
 {
 	return nameLineEdit->text();
 }
@@ -101,7 +101,7 @@ QString CuteSyncNewCollectionDialog::getName() const
  *
  * \return The collection path.
  */
-QString CuteSyncNewCollectionDialog::getPath() const
+QString CSNewCollectionDialog::getPath() const
 {
 	return pathLineEdit->text();
 }
@@ -112,7 +112,7 @@ QString CuteSyncNewCollectionDialog::getPath() const
  *
  * \return Whether or not to save this collection.
  */
-bool CuteSyncNewCollectionDialog::getSave() const
+bool CSNewCollectionDialog::getSave() const
 {
 	return (saveCheckBox->checkState() == Qt::Checked);
 }
@@ -122,7 +122,7 @@ bool CuteSyncNewCollectionDialog::getSave() const
  *
  * \param e The event we are handling.
  */
-void CuteSyncNewCollectionDialog::showEvent(QShowEvent *e)
+void CSNewCollectionDialog::showEvent(QShowEvent *e)
 {
 	reset();
 	QDialog::showEvent(e);
@@ -131,7 +131,7 @@ void CuteSyncNewCollectionDialog::showEvent(QShowEvent *e)
 /*!
  * This function resets our dialog to its default state.
  */
-void CuteSyncNewCollectionDialog::reset()
+void CSNewCollectionDialog::reset()
 {
 	nameLineEdit->setText("");
 	pathLineEdit->setText("");
@@ -143,7 +143,7 @@ void CuteSyncNewCollectionDialog::reset()
  * chooser dialog and then, if it is accepted, placing the resulting path in
  * our path line edit.
  */
-void CuteSyncNewCollectionDialog::doBrowse()
+void CSNewCollectionDialog::doBrowse()
 { /* SLOT */
 
 	QString path = QFileDialog::getExistingDirectory(this,
@@ -158,7 +158,7 @@ void CuteSyncNewCollectionDialog::doBrowse()
  * This function handles our "Do It!" button being clicked by emitting an
  * accepted() signal and closing the dialog.
  */
-void CuteSyncNewCollectionDialog::doDoIt()
+void CSNewCollectionDialog::doDoIt()
 { /* SLOT */
 
 	Q_EMIT accepted();
@@ -170,7 +170,7 @@ void CuteSyncNewCollectionDialog::doDoIt()
  * This function handles our cancel button being clicked by simply closing our
  * dialog.
  */
-void CuteSyncNewCollectionDialog::doCancel()
+void CSNewCollectionDialog::doCancel()
 { /* SLOT */
 
 	close();
