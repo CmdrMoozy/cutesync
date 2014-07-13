@@ -18,7 +18,6 @@
 
 #include "AbstractCollection.h"
 
-#include <QMutex>
 #include <QDataStream>
 
 #include "libcute/Defines.h"
@@ -39,8 +38,6 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(NULL)
 {
-	locker = new QMutex(QMutex::Recursive);
-
 	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
 		this, SLOT(doJobStarted()));
 	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
@@ -60,8 +57,6 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(NULL)
 {
-	locker = new QMutex(QMutex::Recursive);
-
 	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
 		this, SLOT(doJobStarted()));
 	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
@@ -81,8 +76,6 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(d)
 {
-	locker = new QMutex(QMutex::Recursive);
-
 	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
 		this, SLOT(doJobStarted()));
 	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
@@ -103,8 +96,6 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
 		interruptible(true), interrupted(false), active(false),
 		saveOnExit(false), displayDescriptor(d)
 {
-	locker = new QMutex(QMutex::Recursive);
-
 	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
 		this, SLOT(doJobStarted()));
 	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
@@ -117,7 +108,6 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
  */
 CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
 {
-	delete locker;
 }
 
 /*!
@@ -555,29 +545,6 @@ QList<QString> CuteSyncAbstractCollection::keysDifference(
 bool CuteSyncAbstractCollection::isModified() const
 {
 	return modified;
-}
-
-/*!
- * This is one of our two functions that allow our collection to behave like a
- * mutex. This one tries to lock the collection, so the calling thread can,
- * e.g. modify it or something. This function will block until our collection
- * is unlocked. Note that our collections do recursive locking, so the same
- * thread can lock() more than once, but the same number of unlock() calls need
- * to be made to fully unlock it.
- */
-void CuteSyncAbstractCollection::lock() const
-{
-	locker->lock();
-}
-
-/*!
- * This is one of our two functions that allow our collection to behave like a
- * mutex. This one unlocks the collection so someone else can do some work with
- * it.
- */
-void CuteSyncAbstractCollection::unlock() const
-{
-	locker->unlock();
 }
 
 /*!

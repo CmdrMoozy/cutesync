@@ -27,8 +27,6 @@
 #include <QHash>
 #include <QStringList>
 
-class QMutex;
-
 class CSCollectionModel;
 class CuteSyncTrack;
 class CuteSyncAbstractCollectionConfigWidget;
@@ -183,9 +181,6 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 		bool isModified() const;
 
-		void lock() const;
-		void unlock() const;
-
 		const DisplayDescriptor *getDisplayDescriptor() const;
 		void setDisplayDescriptor(const DisplayDescriptor *d);
 
@@ -258,7 +253,6 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 	 */
 
 	private:
-		mutable QMutex *locker;
 		QString name;
 		bool modified;
 		bool enabled;
