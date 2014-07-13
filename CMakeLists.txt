@@ -66,7 +66,6 @@ SET(libcute_HEADERS
 	src/libcute/tags/FileTypeResolver.h
 	src/libcute/tags/TaggedFile.h
 
-	src/libcute/thread/CollectionLocker.h
 	src/libcute/thread/collectionthreadpool.h
 
 	src/libcute/util/Bitwise.h
@@ -94,7 +93,6 @@ SET(libcute_SOURCES
 	src/libcute/tags/FileTypeResolver.cpp
 	src/libcute/tags/TaggedFile.cpp
 
-	src/libcute/thread/CollectionLocker.cpp
 	src/libcute/thread/collectionthreadpool.cpp
 
 	src/libcute/util/Bitwise.cpp

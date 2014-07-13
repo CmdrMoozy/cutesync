@@ -25,7 +25,6 @@
 #include "libcute/collections/AbstractCollectionConfigWidget.h"
 #include "libcute/collections/GeneralCollectionConfigWidget.h"
 #include "libcute/collections/Track.h"
-#include "libcute/thread/CollectionLocker.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -350,7 +349,6 @@ void CuteSyncAbstractCollection::setSaveOnExit(bool s)
  */
 bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 { /* SLOT */
-	CuteSyncCollectionLocker l(this);
 	QString r, t;
 	interruptible = false;
 
@@ -391,7 +389,6 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
 bool CuteSyncAbstractCollection::copyTracks(
 	const CuteSyncAbstractCollection *s, const QStringList &k)
 { /* SLOT */
-	CuteSyncCollectionLocker l(this);
 	QString r, t;
 	interruptible = false;
 
@@ -428,7 +425,6 @@ bool CuteSyncAbstractCollection::copyTracks(
  */
 bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
 { /* SLOT */
-	CuteSyncCollectionLocker l(this);
 	QString r, t;
 	interruptible = false;
 
