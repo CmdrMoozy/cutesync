@@ -130,7 +130,7 @@ SET(cutesync_HEADERS
 
 	src/cutesync/settings/settingsmanager.h
 
-	src/cutesync/widgets/CuteSyncCollectionDelegate.h
+	src/cutesync/widgets/collectiondelegate.h
 	src/cutesync/widgets/CuteSyncCollectionListWidget.h
 	src/cutesync/widgets/CuteSyncDDSelectorModel.h
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
@@ -155,7 +155,7 @@ SET(cutesync_SOURCES
 
 	src/cutesync/settings/settingsmanager.cpp
 
-	src/cutesync/widgets/CuteSyncCollectionDelegate.cpp
+	src/cutesync/widgets/collectiondelegate.cpp
 	src/cutesync/widgets/CuteSyncCollectionInspector.cpp
 	src/cutesync/widgets/CuteSyncCollectionListWidget.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp

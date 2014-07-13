@@ -23,7 +23,7 @@
 
 class CuteSyncAbstractCollection;
 class CSCollectionModel;
-class CuteSyncCollectionDelegate;
+class CSCollectionDelegate;
 
 /*!
  * \brief This class provides a list widget for storing collections.
@@ -44,7 +44,7 @@ class CuteSyncCollectionListWidget : public CuteSyncIconListWidget
 		void setCollectionModel(CSCollectionModel *m);
 
 	private:
-		CuteSyncCollectionDelegate *delegate;
+		CSCollectionDelegate *delegate;
 		CSCollectionModel *mdl;
 
 		virtual void setModel(QAbstractItemModel *m);

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_COLLECTION_DELEGATE_H
-#define INCLUDE_CUTE_SYNC_COLLECTION_DELEGATE_H
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_DELEGATE_H
+#define INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_DELEGATE_H
 
 #include <QStyledItemDelegate>
 
@@ -31,11 +31,11 @@ class CSCollectionModel;
  * action is being performed on a collection that makes it unavailable for more
  * actions to be queued up.
  */
-class CuteSyncCollectionDelegate : public QStyledItemDelegate
+class CSCollectionDelegate : public QStyledItemDelegate
 {
 	public:
-		CuteSyncCollectionDelegate(QObject *p = 0);
-		virtual ~CuteSyncCollectionDelegate();
+		CSCollectionDelegate(QObject *p = 0);
+		virtual ~CSCollectionDelegate();
 
 		const CSCollectionModel *getModel() const;
 		void setModel(const CSCollectionModel *m);

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncCollectionDelegate.h"
+#include "collectiondelegate.h"
 
 #include <QStyleOptionViewItemV4>
 
@@ -29,7 +29,7 @@
  *
  * \param p Our delegate's parent object.
  */
-CuteSyncCollectionDelegate::CuteSyncCollectionDelegate(QObject *p)
+CSCollectionDelegate::CSCollectionDelegate(QObject *p)
 	: QStyledItemDelegate(p), model(NULL)
 {
 }
@@ -37,7 +37,7 @@ CuteSyncCollectionDelegate::CuteSyncCollectionDelegate(QObject *p)
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncCollectionDelegate::~CuteSyncCollectionDelegate()
+CSCollectionDelegate::~CSCollectionDelegate()
 {
 }
 
@@ -47,7 +47,7 @@ CuteSyncCollectionDelegate::~CuteSyncCollectionDelegate()
  *
  * \return Our current collection model.
  */
-const CSCollectionModel *CuteSyncCollectionDelegate::getModel() const
+const CSCollectionModel *CSCollectionDelegate::getModel() const
 {
 	return model;
 }
@@ -60,7 +60,7 @@ const CSCollectionModel *CuteSyncCollectionDelegate::getModel() const
  *
  * \param m The model to work with.
  */
-void CuteSyncCollectionDelegate::setModel(const CSCollectionModel *m)
+void CSCollectionDelegate::setModel(const CSCollectionModel *m)
 {
 	model = m;
 }
@@ -74,12 +74,13 @@ void CuteSyncCollectionDelegate::setModel(const CSCollectionModel *m)
  * \param o The style descriptor to work with.
  * \param i The index of the item that is to be painted.
  */
-void CuteSyncCollectionDelegate::paint(QPainter *p,
+void CSCollectionDelegate::paint(QPainter *p,
 	const QStyleOptionViewItem &o, const QModelIndex &i) const
 {
 	if(model != NULL)
 	{
 		CuteSyncAbstractCollection *c = model->collectionAt(i.row());
+
 		if(c != NULL)
 		{
 			QStyleOptionViewItemV4 options(o);

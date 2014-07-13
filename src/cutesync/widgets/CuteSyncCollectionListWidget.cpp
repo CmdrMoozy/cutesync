@@ -21,7 +21,7 @@
 #include "libcute/collections/AbstractCollection.h"
 #include "libcute/collections/DirCollection.h"
 #include "libcute/collections/IPodCollection.h"
-#include "cutesync/widgets/CuteSyncCollectionDelegate.h"
+#include "cutesync/widgets/collectiondelegate.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -33,7 +33,7 @@
 CuteSyncCollectionListWidget::CuteSyncCollectionListWidget(QWidget *p)
 	: CuteSyncIconListWidget(p), mdl(NULL)
 {
-	delegate = new CuteSyncCollectionDelegate(this);
+	delegate = new CSCollectionDelegate(this);
 	setItemDelegate(delegate);
 
 	QObject::connect(this, SIGNAL(clicked(const QModelIndex &)),
