@@ -24,8 +24,6 @@
 
 #include <QIcon>
 #include <QDataStream>
-#include <QMutex>
-#include <QMutexLocker>
 #include <QFileInfo>
 #include <QMessageBox>
 
@@ -41,7 +39,6 @@
 CSCollectionModel::CSCollectionModel(QObject *p)
 	: QAbstractListModel(p), currentJob(NULL)
 {
-	mutex = new QMutex(QMutex::Recursive);
 }
 
 /*!
@@ -50,7 +47,6 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 CSCollectionModel::~CSCollectionModel()
 {
 	clear();
-	delete mutex;
 }
 
 /*!

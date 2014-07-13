@@ -25,8 +25,6 @@
 
 #include "libcute/collections/CollectionTypeResolver.h"
 
-class QMutex;
-
 class CuteSyncAbstractCollection;
 
 /*!
@@ -77,7 +75,6 @@ class CSCollectionModel : public QAbstractListModel
 		// copy() delete()
 
 	private:
-		QMutex *mutex;
 		CuteSyncCollectionTypeResolver resolver;
 		QList<CuteSyncAbstractCollection *> itemList;
 		CuteSyncAbstractCollection *currentJob;
