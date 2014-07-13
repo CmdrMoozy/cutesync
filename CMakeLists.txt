@@ -67,6 +67,7 @@ SET(libcute_HEADERS
 	src/libcute/tags/TaggedFile.h
 
 	src/libcute/thread/CollectionLocker.h
+	src/libcute/thread/collectionthreadpool.h
 
 	src/libcute/util/Bitwise.h
 	src/libcute/util/MMIOHandle.h
@@ -94,6 +95,7 @@ SET(libcute_SOURCES
 	src/libcute/tags/TaggedFile.cpp
 
 	src/libcute/thread/CollectionLocker.cpp
+	src/libcute/thread/collectionthreadpool.cpp
 
 	src/libcute/util/Bitwise.cpp
 	src/libcute/util/MMIOHandle.cpp
