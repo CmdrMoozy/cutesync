@@ -16,25 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_ICON_LIST_WIDGET_H
-#define INCLUDE_CUTE_SYNC_ICON_LIST_WIDGET_H
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_ICON_LIST_WIDGET_H
+#define INCLUDE_CUTE_SYNC_WIDGETS_ICON_LIST_WIDGET_H
 
 #include <QListView>
 
 /*!
  * \brief This widget implements a simple list to display text/icon pairs.
  *
- * It functions similarly to a QListWidget, but has some added functionality. For one, it ensures that
- * we have one item per row and they are sized appropriately according to our icon size. Second, it allows
- * the user to use a custom model - something QListWidget does not do. For your custom model, you should
- * probably have its data() function return valid information for both DisplayRole and DecorationRole,
- * so we can display your text and icon respectively.
+ * It functions similarly to a QListWidget, but has some added functionality.
+ * For one, it ensures that we have one item per row and they are sized
+ * appropriately according to our icon size. Second, it allows the user to use
+ * a custom model - something QListWidget does not do. For your custom model,
+ * you should probably have its data() function return valid information for
+ * both DisplayRole and DecorationRole, so we can display your text and icon
+ * respectively.
  */
-class CuteSyncIconListWidget : public QListView
+class CSIconListWidget : public QListView
 {
 	public:
-		CuteSyncIconListWidget(QWidget *p = 0);
-		virtual ~CuteSyncIconListWidget();
+		CSIconListWidget(QWidget *p = 0);
+		virtual ~CSIconListWidget();
 
 		virtual int spacing() const;
 		virtual void setSpacing(int s);

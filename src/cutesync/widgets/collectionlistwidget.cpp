@@ -31,7 +31,7 @@
  * \param p Our parent widget.
  */
 CSCollectionListWidget::CSCollectionListWidget(QWidget *p)
-	: CuteSyncIconListWidget(p), mdl(NULL)
+	: CSIconListWidget(p), mdl(NULL)
 {
 	delegate = new CSCollectionDelegate(this);
 	setItemDelegate(delegate);
@@ -89,7 +89,7 @@ void CSCollectionListWidget::setCollectionModel(CSCollectionModel *m)
  */
 void CSCollectionListWidget::setModel(QAbstractItemModel *m)
 {
-	CuteSyncIconListWidget::setModel(m);
+	CSIconListWidget::setModel(m);
 }
 
 /*!

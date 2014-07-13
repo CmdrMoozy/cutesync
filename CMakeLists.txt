@@ -134,7 +134,7 @@ SET(cutesync_HEADERS
 	src/cutesync/widgets/collectionlistwidget.h
 	src/cutesync/widgets/CuteSyncDDSelectorModel.h
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
-	src/cutesync/widgets/CuteSyncIconListWidget.h
+	src/cutesync/widgets/iconlistwidget.h
 
 )
 
@@ -160,7 +160,7 @@ SET(cutesync_SOURCES
 	src/cutesync/widgets/collectionlistwidget.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp
 	src/cutesync/widgets/CuteSyncDDSelectorWidget.cpp
-	src/cutesync/widgets/CuteSyncIconListWidget.cpp
+	src/cutesync/widgets/iconlistwidget.cpp
 
 )
 

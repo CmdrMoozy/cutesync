@@ -19,7 +19,7 @@
 #ifndef INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_LIST_WIDGET
 #define INCLUDE_CUTE_SYNC_WIDGETS_COLLECTION_LIST_WIDGET
 
-#include "cutesync/widgets/CuteSyncIconListWidget.h"
+#include "cutesync/widgets/iconlistwidget.h"
 
 class CuteSyncAbstractCollection;
 class CSCollectionModel;
@@ -32,7 +32,7 @@ class CSCollectionDelegate;
  * about freeing them later. We also handle creating the correct type of object
  * based on the collection type.
  */
-class CSCollectionListWidget : public CuteSyncIconListWidget
+class CSCollectionListWidget : public CSIconListWidget
 {
 	Q_OBJECT
 
