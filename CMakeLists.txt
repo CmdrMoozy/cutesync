@@ -126,7 +126,7 @@ SET(cutesync_HEADERS
 	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h
 	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.h
 
-	src/cutesync/settings/CuteSyncSettingsManager.h
+	src/cutesync/settings/settingsmanager.h
 
 	src/cutesync/widgets/CuteSyncCollectionDelegate.h
 	src/cutesync/widgets/CuteSyncCollectionListWidget.h
@@ -151,7 +151,7 @@ SET(cutesync_SOURCES
 	src/cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.cpp
 	src/cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.cpp
 
-	src/cutesync/settings/CuteSyncSettingsManager.cpp
+	src/cutesync/settings/settingsmanager.cpp
 
 	src/cutesync/widgets/CuteSyncCollectionDelegate.cpp
 	src/cutesync/widgets/CuteSyncCollectionInspector.cpp

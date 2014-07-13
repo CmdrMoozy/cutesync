@@ -35,7 +35,7 @@
 #include "cutesync/mainmenubar.h"
 #include "cutesync/dialogs/CuteSyncNewCollectionDialog.h"
 #include "cutesync/dialogs/CuteSyncSyncDialog.h"
-#include "cutesync/settings/CuteSyncSettingsManager.h"
+#include "cutesync/settings/settingsmanager.h"
 #include "cutesync/widgets/CuteSyncCollectionInspector.h"
 #include "cutesync/widgets/CuteSyncCollectionListWidget.h"
 
@@ -49,7 +49,7 @@
 CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 	: QMainWindow(p, f)
 {
-	settingsManager = new CuteSyncSettingsManager(this);
+	settingsManager = new CSSettingsManager(this);
 
 	// Set some window properties.
 

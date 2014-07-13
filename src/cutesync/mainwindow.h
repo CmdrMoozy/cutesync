@@ -39,7 +39,7 @@ class CuteSyncCollectionInspector;
 class CuteSyncNewCollectionDialog;
 class CuteSyncSyncDialog;
 class CuteSyncAbstractCollection;
-class CuteSyncSettingsManager;
+class CSSettingsManager;
 
 /*!
  * \brief This class defines the main window for our application.
@@ -56,9 +56,7 @@ class CSMainWindow : public QMainWindow
 		virtual void closeEvent(QCloseEvent *e);
 
 	private:
-		QLocalServer *sappServer;
-
-		CuteSyncSettingsManager *settingsManager;
+		CSSettingsManager *settingsManager;
 
 		CuteSyncNewCollectionDialog *newCollectionDialog;
 		CuteSyncSyncDialog *syncDialog;

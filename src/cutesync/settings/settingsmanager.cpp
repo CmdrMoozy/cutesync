@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncSettingsManager.h"
+#include "settingsmanager.h"
 
 #include <QMutex>
 #include <QMutexLocker>
@@ -27,7 +27,7 @@
 
 // Load our default settings values into our static defaults list.
 
-const QList< QPair<QString, QVariant> > CuteSyncSettingsManager::defaults
+const QList< QPair<QString, QVariant> > CSSettingsManager::defaults
 	= (QList< QPair<QString, QVariant> >())
 		<< QPair<QString, QVariant>("display-descriptor",
 			QVariant(CuteSyncAbstractCollection::serializeDisplayDescriptor(
@@ -38,10 +38,10 @@ const QList< QPair<QString, QVariant> > CuteSyncSettingsManager::defaults
 		<< QPair<QString, QVariant>("window-stat", QVariant(QByteArray()));
 
 /*!
- * This is our default constructor, which creates a new settings manager instance, and configures its
- * default options and etc.
+ * This is our default constructor, which creates a new settings manager
+ * instance, and configures its default options and etc.
  */
-CuteSyncSettingsManager::CuteSyncSettingsManager(QObject *p)
+CSSettingsManager::CSSettingsManager(QObject *p)
 	: QObject(p)
 {
 	sync = new QMutex(QMutex::Recursive);
@@ -55,18 +55,18 @@ CuteSyncSettingsManager::CuteSyncSettingsManager(QObject *p)
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncSettingsManager::~CuteSyncSettingsManager()
+CSSettingsManager::~CSSettingsManager()
 {
 	delete sync;
 	delete settings;
 }
 
-int CuteSyncSettingsManager::count() const
+int CSSettingsManager::count() const
 {
 	return settings->allKeys().count();
 }
 
-void CuteSyncSettingsManager::resetDefaults()
+void CSSettingsManager::resetDefaults()
 {
 	QMutexLocker locker(sync);
 
@@ -74,7 +74,7 @@ void CuteSyncSettingsManager::resetDefaults()
 		setSetting(defaults.at(i).first, defaults.at(i).second);
 }
 
-void CuteSyncSettingsManager::resetDefault(const QString &k)
+void CSSettingsManager::resetDefault(const QString &k)
 {
 	QMutexLocker locker(sync);
 
@@ -88,7 +88,7 @@ void CuteSyncSettingsManager::resetDefault(const QString &k)
 	}
 }
 
-void CuteSyncSettingsManager::setSetting(const QString &k, const QVariant &v)
+void CSSettingsManager::setSetting(const QString &k, const QVariant &v)
 {
 	QMutexLocker locker(sync);
 
@@ -96,14 +96,14 @@ void CuteSyncSettingsManager::setSetting(const QString &k, const QVariant &v)
 	Q_EMIT settingChanged(k, v);
 }
 
-bool CuteSyncSettingsManager::containsSetting(const QString &k) const
+bool CSSettingsManager::containsSetting(const QString &k) const
 {
 	QMutexLocker locker(sync);
 
 	return settings->contains(k);
 }
 
-QVariant CuteSyncSettingsManager::getSetting(const QString &k) const
+QVariant CSSettingsManager::getSetting(const QString &k) const
 {
 	QMutexLocker locker(sync);
 
@@ -111,11 +111,12 @@ QVariant CuteSyncSettingsManager::getSetting(const QString &k) const
 }
 
 /*!
- * This function initializes our settings, ensuring that they are valid. Any settings that are not set are
- * given default values, and any settings that are set to an invalid type are reset to their default value.
- * Other settings are left untouched.
+ * This function initializes our settings, ensuring that they are valid. Any
+ * settings that are not set are given default values, and any settings that
+ * are set to an invalid type are reset to their default value. Other settings
+ * are left untouched.
  */
-void CuteSyncSettingsManager::initializeDefaults()
+void CSSettingsManager::initializeDefaults()
 {
 	QMutexLocker locker(sync);
 

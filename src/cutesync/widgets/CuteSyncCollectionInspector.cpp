@@ -31,7 +31,7 @@
 #include "cutesync/dialogs/inspector/CuteSyncInspectorAboutDialog.h"
 #include "cutesync/dialogs/inspector/CuteSyncInspectorCollectionConfigDialog.h"
 #include "cutesync/dialogs/inspector/CuteSyncInspectorConfigDialog.h"
-#include "cutesync/settings/CuteSyncSettingsManager.h"
+#include "cutesync/settings/settingsmanager.h"
 #include "libcute/util/SystemUtils.h"
 
 /*!
@@ -40,7 +40,7 @@
  * \param p Our parent widget.
  */
 CuteSyncCollectionInspector::CuteSyncCollectionInspector(
-	CuteSyncSettingsManager *s, QWidget *p)
+	CSSettingsManager *s, QWidget *p)
 	: QWidget(p), settingsManager(s), collection(NULL)
 {
 	createGUI();
@@ -65,7 +65,7 @@ CuteSyncCollectionInspector::CuteSyncCollectionInspector(
  * \param p Our parent widget.
  */
 CuteSyncCollectionInspector::CuteSyncCollectionInspector(
-	CuteSyncSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p)
+	CSSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p)
 	: QWidget(p), settingsManager(s), collection(NULL)
 {
 	createGUI();

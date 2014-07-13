@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_SETTINGS_MANAGER_H
-#define INCLUDE_CUTE_SYNC_SETTINGS_MANAGER_H
+#ifndef INCLUDE_CUTE_SYNC_SETTINGS_SETTINGS_MANAGER_H
+#define INCLUDE_CUTE_SYNC_SETTINGS_SETTINGS_MANAGER_H
 
 #include <QObject>
 #include <QList>
@@ -33,13 +33,13 @@ class QSettings;
  * It implements some functionality on top of that provided by QSettings, and
  * it provides a set of default options specific to our application.
  */
-class CuteSyncSettingsManager : public QObject
+class CSSettingsManager : public QObject
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncSettingsManager(QObject *p = 0);
-		virtual ~CuteSyncSettingsManager();
+		CSSettingsManager(QObject *p = 0);
+		virtual ~CSSettingsManager();
 
 		int count() const;
 

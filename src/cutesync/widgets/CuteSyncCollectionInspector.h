@@ -33,7 +33,7 @@ class QDialog;
 class CuteSyncInspectorAboutDialog;
 class CuteSyncInspectorCollectionConfigDialog;
 class CuteSyncInspectorConfigDialog;
-class CuteSyncSettingsManager;
+class CSSettingsManager;
 
 /*!
  * \brief This class provides a widget to display info about a collection.
@@ -47,9 +47,9 @@ class CuteSyncCollectionInspector : public QWidget
 	Q_OBJECT
 
 	public:
-		CuteSyncCollectionInspector(CuteSyncSettingsManager *s,
+		CuteSyncCollectionInspector(CSSettingsManager *s,
 			QWidget *p = 0);
-		CuteSyncCollectionInspector(CuteSyncSettingsManager *s,
+		CuteSyncCollectionInspector(CSSettingsManager *s,
 			CuteSyncAbstractCollection *c, QWidget *p = 0);
 		virtual ~CuteSyncCollectionInspector();
 
@@ -66,7 +66,7 @@ class CuteSyncCollectionInspector : public QWidget
 		virtual void timerEvent(QTimerEvent *e);
 
 	private:
-		CuteSyncSettingsManager *settingsManager;
+		CSSettingsManager *settingsManager;
 		CuteSyncAbstractCollection::DisplayDescriptor displayDescriptor;
 
 		CuteSyncInspectorAboutDialog *aboutDialog;
