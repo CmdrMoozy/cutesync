@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_D_D_SELECTOR_MODEL_H
-#define INCLUDE_CUTE_SYNC_D_D_SELECTOR_MODEL_H
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_D_D_SELECTOR_MODEL_H
+#define INCLUDE_CUTE_SYNC_WIDGETS_D_D_SELECTOR_MODEL_H
 
 #include <QAbstractListModel>
 
@@ -29,11 +29,11 @@
  * It more or less just maintains a list of columns (thereby storing their
  * order), and whether or not they are "enabled" for display or sorting.
  */
-class CuteSyncDDSelectorModel : public QAbstractListModel
+class CSDDSelectorModel : public QAbstractListModel
 {
 	public:
-		CuteSyncDDSelectorModel(QObject *p = 0);
-		virtual ~CuteSyncDDSelectorModel();
+		CSDDSelectorModel(QObject *p = 0);
+		virtual ~CSDDSelectorModel();
 
 		QList<CuteSyncAbstractCollection::Column> getColumnList() const;
 

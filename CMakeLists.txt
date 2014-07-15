@@ -133,8 +133,8 @@ SET(cutesync_HEADERS
 	src/cutesync/widgets/collectiondelegate.h
 	src/cutesync/widgets/collectioninspector.h
 	src/cutesync/widgets/collectionlistwidget.h
-	src/cutesync/widgets/CuteSyncDDSelectorModel.h
-	src/cutesync/widgets/CuteSyncDDSelectorWidget.h
+	src/cutesync/widgets/ddselectormodel.h
+	src/cutesync/widgets/ddselectorwidget.h
 	src/cutesync/widgets/iconlistwidget.h
 
 )
@@ -159,8 +159,8 @@ SET(cutesync_SOURCES
 	src/cutesync/widgets/collectiondelegate.cpp
 	src/cutesync/widgets/collectioninspector.cpp
 	src/cutesync/widgets/collectionlistwidget.cpp
-	src/cutesync/widgets/CuteSyncDDSelectorModel.cpp
-	src/cutesync/widgets/CuteSyncDDSelectorWidget.cpp
+	src/cutesync/widgets/ddselectormodel.cpp
+	src/cutesync/widgets/ddselectorwidget.cpp
 	src/cutesync/widgets/iconlistwidget.cpp
 
 )

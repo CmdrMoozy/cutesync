@@ -30,8 +30,8 @@ class QPushButton;
 class QRadioButton;
 class QGroupBox;
 
-class CuteSyncDDSelectorWidget;
-class CuteSyncDDSelectorModel;
+class CSDDSelectorWidget;
+class CSDDSelectorModel;
 
 /*!
  * \brief This class provides an interface for configuring our inspector widget.
@@ -63,15 +63,15 @@ class CSInspectorConfigDialog : public QDialog
 
 		QGroupBox *sortGroupBox;
 		QGridLayout *sortLayout;
-		CuteSyncDDSelectorWidget *sortSelector;
-		CuteSyncDDSelectorModel *sortModel;
+		CSDDSelectorWidget *sortSelector;
+		CSDDSelectorModel *sortModel;
 		QRadioButton *ascendingButton;
 		QRadioButton *descendingButton;
 
 		QGroupBox *displayGroupBox;
 		QGridLayout *displayLayout;
-		CuteSyncDDSelectorWidget *displaySelector;
-		CuteSyncDDSelectorModel *displayModel;
+		CSDDSelectorWidget *displaySelector;
+		CSDDSelectorModel *displayModel;
 
 		QWidget *buttonsWidget;
 		QGridLayout *buttonsLayout;

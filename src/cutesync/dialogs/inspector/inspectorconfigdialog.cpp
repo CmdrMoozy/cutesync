@@ -24,8 +24,8 @@
 #include <QRadioButton>
 #include <QListView>
 
-#include "cutesync/widgets/CuteSyncDDSelectorModel.h"
-#include "cutesync/widgets/CuteSyncDDSelectorWidget.h"
+#include "cutesync/widgets/ddselectormodel.h"
+#include "cutesync/widgets/ddselectorwidget.h"
 
 /*!
  * This is our default constructor, which creates our new dialog.
@@ -95,8 +95,8 @@ void CSInspectorConfigDialog::createGUI()
 	sortGroupBox = new QGroupBox(tr("Sort By Columns"), this);
 	sortLayout = new QGridLayout(sortGroupBox);
 
-	sortSelector = new CuteSyncDDSelectorWidget(sortGroupBox);
-	sortModel = new CuteSyncDDSelectorModel(sortSelector);
+	sortSelector = new CSDDSelectorWidget(sortGroupBox);
+	sortModel = new CSDDSelectorModel(sortSelector);
 	sortSelector->setModel(sortModel);
 
 	ascendingButton = new QRadioButton(tr("Ascending"), sortGroupBox);
@@ -110,8 +110,8 @@ void CSInspectorConfigDialog::createGUI()
 	displayGroupBox = new QGroupBox(tr("Display Columns"), this);
 	displayLayout = new QGridLayout(displayGroupBox);
 
-	displaySelector = new CuteSyncDDSelectorWidget(displayGroupBox);
-	displayModel = new CuteSyncDDSelectorModel(displaySelector);
+	displaySelector = new CSDDSelectorWidget(displayGroupBox);
+	displayModel = new CSDDSelectorModel(displaySelector);
 	displaySelector->setModel(displayModel);
 
 	displayLayout->addWidget( displaySelector, 0, 0, 1, 1 );

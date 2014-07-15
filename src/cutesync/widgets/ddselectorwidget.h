@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDE_CUTE_SYNC_D_D_SELECTOR_WIDGET_H
-#define INCLUDE_CUTE_SYNC_D_D_SELECTOR_WIDGET_H
+#ifndef INCLUDE_CUTE_SYNC_WIDGETS_D_D_SELECTOR_WIDGET_H
+#define INCLUDE_CUTE_SYNC_WIDGETS_D_D_SELECTOR_WIDGET_H
 
 #include <QWidget>
 
@@ -25,7 +25,7 @@ class QGridLayout;
 class QListView;
 class QPushButton;
 
-class CuteSyncDDSelectorModel;
+class CSDDSelectorModel;
 
 /*!
  * \brief This widget provides a way to view or modify a display descriptor.
@@ -35,16 +35,16 @@ class CuteSyncDDSelectorModel;
  * enable/disable columns, and to change the order of the columns via up/down
  * buttons.
  */
-class CuteSyncDDSelectorWidget : public QWidget
+class CSDDSelectorWidget : public QWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncDDSelectorWidget(QWidget *p = 0);
-		virtual ~CuteSyncDDSelectorWidget();
+		CSDDSelectorWidget(QWidget *p = 0);
+		virtual ~CSDDSelectorWidget();
 
-		void setModel(CuteSyncDDSelectorModel *m);
-		CuteSyncDDSelectorModel *model() const;
+		void setModel(CSDDSelectorModel *m);
+		CSDDSelectorModel *model() const;
 
 	private:
 		QGridLayout *layout;

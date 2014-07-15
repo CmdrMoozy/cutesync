@@ -16,20 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CuteSyncDDSelectorWidget.h"
+#include "ddselectorwidget.h"
 
 #include <QGridLayout>
 #include <QListView>
 #include <QPushButton>
 
-#include "cutesync/widgets/CuteSyncDDSelectorModel.h"
+#include "cutesync/widgets/ddselectormodel.h"
 
 /*!
  * This is our default constructor, which creates our new widget.
  *
  * \param p Our parent widget.
  */
-CuteSyncDDSelectorWidget::CuteSyncDDSelectorWidget(QWidget *p)
+CSDDSelectorWidget::CSDDSelectorWidget(QWidget *p)
 	: QWidget(p)
 {
 	layout = new QGridLayout(this);
@@ -45,64 +45,76 @@ CuteSyncDDSelectorWidget::CuteSyncDDSelectorWidget(QWidget *p)
 	layout->setRowStretch(0, 1);
 	setLayout(layout);
 
-	QObject::connect( upButton,   SIGNAL( clicked() ), this, SLOT( doUpClicked()   ) );
-	QObject::connect( downButton, SIGNAL( clicked() ), this, SLOT( doDownClicked() ) );
+	QObject::connect(upButton, SIGNAL(clicked()),
+		this, SLOT(doUpClicked()));
+	QObject::connect(downButton, SIGNAL(clicked()),
+		this, SLOT(doDownClicked()));
 }
 
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncDDSelectorWidget::~CuteSyncDDSelectorWidget()
+CSDDSelectorWidget::~CSDDSelectorWidget()
 {
 }
 
 /*!
- * This function sets the model our list view will use. Note that we don't take ownership of the model; if it
- * needs to be deleted, then YOU should delete it.
+ * This function sets the model our list view will use. Note that we don't take
+ * ownership of the model; if it needs to be deleted, then YOU should delete
+ * it.
  *
  * \param m The new model to use.
  */
-void CuteSyncDDSelectorWidget::setModel(CuteSyncDDSelectorModel *m)
+void CSDDSelectorWidget::setModel(CSDDSelectorModel *m)
 {
 	view->setModel(m);
 }
 
 /*!
- * This function returns a pointer to the model our list view is currently using.
+ * This function returns a pointer to the model our list view is currently
+ * using.
  *
  * \return The model we are currently using.
  */
-CuteSyncDDSelectorModel *CuteSyncDDSelectorWidget::model() const
+CSDDSelectorModel *CSDDSelectorWidget::model() const
 {
-	return dynamic_cast<CuteSyncDDSelectorModel *>(view->model());
+	return dynamic_cast<CSDDSelectorModel *>(view->model());
 }
 
 /*!
- * This function handles our up button being clicked by alerting our model that it needs to move the item
- * up, and by updating the selection in our view to match.
+ * This function handles our up button being clicked by alerting our model that
+ * it needs to move the item up, and by updating the selection in our view to
+ * match.
  */
-void CuteSyncDDSelectorWidget::doUpClicked()
+void CSDDSelectorWidget::doUpClicked()
 {
-	CuteSyncDDSelectorModel *m = model();
+	CSDDSelectorModel *m = model();
 
 	if( (m != NULL) && (view->selectionModel()->hasSelection()) )
 	{
-		m->moveUp(view->selectionModel()->selectedIndexes().front().row());
-		view->setCurrentIndex(m->index(view->selectionModel()->selectedIndexes().front().row() - 1, 0));
+		m->moveUp(view->selectionModel()->selectedIndexes()
+			.front().row());
+
+		view->setCurrentIndex(m->index(view->selectionModel()
+			->selectedIndexes().front().row() - 1, 0));
 	}
 }
 
 /*!
- * This function handles our down button being clicked by alerting our model that it needs to move the item
- * down, and by updating the selection in our view to match.
+ * This function handles our down button being clicked by alerting our model
+ * that it needs to move the item down, and by updating the selection in our
+ * view to match.
  */
-void CuteSyncDDSelectorWidget::doDownClicked()
+void CSDDSelectorWidget::doDownClicked()
 {
-	CuteSyncDDSelectorModel *m = model();
+	CSDDSelectorModel *m = model();
 
 	if( (m != NULL) && (view->selectionModel()->hasSelection()) )
 	{
-		m->moveDown(view->selectionModel()->selectedIndexes().front().row());
-		view->setCurrentIndex(m->index(view->selectionModel()->selectedIndexes().front().row() + 1, 0));
+		m->moveDown(view->selectionModel()->selectedIndexes()
+			.front().row());
+
+		view->setCurrentIndex(m->index(view->selectionModel()
+			->selectedIndexes().front().row() + 1, 0));
 	}
 }
