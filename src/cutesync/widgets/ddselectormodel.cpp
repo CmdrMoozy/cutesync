@@ -18,7 +18,7 @@
 
 #include "ddselectormodel.h"
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 
 /*!
  * This is our default constructor, which creates a new model object.

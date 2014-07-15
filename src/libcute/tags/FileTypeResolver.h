@@ -23,7 +23,7 @@
 
 #include <taglib/fileref.h>
 
-class CuteSyncMMIOHandle;
+class CSMMIOHandle;
 
 /*!
  * \brief This class provides a way to resolve the file type of input files.
@@ -46,7 +46,7 @@ class CuteSyncFileTypeResolver : public TagLib::FileRef::FileTypeResolver
 			TagLib::AudioProperties::Average) const;
 
 	private:
-		bool isValidFtyp(const CuteSyncMMIOHandle &f,
+		bool isValidFtyp(const CSMMIOHandle &f,
 			uint64_t o) const;
 };
 

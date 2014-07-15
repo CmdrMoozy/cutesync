@@ -22,7 +22,7 @@
 
 #include <QLocalServer>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "cutesync/mainwindow.h"
 
 /*!

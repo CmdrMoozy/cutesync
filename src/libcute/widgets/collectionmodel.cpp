@@ -27,7 +27,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/collections/AbstractCollection.h"
 
 /*!

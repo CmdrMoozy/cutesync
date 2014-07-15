@@ -64,7 +64,7 @@
  * It should be noted that Windows, unlike other platforms, DOES use buffered
  * I/O when doing MMIO, so this class may not be as performant on that platform.
  */
-class CuteSyncMMIOHandle
+class CSMMIOHandle
 {
 	public:
 		enum OpenMode
@@ -73,8 +73,8 @@ class CuteSyncMMIOHandle
 			ReadWrite
 		};
 
-		CuteSyncMMIOHandle(const std::string &p = "");
-		virtual ~CuteSyncMMIOHandle();
+		CSMMIOHandle(const std::string &p = "");
+		virtual ~CSMMIOHandle();
 
 		uint8_t &operator[](uint64_t o);
 

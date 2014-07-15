@@ -26,12 +26,12 @@
 #include <QList>
 #include <QThread>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/collections/DirCollectionConfigWidget.h"
 #include "libcute/collections/DirTrack.h"
 #include "libcute/tags/FileTypeResolver.h"
 #include "libcute/tags/TaggedFile.h"
-#include "libcute/util/SystemUtils.h"
+#include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -124,16 +124,16 @@ QString CuteSyncDirCollection::getAboutText() const
 	r += QString("Total Tracks: ") + QString::number(count()) +
 		QString("\n");
 	r += QString("Used Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceUsed(getMountPoint()
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceUsed(getMountPoint()
 		.toLatin1().data()))) + QString("\n");
 	r += QString("Free Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceAvailable(getMountPoint()
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceAvailable(getMountPoint()
 		.toLatin1().data()))) + QString("\n");
 	r += QString("Total Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceCapacity(
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceCapacity(
 		getMountPoint().toLatin1().data()))) + QString("\n");
 
 	return r;
@@ -158,7 +158,7 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 
 	// Setup progress bounds.
 
-	int fileCount = static_cast<int>(CuteSyncSystemUtils::getFileCount(
+	int fileCount = static_cast<int>(CSSystemUtils::getFileCount(
 		p.toStdString()));
 	Q_EMIT progressLimitsUpdated(0, fileCount);
 
@@ -216,7 +216,7 @@ bool CuteSyncDirCollection::refresh()
 
 	// Setup progress bounds.
 
-	int fileCount = static_cast<int>(CuteSyncSystemUtils::getFileCount(
+	int fileCount = static_cast<int>(CSSystemUtils::getFileCount(
 		root.toStdString()));
 	Q_EMIT progressLimitsUpdated(0, fileCount);
 

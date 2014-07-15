@@ -20,7 +20,7 @@
 
 #include <QDataStream>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/collections/AbstractCollectionConfigWidget.h"
 #include "libcute/collections/GeneralCollectionConfigWidget.h"
 #include "libcute/collections/Track.h"

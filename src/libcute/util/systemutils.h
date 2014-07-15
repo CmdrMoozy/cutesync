@@ -31,7 +31,7 @@
 	}
 #endif
 
-class CuteSyncSystemUtils
+class CSSystemUtils
 {
 	public:
 		static std::string getHumanReadableSize(uint64_t b, int p = 2);

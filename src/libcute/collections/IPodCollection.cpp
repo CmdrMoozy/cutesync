@@ -32,12 +32,12 @@
 #include <QDataStream>
 #include <QFileInfo>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/collections/IPodCollectionConfigWidget.h"
 #include "libcute/collections/IPodTrack.h"
 #include "libcute/tags/FileTypeResolver.h"
 #include "libcute/tags/TaggedFile.h"
-#include "libcute/util/SystemUtils.h"
+#include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
 extern "C" {
@@ -137,16 +137,16 @@ QString CuteSyncIPodCollection::getAboutText() const
 	r += QString("Collection Path: ") + getMountPoint() + QString("\n");
 	r += QString("Total Tracks: ") + QString::number(count()) + QString("\n");
 	r += QString("Used Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceUsed(
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceUsed(
 		getMountPoint().toLatin1().data()))) + QString("\n");
 	r += QString("Free Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceAvailable(
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceAvailable(
 		getMountPoint().toLatin1().data()))) + QString("\n");
 	r += QString("Total Space: ") + QString::fromStdString(
-		CuteSyncSystemUtils::getHumanReadableSize(
-		CuteSyncSystemUtils::getDeviceCapacity(
+		CSSystemUtils::getHumanReadableSize(
+		CSSystemUtils::getDeviceCapacity(
 		getMountPoint().toLatin1().data()))) + QString("\n");
 
 	if(itdb != NULL)

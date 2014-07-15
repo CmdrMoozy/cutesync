@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MMIOHandle.h"
+#include "mmiohandle.h"
 
 #ifndef _WIN32
 	#include <cstdlib>
@@ -38,7 +38,7 @@
  *
  * \param p The path to the file you want to work with, or "".
  */
-CuteSyncMMIOHandle::CuteSyncMMIOHandle(const std::string &p)
+CSMMIOHandle::CSMMIOHandle(const std::string &p)
 	: path(p)
 {
 	#ifdef _WIN32
@@ -55,7 +55,7 @@ CuteSyncMMIOHandle::CuteSyncMMIOHandle(const std::string &p)
  * This is our default destructor, which flushes any outstanding I/O operations
  * (if any), closes all of our file descriptors, and then destroys our object.
  */
-CuteSyncMMIOHandle::~CuteSyncMMIOHandle()
+CSMMIOHandle::~CSMMIOHandle()
 {
 	close();
 }
@@ -69,7 +69,7 @@ CuteSyncMMIOHandle::~CuteSyncMMIOHandle()
  * \param o The offset of the byte to return.
  * \return A reference to the byte at the given offset.
  */
-uint8_t &CuteSyncMMIOHandle::operator[](uint64_t o)
+uint8_t &CSMMIOHandle::operator[](uint64_t o)
 {
 	#ifdef _WIN32
 		return view[o];
@@ -83,7 +83,7 @@ uint8_t &CuteSyncMMIOHandle::operator[](uint64_t o)
  *
  * \return Our current path.
  */
-std::string CuteSyncMMIOHandle::getPath() const
+std::string CSMMIOHandle::getPath() const
 {
 	return path;
 }
@@ -95,7 +95,7 @@ std::string CuteSyncMMIOHandle::getPath() const
  *
  * \param p The new path to work with.
  */
-void CuteSyncMMIOHandle::setPath(const std::string &p)
+void CSMMIOHandle::setPath(const std::string &p)
 {
 	if(!isOpen())
 		path = p;
@@ -108,7 +108,7 @@ void CuteSyncMMIOHandle::setPath(const std::string &p)
  *
  * \return Our current open mode.
  */
-CuteSyncMMIOHandle::OpenMode CuteSyncMMIOHandle::getMode() const
+CSMMIOHandle::OpenMode CSMMIOHandle::getMode() const
 {
 	return mode;
 }
@@ -143,7 +143,7 @@ CuteSyncMMIOHandle::OpenMode CuteSyncMMIOHandle::getMode() const
  * \param s The new file's size, in bytes. Required when creating.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m,
+bool CSMMIOHandle::open(CSMMIOHandle::OpenMode m,
 	bool c, uint64_t s)
 {
 	mode = m;
@@ -239,7 +239,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m,
 		mmioHandle = CreateFileMapping(fileHandle,
 			NULL, mAccess, 0, 0, NULL);
 
-		if(CuteSyncMMIOHandle == NULL)
+		if(CSMMIOHandle == NULL)
 		{
 			CloseHandle(fileHandle);
 			fileHandle = NULL;
@@ -385,7 +385,7 @@ bool CuteSyncMMIOHandle::open(CuteSyncMMIOHandle::OpenMode m,
  *
  * \return True if we are open, or false otherwise.
  */
-bool CuteSyncMMIOHandle::isOpen() const
+bool CSMMIOHandle::isOpen() const
 {
 	#ifdef _WIN32
 		return (view != NULL);
@@ -400,7 +400,7 @@ bool CuteSyncMMIOHandle::isOpen() const
  * this function does nothing. Also note that this function similarly does
  * nothing if our handle is not open.
  */
-void CuteSyncMMIOHandle::flush()
+void CSMMIOHandle::flush()
 {
 	if(isOpen())
 	{
@@ -417,7 +417,7 @@ void CuteSyncMMIOHandle::flush()
  * closes our MMIO handle. Note that if we are not already open, then no actio
  * is taken.
  */
-void CuteSyncMMIOHandle::close()
+void CSMMIOHandle::close()
 {
 	flush();
 	if(isOpen())
@@ -426,8 +426,8 @@ void CuteSyncMMIOHandle::close()
 			UnmapViewOfFile(view);
 			view = NULL;
 
-			CloseHandle(CuteSyncMMIOHandle);
-			CuteSyncMMIOHandle = NULL;
+			CloseHandle(CSMMIOHandle);
+			CSMMIOHandle = NULL;
 
 			CloseHandle(fileHandle);
 			fileHandle = NULL;
@@ -448,7 +448,7 @@ void CuteSyncMMIOHandle::close()
  *
  * \return The size of our current file.
  */
-uint64_t CuteSyncMMIOHandle::getLength() const
+uint64_t CSMMIOHandle::getLength() const
 {
 	if(isOpen())
 	{
@@ -475,7 +475,7 @@ uint64_t CuteSyncMMIOHandle::getLength() const
  * \param o The offset of the desired byte.
  * \return The desired byte, or a null-terminator if an error occurs.
  */
-uint8_t CuteSyncMMIOHandle::at(uint64_t o) const
+uint8_t CSMMIOHandle::at(uint64_t o) const
 {
 	if(isOpen())
 	{
@@ -503,7 +503,7 @@ uint8_t CuteSyncMMIOHandle::at(uint64_t o) const
  * \param l The length of the desired data, in bytes.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::at(uint64_t o, uint8_t *b, uint64_t l) const
+bool CSMMIOHandle::at(uint64_t o, uint8_t *b, uint64_t l) const
 {
 	if(isOpen())
 	{
@@ -537,9 +537,9 @@ bool CuteSyncMMIOHandle::at(uint64_t o, uint8_t *b, uint64_t l) const
  * \param c The new value for the specified byte.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::set(uint64_t o, uint8_t c)
+bool CSMMIOHandle::set(uint64_t o, uint8_t c)
 {
-	if( isOpen() && (getMode() == CuteSyncMMIOHandle::ReadWrite) )
+	if( isOpen() && (getMode() == CSMMIOHandle::ReadWrite) )
 	{
 		#ifdef _WIN32
 			view[o] = c;
@@ -567,9 +567,9 @@ bool CuteSyncMMIOHandle::set(uint64_t o, uint8_t c)
  * \param l The length of the data to write, in bytes.
  * \return True on success, or false on failure.
  */
-bool CuteSyncMMIOHandle::set(uint64_t o, const uint8_t *c, uint64_t l)
+bool CSMMIOHandle::set(uint64_t o, const uint8_t *c, uint64_t l)
 {
-	if( isOpen() && (getMode() == CuteSyncMMIOHandle::ReadWrite) )
+	if( isOpen() && (getMode() == CSMMIOHandle::ReadWrite) )
 	{
 		#ifdef _WIN32
 			for(uint64_t i = o; (i-o) < l; ++i)

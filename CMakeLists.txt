@@ -49,7 +49,7 @@ INCLUDE_DIRECTORIES("src" ${GLIB_INCLUDE_DIRS} ${GDK-PIXBUF_INCLUDE_DIRS})
 
 SET(libcute_HEADERS
 
-	src/libcute/Defines.h
+	src/libcute/defines.h
 
 	src/libcute/collections/AbstractCollection.h
 	src/libcute/collections/AbstractCollectionConfigWidget.h
@@ -68,9 +68,9 @@ SET(libcute_HEADERS
 
 	src/libcute/thread/collectionthreadpool.h
 
-	src/libcute/util/Bitwise.h
-	src/libcute/util/MMIOHandle.h
-	src/libcute/util/SystemUtils.h
+	src/libcute/util/bitwise.h
+	src/libcute/util/mmiohandle.h
+	src/libcute/util/systemutils.h
 
 	src/libcute/widgets/collectionlistitem.h
 	src/libcute/widgets/collectionmodel.h
@@ -96,9 +96,9 @@ SET(libcute_SOURCES
 
 	src/libcute/thread/collectionthreadpool.cpp
 
-	src/libcute/util/Bitwise.cpp
-	src/libcute/util/MMIOHandle.cpp
-	src/libcute/util/SystemUtils.cpp
+	src/libcute/util/bitwise.cpp
+	src/libcute/util/mmiohandle.cpp
+	src/libcute/util/systemutils.cpp
 
 	src/libcute/widgets/collectionlistitem.cpp
 	src/libcute/widgets/collectionmodel.cpp

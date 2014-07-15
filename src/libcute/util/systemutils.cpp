@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SystemUtils.h"
+#include "systemutils.h"
 
 #include <cstdlib>
 #include <sstream>
@@ -38,9 +38,10 @@
 #endif
 
 /*!
- * This function converts the given size in bytes to a human-readable format (similar to that returned by
- * `df -h` on UNIX systems). We divide by 1,024 until the value is less than 1,024, and we attach an
- * appropriate unit (i.e., 'MiB' or 'GiB') at the end.
+ * This function converts the given size in bytes to a human-readable format
+ * (similar to that returned by `df -h` on UNIX systems). We divide by 1,024
+ * until the value is less than 1,024, and we attach an appropriate unit (i.e.,
+ * 'MiB' or 'GiB') at the end.
  *
  * This function is platform-independent.
  *
@@ -48,7 +49,7 @@
  * \param p The decimal precision to use - the number of decimal places.
  * \return A human-readable string.
  */
-std::string CuteSyncSystemUtils::getHumanReadableSize(uint64_t b, int p)
+std::string CSSystemUtils::getHumanReadableSize(uint64_t b, int p)
 {
 	std::string units;
 	double s;
@@ -96,26 +97,28 @@ std::string CuteSyncSystemUtils::getHumanReadableSize(uint64_t b, int p)
 }
 
 /*!
- * This is one of our disk space functions. It returns the used space on a device, indicated by the given
- * path. The path provided can be /any file or directory inside the device/, or the mount point
- * itself.
+ * This is one of our disk space functions. It returns the used space on a
+ * device, indicated by the given path. The path provided can be /any file or
+ * directory inside the device/, or the mount point itself.
  *
- * On Windows, this function will return the same value as the "Used space:" line in the drive properties
- * dialog. This is equivalent to the capacity of the device, less the TOTAL free space - including any
- * "extra privileged space" not included by "available" space.
+ * On Windows, this function will return the same value as the "Used space:"
+ * line in the drive properties dialog. This is equivalent to the capacity of
+ * the device, less the TOTAL free space - including any "extra privileged
+ * space" not included by "available" space.
  *
- * On Linux/UNIX/Mac, this function will return the same value as 'df'. This value is fairly straightforward:
- * it is the amount of space in use on the device in bytes.
+ * On Linux/UNIX/Mac, this function will return the same value as 'df'. This
+ * value is fairly straightforward: it is the amount of space in use on the
+ * device in bytes.
  *
  * This function is currently implemented on:
  *     Windows
  *     Linux/UNIX
  *     Mac
  *
- * \param p The path of a file/directory inside the desired device, or its mount point.
+ * \param p A path inside the desired device, or its mount point.
  * \return The used space on the device in bytes, or 0 on error.
  */
-uint64_t CuteSyncSystemUtils::getDeviceUsed(const std::string &p)
+uint64_t CSSystemUtils::getDeviceUsed(const std::string &p)
 {
 	#ifdef _WIN32
 		std::string path = p;
@@ -130,9 +133,14 @@ uint64_t CuteSyncSystemUtils::getDeviceUsed(const std::string &p)
 
 		ULARGE_INTEGER free, capacity;
 		if(GetDiskFreeSpaceEx(path.c_str(), NULL, &capacity, &free))
-			return static_cast<uint64_t>( capacity.QuadPart - free.QuadPart );
+		{
+			return static_cast<uint64_t>(capacity.QuadPart -
+				free.QuadPart);
+		}
 		else
+		{
 			return 0;
+		}
 	#else
 		struct statvfs info;
 		int r = statvfs(p.c_str(), &info);
@@ -140,34 +148,40 @@ uint64_t CuteSyncSystemUtils::getDeviceUsed(const std::string &p)
 		if(r != 0) return 0;
 
 		return (
-			( static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_blocks) ) -
-			( static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_bfree) )
+			(static_cast<uint64_t>(info.f_frsize) *
+				static_cast<uint64_t>(info.f_blocks)) -
+			(static_cast<uint64_t>(info.f_frsize) *
+				static_cast<uint64_t>(info.f_bfree))
 		);
 	#endif
 }
 
 /*!
- * This is one of our disk space functions. It returns the available space on a device, indicated by the
- * given path. The path provided can be /any file or directory inside the device/, or the mount point
- * itself. Our return value may vary between operating systems even for the same device.
+ * This is one of our disk space functions. It returns the available space on a
+ * device, indicated by the given path. The path provided can be /any file or
+ * directory inside the device/, or the mount point itself. Our return value
+ * may vary between operating systems even for the same device.
  *
- * On Windows, this function will return the same value as the "Free space:" line in the drive properties
- * dialog. This value may exclude some "extra privileged space" that IS included by getDeviceFree(),
- * although this is generally not the case. On windows, these two functions are typically the same.
+ * On Windows, this function will return the same value as the "Free space:"
+ * line in the drive properties dialog. This value may exclude some "extra
+ * privileged space" that IS included by getDeviceFree(), although this is
+ * generally not the case. On windows, these two functions are typically the
+ * same.
  *
- * On Linux/UNIX/Mac, this function will return the same value as 'df'. According to the related man page,
- * this value is "Number of free blocks available to non-privileged process." That is, the capacity of a
- * disk is equal to used + available + (some extra privileged space).
+ * On Linux/UNIX/Mac, this function will return the same value as 'df'.
+ * According to the related man page, this value is "Number of free blocks
+ * available to non-privileged process." That is, the capacity of a disk is
+ * equal to used + available + (some extra privileged space).
  *
  * This function is currently implemented on:
  *     Windows
  *     Linux/UNIX
  *     Mac
  *
- * \param p The path of a file/directory inside the desired device, or its mount point.
+ * \param p A path inside the desired device, or its mount point.
  * \return The available space on the device in bytes, or 0 on error.
  */
-uint64_t CuteSyncSystemUtils::getDeviceAvailable(const std::string &p)
+uint64_t CSSystemUtils::getDeviceAvailable(const std::string &p)
 {
 	#ifdef _WIN32
 		std::string path = p;
@@ -191,24 +205,26 @@ uint64_t CuteSyncSystemUtils::getDeviceAvailable(const std::string &p)
 
 		if(r != 0) return 0;
 
-		return (static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_bavail));
+		return (static_cast<uint64_t>(info.f_frsize) *
+			static_cast<uint64_t>(info.f_bavail));
 	#endif
 }
 
 /*!
- * This is one of our disk space functions. It returns the capacity of a device, indicated by the given path.
- * The path provided can be /any file or directory inside the device/, or the mount point itself. This
- * is the TOTAL capacity of the device, in bytes.
+ * This is one of our disk space functions. It returns the capacity of a
+ * device, indicated by the given path. The path provided can be any file or
+ * directory inside the device/, or the mount point itself. This is the TOTAL
+ * capacity of the device, in bytes.
  *
  * This function is currently implemented on:
  *     Windows
  *     Linux/UNIX
  *     Mac
  *
- * \param p The path of a file/directory inside the desired device, or its mount point.
+ * \param p A path inside the desired device, or its mount point.
  * \return The capacity of the device in bytes, or 0 on error.
  */
-uint64_t CuteSyncSystemUtils::getDeviceCapacity(const std::string &p)
+uint64_t CSSystemUtils::getDeviceCapacity(const std::string &p)
 {
 	#ifdef _WIN32
 		std::string path = p;
@@ -232,32 +248,35 @@ uint64_t CuteSyncSystemUtils::getDeviceCapacity(const std::string &p)
 
 		if(r != 0) return 0;
 
-		return (static_cast<uint64_t>(info.f_frsize ) * static_cast<uint64_t>(info.f_blocks));
+		return (static_cast<uint64_t>(info.f_frsize) *
+			static_cast<uint64_t>(info.f_blocks));
 	#endif
 }
 
 /*!
- * This is one of our disk space functions. It returns the percentage of space used on a device, indicated by
- * the given path. The path provided can be /any file or directory inside the device/, or the mount point
- * itself.
+ * This is one of our disk space functions. It returns the percentage of space
+ * used on a device, indicated by the given path. The path provided can be any
+ * file or directory inside the device/, or the mount point itself.
  *
- * On Windows, this function returns a percentage similar to what can be calculated from the drive properties
- * dialog. That is, the formula we use is: used space / (used space + available space).
+ * On Windows, this function returns a percentage similar to what can be
+ * calculated from the drive properties dialog. That is, the formula we use is:
+ * used space / (used space + available space).
  *
- * On Linux/UNIX/Mac, this function returns the same value as 'df'. This value isn't as straightforward as
- * just doing used space divided by capacity. It ignores the "extra privileged space" not included in
- * available, so the formula is (used space / (used space + available space)). The value returned by 'df',
- * more specifically, is ceil(getDeviceUsedPercent()).
+ * On Linux/UNIX/Mac, this function returns the same value as 'df'. This value
+ * isn't as straightforward as just doing used space divided by capacity. It
+ * ignores the "extra privileged space" not included in available, so the
+ * formula is (used space / (used space + available space)). The value returned
+ * by 'df', more specifically, is ceil(getDeviceUsedPercent()).
  *
  * This function is currently implemented on:
  *     Windows
  *     Linux/UNIX
  *     Mac
  *
- * \param p The path of a file/directory inside the desired device, or its mount point.
+ * \param p A path inside the desired device, or its mount point.
  * \return The percentage of space used on the device, or 0.0 on error.
  */
-double CuteSyncSystemUtils::getDeviceUsedPercent(const std::string &p)
+double CSSystemUtils::getDeviceUsedPercent(const std::string &p)
 {
 	#ifdef _WIN32
 		std::string path = p;
@@ -271,11 +290,14 @@ double CuteSyncSystemUtils::getDeviceUsedPercent(const std::string &p)
 		}
 
 		ULARGE_INTEGER capacity, free, available;
-		if(GetDiskFreeSpaceEx(path.c_str(), &available, &capacity, &free))
+		if(GetDiskFreeSpaceEx(path.c_str(), &available,
+			&capacity, &free))
 		{
 			return (
-				static_cast<double>( capacity.QuadPart - free.QuadPart ) /
-				static_cast<double>( (capacity.QuadPart - free.QuadPart) + available.QuadPart )
+				static_cast<double>(capacity.QuadPart -
+					free.QuadPart) /
+				static_cast<double>((capacity.QuadPart -
+					free.QuadPart) + available.QuadPart)
 			) * 100.0;
 		}
 		else
@@ -288,20 +310,24 @@ double CuteSyncSystemUtils::getDeviceUsedPercent(const std::string &p)
 
 		if(r != 0) return 0.0;
 
-		uint64_t used = ( static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_blocks) ) -
-			( static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_bfree) );
-		uint64_t available = static_cast<uint64_t>(info.f_frsize) * static_cast<uint64_t>(info.f_bavail);
+		uint64_t used = (static_cast<uint64_t>(info.f_frsize) *
+			static_cast<uint64_t>(info.f_blocks)) -
+			(static_cast<uint64_t>(info.f_frsize) *
+			static_cast<uint64_t>(info.f_bfree));
+		uint64_t available = static_cast<uint64_t>(info.f_frsize) *
+			static_cast<uint64_t>(info.f_bavail);
 
 		return (
-			static_cast<double>( used ) /
-			static_cast<double>( used + available )
+			static_cast<double>(used) /
+			static_cast<double>(used + available)
 		) * 100.0;
 	#endif
 }
 
 /*!
- * This function returns the number of files present in a given directory. Symlinks (for UNIX-like platforms) are IGNORED - they
- * do not count as files, and they are not followed), while hidden files ARE counted.
+ * This function returns the number of files present in a given directory.
+ * Symlinks (for UNIX-like platforms) are IGNORED - they do not count as files,
+ * and they are not followed), while hidden files ARE counted.
  *
  * This function is currently implemented on:
  *     Windows
@@ -312,7 +338,7 @@ double CuteSyncSystemUtils::getDeviceUsedPercent(const std::string &p)
  * \param r Whether or not we should search recursively.
  * \return The number of files inside the given path, or -1 if an error occurs.
  */
-int64_t CuteSyncSystemUtils::getFileCount(const std::string &p, bool r)
+int64_t CSSystemUtils::getFileCount(const std::string &p, bool r)
 {
 	#ifdef _WIN32
 		// Make sure the given path isn't too long.
@@ -343,7 +369,8 @@ int64_t CuteSyncSystemUtils::getFileCount(const std::string &p, bool r)
 			return -1;
 		}
 
-		int64_t ret = CuteSyncSystemUtils::getFileCountRec(fhandle, path, entry, r);
+		int64_t ret = CSSystemUtils::getFileCountRec(
+			fhandle, path, entry, r);
 
 		Wow64RevertWow64FsRedirection(wowfsr);
 		FindClose(fhandle);
@@ -367,7 +394,7 @@ int64_t CuteSyncSystemUtils::getFileCount(const std::string &p, bool r)
 
 		// Calculate the result and clean up.
 
-		int64_t ret = CuteSyncSystemUtils::getFileCountRec(d, path, s, r);
+		int64_t ret = CSSystemUtils::getFileCountRec(d, path, s, r);
 
 		closedir(d);
 		delete s;
@@ -378,8 +405,9 @@ int64_t CuteSyncSystemUtils::getFileCount(const std::string &p, bool r)
 
 #ifdef _WIN32
 /*!
- * This function does the real work for the Windows version of getFileCount() by searching through a directory recursively.
- * This function only really makes sense on the Windows platform.
+ * This function does the real work for the Windows version of getFileCount()
+ * by searching through a directory recursively. This function only really
+ * makes sense on the Windows platform.
  *
  * \param h The current "find files" handle.
  * \param p The current full path.
@@ -387,7 +415,8 @@ int64_t CuteSyncSystemUtils::getFileCount(const std::string &p, bool r)
  * \param r Whether or not we should recurse.
  * \return The current file total.
  */
-int64_t CuteSyncSystemUtils::getFileCountRec(HANDLE h, const std::string &p, WIN32_FIND_DATA e, bool r)
+int64_t CSSystemUtils::getFileCountRec(HANDLE h, const std::string &p,
+	WIN32_FIND_DATA e, bool r)
 {
 	DWORD attr;
 	int64_t ret = 0;
@@ -396,8 +425,11 @@ int64_t CuteSyncSystemUtils::getFileCountRec(HANDLE h, const std::string &p, WIN
 
 	do
 	{
-		if( (strcmp(".", e.cFileName) == 0) || (strcmp("..", e.cFileName) == 0) )
+		if( (strcmp(".", e.cFileName) == 0) ||
+			(strcmp("..", e.cFileName) == 0) )
+		{
 			continue;
+		}
 
 		std::string apath = p;
 		apath += e.cFileName;
@@ -417,12 +449,14 @@ int64_t CuteSyncSystemUtils::getFileCountRec(HANDLE h, const std::string &p, WIN
 				spath += '*';
 
 				WIN32_FIND_DATA entry;
-				HANDLE subdir = FindFirstFile(spath.c_str(), &entry);
+				HANDLE subdir = FindFirstFile(
+					spath.c_str(), &entry);
 
 				if(subdir == INVALID_HANDLE_VALUE)
 					continue;
 
-				ret += CuteSyncSystemUtils::getFileCountRec(subdir, dpath, entry, r);
+				ret += CSSystemUtils::getFileCountRec(
+					subdir, dpath, entry, r);
 
 				FindClose(subdir);
 			}
@@ -439,8 +473,9 @@ int64_t CuteSyncSystemUtils::getFileCountRec(HANDLE h, const std::string &p, WIN
 }
 #else
 /*!
- * This function does the real work for the Linux/UNIX version of getFileCount() by searching through a directory recursively.
- * This function only makes sense on the Linux/UNIX platforms.
+ * This function does the real work for the Linux/UNIX version of
+ * getFileCount() by searching through a directory recursively. This function
+ * only makes sense on the Linux/UNIX platforms.
  *
  * \param d The current directory pointer.
  * \param p The current full path.
@@ -448,14 +483,16 @@ int64_t CuteSyncSystemUtils::getFileCountRec(HANDLE h, const std::string &p, WIN
  * \param r Whether or not we should recurse.
  * \return The current file total.
  */
-int64_t CuteSyncSystemUtils::getFileCountRec(DIR *d, const std::string &p, struct stat *s, bool r)
+int64_t CSSystemUtils::getFileCountRec(DIR *d, const std::string &p,
+	struct stat *s, bool r)
 {
 	struct dirent *entry = readdir(d);
 	int64_t fcnt = 0;
 
 	while(entry != NULL)
 	{
-		if( (strcmp(".", entry->d_name) == 0) || (strcmp("..", entry->d_name) == 0) )
+		if( (strcmp(".", entry->d_name) == 0) ||
+			(strcmp("..", entry->d_name) == 0) )
 		{
 			entry = readdir(d);
 			continue;
@@ -472,7 +509,10 @@ int64_t CuteSyncSystemUtils::getFileCountRec(DIR *d, const std::string &p, struc
 			DIR *subdir = opendir( (p + entry->d_name).c_str() );
 
 			if(subdir != NULL)
-				fcnt += CuteSyncSystemUtils::getFileCountRec(subdir, (p + entry->d_name + "/"), s, r);
+			{
+				fcnt += CSSystemUtils::getFileCountRec(subdir,
+					(p + entry->d_name + "/"), s, r);
+			}
 
 			closedir(subdir);
 		}

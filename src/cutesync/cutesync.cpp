@@ -18,7 +18,7 @@
 
 #include <QLocalSocket>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "cutesync/application.h"
 
 int main(int argc, char *argv[])

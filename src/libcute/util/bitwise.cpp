@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Bitwise.h"
+#include "bitwise.h"
 
-#include "libcute/util/MMIOHandle.h"
+#include "libcute/util/mmiohandle.h"
 
 /*!
  * This function converts a "32-bit synchsafe integer" found e.g. in MP3
@@ -40,8 +40,8 @@
  * \param o The offset in the buffer to start at (by default, 0).
  * \return The value given as a normal 32-bit integer.
  */
-uint32_t CuteSyncBitwise::fromSynchsafeInt32(
-	const CuteSyncMMIOHandle &f, uint64_t o)
+uint32_t CSBitwise::fromSynchsafeInt32(
+	const CSMMIOHandle &f, uint64_t o)
 {
 	uint32_t result = 0;
 
@@ -62,8 +62,8 @@ uint32_t CuteSyncBitwise::fromSynchsafeInt32(
  * \param o The offset in the file to write the integer at.
  * \param i The integer to write to the file.
  */
-void CuteSyncBitwise::toSynchsafeInt32(
-	CuteSyncMMIOHandle &f, uint64_t o, uint32_t i)
+void CSBitwise::toSynchsafeInt32(
+	CSMMIOHandle &f, uint64_t o, uint32_t i)
 {
 	f.set(o + 3, static_cast<uint8_t>(i & 0x7F));
 	f.set(o + 2, static_cast<uint8_t>((i >> 7) & 0x7F));

@@ -19,20 +19,20 @@
 #ifndef INCLUDE_LIBCUTE_UTIL_BITWISE_H
 #define INCLUDE_LIBCUTE_UTIL_BITWISE_H
 
-class CuteSyncMMIOHandle;
+class CSMMIOHandle;
 
 #include <cstdint>
 
 /*!
  * \brief This class contains various bitwise utility functions.
  */
-class CuteSyncBitwise
+class CSBitwise
 {
 	public:
 		static uint32_t fromSynchsafeInt32(
-			const CuteSyncMMIOHandle &f, uint64_t o);
+			const CSMMIOHandle &f, uint64_t o);
 		static void toSynchsafeInt32(
-			CuteSyncMMIOHandle &f, uint64_t o, uint32_t i);
+			CSMMIOHandle &f, uint64_t o, uint32_t i);
 };
 
 #endif

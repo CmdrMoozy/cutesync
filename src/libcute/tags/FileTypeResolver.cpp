@@ -23,8 +23,8 @@
 #include <taglib/mp4file.h>
 #include <taglib/mpegfile.h>
 
-#include "libcute/util/Bitwise.h"
-#include "libcute/util/MMIOHandle.h"
+#include "libcute/util/bitwise.h"
+#include "libcute/util/mmiohandle.h"
 
 /*!
  * This is our default constructor, which creates our new object.
@@ -54,9 +54,9 @@ CuteSyncFileTypeResolver::~CuteSyncFileTypeResolver()
 TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
 	bool ap, TagLib::AudioProperties::ReadStyle aps) const
 {
-	CuteSyncMMIOHandle file(fn);
+	CSMMIOHandle file(fn);
 
-	if(!file.open(CuteSyncMMIOHandle::ReadOnly))
+	if(!file.open(CSMMIOHandle::ReadOnly))
 		return NULL;
 
 	// Check if this file has an "ftyp" header indicating an MP4 container.
@@ -102,7 +102,7 @@ TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
 		// Try to read the ID3 header size, and skip past it.
 
 		uint64_t tagsize = static_cast<uint64_t>(
-			CuteSyncBitwise::fromSynchsafeInt32(file, 6));
+			CSBitwise::fromSynchsafeInt32(file, 6));
 
 		tagsize += 10; // Account for the first portion of the header.
 
@@ -174,7 +174,7 @@ TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
  * \param o The offset of the first identifier byte in the buffer.
  * \return True if the identifier was valid, or false otherwise.
  */
-bool CuteSyncFileTypeResolver::isValidFtyp(const CuteSyncMMIOHandle &f,
+bool CuteSyncFileTypeResolver::isValidFtyp(const CSMMIOHandle &f,
 	uint64_t o) const
 {
 	static const char ftyps[8][4] = {

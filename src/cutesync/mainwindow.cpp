@@ -30,7 +30,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/widgets/collectionmodel.h"
 #include "cutesync/mainmenubar.h"
 #include "cutesync/dialogs/newcollectiondialog.h"

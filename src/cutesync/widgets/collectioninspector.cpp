@@ -28,11 +28,11 @@
 #include <QTimerEvent>
 
 #include "libcute/collections/AbstractCollection.h"
+#include "libcute/util/systemutils.h"
 #include "cutesync/dialogs/inspector/inspectoraboutdialog.h"
 #include "cutesync/dialogs/inspector/inspectorcollectionconfigdialog.h"
 #include "cutesync/dialogs/inspector/inspectorconfigdialog.h"
 #include "cutesync/settings/settingsmanager.h"
-#include "libcute/util/SystemUtils.h"
 
 /*!
  * This is our default constructor, which creates a new inspector widget.
@@ -150,7 +150,7 @@ void CSCollectionInspector::setCollection(CuteSyncAbstractCollection *c)
 
 		spaceUsedProgressBar->setRange(0, 100);
 		spaceUsedProgressBar->setValue(static_cast<int>(
-			floor(CuteSyncSystemUtils::getDeviceUsedPercent(
+			floor(CSSystemUtils::getDeviceUsedPercent(
 			collection->getMountPoint().toStdString())) ));
 
 		// Connect the new collection.
@@ -181,7 +181,7 @@ void CSCollectionInspector::timerEvent(QTimerEvent *e)
 	{
 		// Update our disk space used progress bar.
 		spaceUsedProgressBar->setValue(static_cast<int>(
-			floor(CuteSyncSystemUtils::getDeviceUsedPercent(
+			floor(CSSystemUtils::getDeviceUsedPercent(
 			collection->getMountPoint().toStdString())) ));
 	}
 

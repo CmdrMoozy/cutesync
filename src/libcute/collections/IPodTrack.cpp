@@ -18,7 +18,7 @@
 
 #include "IPodTrack.h"
 
-#include "libcute/Defines.h"
+#include "libcute/defines.h"
 #include "libcute/tags/FileTypeResolver.h"
 #include "libcute/tags/TaggedFile.h"
 
