@@ -41,7 +41,7 @@
  * \param p Our parent object.
  */
 CuteSyncDirCollection::CuteSyncDirCollection(CSCollectionModel *p)
-	: CuteSyncAbstractCollection(p), recursive(true), organize(true),
+	: CSAbstractCollection(p), recursive(true), organize(true),
 		root("")
 {
 }
@@ -55,7 +55,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(CSCollectionModel *p)
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
 	CSCollectionModel *p)
-	: CuteSyncAbstractCollection(n, p), recursive(true), organize(true),
+	: CSAbstractCollection(n, p), recursive(true), organize(true),
 		root("")
 {
 }
@@ -69,7 +69,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
 	CSCollectionModel *p)
-	: CuteSyncAbstractCollection(d, p), recursive(true), organize(true),
+	: CSAbstractCollection(d, p), recursive(true), organize(true),
 		root("")
 {
 }
@@ -84,7 +84,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
  */
 CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
-	: CuteSyncAbstractCollection(n, d, p), recursive(true), organize(true),
+	: CSAbstractCollection(n, d, p), recursive(true), organize(true),
 		root("")
 {
 }
@@ -414,7 +414,7 @@ bool CuteSyncDirCollection::flush()
  */
 void CuteSyncDirCollection::clear(bool f)
 {
-	CuteSyncAbstractCollection::clear(f);
+	CSAbstractCollection::clear(f);
 	root = "";
 }
 
@@ -538,7 +538,7 @@ void CuteSyncDirCollection::unserialize(const QByteArray &d)
  * \param t The GUI thread our widget should be in.
  * \return A Pointer to the new configuration widget.
  */
-CuteSyncAbstractCollectionConfigWidget *
+CSAbstractCollectionConfigWidget *
 	CuteSyncDirCollection::getConfigurationWidget() const
 {
 	CuteSyncDirCollectionConfigWidget *w =
@@ -578,7 +578,7 @@ bool CuteSyncDirCollection::quietDeleteTrack(const QString &k)
  * \param k The key identifying the track we want in the source collection.
  * \return True on success, or false on failure.
  */
-bool CuteSyncDirCollection::quietCopyTrack(const CuteSyncAbstractCollection *s,
+bool CuteSyncDirCollection::quietCopyTrack(const CSAbstractCollection *s,
 	const QString &k)
 {
 	// Do some sanity checks.
@@ -778,7 +778,7 @@ QString CuteSyncDirCollection::filenameProcess(const QString &s) const
  * \return The absolute path to which the given track should be written.
  */
 QString CuteSyncDirCollection::getAbsoluteWritePath(
-	const CuteSyncAbstractCollection *s, const QString &k) const
+	const CSAbstractCollection *s, const QString &k) const
 {
 	QString r;
 

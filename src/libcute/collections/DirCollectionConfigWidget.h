@@ -19,7 +19,7 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_DIR_COLLECTION_CONFIG_WIDGET_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_DIR_COLLECTION_CONFIG_WIDGET_H
 
-#include "AbstractCollectionConfigWidget.h"
+#include "abstractcollectionconfigwidget.h"
 
 class QGridLayout;
 class QGroupBox;
@@ -33,7 +33,7 @@ class QCheckBox;
  * file naming / directory structure for this collection.
  */
 class CuteSyncDirCollectionConfigWidget :
-	public CuteSyncAbstractCollectionConfigWidget
+	public CSAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 

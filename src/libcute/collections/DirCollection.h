@@ -19,7 +19,7 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_DIR_COLLECTION_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_DIR_COLLECTION_H
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 #include <cstdint>
 
@@ -30,7 +30,7 @@
 
 class QThread;
 
-class CuteSyncAbstractCollectionConfigWidget;
+class CSAbstractCollectionConfigWidget;
 class CSCollectionModel;
 
 /*!
@@ -39,7 +39,7 @@ class CSCollectionModel;
  * It is designed to load a collection of music from a flat directory,
  * interpreting the files literally.
  */
-class CuteSyncDirCollection : public CuteSyncAbstractCollection
+class CuteSyncDirCollection : public CSAbstractCollection
 {
 	Q_OBJECT
 
@@ -77,13 +77,13 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 		virtual QByteArray serialize() const;
 		virtual void unserialize(const QByteArray &d);
 
-		virtual CuteSyncAbstractCollectionConfigWidget *
+		virtual CSAbstractCollectionConfigWidget *
 			getConfigurationWidget() const;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k);
 		virtual bool quietCopyTrack(
-			const CuteSyncAbstractCollection *s, const QString &k);
+			const CSAbstractCollection *s, const QString &k);
 
 	private:
 		bool recursive, organize;
@@ -91,7 +91,7 @@ class CuteSyncDirCollection : public CuteSyncAbstractCollection
 
 		QString filenameProcess(const QString &s) const;
 		QString getAbsoluteWritePath(
-			const CuteSyncAbstractCollection *s,
+			const CSAbstractCollection *s,
 			const QString &k) const;
 
 		void startJob(const QString &j);

@@ -24,7 +24,7 @@
 #include <QString>
 #include <QDateTime>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 /*!
  * \brief This class provides a base class for a track descriptor.
@@ -60,7 +60,7 @@ class CuteSyncTrack
 		virtual QDateTime getModifyTime() const = 0;
 
 		QString getHash() const;
-		QVariant getColumn(CuteSyncAbstractCollection::Column c) const;
+		QVariant getColumn(CSAbstractCollection::Column c) const;
 
 		virtual QByteArray serialize() const = 0;
 		virtual void unserialize(const QByteArray &d) = 0;

@@ -23,7 +23,7 @@
 #include <QComboBox>
 #include <QPushButton>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -119,9 +119,9 @@ void CSSyncDialog::updateGUI()
 void CSSyncDialog::doDoIt()
 { /* SLOT */
 
-	CuteSyncAbstractCollection *src = collections->collectionAt(
+	CSAbstractCollection *src = collections->collectionAt(
 		sourceComboBox->currentIndex());
-	CuteSyncAbstractCollection *dst = collections->collectionAt(
+	CSAbstractCollection *dst = collections->collectionAt(
 		destinationComboBox->currentIndex());
 
 	Q_EMIT accepted(src, dst);

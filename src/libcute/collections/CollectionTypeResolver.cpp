@@ -22,7 +22,7 @@
 #include <QFileInfo>
 #include <QString>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/DirCollection.h"
 #include "libcute/collections/IPodCollection.h"
 
@@ -55,9 +55,9 @@ CuteSyncCollectionTypeResolver::~CuteSyncCollectionTypeResolver()
  * \param p The path to the collection.
  * \return A collection object, or NULL on error.
  */
-CuteSyncAbstractCollection *CuteSyncCollectionTypeResolver::createCollection(const QString &n, const QString &p) const
+CSAbstractCollection *CuteSyncCollectionTypeResolver::createCollection(const QString &n, const QString &p) const
 {
-	CuteSyncAbstractCollection *c = NULL;
+	CSAbstractCollection *c = NULL;
 
 	// Check if it's an iPod collection - this implies (path)/iPod_Control/iTunes/iTunesDB exists.
 

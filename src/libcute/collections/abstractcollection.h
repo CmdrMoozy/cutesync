@@ -29,7 +29,7 @@
 
 class CSCollectionModel;
 class CuteSyncTrack;
-class CuteSyncAbstractCollectionConfigWidget;
+class CSAbstractCollectionConfigWidget;
 class CuteSyncGeneralCollectionConfigWidget;
 
 /*!
@@ -44,11 +44,11 @@ class CuteSyncGeneralCollectionConfigWidget;
  * Things that should notify of progress via our signals:
  *
  *     - bool loadCollectionFromPath(const QString &, bool)
- *     - bool syncFrom(const CuteSyncAbstractCollection *)
+ *     - bool syncFrom(const CSAbstractCollection *)
  *     - bool reload() [IF YOU OVERRIDE IT]
  *     - bool refresh() [IF YOU OVERRIDE IT]
  */
-class CuteSyncAbstractCollection : public QAbstractTableModel
+class CSAbstractCollection : public QAbstractTableModel
 {
 	Q_OBJECT
 
@@ -93,19 +93,19 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		typedef struct DisplayDescriptor
 		{
 			Qt::SortOrder s_order;
-			QList<CuteSyncAbstractCollection::Column> s_columns;
-			QHash<int, CuteSyncAbstractCollection::Column> columns;
+			QList<CSAbstractCollection::Column> s_columns;
+			QHash<int, CSAbstractCollection::Column> columns;
 		} DisplayDescriptor;
 
-		CuteSyncAbstractCollection(CSCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const QString &n,
+		CSAbstractCollection(CSCollectionModel *p = 0);
+		CSAbstractCollection(const QString &n,
 			CSCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const DisplayDescriptor *d,
+		CSAbstractCollection(const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		CuteSyncAbstractCollection(const QString &n,
+		CSAbstractCollection(const QString &n,
 			const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		virtual ~CuteSyncAbstractCollection();
+		virtual ~CSAbstractCollection();
 
 	/*
 	 * Things you NEED TO IMPLEMENT if you are subclassing us:
@@ -130,7 +130,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k) = 0;
-		virtual bool quietCopyTrack(const CuteSyncAbstractCollection *s,
+		virtual bool quietCopyTrack(const CSAbstractCollection *s,
 			const QString &k) = 0;
 
 	/*
@@ -138,12 +138,12 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 	 */
 
 	public:
-		virtual CuteSyncAbstractCollectionConfigWidget *
+		virtual CSAbstractCollectionConfigWidget *
 			getConfigurationWidget() const;
 
 		virtual QVariant getDisplayData(int r, int c) const;
 		virtual QVariant getSortData(int r,
-			CuteSyncAbstractCollection::Column c) const;
+			CSAbstractCollection::Column c) const;
 
 		void clear(bool f = true);
 
@@ -162,9 +162,9 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 		virtual void setSaveOnExit(bool s);
 
 		virtual bool deleteTracks(const QStringList &k);
-		virtual bool copyTracks(const CuteSyncAbstractCollection *s,
+		virtual bool copyTracks(const CSAbstractCollection *s,
 			const QStringList &k);
-		virtual bool syncFrom(CuteSyncAbstractCollection *o);
+		virtual bool syncFrom(CSAbstractCollection *o);
 
 	/*
 	 * Things you SHOULD NOT override:
@@ -177,7 +177,7 @@ class CuteSyncAbstractCollection : public QAbstractTableModel
 
 		QList<QString> getKeysList() const;
 		QList<QString> keysDifference(
-			const CuteSyncAbstractCollection *o) const;
+			const CSAbstractCollection *o) const;
 
 		bool isModified() const;
 

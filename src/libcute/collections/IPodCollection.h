@@ -19,7 +19,7 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_IPOD_COLLECTION_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_IPOD_COLLECTION_H
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 #include <QString>
 #include <QList>
@@ -30,7 +30,7 @@ extern "C" {
 	#include <gpod-1.0/gpod/itdb.h>
 }
 
-class CuteSyncAbstractCollectionConfigWidget;
+class CSAbstractCollectionConfigWidget;
 class CSCollectionModel;
 
 /*!
@@ -39,7 +39,7 @@ class CSCollectionModel;
  * It is designed to load an iTunes DB stored on an iPod device via libgpod and
  * parse the information into a usable format.
  */
-class CuteSyncIPodCollection : public CuteSyncAbstractCollection
+class CuteSyncIPodCollection : public CSAbstractCollection
 {
 	Q_OBJECT
 
@@ -79,13 +79,13 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 		virtual QByteArray serialize() const;
 		virtual void unserialize(const QByteArray &d);
 
-		virtual CuteSyncAbstractCollectionConfigWidget *
+		virtual CSAbstractCollectionConfigWidget *
 			getConfigurationWidget() const;
 
 	protected:
 		virtual bool quietDeleteTrack(const QString &k);
 		virtual bool quietCopyTrack(
-			const CuteSyncAbstractCollection *s, const QString &k);
+			const CSAbstractCollection *s, const QString &k);
 
 	private:
 		bool optionsModified, artwork, caselessSort, ignorePrefixes;
@@ -93,7 +93,7 @@ class CuteSyncIPodCollection : public CuteSyncAbstractCollection
 		bool itdbModified;
 		QString root;
 
-		gpointer getTrackCoverArt(const CuteSyncAbstractCollection *s,
+		gpointer getTrackCoverArt(const CSAbstractCollection *s,
 			const QString &k);
 
 		void refreshCollectionOptions();

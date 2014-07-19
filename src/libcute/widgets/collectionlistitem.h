@@ -22,22 +22,22 @@
 #include <QObject>
 #include <QVector>
 
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 
 class CSCollectionListItem : public QObject
 {
 	Q_OBJECT
 
 	public:
-		CSCollectionListItem(CuteSyncAbstractCollection *c,
+		CSCollectionListItem(CSAbstractCollection *c,
 			QObject *p = 0);
 		virtual ~CSCollectionListItem();
 
-		CuteSyncAbstractCollection *getCollection();
-		void setCollection(CuteSyncAbstractCollection *c);
+		CSAbstractCollection *getCollection();
+		void setCollection(CSAbstractCollection *c);
 
 	private:
-		CuteSyncAbstractCollection *collection;
+		CSAbstractCollection *collection;
 
 	Q_SIGNALS:
 		void dataChanged(QVector<int>);

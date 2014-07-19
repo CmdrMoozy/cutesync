@@ -24,7 +24,7 @@
 class QGridLayout;
 class QPushButton;
 
-class CuteSyncAbstractCollectionConfigWidget;
+class CSAbstractCollectionConfigWidget;
 
 /*!
  * \brief This dialog provides collection configuration support.
@@ -41,7 +41,7 @@ class CSInspectorCollectionConfigDialog : public QDialog
 			QWidget *p = 0, Qt::WindowFlags f = 0);
 		virtual ~CSInspectorCollectionConfigDialog();
 
-		void setWidget(CuteSyncAbstractCollectionConfigWidget *w);
+		void setWidget(CSAbstractCollectionConfigWidget *w);
 
 	protected:
 		virtual void showEvent(QShowEvent *e);
@@ -49,7 +49,7 @@ class CSInspectorCollectionConfigDialog : public QDialog
 	private:
 		QGridLayout *layout;
 
-		CuteSyncAbstractCollectionConfigWidget *widget;
+		CSAbstractCollectionConfigWidget *widget;
 
 		QWidget *buttonsWidget;
 		QGridLayout *buttonsLayout;

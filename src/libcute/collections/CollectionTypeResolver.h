@@ -21,14 +21,14 @@
 
 class QString;
 
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 
 /*!
  * \brief This class provides a way to determine the type of collection a directory contains.
  *
  * Using the createCollection() function, the user can provide simply a path and a name and get a
  * valid and correct collection pointer in return. This class supports fully all of the built-in
- * collection types; if you are subclassing CuteSyncAbstractCollection for a custom type, you should
+ * collection types; if you are subclassing CSAbstractCollection for a custom type, you should
  * also subclass this class to provide detection for it.
  */
 class CuteSyncCollectionTypeResolver
@@ -37,7 +37,7 @@ class CuteSyncCollectionTypeResolver
 		CuteSyncCollectionTypeResolver();
 		virtual ~CuteSyncCollectionTypeResolver();
 
-		virtual CuteSyncAbstractCollection *createCollection(const QString &n, const QString &p) const;
+		virtual CSAbstractCollection *createCollection(const QString &n, const QString &p) const;
 };
 
 #endif

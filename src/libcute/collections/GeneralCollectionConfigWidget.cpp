@@ -28,7 +28,7 @@
  * \param p The GUI thread we should be a member of.
  */
 CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget()
-	: CuteSyncAbstractCollectionConfigWidget()
+	: CSAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
 

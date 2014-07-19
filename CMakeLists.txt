@@ -51,8 +51,8 @@ SET(libcute_HEADERS
 
 	src/libcute/defines.h
 
-	src/libcute/collections/AbstractCollection.h
-	src/libcute/collections/AbstractCollectionConfigWidget.h
+	src/libcute/collections/abstractcollection.h
+	src/libcute/collections/abstractcollectionconfigwidget.h
 	src/libcute/collections/CollectionTypeResolver.h
 	src/libcute/collections/DirCollection.h
 	src/libcute/collections/DirCollectionConfigWidget.h
@@ -79,8 +79,8 @@ SET(libcute_HEADERS
 
 SET(libcute_SOURCES
 
-	src/libcute/collections/AbstractCollection.cpp
-	src/libcute/collections/AbstractCollectionConfigWidget.cpp
+	src/libcute/collections/abstractcollection.cpp
+	src/libcute/collections/abstractcollectionconfigwidget.cpp
 	src/libcute/collections/CollectionTypeResolver.cpp
 	src/libcute/collections/DirCollection.cpp
 	src/libcute/collections/DirCollectionConfigWidget.cpp

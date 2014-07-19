@@ -21,7 +21,7 @@
 
 #include <QWidget>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 class QGridLayout;
 class QPushButton;
@@ -50,30 +50,30 @@ class CSCollectionInspector : public QWidget
 		CSCollectionInspector(CSSettingsManager *s,
 			QWidget *p = 0);
 		CSCollectionInspector(CSSettingsManager *s,
-			CuteSyncAbstractCollection *c, QWidget *p = 0);
+			CSAbstractCollection *c, QWidget *p = 0);
 		virtual ~CSCollectionInspector();
 
 		void clearCollection();
 
-		CuteSyncAbstractCollection::DisplayDescriptor
+		CSAbstractCollection::DisplayDescriptor
 			getDisplayDescriptor() const;
-		CuteSyncAbstractCollection *getCollection() const;
+		CSAbstractCollection *getCollection() const;
 
 	public Q_SLOTS:
-		void setCollection(CuteSyncAbstractCollection *c);
+		void setCollection(CSAbstractCollection *c);
 
 	protected:
 		virtual void timerEvent(QTimerEvent *e);
 
 	private:
 		CSSettingsManager *settingsManager;
-		CuteSyncAbstractCollection::DisplayDescriptor displayDescriptor;
+		CSAbstractCollection::DisplayDescriptor displayDescriptor;
 
 		CSInspectorAboutDialog *aboutDialog;
 		CSInspectorCollectionConfigDialog *configDialog;
 		CSInspectorConfigDialog *sortDialog;
 
-		CuteSyncAbstractCollection *collection;
+		CSAbstractCollection *collection;
 
 		QGridLayout *layout;
 
@@ -107,8 +107,8 @@ class CSCollectionInspector : public QWidget
 		void doSettingChanged(const QString &k, const QVariant &v);
 
 	Q_SIGNALS:
-		void reloadRequested(CuteSyncAbstractCollection *);
-		void refreshRequested(CuteSyncAbstractCollection *);
+		void reloadRequested(CSAbstractCollection *);
+		void refreshRequested(CSAbstractCollection *);
 };
 
 #endif

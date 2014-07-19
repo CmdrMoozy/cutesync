@@ -20,7 +20,7 @@
 
 #include <QStyleOptionViewItemV4>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -79,7 +79,7 @@ void CSCollectionDelegate::paint(QPainter *p,
 {
 	if(model != NULL)
 	{
-		CuteSyncAbstractCollection *c = model->collectionAt(i.row());
+		CSAbstractCollection *c = model->collectionAt(i.row());
 
 		if(c != NULL)
 		{

@@ -28,7 +28,7 @@ class QLabel;
 class QComboBox;
 class QPushButton;
 
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 class CSCollectionModel;
 
 /*!
@@ -72,8 +72,8 @@ class CSSyncDialog : public QDialog
 
 	Q_SIGNALS:
 		void accepted();
-		void accepted(CuteSyncAbstractCollection *,
-			CuteSyncAbstractCollection *);
+		void accepted(CSAbstractCollection *,
+			CSAbstractCollection *);
 };
 
 #endif

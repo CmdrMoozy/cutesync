@@ -43,10 +43,10 @@ CSDDSelectorModel::~CSDDSelectorModel()
  *
  * \return A list of enabled columns.
  */
-QList<CuteSyncAbstractCollection::Column>
+QList<CSAbstractCollection::Column>
 	CSDDSelectorModel::getColumnList() const
 {
-	QList<CuteSyncAbstractCollection::Column> colsList;
+	QList<CSAbstractCollection::Column> colsList;
 
 	for(int i = 0; i < rowCount(); ++i)
 		if(items.at(i).enabled)
@@ -63,23 +63,23 @@ QList<CuteSyncAbstractCollection::Column>
  * \param d The display descriptor to process.
  */
 void CSDDSelectorModel::loadSortColumns(
-	const CuteSyncAbstractCollection::DisplayDescriptor *d)
+	const CSAbstractCollection::DisplayDescriptor *d)
 {
 	items.clear();
 
-	QList<CuteSyncAbstractCollection::Column> colsList;
-	colsList.append(CuteSyncAbstractCollection::Artist);
-	colsList.append(CuteSyncAbstractCollection::Album);
-	colsList.append(CuteSyncAbstractCollection::Title);
-	colsList.append(CuteSyncAbstractCollection::DiscNumber);
-	colsList.append(CuteSyncAbstractCollection::TrackNumber);
-	colsList.append(CuteSyncAbstractCollection::TrackCount);
-	colsList.append(CuteSyncAbstractCollection::Length);
-	colsList.append(CuteSyncAbstractCollection::Year);
+	QList<CSAbstractCollection::Column> colsList;
+	colsList.append(CSAbstractCollection::Artist);
+	colsList.append(CSAbstractCollection::Album);
+	colsList.append(CSAbstractCollection::Title);
+	colsList.append(CSAbstractCollection::DiscNumber);
+	colsList.append(CSAbstractCollection::TrackNumber);
+	colsList.append(CSAbstractCollection::TrackCount);
+	colsList.append(CSAbstractCollection::Length);
+	colsList.append(CSAbstractCollection::Year);
 
 	for(int i = 0; i < d->s_columns.count(); ++i)
 	{
-		CuteSyncAbstractCollection::Column col = d->s_columns.at(i);
+		CSAbstractCollection::Column col = d->s_columns.at(i);
 		colsList.removeAll(col);
 
 		items.append( {col, true} );
@@ -99,23 +99,23 @@ void CSDDSelectorModel::loadSortColumns(
  * \param d The display descriptor to process.
  */
 void CSDDSelectorModel::loadDisplayColumns(
-	const CuteSyncAbstractCollection::DisplayDescriptor *d)
+	const CSAbstractCollection::DisplayDescriptor *d)
 {
 	items.clear();
 
-	QList<CuteSyncAbstractCollection::Column> colsList;
-	colsList.append(CuteSyncAbstractCollection::Artist);
-	colsList.append(CuteSyncAbstractCollection::Album);
-	colsList.append(CuteSyncAbstractCollection::Title);
-	colsList.append(CuteSyncAbstractCollection::DiscNumber);
-	colsList.append(CuteSyncAbstractCollection::TrackNumber);
-	colsList.append(CuteSyncAbstractCollection::TrackCount);
-	colsList.append(CuteSyncAbstractCollection::Length);
-	colsList.append(CuteSyncAbstractCollection::Year);
+	QList<CSAbstractCollection::Column> colsList;
+	colsList.append(CSAbstractCollection::Artist);
+	colsList.append(CSAbstractCollection::Album);
+	colsList.append(CSAbstractCollection::Title);
+	colsList.append(CSAbstractCollection::DiscNumber);
+	colsList.append(CSAbstractCollection::TrackNumber);
+	colsList.append(CSAbstractCollection::TrackCount);
+	colsList.append(CSAbstractCollection::Length);
+	colsList.append(CSAbstractCollection::Year);
 
 	for(int i = 0; d->columns.contains(i); ++i)
 	{
-		CuteSyncAbstractCollection::Column col = d->columns.value(i);
+		CSAbstractCollection::Column col = d->columns.value(i);
 
 		items.append( {col, true} );
 		colsList.removeAll(col);
@@ -170,7 +170,7 @@ QVariant CSDDSelectorModel::data(const QModelIndex &i, int r) const
 	{
 		case Qt::DisplayRole:
 			return QVariant(
-				CuteSyncAbstractCollection::getColumnPrettyName(
+				CSAbstractCollection::getColumnPrettyName(
 				items.at(i.row()).col));
 
 		case Qt::CheckStateRole:

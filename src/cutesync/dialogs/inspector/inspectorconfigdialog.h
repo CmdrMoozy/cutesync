@@ -23,7 +23,7 @@
 #include <QAbstractListModel>
 #include <QStringList>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 class QGridLayout;
 class QPushButton;
@@ -49,15 +49,15 @@ class CSInspectorConfigDialog : public QDialog
 		virtual ~CSInspectorConfigDialog();
 
 		void setDisplayDescriptor(
-			const CuteSyncAbstractCollection::DisplayDescriptor &d);
-		const CuteSyncAbstractCollection::DisplayDescriptor *
+			const CSAbstractCollection::DisplayDescriptor &d);
+		const CSAbstractCollection::DisplayDescriptor *
 			getDisplayDescriptor() const;
 
 	protected:
 		virtual void showEvent(QShowEvent *e);
 
 	private:
-		CuteSyncAbstractCollection::DisplayDescriptor displayDescriptor;
+		CSAbstractCollection::DisplayDescriptor displayDescriptor;
 
 		QGridLayout *layout;
 

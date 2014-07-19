@@ -91,32 +91,32 @@ QString CuteSyncTrack::getHash() const
  * \param c The column desired.
  * \return The desired data.
  */
-QVariant CuteSyncTrack::getColumn(CuteSyncAbstractCollection::Column c) const
+QVariant CuteSyncTrack::getColumn(CSAbstractCollection::Column c) const
 {
 	switch(c)
 	{
-		case CuteSyncAbstractCollection::Artist:
+		case CSAbstractCollection::Artist:
 			return QVariant(getArtist());
 
-		case CuteSyncAbstractCollection::Album:
+		case CSAbstractCollection::Album:
 			return QVariant(getAlbum());
 
-		case CuteSyncAbstractCollection::Title:
+		case CSAbstractCollection::Title:
 			return QVariant(getTitle());
 
-		case CuteSyncAbstractCollection::DiscNumber:
+		case CSAbstractCollection::DiscNumber:
 			return QVariant(getCDNumber());
 
-		case CuteSyncAbstractCollection::TrackNumber:
+		case CSAbstractCollection::TrackNumber:
 			return QVariant(getTrackNumber());
 
-		case CuteSyncAbstractCollection::TrackCount:
+		case CSAbstractCollection::TrackCount:
 			return QVariant(getTrackCount());
 
-		case CuteSyncAbstractCollection::Length:
+		case CSAbstractCollection::Length:
 			return QVariant(getLength());
 
-		case CuteSyncAbstractCollection::Year:
+		case CSAbstractCollection::Year:
 			return QVariant(getYear());
 	};
 

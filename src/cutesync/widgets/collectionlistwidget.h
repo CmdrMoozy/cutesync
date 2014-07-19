@@ -21,7 +21,7 @@
 
 #include "cutesync/widgets/iconlistwidget.h"
 
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 class CSCollectionModel;
 class CSCollectionDelegate;
 
@@ -54,7 +54,7 @@ class CSCollectionListWidget : public CSIconListWidget
 		void doRowEnabledChanged(const QModelIndex &i);
 
 	Q_SIGNALS:
-		void selectionChanged(CuteSyncAbstractCollection *);
+		void selectionChanged(CSAbstractCollection *);
 };
 
 #endif

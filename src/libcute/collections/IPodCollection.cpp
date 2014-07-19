@@ -51,7 +51,7 @@ extern "C" {
  * \param p Our parent object.
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(CSCollectionModel *p)
-	: CuteSyncAbstractCollection(p), optionsModified(false), artwork(true),
+	: CSAbstractCollection(p), optionsModified(false), artwork(true),
 		caselessSort(true), ignorePrefixes(true), itdb(NULL), root("")
 {
 }
@@ -65,7 +65,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(CSCollectionModel *p)
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
 	CSCollectionModel *p)
-	: CuteSyncAbstractCollection(n, p), optionsModified(false),
+	: CSAbstractCollection(n, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")
 {
@@ -80,7 +80,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
 	CSCollectionModel *p)
-	: CuteSyncAbstractCollection(d, p), optionsModified(false),
+	: CSAbstractCollection(d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")
 {
@@ -96,7 +96,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
  */
 CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
-	: CuteSyncAbstractCollection(n, d, p), optionsModified(false),
+	: CSAbstractCollection(n, d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
 		itdb(NULL), root("")
 {
@@ -502,7 +502,7 @@ std::cout << "Unknown error writing iTunes DB.\n";
  */
 void CuteSyncIPodCollection::clear(bool f)
 {
-	CuteSyncAbstractCollection::clear(f);
+	CSAbstractCollection::clear(f);
 
 	if(itdb != NULL)
 	{
@@ -602,7 +602,7 @@ void CuteSyncIPodCollection::unserialize(const QByteArray &d)
  * \param t The GUI thread our widget should be in.
  * \return A Pointer to the new configuration widget.
  */
-CuteSyncAbstractCollectionConfigWidget *
+CSAbstractCollectionConfigWidget *
 	CuteSyncIPodCollection::getConfigurationWidget() const
 {
 	CuteSyncIPodCollectionConfigWidget *w =
@@ -695,7 +695,7 @@ bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
  * \return True on success, or false on failure.
  */
 bool CuteSyncIPodCollection::quietCopyTrack(
-	const CuteSyncAbstractCollection *s, const QString &k)
+	const CSAbstractCollection *s, const QString &k)
 {
 #pragma message "TODO - Use slotsignal error reporting"
 
@@ -801,7 +801,7 @@ std::cout << "Unknown error copying track to iPod!\n";
  * \return A GdkPixbuf object of the artwork, or NULL if it cannot be found.
  */
 gpointer CuteSyncIPodCollection::getTrackCoverArt(
-	const CuteSyncAbstractCollection *s, const QString &k)
+	const CSAbstractCollection *s, const QString &k)
 {
 	gpointer pixbuf = NULL;
 	QString path;

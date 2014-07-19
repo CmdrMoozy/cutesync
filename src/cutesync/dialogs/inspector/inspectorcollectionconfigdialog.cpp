@@ -21,7 +21,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 
-#include "libcute/collections/AbstractCollectionConfigWidget.h"
+#include "libcute/collections/abstractcollectionconfigwidget.h"
 
 /*!
  * This is our default constructor, which creates a new dialog. By default, we
@@ -79,7 +79,7 @@ CSInspectorCollectionConfigDialog::
  * \param w The new widget to display.
  */
 void CSInspectorCollectionConfigDialog::setWidget(
-	CuteSyncAbstractCollectionConfigWidget *w)
+	CSAbstractCollectionConfigWidget *w)
 {
 	// Delete the old widget, if applicable.
 

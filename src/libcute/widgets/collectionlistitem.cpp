@@ -18,9 +18,9 @@
 
 #include "collectionlistitem.h"
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
-CSCollectionListItem::CSCollectionListItem(CuteSyncAbstractCollection *c,
+CSCollectionListItem::CSCollectionListItem(CSAbstractCollection *c,
 	QObject *p)
 	: QObject(p), collection(NULL)
 {
@@ -31,12 +31,12 @@ CSCollectionListItem::~CSCollectionListItem()
 {
 }
 
-CuteSyncAbstractCollection *CSCollectionListItem::getCollection()
+CSAbstractCollection *CSCollectionListItem::getCollection()
 {
 	return collection;
 }
 
-void CSCollectionListItem::setCollection(CuteSyncAbstractCollection *c)
+void CSCollectionListItem::setCollection(CSAbstractCollection *c)
 {
 	if(collection != NULL)
 		QObject::disconnect(collection, 0, this, 0);

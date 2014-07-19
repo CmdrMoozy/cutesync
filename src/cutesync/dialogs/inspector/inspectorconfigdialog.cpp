@@ -55,7 +55,7 @@ CSInspectorConfigDialog::~CSInspectorConfigDialog()
  * \param d The new display descriptor to use.
  */
 void CSInspectorConfigDialog::setDisplayDescriptor(
-	const CuteSyncAbstractCollection::DisplayDescriptor &d)
+	const CSAbstractCollection::DisplayDescriptor &d)
 {
 	displayDescriptor = d;
 	updateDisplayDescriptor();
@@ -67,7 +67,7 @@ void CSInspectorConfigDialog::setDisplayDescriptor(
  *
  * \return A pointer to our display descriptor.
  */
-const CuteSyncAbstractCollection::DisplayDescriptor *
+const CSAbstractCollection::DisplayDescriptor *
 	CSInspectorConfigDialog::getDisplayDescriptor() const
 {
 	return &displayDescriptor;
@@ -185,7 +185,7 @@ void CSInspectorConfigDialog::applyDisplayDescriptor()
 
 	// Display columns.
 
-	QList<CuteSyncAbstractCollection::Column> displayList =
+	QList<CSAbstractCollection::Column> displayList =
 		displayModel->getColumnList();
 
 	displayDescriptor.columns.clear();

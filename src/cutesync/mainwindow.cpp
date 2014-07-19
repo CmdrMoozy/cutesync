@@ -105,9 +105,9 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 		SLOT(doSettingChanged(const QString &, const QVariant &)));
 
 	QObject::connect(collectionsListWidget,
-		SIGNAL(selectionChanged(CuteSyncAbstractCollection *)),
+		SIGNAL(selectionChanged(CSAbstractCollection *)),
 		collectionInspector,
-		SLOT(setCollection(CuteSyncAbstractCollection *)));
+		SLOT(setCollection(CSAbstractCollection *)));
 
 	QObject::connect(collectionsListModel,
 		SIGNAL(jobStarted(const QString &)), this,
@@ -131,25 +131,25 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 		collectionsListModel,
 		SLOT(newCollection(const QString &, const QString &, bool)));
 	QObject::connect(this,
-		SIGNAL(startReload(CuteSyncAbstractCollection *)),
+		SIGNAL(startReload(CSAbstractCollection *)),
 		collectionsListModel,
-		SLOT(reloadCollection(CuteSyncAbstractCollection *)));
+		SLOT(reloadCollection(CSAbstractCollection *)));
 	QObject::connect(this,
-		SIGNAL(startRefresh(CuteSyncAbstractCollection *)),
+		SIGNAL(startRefresh(CSAbstractCollection *)),
 		collectionsListModel,
-		SLOT(refreshCollection(CuteSyncAbstractCollection *)));
+		SLOT(refreshCollection(CSAbstractCollection *)));
 	QObject::connect(this,
-		SIGNAL(startSync(CuteSyncAbstractCollection *,
-		CuteSyncAbstractCollection *)), collectionsListModel,
-		SLOT(syncCollections(CuteSyncAbstractCollection *,
-		CuteSyncAbstractCollection *)));
+		SIGNAL(startSync(CSAbstractCollection *,
+		CSAbstractCollection *)), collectionsListModel,
+		SLOT(syncCollections(CSAbstractCollection *,
+		CSAbstractCollection *)));
 
 	QObject::connect(collectionInspector,
-		SIGNAL(reloadRequested(CuteSyncAbstractCollection *)),
-		this, SIGNAL(startReload(CuteSyncAbstractCollection *)));
+		SIGNAL(reloadRequested(CSAbstractCollection *)),
+		this, SIGNAL(startReload(CSAbstractCollection *)));
 	QObject::connect(collectionInspector,
-		SIGNAL(refreshRequested(CuteSyncAbstractCollection *)),
-		this, SIGNAL(startRefresh(CuteSyncAbstractCollection *)));
+		SIGNAL(refreshRequested(CSAbstractCollection *)),
+		this, SIGNAL(startRefresh(CSAbstractCollection *)));
 
 	// Finally, restore our window state.
 
@@ -180,7 +180,7 @@ void CSMainWindow::closeEvent(QCloseEvent *e)
 	// Save everything.
 
 	settingsManager->setSetting("display-descriptor",
-		QVariant(CuteSyncAbstractCollection::serializeDisplayDescriptor(
+		QVariant(CSAbstractCollection::serializeDisplayDescriptor(
 		collectionInspector->getDisplayDescriptor())));
 	settingsManager->setSetting("window-geometry",
 		QVariant(saveGeometry()));
@@ -226,9 +226,9 @@ void CSMainWindow::createDialogs()
 	QObject::connect(newCollectionDialog, SIGNAL(accepted()),
 		this, SLOT(doNewCollectionAccepted()));
 	QObject::connect(syncDialog, SIGNAL(accepted(
-		CuteSyncAbstractCollection *, CuteSyncAbstractCollection *)),
-		this, SLOT(doSyncAccepted(CuteSyncAbstractCollection *,
-		CuteSyncAbstractCollection *)));
+		CSAbstractCollection *, CSAbstractCollection *)),
+		this, SLOT(doSyncAccepted(CSAbstractCollection *,
+		CSAbstractCollection *)));
 }
 
 /*!
@@ -252,7 +252,7 @@ void CSMainWindow::doNewCollectionAccepted()
  * \param d The destination collection.
  */
 void CSMainWindow::doSyncAccepted(
-	CuteSyncAbstractCollection *s, CuteSyncAbstractCollection *d)
+	CSAbstractCollection *s, CSAbstractCollection *d)
 { /* SLOT */
 
 	// Make sure our collections are valid-ish.
@@ -310,7 +310,7 @@ void CSMainWindow::doRemoveCollection()
 	if(r == -1)
 		return;
 
-	CuteSyncAbstractCollection *c = collectionsListModel->collectionAt(r);
+	CSAbstractCollection *c = collectionsListModel->collectionAt(r);
 	if(c == NULL)
 		return;
 

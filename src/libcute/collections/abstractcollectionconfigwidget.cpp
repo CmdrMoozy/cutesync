@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AbstractCollectionConfigWidget.h"
+#include "abstractcollectionconfigwidget.h"
 
 /*!
  * This is our default constructor, which essentially just propagates
@@ -24,8 +24,8 @@
  *
  * \param t The thread out widget should be a part of (i.e., the GUI thread).
  */
-CuteSyncAbstractCollectionConfigWidget::
-	CuteSyncAbstractCollectionConfigWidget()
+CSAbstractCollectionConfigWidget::
+	CSAbstractCollectionConfigWidget()
 	: QWidget(NULL, 0)
 {
 }
@@ -33,7 +33,7 @@ CuteSyncAbstractCollectionConfigWidget::
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncAbstractCollectionConfigWidget::
-	~CuteSyncAbstractCollectionConfigWidget()
+CSAbstractCollectionConfigWidget::
+	~CSAbstractCollectionConfigWidget()
 {
 }

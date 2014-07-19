@@ -23,15 +23,15 @@
 #include <QString>
 #include <QSettings>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 // Load our default settings values into our static defaults list.
 
 const QList< QPair<QString, QVariant> > CSSettingsManager::defaults
 	= (QList< QPair<QString, QVariant> >())
 		<< QPair<QString, QVariant>("display-descriptor",
-			QVariant(CuteSyncAbstractCollection::serializeDisplayDescriptor(
-				CuteSyncAbstractCollection::getDefaultDisplayDescriptor())))
+			QVariant(CSAbstractCollection::serializeDisplayDescriptor(
+				CSAbstractCollection::getDefaultDisplayDescriptor())))
 		<< QPair<QString, QVariant>("saved-collections",
 			QVariant(QList<QVariant>()))
 		<< QPair<QString, QVariant>("window-geometry", QVariant(QByteArray()))

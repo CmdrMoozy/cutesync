@@ -21,7 +21,7 @@
 
 #include <QAbstractListModel>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 /*!
  * \brief This class provides a model for our selector widget.
@@ -35,12 +35,12 @@ class CSDDSelectorModel : public QAbstractListModel
 		CSDDSelectorModel(QObject *p = 0);
 		virtual ~CSDDSelectorModel();
 
-		QList<CuteSyncAbstractCollection::Column> getColumnList() const;
+		QList<CSAbstractCollection::Column> getColumnList() const;
 
 		void loadSortColumns(
-			const CuteSyncAbstractCollection::DisplayDescriptor *d);
+			const CSAbstractCollection::DisplayDescriptor *d);
 		void loadDisplayColumns(
-			const CuteSyncAbstractCollection::DisplayDescriptor *d);
+			const CSAbstractCollection::DisplayDescriptor *d);
 
 		virtual Qt::ItemFlags flags(const QModelIndex &i) const;
 		virtual int rowCount(
@@ -61,7 +61,7 @@ class CSDDSelectorModel : public QAbstractListModel
 	private:
 		typedef struct SelectorItem
 		{
-			CuteSyncAbstractCollection::Column col;
+			CSAbstractCollection::Column col;
 			bool enabled;
 		} SelectorItem;
 

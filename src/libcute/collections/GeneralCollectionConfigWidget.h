@@ -19,14 +19,14 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_GENERAL_COLLECTION_CONFIG_WIDGET_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_GENERAL_COLLECTION_CONFIG_WIDGET_H
 
-#include "AbstractCollectionConfigWidget.h"
+#include "abstractcollectionconfigwidget.h"
 
 class QGridLayout;
 class QGroupBox;
 class QCheckBox;
 
 class CuteSyncGeneralCollectionConfigWidget :
-	public CuteSyncAbstractCollectionConfigWidget
+	public CSAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 

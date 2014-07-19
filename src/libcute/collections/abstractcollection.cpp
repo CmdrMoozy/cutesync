@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AbstractCollection.h"
+#include "abstractcollection.h"
 
 #include <QDataStream>
 
 #include "libcute/defines.h"
-#include "libcute/collections/AbstractCollectionConfigWidget.h"
+#include "libcute/collections/abstractcollectionconfigwidget.h"
 #include "libcute/collections/GeneralCollectionConfigWidget.h"
 #include "libcute/collections/Track.h"
 #include "libcute/widgets/collectionmodel.h"
@@ -32,7 +32,7 @@
  *
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(
+CSAbstractCollection::CSAbstractCollection(
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
@@ -51,7 +51,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
  * \param n Our collection's name.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
+CSAbstractCollection::CSAbstractCollection(const QString &n,
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
@@ -70,7 +70,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(
+CSAbstractCollection::CSAbstractCollection(
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
@@ -90,7 +90,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
+CSAbstractCollection::CSAbstractCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
 		interruptible(true), interrupted(false), active(false),
@@ -106,7 +106,7 @@ CuteSyncAbstractCollection::CuteSyncAbstractCollection(const QString &n,
  * This is a placeholder destructor, so we can properly subclass
  * QAbstractTableModel.
  */
-CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
+CSAbstractCollection::~CSAbstractCollection()
 {
 }
 
@@ -128,8 +128,8 @@ CuteSyncAbstractCollection::~CuteSyncAbstractCollection()
  * \param t The thread our config widget should be a member of (the GUI thread).
  * \return Our collection's configuration widget.
  */
-CuteSyncAbstractCollectionConfigWidget *
-	CuteSyncAbstractCollection::getConfigurationWidget() const
+CSAbstractCollectionConfigWidget *
+	CSAbstractCollection::getConfigurationWidget() const
 {
 	CuteSyncGeneralCollectionConfigWidget *w =
 		new CuteSyncGeneralCollectionConfigWidget();
@@ -151,7 +151,7 @@ CuteSyncAbstractCollectionConfigWidget *
  * \param c The desired column.
  * \return The data at the given position, or Invalid if row/column was invalid.
  */
-QVariant CuteSyncAbstractCollection::getDisplayData(int r, int c) const
+QVariant CSAbstractCollection::getDisplayData(int r, int c) const
 {
 	if(displayDescriptor == NULL)
 		return QVariant(QVariant::Invalid);
@@ -159,14 +159,14 @@ QVariant CuteSyncAbstractCollection::getDisplayData(int r, int c) const
 	if(!displayDescriptor->columns.contains(c))
 		return QVariant(QVariant::Invalid);
 
-	CuteSyncAbstractCollection::Column col =
+	CSAbstractCollection::Column col =
 		displayDescriptor->columns.value(c);
 	QVariant d = getSortData(r, col);
 
 	switch(col)
 	{
 		// Convert the length to an hh:mm:ss format.
-		case CuteSyncAbstractCollection::Length:
+		case CSAbstractCollection::Length:
 			d = QVariant(CuteSyncTrack::getLengthDisplay(
 				d.value<int>()));
 			break;
@@ -187,8 +187,8 @@ QVariant CuteSyncAbstractCollection::getDisplayData(int r, int c) const
  * \param c The desired column.
  * \return The data at the given position, or Invalid if row/column was invalid.
  */
-QVariant CuteSyncAbstractCollection::getSortData(int r,
-	CuteSyncAbstractCollection::Column c) const
+QVariant CSAbstractCollection::getSortData(int r,
+	CSAbstractCollection::Column c) const
 {
 	if(displayDescriptor == NULL) return QVariant(QVariant::Invalid);
 	if( (r < 0) || (r >= count()) ) return QVariant(QVariant::Invalid);
@@ -205,7 +205,7 @@ QVariant CuteSyncAbstractCollection::getSortData(int r,
  *
  * \param f Whether or not we should flush before clearing our collection.
  */
-void CuteSyncAbstractCollection::clear(bool f)
+void CSAbstractCollection::clear(bool f)
 {
 	if(f) flush();
 
@@ -222,7 +222,7 @@ void CuteSyncAbstractCollection::clear(bool f)
  *
  * \return Our collection's name.
  */
-QString CuteSyncAbstractCollection::getName() const
+QString CSAbstractCollection::getName() const
 {
 	return name;
 }
@@ -236,7 +236,7 @@ QString CuteSyncAbstractCollection::getName() const
  *
  * \param n Our collection's new name.
  */
-void CuteSyncAbstractCollection::setName(const QString &n)
+void CSAbstractCollection::setName(const QString &n)
 {
 	name = n;
 }
@@ -251,7 +251,7 @@ void CuteSyncAbstractCollection::setName(const QString &n)
  *
  * \return True if we are enabled, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isEnabled() const
+bool CSAbstractCollection::isEnabled() const
 {
 	return enabled;
 }
@@ -263,7 +263,7 @@ bool CuteSyncAbstractCollection::isEnabled() const
  *
  * \param e Our new enabled state (true means enabled, false means disabled).
  */
-void CuteSyncAbstractCollection::setEnabled(bool e)
+void CSAbstractCollection::setEnabled(bool e)
 {
 	enabled = e;
 	Q_EMIT enabledChanged();
@@ -277,7 +277,7 @@ void CuteSyncAbstractCollection::setEnabled(bool e)
  *
  * \return True if we should be saved on exit, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isSavedOnExit() const
+bool CSAbstractCollection::isSavedOnExit() const
 {
 	return saveOnExit;
 }
@@ -286,7 +286,7 @@ bool CuteSyncAbstractCollection::isSavedOnExit() const
  * This function sorts our collection according to our display descriptor. If
  * no display descriptor has been set, then no action is taken.
  */
-void CuteSyncAbstractCollection::sort() const
+void CSAbstractCollection::sort() const
 {
 	if(displayDescriptor == NULL) return;
 	quicksort(0, count() - 1);
@@ -298,7 +298,7 @@ void CuteSyncAbstractCollection::sort() const
  *
  * \return True on success, or false on failure.
  */
-bool CuteSyncAbstractCollection::reload()
+bool CSAbstractCollection::reload()
 {
 	bool r = loadCollectionFromPath( getMountPoint(), false );
 	return r;
@@ -311,7 +311,7 @@ bool CuteSyncAbstractCollection::reload()
  *
  * \return True on success, or false on failure.
  */
-bool CuteSyncAbstractCollection::refresh()
+bool CSAbstractCollection::refresh()
 {
 	return reload();
 }
@@ -321,7 +321,7 @@ bool CuteSyncAbstractCollection::refresh()
  *
  * \param s True if we should save on exit, or false otherwise.
  */
-void CuteSyncAbstractCollection::setSaveOnExit(bool s)
+void CSAbstractCollection::setSaveOnExit(bool s)
 { /* SLOT */
 
 	saveOnExit = s;
@@ -337,7 +337,7 @@ void CuteSyncAbstractCollection::setSaveOnExit(bool s)
  * \param k The list of track keys that should be deleted.
  * \return True if no errors occured, or false otherwise.
  */
-bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
+bool CSAbstractCollection::deleteTracks(const QStringList &k)
 { /* SLOT */
 	QString r, t;
 	interruptible = false;
@@ -376,8 +376,8 @@ bool CuteSyncAbstractCollection::deleteTracks(const QStringList &k)
  * \param k A list of track keys that should be copied.
  * \return True if no errors occurred, or false otherwise.
  */
-bool CuteSyncAbstractCollection::copyTracks(
-	const CuteSyncAbstractCollection *s, const QStringList &k)
+bool CSAbstractCollection::copyTracks(
+	const CSAbstractCollection *s, const QStringList &k)
 { /* SLOT */
 	QString r, t;
 	interruptible = false;
@@ -413,7 +413,7 @@ bool CuteSyncAbstractCollection::copyTracks(
  * \param o The source collection to sync from.
  * \return True on success, or false on failure.
  */
-bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
+bool CSAbstractCollection::syncFrom(CSAbstractCollection *o)
 { /* SLOT */
 	QString r, t;
 	interruptible = false;
@@ -476,7 +476,7 @@ bool CuteSyncAbstractCollection::syncFrom(CuteSyncAbstractCollection *o)
  * \param k The key to search for.
  * \return True if the key is found, or false otherwise.
  */
-bool CuteSyncAbstractCollection::containsKey(const QString &k) const
+bool CSAbstractCollection::containsKey(const QString &k) const
 {
 	return trackHash.contains(k);
 }
@@ -486,7 +486,7 @@ bool CuteSyncAbstractCollection::containsKey(const QString &k) const
  *
  * \return The number of tracks in the collection.
  */
-int CuteSyncAbstractCollection::count() const
+int CSAbstractCollection::count() const
 {
 	return trackHash.count();
 }
@@ -497,7 +497,7 @@ int CuteSyncAbstractCollection::count() const
  *
  * \return True if our collection is empty, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isEmpty() const
+bool CSAbstractCollection::isEmpty() const
 {
 	return trackHash.isEmpty();
 }
@@ -508,7 +508,7 @@ bool CuteSyncAbstractCollection::isEmpty() const
  *
  * \return A list of our keys.
  */
-QList<QString> CuteSyncAbstractCollection::getKeysList() const
+QList<QString> CSAbstractCollection::getKeysList() const
 {
 	return trackHash.keys();
 }
@@ -521,8 +521,8 @@ QList<QString> CuteSyncAbstractCollection::getKeysList() const
  * \param o The other collection to compare ourself to.
  * \return A list of keys in our collection that are not in the other one.
  */
-QList<QString> CuteSyncAbstractCollection::keysDifference(
-	const CuteSyncAbstractCollection *o) const
+QList<QString> CSAbstractCollection::keysDifference(
+	const CSAbstractCollection *o) const
 {
 #pragma message "TODO - This functions performance should be improved"
 
@@ -542,7 +542,7 @@ QList<QString> CuteSyncAbstractCollection::keysDifference(
  *
  * \return True if our collection has been modified, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isModified() const
+bool CSAbstractCollection::isModified() const
 {
 	return modified;
 }
@@ -553,8 +553,8 @@ bool CuteSyncAbstractCollection::isModified() const
  *
  * \return Our display descriptor.
  */
-const CuteSyncAbstractCollection::DisplayDescriptor *
-	CuteSyncAbstractCollection::getDisplayDescriptor() const
+const CSAbstractCollection::DisplayDescriptor *
+	CSAbstractCollection::getDisplayDescriptor() const
 {
 	return displayDescriptor;
 }
@@ -576,7 +576,7 @@ const CuteSyncAbstractCollection::DisplayDescriptor *
  *
  * \param d The display descriptor to use.
  */
-void CuteSyncAbstractCollection::setDisplayDescriptor(
+void CSAbstractCollection::setDisplayDescriptor(
 	const DisplayDescriptor *d)
 {
 	Q_EMIT beginResetModel();
@@ -594,7 +594,7 @@ void CuteSyncAbstractCollection::setDisplayDescriptor(
  * \param p Our parent model index. This is ignored.
  * \return The number of rows in our collection.
  */
-int CuteSyncAbstractCollection::rowCount(const QModelIndex &UNUSED(p)) const
+int CSAbstractCollection::rowCount(const QModelIndex &UNUSED(p)) const
 {
 	return count();
 }
@@ -606,7 +606,7 @@ int CuteSyncAbstractCollection::rowCount(const QModelIndex &UNUSED(p)) const
  * \param p Our parent model index. This is ignored.
  * \return The number of columns in our collection.
  */
-int CuteSyncAbstractCollection::columnCount(const QModelIndex &UNUSED(p)) const
+int CSAbstractCollection::columnCount(const QModelIndex &UNUSED(p)) const
 {
 	if(displayDescriptor != NULL)
 		return displayDescriptor->columns.count();
@@ -622,7 +622,7 @@ int CuteSyncAbstractCollection::columnCount(const QModelIndex &UNUSED(p)) const
  * \param r The cell's display role.
  * \return The data to be displayed.
  */
-QVariant CuteSyncAbstractCollection::data(const QModelIndex &i, int r) const
+QVariant CSAbstractCollection::data(const QModelIndex &i, int r) const
 {
 	if(displayDescriptor == NULL)
 		return QVariant(QVariant::Invalid);
@@ -657,7 +657,7 @@ QVariant CuteSyncAbstractCollection::data(const QModelIndex &i, int r) const
  * \param r The header cell's display role.
  * \return The data to be displayed.
  */
-QVariant CuteSyncAbstractCollection::headerData(
+QVariant CSAbstractCollection::headerData(
 	int s, Qt::Orientation o, int r) const
 {
 	if(o != Qt::Horizontal)
@@ -672,7 +672,7 @@ QVariant CuteSyncAbstractCollection::headerData(
 	}
 	else
 	{
-		return QVariant(CuteSyncAbstractCollection::getColumnName(
+		return QVariant(CSAbstractCollection::getColumnName(
 			displayDescriptor->columns.value(s)));
 	}
 }
@@ -683,7 +683,7 @@ QVariant CuteSyncAbstractCollection::headerData(
  *
  * \return True if we are doing something, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isActive() const
+bool CSAbstractCollection::isActive() const
 {
 	return active;
 }
@@ -700,7 +700,7 @@ bool CuteSyncAbstractCollection::isActive() const
  *
  * \return True if we are interruptible, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isInterruptible() const
+bool CSAbstractCollection::isInterruptible() const
 {
 	return interruptible;
 }
@@ -715,7 +715,7 @@ bool CuteSyncAbstractCollection::isInterruptible() const
  *
  * \param i True means interrupt, false means don't.
  */
-void CuteSyncAbstractCollection::setInterrupted(bool i)
+void CSAbstractCollection::setInterrupted(bool i)
 {
 	interrupted = i;
 }
@@ -728,7 +728,7 @@ void CuteSyncAbstractCollection::setInterrupted(bool i)
  *
  * \return A list of all of the tracks in our collection.
  */
-QList<CuteSyncTrack *> CuteSyncAbstractCollection::allTracks() const
+QList<CuteSyncTrack *> CSAbstractCollection::allTracks() const
 {
 	return trackHash.values();
 }
@@ -741,7 +741,7 @@ QList<CuteSyncTrack *> CuteSyncAbstractCollection::allTracks() const
  * \param r The row of the desired track.
  * \return The desired track descriptor, or NULL.
  */
-CuteSyncTrack *CuteSyncAbstractCollection::trackAt(int r) const
+CuteSyncTrack *CSAbstractCollection::trackAt(int r) const
 {
 	if( (r < 0) || (r >= count()) ) return NULL;
 	return trackSort.at(r);
@@ -755,7 +755,7 @@ CuteSyncTrack *CuteSyncAbstractCollection::trackAt(int r) const
  * \param k They key of the desired track.
  * \return The desired track descriptor, or NULL.
  */
-CuteSyncTrack *CuteSyncAbstractCollection::trackAt(const QString &k) const
+CuteSyncTrack *CSAbstractCollection::trackAt(const QString &k) const
 {
 	return trackHash.value(k, NULL);
 }
@@ -768,7 +768,7 @@ CuteSyncTrack *CuteSyncAbstractCollection::trackAt(const QString &k) const
  *
  * \param r The row of the desired track.
  */
-void CuteSyncAbstractCollection::removeTrack(int r)
+void CSAbstractCollection::removeTrack(int r)
 {
 	if( (r < 0) || (r >= count()) ) return;
 
@@ -785,7 +785,7 @@ void CuteSyncAbstractCollection::removeTrack(int r)
  *
  * \param k The key of the desired track.
  */
-void CuteSyncAbstractCollection::removeTrack(const QString &k)
+void CSAbstractCollection::removeTrack(const QString &k)
 {
 	CuteSyncTrack *track = trackHash.value(k, NULL);
 	if(track == NULL) return;
@@ -806,7 +806,7 @@ void CuteSyncAbstractCollection::removeTrack(const QString &k)
  * \param t The track descriptor to add.
  * \return True if the track was added, or false otherwise.
  */
-bool CuteSyncAbstractCollection::addTrack(CuteSyncTrack *t)
+bool CSAbstractCollection::addTrack(CuteSyncTrack *t)
 {
 	if(t == NULL) return false;
 	if(trackHash.contains(t->getHash())) return false;
@@ -823,7 +823,7 @@ bool CuteSyncAbstractCollection::addTrack(CuteSyncTrack *t)
  *
  * \param i Whether or not the current job is interruptible.
  */
-void CuteSyncAbstractCollection::setInterruptible(bool i)
+void CSAbstractCollection::setInterruptible(bool i)
 {
 	interruptible = i;
 }
@@ -837,7 +837,7 @@ void CuteSyncAbstractCollection::setInterruptible(bool i)
  *
  * \return True if we have been interrupted, or false otherwise.
  */
-bool CuteSyncAbstractCollection::isInterrupted() const
+bool CSAbstractCollection::isInterrupted() const
 {
 	return interrupted;
 }
@@ -849,7 +849,7 @@ bool CuteSyncAbstractCollection::isInterrupted() const
  *
  * \param m True if the collection has been modified, or false otherwise.
  */
-void CuteSyncAbstractCollection::setModified(bool m)
+void CSAbstractCollection::setModified(bool m)
 {
 	modified = m;
 }
@@ -864,7 +864,7 @@ void CuteSyncAbstractCollection::setModified(bool m)
  * \param l The left-most index to sort.
  * \param r The right-most index to sort.
  */
-void CuteSyncAbstractCollection::quicksort(int l, int r) const
+void CSAbstractCollection::quicksort(int l, int r) const
 {
 	int pivot, i, j;
 
@@ -944,7 +944,7 @@ void CuteSyncAbstractCollection::quicksort(int l, int r) const
  * \param rb The second row to compare.
  * \return The result of the comparison.
  */
-int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
+int CSAbstractCollection::sortCmp(int ra, int rb) const
 {
 	Column c;
 
@@ -1000,7 +1000,7 @@ int CuteSyncAbstractCollection::sortCmp(int ra, int rb) const
  * This slot handles our job started signal being emitted by updating our
  * active status.
  */
-void CuteSyncAbstractCollection::doJobStarted()
+void CSAbstractCollection::doJobStarted()
 { /* SLOT */
 
 	active = true;
@@ -1011,7 +1011,7 @@ void CuteSyncAbstractCollection::doJobStarted()
  * This slot handles our job finished signal being emitted by updating our
  * active status.
  */
-void CuteSyncAbstractCollection::doJobFinished()
+void CSAbstractCollection::doJobFinished()
 { /* SLOT */
 
 	active = false;
@@ -1022,7 +1022,7 @@ void CuteSyncAbstractCollection::doJobFinished()
  * This slot handles one of our configuration widgets requesting that its
  * current state be applied to our collection.
  */
-void CuteSyncAbstractCollection::doConfigurationApply()
+void CSAbstractCollection::doConfigurationApply()
 { /* SLOT */
 
 	CuteSyncGeneralCollectionConfigWidget *w =
@@ -1039,7 +1039,7 @@ void CuteSyncAbstractCollection::doConfigurationApply()
  * This slot handles our configuration widget requesting a reset by resetting
  * its options to our currently stored values.
  */
-void CuteSyncAbstractCollection::doConfigurationReset()
+void CSAbstractCollection::doConfigurationReset()
 { /* SLOT */
 
 	CuteSyncGeneralCollectionConfigWidget *w =
@@ -1060,27 +1060,27 @@ void CuteSyncAbstractCollection::doConfigurationReset()
  *
  * \return A default display descriptor.
  */
-CuteSyncAbstractCollection::DisplayDescriptor
-	CuteSyncAbstractCollection::getDefaultDisplayDescriptor()
+CSAbstractCollection::DisplayDescriptor
+	CSAbstractCollection::getDefaultDisplayDescriptor()
 {
 	DisplayDescriptor d;
 
 	d.s_order = Qt::AscendingOrder;
 
 	d.s_columns.clear();
-	d.s_columns.append(CuteSyncAbstractCollection::Artist);
-	d.s_columns.append(CuteSyncAbstractCollection::Album);
-	d.s_columns.append(CuteSyncAbstractCollection::DiscNumber);
-	d.s_columns.append(CuteSyncAbstractCollection::TrackNumber);
+	d.s_columns.append(CSAbstractCollection::Artist);
+	d.s_columns.append(CSAbstractCollection::Album);
+	d.s_columns.append(CSAbstractCollection::DiscNumber);
+	d.s_columns.append(CSAbstractCollection::TrackNumber);
 
 	d.columns.clear();
-	d.columns.insert(0, CuteSyncAbstractCollection::Artist);
-	d.columns.insert(1, CuteSyncAbstractCollection::Album);
-	d.columns.insert(2, CuteSyncAbstractCollection::Title);
-	d.columns.insert(3, CuteSyncAbstractCollection::DiscNumber);
-	d.columns.insert(4, CuteSyncAbstractCollection::TrackNumber);
-	d.columns.insert(5, CuteSyncAbstractCollection::Length);
-	d.columns.insert(6, CuteSyncAbstractCollection::Year);
+	d.columns.insert(0, CSAbstractCollection::Artist);
+	d.columns.insert(1, CSAbstractCollection::Album);
+	d.columns.insert(2, CSAbstractCollection::Title);
+	d.columns.insert(3, CSAbstractCollection::DiscNumber);
+	d.columns.insert(4, CSAbstractCollection::TrackNumber);
+	d.columns.insert(5, CSAbstractCollection::Length);
+	d.columns.insert(6, CSAbstractCollection::Year);
 
 	return d;
 }
@@ -1094,8 +1094,8 @@ CuteSyncAbstractCollection::DisplayDescriptor
  * \param d The display descriptor to serialize.
  * \return A serialized byte array representing the given descriptor.
  */
-QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(
-	const CuteSyncAbstractCollection::DisplayDescriptor &d)
+QByteArray CSAbstractCollection::serializeDisplayDescriptor(
+	const CSAbstractCollection::DisplayDescriptor &d)
 {
 	QByteArray obuf;
 	QDataStream out(&obuf, QIODevice::ReadWrite);
@@ -1136,8 +1136,8 @@ QByteArray CuteSyncAbstractCollection::serializeDisplayDescriptor(
  * \param d The byte array to read a display descriptor from.
  * \return A new display descriptor object containing the desired data.
  */
-CuteSyncAbstractCollection::DisplayDescriptor
-	CuteSyncAbstractCollection::unserializeDisplayDescriptor(
+CSAbstractCollection::DisplayDescriptor
+	CSAbstractCollection::unserializeDisplayDescriptor(
 	const QByteArray &d)
 {
 	DisplayDescriptor dd;
@@ -1177,7 +1177,7 @@ CuteSyncAbstractCollection::DisplayDescriptor
 	for(int i = 0; i < scols.count(); ++i)
 	{
 		dd.s_columns.append(
-			static_cast<CuteSyncAbstractCollection::Column>(
+			static_cast<CSAbstractCollection::Column>(
 			scols.at(i).value<qint32>()));
 	}
 
@@ -1186,7 +1186,7 @@ CuteSyncAbstractCollection::DisplayDescriptor
 	for(int i = 0; i < dcolskeys.count(); ++i)
 	{
 		dd.columns.insert(dcolskeys.at(i).toInt(),
-			static_cast<CuteSyncAbstractCollection::Column>(
+			static_cast<CSAbstractCollection::Column>(
 				dcols.value(dcolskeys.at(i)).value<qint32>()));
 	}
 
@@ -1201,7 +1201,7 @@ CuteSyncAbstractCollection::DisplayDescriptor
  * \param c The column whose name is desired.
  * \return The "pretty name" for the given column.
  */
-QString CuteSyncAbstractCollection::getColumnPrettyName(Column c)
+QString CSAbstractCollection::getColumnPrettyName(Column c)
 {
 	switch(c)
 	{
@@ -1242,7 +1242,7 @@ QString CuteSyncAbstractCollection::getColumnPrettyName(Column c)
  * \param c The desired column
  * \return The column's string name.
  */
-QString CuteSyncAbstractCollection::getColumnName(Column c)
+QString CSAbstractCollection::getColumnName(Column c)
 {
 	switch(c)
 	{

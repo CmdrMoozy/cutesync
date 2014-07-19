@@ -18,7 +18,7 @@
 
 #include "collectionlistwidget.h"
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/DirCollection.h"
 #include "libcute/collections/IPodCollection.h"
 #include "cutesync/widgets/collectiondelegate.h"
@@ -105,7 +105,7 @@ void CSCollectionListWidget::doCollectionClicked(const QModelIndex &i)
 
 	if(mdl != NULL)
 	{
-		CuteSyncAbstractCollection *c = mdl->collectionAt(i.row());
+		CSAbstractCollection *c = mdl->collectionAt(i.row());
 
 		if( (c != NULL) && (c->isEnabled()) )
 			Q_EMIT selectionChanged(mdl->collectionAt(i.row()));

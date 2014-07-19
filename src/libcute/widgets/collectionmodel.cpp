@@ -28,7 +28,7 @@
 #include <QMessageBox>
 
 #include "libcute/defines.h"
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 
 /*!
  * This is our default constructor, which creates a new model object with the
@@ -74,7 +74,7 @@ QVariant CSCollectionModel::data(const QModelIndex &i, int r) const
 	{
 		case Qt::DisplayRole:
 			{
-				CuteSyncAbstractCollection *c =
+				CSAbstractCollection *c =
 					collectionAt(i.row());
 
 				if(c != NULL)
@@ -85,7 +85,7 @@ QVariant CSCollectionModel::data(const QModelIndex &i, int r) const
 
 		case Qt::DecorationRole:
 			{
-				CuteSyncAbstractCollection *c =
+				CSAbstractCollection *c =
 					collectionAt(i.row());
 
 				if(c != NULL)
@@ -118,7 +118,7 @@ QVariant CSCollectionModel::headerData(int UNUSED(s),
  */
 void CSCollectionModel::clear()
 {
-	CuteSyncAbstractCollection *c;
+	CSAbstractCollection *c;
 	while(!itemList.isEmpty())
 	{
 		c = itemList.takeFirst();
@@ -146,7 +146,7 @@ int CSCollectionModel::count() const
  * \param i The index (row) of the desired collection.
  * \return The desired collection.
  */
-CuteSyncAbstractCollection *CSCollectionModel::collectionAt(int i) const
+CSAbstractCollection *CSCollectionModel::collectionAt(int i) const
 {
 	if( (i < 0) || (i >= count()) ) return NULL;
 	return itemList.at(i);
@@ -159,7 +159,7 @@ CuteSyncAbstractCollection *CSCollectionModel::collectionAt(int i) const
  * \param n The name to search for.
  * \return A pointer to the desired collection, or NULL if it is not found.
  */
-CuteSyncAbstractCollection *CSCollectionModel::collectionFromName(
+CSAbstractCollection *CSCollectionModel::collectionFromName(
 	const QString &n) const
 {
 	for(int i = 0; i < count(); ++i)
@@ -189,7 +189,7 @@ void CSCollectionModel::removeCollectionAt(int i)
 	Q_EMIT beginResetModel();
 
 	itemList.at(i)->disconnect();
-	CuteSyncAbstractCollection *c = itemList.takeAt(i);
+	CSAbstractCollection *c = itemList.takeAt(i);
 	c->deleteLater();
 
 	Q_EMIT endResetModel();
@@ -204,7 +204,7 @@ void CSCollectionModel::removeCollectionAt(int i)
  *
  * \param c The collection to add to our model.
  */
-void CSCollectionModel::appendCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::appendCollection(CSAbstractCollection *c)
 {
 	if( (c != NULL) && (!itemList.contains(c)) )
 	{
@@ -337,7 +337,7 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
 
 		// Try creating new collection object from the given info.
 
-		CuteSyncAbstractCollection *collection = NULL;
+		CSAbstractCollection *collection = NULL;
 
 		bool u = true;
 		for(int j = 0; j < count(); ++j)
@@ -393,7 +393,7 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
 void CSCollectionModel::newCollection(const QString &n,
 	const QString &p, bool s)
 {
-	CuteSyncAbstractCollection *c = NULL;
+	CSAbstractCollection *c = NULL;
 
 	// Make sure our name is unique.
 
@@ -450,7 +450,7 @@ void CSCollectionModel::newCollection(const QString &n,
  *
  * \param c The collection to reload.
  */
-void CSCollectionModel::reloadCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::reloadCollection(CSAbstractCollection *c)
 { /* SLOT */
 
 	c->reload();
@@ -465,7 +465,7 @@ void CSCollectionModel::reloadCollection(CuteSyncAbstractCollection *c)
  *
  * \param c The collection to refresh.
  */
-void CSCollectionModel::refreshCollection(CuteSyncAbstractCollection *c)
+void CSCollectionModel::refreshCollection(CSAbstractCollection *c)
 { /* SLOT */
 
 	c->refresh();
@@ -481,8 +481,8 @@ void CSCollectionModel::refreshCollection(CuteSyncAbstractCollection *c)
  * \param s The source collection.
  * \param d The destination collection.
  */
-void CSCollectionModel::syncCollections(CuteSyncAbstractCollection *s,
-	CuteSyncAbstractCollection *d)
+void CSCollectionModel::syncCollections(CSAbstractCollection *s,
+	CSAbstractCollection *d)
 { /* SLOT */
 
 	d->syncFrom(s);
@@ -497,8 +497,8 @@ void CSCollectionModel::syncCollections(CuteSyncAbstractCollection *s,
 void CSCollectionModel::doCollectionEnabledChanged()
 { /* SLOT */
 
-	CuteSyncAbstractCollection *c =
-		dynamic_cast<CuteSyncAbstractCollection *>(sender());
+	CSAbstractCollection *c =
+		dynamic_cast<CSAbstractCollection *>(sender());
 
 	if(c == NULL) return;
 
@@ -520,8 +520,8 @@ void CSCollectionModel::doCollectionEnabledChanged()
 void CSCollectionModel::doJobStarted(const QString &j)
 { /* SLOT */
 
-	CuteSyncAbstractCollection *s =
-		dynamic_cast<CuteSyncAbstractCollection *>(sender());
+	CSAbstractCollection *s =
+		dynamic_cast<CSAbstractCollection *>(sender());
 	currentJob = s;
 
 	if(s != NULL) s->setEnabled(false);
@@ -566,8 +566,8 @@ void CSCollectionModel::doProgressUpdated(int p)
 void CSCollectionModel::doJobFinished(const QString &r)
 { /* SLOT */
 
-	CuteSyncAbstractCollection *c =
-		dynamic_cast<CuteSyncAbstractCollection *>(sender());
+	CSAbstractCollection *c =
+		dynamic_cast<CSAbstractCollection *>(sender());
 	if(c != NULL) c->setEnabled(true);
 
 	currentJob = NULL;

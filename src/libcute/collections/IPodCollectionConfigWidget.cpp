@@ -28,7 +28,7 @@
  * \param t The GUI thread for our widget.
  */
 CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
-	: CuteSyncAbstractCollectionConfigWidget()
+	: CSAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
 

@@ -34,11 +34,11 @@
  * for next time our application is started, in addition to any collection-
  * subclass-specific options that need to be handled.
  */
-class CuteSyncAbstractCollectionConfigWidget : public QWidget
+class CSAbstractCollectionConfigWidget : public QWidget
 {
 	public:
-		CuteSyncAbstractCollectionConfigWidget();
-		virtual ~CuteSyncAbstractCollectionConfigWidget();
+		CSAbstractCollectionConfigWidget();
+		virtual ~CSAbstractCollectionConfigWidget();
 
 		virtual void apply() = 0;
 		virtual void reset() = 0;

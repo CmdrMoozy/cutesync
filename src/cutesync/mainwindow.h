@@ -36,7 +36,7 @@ class CSCollectionListWidget;
 class CSCollectionInspector;
 class CSNewCollectionDialog;
 class CSSyncDialog;
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 class CSSettingsManager;
 
 /*!
@@ -77,8 +77,8 @@ class CSMainWindow : public QMainWindow
 
 	private Q_SLOTS:
 		void doNewCollectionAccepted();
-		void doSyncAccepted(CuteSyncAbstractCollection *s,
-			CuteSyncAbstractCollection *d);
+		void doSyncAccepted(CSAbstractCollection *s,
+			CSAbstractCollection *d);
 
 		void doNewCollection();
 		void doSync();
@@ -95,10 +95,10 @@ class CSMainWindow : public QMainWindow
 	Q_SIGNALS:
 		void startUnserialize(const QList<QVariant> &);
 		void startNew(const QString &, const QString &, bool);
-		void startReload(CuteSyncAbstractCollection *);
-		void startRefresh(CuteSyncAbstractCollection *);
-		void startSync(CuteSyncAbstractCollection *,
-			CuteSyncAbstractCollection *);
+		void startReload(CSAbstractCollection *);
+		void startRefresh(CSAbstractCollection *);
+		void startSync(CSAbstractCollection *,
+			CSAbstractCollection *);
 		// copy(), delete()
 };
 

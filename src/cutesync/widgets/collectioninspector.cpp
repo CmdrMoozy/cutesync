@@ -27,7 +27,7 @@
 #include <QProgressBar>
 #include <QTimerEvent>
 
-#include "libcute/collections/AbstractCollection.h"
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/util/systemutils.h"
 #include "cutesync/dialogs/inspector/inspectoraboutdialog.h"
 #include "cutesync/dialogs/inspector/inspectorcollectionconfigdialog.h"
@@ -65,7 +65,7 @@ CSCollectionInspector::CSCollectionInspector(
  * \param p Our parent widget.
  */
 CSCollectionInspector::CSCollectionInspector(
-	CSSettingsManager *s, CuteSyncAbstractCollection *c, QWidget *p)
+	CSSettingsManager *s, CSAbstractCollection *c, QWidget *p)
 	: QWidget(p), settingsManager(s), collection(NULL)
 {
 	createGUI();
@@ -107,7 +107,7 @@ void CSCollectionInspector::clearCollection()
  *
  * \return Our current display descriptor.
  */
-CuteSyncAbstractCollection::DisplayDescriptor
+CSAbstractCollection::DisplayDescriptor
 	CSCollectionInspector::getDisplayDescriptor() const
 {
 	return displayDescriptor;
@@ -119,7 +119,7 @@ CuteSyncAbstractCollection::DisplayDescriptor
  *
  * \return Our current collection.
  */
-CuteSyncAbstractCollection *CSCollectionInspector::getCollection() const
+CSAbstractCollection *CSCollectionInspector::getCollection() const
 {
 	return collection;
 }
@@ -129,7 +129,7 @@ CuteSyncAbstractCollection *CSCollectionInspector::getCollection() const
  *
  * \param c The collection we will display.
  */
-void CSCollectionInspector::setCollection(CuteSyncAbstractCollection *c)
+void CSCollectionInspector::setCollection(CSAbstractCollection *c)
 { /* SLOT */
 
 	// Disconnect our old collection.
@@ -264,7 +264,7 @@ void CSCollectionInspector::createDialogs()
 void CSCollectionInspector::loadDisplayDescriptor()
 {
 	displayDescriptor =
-		CuteSyncAbstractCollection::unserializeDisplayDescriptor(
+		CSAbstractCollection::unserializeDisplayDescriptor(
 		settingsManager->getSetting("display-descriptor")
 		.value<QByteArray>());
 }
@@ -387,7 +387,7 @@ void CSCollectionInspector::doSettingChanged(
 
 	if(k == "display-descriptor")
 	{
-		displayDescriptor =CuteSyncAbstractCollection
+		displayDescriptor =CSAbstractCollection
 			::unserializeDisplayDescriptor(v.value<QByteArray>());
 
 		if(collection != NULL)

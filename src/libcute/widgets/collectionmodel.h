@@ -25,7 +25,7 @@
 
 #include "libcute/collections/CollectionTypeResolver.h"
 
-class CuteSyncAbstractCollection;
+class CSAbstractCollection;
 
 /*!
  * \brief This class provides a storage container for a list of collections.
@@ -51,11 +51,11 @@ class CSCollectionModel : public QAbstractListModel
 
 		void clear();
 		int count() const;
-		CuteSyncAbstractCollection *collectionAt(int i) const;
-		CuteSyncAbstractCollection *collectionFromName(
+		CSAbstractCollection *collectionAt(int i) const;
+		CSAbstractCollection *collectionFromName(
 			const QString &n) const;
 		void removeCollectionAt(int i);
-		void appendCollection(CuteSyncAbstractCollection *c);
+		void appendCollection(CSAbstractCollection *c);
 
 		QList<QString> getCollectionNameList() const;
 
@@ -68,16 +68,16 @@ class CSCollectionModel : public QAbstractListModel
 	public Q_SLOTS:
 		void loadSerializedList(const QList<QVariant> &c);
 		void newCollection(const QString &n, const QString &p, bool s);
-		void reloadCollection(CuteSyncAbstractCollection *c);
-		void refreshCollection(CuteSyncAbstractCollection *c);
-		void syncCollections(CuteSyncAbstractCollection *s,
-			CuteSyncAbstractCollection *d);
+		void reloadCollection(CSAbstractCollection *c);
+		void refreshCollection(CSAbstractCollection *c);
+		void syncCollections(CSAbstractCollection *s,
+			CSAbstractCollection *d);
 		// copy() delete()
 
 	private:
 		CuteSyncCollectionTypeResolver resolver;
-		QList<CuteSyncAbstractCollection *> itemList;
-		CuteSyncAbstractCollection *currentJob;
+		QList<CSAbstractCollection *> itemList;
+		CSAbstractCollection *currentJob;
 
 	private Q_SLOTS:
 		void doCollectionEnabledChanged();
