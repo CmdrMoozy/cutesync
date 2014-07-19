@@ -38,7 +38,7 @@ extern "C" {
  * amount of confusing code to retrieve it) such as: file information (size, extensions, paths, etc.)
  * and extra tagging information (track count, disc number/count, composer, etc.).
  */
-class CuteSyncTaggedFile
+class CSTaggedFile
 {
 	public:
 		enum FileType
@@ -60,9 +60,9 @@ class CuteSyncTaggedFile
 			Invalid
 		};
 
-		CuteSyncTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap = true,
+		CSTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap = true,
 			TagLib::AudioProperties::ReadStyle aps = TagLib::AudioProperties::Average);
-		virtual ~CuteSyncTaggedFile();
+		virtual ~CSTaggedFile();
 
 		bool isNull() const;
 		bool hasAudioProperties() const;

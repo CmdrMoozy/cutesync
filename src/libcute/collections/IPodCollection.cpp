@@ -35,8 +35,8 @@
 #include "libcute/defines.h"
 #include "libcute/collections/IPodCollectionConfigWidget.h"
 #include "libcute/collections/IPodTrack.h"
-#include "libcute/tags/FileTypeResolver.h"
-#include "libcute/tags/TaggedFile.h"
+#include "libcute/tags/filetyperesolver.h"
+#include "libcute/tags/taggedfile.h"
 #include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
@@ -822,8 +822,8 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(
 	// Try to retrieve the cover art embedded in the file itself, if any.
 
 	{
-		CuteSyncFileTypeResolver resolv;
-		CuteSyncTaggedFile t(path, resolv, false);
+		CSFileTypeResolver resolv;
+		CSTaggedFile t(path, resolv, false);
 
 		pixbuf = t.getCoverArtwork();
 	}

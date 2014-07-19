@@ -34,11 +34,11 @@ class CSMMIOHandle;
  * FileTypeResolver class so we can be used directly with TagLib, or you can
  * simply call createFile() manually and use that file pointer directly.
  */
-class CuteSyncFileTypeResolver : public TagLib::FileRef::FileTypeResolver
+class CSFileTypeResolver : public TagLib::FileRef::FileTypeResolver
 {
 	public:
-		CuteSyncFileTypeResolver();
-		virtual ~CuteSyncFileTypeResolver();
+		CSFileTypeResolver();
+		virtual ~CSFileTypeResolver();
 
 		virtual TagLib::File *createFile(TagLib::FileName fn,
 			bool ap = true,

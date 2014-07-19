@@ -23,8 +23,8 @@
 #include <QDataStream>
 
 #include "libcute/defines.h"
-#include "libcute/tags/FileTypeResolver.h"
-#include "libcute/tags/TaggedFile.h"
+#include "libcute/tags/filetyperesolver.h"
+#include "libcute/tags/taggedfile.h"
 
 /*!
  * This constructor creates a new directory collection track from the given file path. Note that
@@ -365,8 +365,8 @@ void CuteSyncDirTrack::unserialize(const QByteArray &d)
  */
 bool CuteSyncDirTrack::refresh()
 {
-	CuteSyncFileTypeResolver resolver;
-	CuteSyncTaggedFile f(getPath(), resolver);
+	CSFileTypeResolver resolver;
+	CSTaggedFile f(getPath(), resolver);
 
 	if( f.isNull() || (!f.hasAudioProperties()) )
 		return false;

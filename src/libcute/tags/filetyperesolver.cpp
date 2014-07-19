@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "FileTypeResolver.h"
+#include "filetyperesolver.h"
 
 #include <QFile>
 
@@ -29,14 +29,14 @@
 /*!
  * This is our default constructor, which creates our new object.
  */
-CuteSyncFileTypeResolver::CuteSyncFileTypeResolver()
+CSFileTypeResolver::CSFileTypeResolver()
 {
 }
 
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncFileTypeResolver::~CuteSyncFileTypeResolver()
+CSFileTypeResolver::~CSFileTypeResolver()
 {
 }
 
@@ -51,7 +51,7 @@ CuteSyncFileTypeResolver::~CuteSyncFileTypeResolver()
  * \param ap Whether or not to read audio properties.
  * \param aps How accurate audio property reading should be.
  */
-TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
+TagLib::File *CSFileTypeResolver::createFile(TagLib::FileName fn,
 	bool ap, TagLib::AudioProperties::ReadStyle aps) const
 {
 	CSMMIOHandle file(fn);
@@ -174,7 +174,7 @@ TagLib::File *CuteSyncFileTypeResolver::createFile(TagLib::FileName fn,
  * \param o The offset of the first identifier byte in the buffer.
  * \return True if the identifier was valid, or false otherwise.
  */
-bool CuteSyncFileTypeResolver::isValidFtyp(const CSMMIOHandle &f,
+bool CSFileTypeResolver::isValidFtyp(const CSMMIOHandle &f,
 	uint64_t o) const
 {
 	static const char ftyps[8][4] = {

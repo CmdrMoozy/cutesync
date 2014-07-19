@@ -19,8 +19,8 @@
 #include "IPodTrack.h"
 
 #include "libcute/defines.h"
-#include "libcute/tags/FileTypeResolver.h"
-#include "libcute/tags/TaggedFile.h"
+#include "libcute/tags/filetyperesolver.h"
+#include "libcute/tags/taggedfile.h"
 
 /*!
  * This function constructs a new Itdb_Track from a normal flat file. If for
@@ -41,8 +41,8 @@ CuteSyncIPodTrack *CuteSyncIPodTrack::createTrackFromFile(const QString &p)
 {
 	Itdb_Track *track = itdb_track_new();
 
-	CuteSyncFileTypeResolver resolver;
-	CuteSyncTaggedFile f(p, resolver);
+	CSFileTypeResolver resolver;
+	CSTaggedFile f(p, resolver);
 
 	track->title = g_strdup(f.getTitle().toUtf8().data());
 	track->album = g_strdup(f.getAlbum().toUtf8().data());

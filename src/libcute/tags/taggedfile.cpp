@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TaggedFile.h"
+#include "taggedfile.h"
 
 #include <QFileInfo>
 
@@ -47,7 +47,7 @@ extern "C" {
  * \param ap Whether or not we should read audio properties.
  * \param aps How accurate (but slow) audio property reading should be.
  */
-CuteSyncTaggedFile::CuteSyncTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap, TagLib::AudioProperties::ReadStyle aps)
+CSTaggedFile::CSTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap, TagLib::AudioProperties::ReadStyle aps)
 	: file(NULL), info(NULL)
 {
 	file = r.createFile(p.toUtf8().data(), ap, aps);
@@ -58,7 +58,7 @@ CuteSyncTaggedFile::CuteSyncTaggedFile(const QString &p, const TagLib::FileRef::
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncTaggedFile::~CuteSyncTaggedFile()
+CSTaggedFile::~CSTaggedFile()
 {
 	if(info != NULL) delete info;
 	if(file != NULL) delete file;
@@ -70,7 +70,7 @@ CuteSyncTaggedFile::~CuteSyncTaggedFile()
  *
  * \return True if we are NULL, or false otherwise.
  */
-bool CuteSyncTaggedFile::isNull() const
+bool CSTaggedFile::isNull() const
 {
 	return (file == NULL);
 }
@@ -80,7 +80,7 @@ bool CuteSyncTaggedFile::isNull() const
  *
  * \return True if we have audio properties, or false otherwise.
  */
-bool CuteSyncTaggedFile::hasAudioProperties() const
+bool CSTaggedFile::hasAudioProperties() const
 {
 	if(isNull()) return false;
 	return (file->audioProperties() != NULL);
@@ -94,38 +94,38 @@ bool CuteSyncTaggedFile::hasAudioProperties() const
  *
  * \return The type of file we are referencing.
  */
-CuteSyncTaggedFile::FileType CuteSyncTaggedFile::getFileType() const
+CSTaggedFile::FileType CSTaggedFile::getFileType() const
 {
-	if(isNull()) return CuteSyncTaggedFile::Invalid;
+	if(isNull()) return CSTaggedFile::Invalid;
 
 	if(dynamic_cast<TagLib::APE::File *>(file) != NULL)
-		return CuteSyncTaggedFile::APE;
+		return CSTaggedFile::APE;
 	else if(dynamic_cast<TagLib::ASF::File *>(file) != NULL)
-		return CuteSyncTaggedFile::ASF;
+		return CSTaggedFile::ASF;
 	else if(dynamic_cast<TagLib::FLAC::File *>(file) != NULL)
-		return CuteSyncTaggedFile::FLAC;
+		return CSTaggedFile::FLAC;
 	else if(dynamic_cast<TagLib::MP4::File *>(file) != NULL)
-		return CuteSyncTaggedFile::MP4;
+		return CSTaggedFile::MP4;
 	else if(dynamic_cast<TagLib::MPC::File *>(file) != NULL)
-		return CuteSyncTaggedFile::MPC;
+		return CSTaggedFile::MPC;
 	else if(dynamic_cast<TagLib::MPEG::File *>(file) != NULL)
-		return CuteSyncTaggedFile::MPEG;
+		return CSTaggedFile::MPEG;
 	else if(dynamic_cast<TagLib::Ogg::FLAC::File *>(file) != NULL)
-		return CuteSyncTaggedFile::OggFLAC;
+		return CSTaggedFile::OggFLAC;
 	else if(dynamic_cast<TagLib::Ogg::Speex::File *>(file) != NULL)
-		return CuteSyncTaggedFile::OggSpeex;
+		return CSTaggedFile::OggSpeex;
 	else if(dynamic_cast<TagLib::Ogg::Vorbis::File *>(file) != NULL)
-		return CuteSyncTaggedFile::OggVorbis;
+		return CSTaggedFile::OggVorbis;
 	else if(dynamic_cast<TagLib::RIFF::AIFF::File *>(file) != NULL)
-		return CuteSyncTaggedFile::RIFFAIFF;
+		return CSTaggedFile::RIFFAIFF;
 	else if(dynamic_cast<TagLib::RIFF::WAV::File *>(file) != NULL)
-		return CuteSyncTaggedFile::RIFFWAV;
+		return CSTaggedFile::RIFFWAV;
 	else if(dynamic_cast<TagLib::TrueAudio::File *>(file) != NULL)
-		return CuteSyncTaggedFile::TrueAudio;
+		return CSTaggedFile::TrueAudio;
 	else if(dynamic_cast<TagLib::WavPack::File *>(file) != NULL)
-		return CuteSyncTaggedFile::WavPack;
+		return CSTaggedFile::WavPack;
 
-	return CuteSyncTaggedFile::Other;
+	return CSTaggedFile::Other;
 }
 
 /*!
@@ -133,23 +133,23 @@ CuteSyncTaggedFile::FileType CuteSyncTaggedFile::getFileType() const
  *
  * \return Our file extension.
  */
-QString CuteSyncTaggedFile::getFileExtension() const
+QString CSTaggedFile::getFileExtension() const
 {
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::APE: return "ape";
-		case CuteSyncTaggedFile::ASF: return "asf";
-		case CuteSyncTaggedFile::FLAC: return "flac";
-		case CuteSyncTaggedFile::MP4: return "m4a";
-		case CuteSyncTaggedFile::MPC: return "mpc";
-		case CuteSyncTaggedFile::MPEG: return "mp3";
-		case CuteSyncTaggedFile::OggFLAC: return "oga";
-		case CuteSyncTaggedFile::OggSpeex: return "spx";
-		case CuteSyncTaggedFile::OggVorbis: return "ogg";
-		case CuteSyncTaggedFile::RIFFAIFF: return "aiff";
-		case CuteSyncTaggedFile::RIFFWAV: return "riff";
-		case CuteSyncTaggedFile::TrueAudio: return "tta";
-		case CuteSyncTaggedFile::WavPack: return "wv";
+		case CSTaggedFile::APE: return "ape";
+		case CSTaggedFile::ASF: return "asf";
+		case CSTaggedFile::FLAC: return "flac";
+		case CSTaggedFile::MP4: return "m4a";
+		case CSTaggedFile::MPC: return "mpc";
+		case CSTaggedFile::MPEG: return "mp3";
+		case CSTaggedFile::OggFLAC: return "oga";
+		case CSTaggedFile::OggSpeex: return "spx";
+		case CSTaggedFile::OggVorbis: return "ogg";
+		case CSTaggedFile::RIFFAIFF: return "aiff";
+		case CSTaggedFile::RIFFWAV: return "riff";
+		case CSTaggedFile::TrueAudio: return "tta";
+		case CSTaggedFile::WavPack: return "wv";
 
 		default: return "";
 	};
@@ -162,7 +162,7 @@ QString CuteSyncTaggedFile::getFileExtension() const
  *
  * \return Our file's title.
  */
-QString CuteSyncTaggedFile::getTitle() const
+QString CSTaggedFile::getTitle() const
 {
 	if(isNull()) return QString();
 	return QString::fromUtf8(file->tag()->title().toCString(true));
@@ -175,7 +175,7 @@ QString CuteSyncTaggedFile::getTitle() const
  *
  * \return Our file's artist.
  */
-QString CuteSyncTaggedFile::getArtist() const
+QString CSTaggedFile::getArtist() const
 {
 	if(isNull()) return QString();
 	return QString::fromUtf8(file->tag()->artist().toCString(true));
@@ -188,7 +188,7 @@ QString CuteSyncTaggedFile::getArtist() const
  *
  * \return Our file's album.
  */
-QString CuteSyncTaggedFile::getAlbum() const
+QString CSTaggedFile::getAlbum() const
 {
 	if(isNull()) return QString();
 	return QString::fromUtf8(file->tag()->album().toCString(true));
@@ -201,7 +201,7 @@ QString CuteSyncTaggedFile::getAlbum() const
  *
  * \return Our file's comment.
  */
-QString CuteSyncTaggedFile::getComment() const
+QString CSTaggedFile::getComment() const
 {
 	if(isNull()) return QString();
 	return QString::fromUtf8(file->tag()->comment().toCString(true));
@@ -214,7 +214,7 @@ QString CuteSyncTaggedFile::getComment() const
  *
  * \return Our file's genre.
  */
-QString CuteSyncTaggedFile::getGenre() const
+QString CSTaggedFile::getGenre() const
 {
 	if(isNull()) return QString();
 	return QString::fromUtf8(file->tag()->genre().toCString(true));
@@ -226,7 +226,7 @@ QString CuteSyncTaggedFile::getGenre() const
  *
  * \return Our track's year.
  */
-int CuteSyncTaggedFile::getYear() const
+int CSTaggedFile::getYear() const
 {
 	if(isNull()) return 0;
 	return static_cast<int>(file->tag()->year());
@@ -238,7 +238,7 @@ int CuteSyncTaggedFile::getYear() const
  *
  * \return Our track's track number.
  */
-int CuteSyncTaggedFile::getTrackNumber() const
+int CSTaggedFile::getTrackNumber() const
 {
 	if(isNull()) return 0;
 	return static_cast<int>(file->tag()->track());
@@ -250,7 +250,7 @@ int CuteSyncTaggedFile::getTrackNumber() const
  *
  * \return Our track's length, in SECONDS.
  */
-int CuteSyncTaggedFile::getTrackLength() const
+int CSTaggedFile::getTrackLength() const
 {
 	if(isNull() || (!hasAudioProperties())) return 0;
 	return static_cast<int>(file->audioProperties()->length());
@@ -262,7 +262,7 @@ int CuteSyncTaggedFile::getTrackLength() const
  *
  * \return Our track's bitrate.
  */
-int CuteSyncTaggedFile::getBitrate() const
+int CSTaggedFile::getBitrate() const
 {
 	if(isNull() || (!hasAudioProperties())) return 0;
 	return static_cast<int>(file->audioProperties()->bitrate());
@@ -274,7 +274,7 @@ int CuteSyncTaggedFile::getBitrate() const
  *
  * \return Our track's sample rate.
  */
-int CuteSyncTaggedFile::getSampleRate() const
+int CSTaggedFile::getSampleRate() const
 {
 	if(isNull() || (!hasAudioProperties())) return 0;
 	return static_cast<int>(file->audioProperties()->sampleRate());
@@ -286,7 +286,7 @@ int CuteSyncTaggedFile::getSampleRate() const
  *
  * \return Our track's number of channels.
  */
-int CuteSyncTaggedFile::getChannels() const
+int CSTaggedFile::getChannels() const
 {
 	if(isNull() || (!hasAudioProperties())) return 0;
 	return static_cast<int>(file->audioProperties()->channels());
@@ -298,7 +298,7 @@ int CuteSyncTaggedFile::getChannels() const
  *
  * \return The absolute path to the directory our file is in.
  */
-QString CuteSyncTaggedFile::getAbsoluteDir() const
+QString CSTaggedFile::getAbsoluteDir() const
 {
 	if(isNull()) return QString();
 	return info->absolutePath();
@@ -310,7 +310,7 @@ QString CuteSyncTaggedFile::getAbsoluteDir() const
  *
  * \return The absolute path to the file itself.
  */
-QString CuteSyncTaggedFile::getAbsolutePath() const
+QString CSTaggedFile::getAbsolutePath() const
 {
 	if(isNull()) return QString();
 	return info->absoluteFilePath();
@@ -322,7 +322,7 @@ QString CuteSyncTaggedFile::getAbsolutePath() const
  *
  * \return The filename portion of our file's path, including extensions.
  */
-QString CuteSyncTaggedFile::getFileName() const
+QString CSTaggedFile::getFileName() const
 {
 	if(isNull()) return QString();
 	return info->fileName();
@@ -334,7 +334,7 @@ QString CuteSyncTaggedFile::getFileName() const
  *
  * \return The filename portion of our file's path, EXCLUDING extensions.
  */
-QString CuteSyncTaggedFile::getBaseName() const
+QString CSTaggedFile::getBaseName() const
 {
 	if(isNull()) return QString();
 	return info->baseName();
@@ -346,7 +346,7 @@ QString CuteSyncTaggedFile::getBaseName() const
  *
  * \return The right-most file extension of our file.
  */
-QString CuteSyncTaggedFile::getSuffix() const
+QString CSTaggedFile::getSuffix() const
 {
 	if(isNull()) return QString();
 	return info->suffix();
@@ -358,7 +358,7 @@ QString CuteSyncTaggedFile::getSuffix() const
  *
  * \return Our file's complete file extension (everything after the first '.').
  */
-QString CuteSyncTaggedFile::getCompleteSuffix() const
+QString CSTaggedFile::getCompleteSuffix() const
 {
 	if(isNull()) return QString();
 	return info->completeSuffix();
@@ -370,7 +370,7 @@ QString CuteSyncTaggedFile::getCompleteSuffix() const
  *
  * \return The size of our file, in BYTES.
  */
-uint64_t CuteSyncTaggedFile::getSize() const
+uint64_t CSTaggedFile::getSize() const
 {
 	if(isNull()) return 0;
 	return static_cast<uint64_t>(info->size());
@@ -388,13 +388,13 @@ uint64_t CuteSyncTaggedFile::getSize() const
  *
  * \return The disc number this track is on in its set.
  */
-int CuteSyncTaggedFile::getDiscNumber() const
+int CSTaggedFile::getDiscNumber() const
 {
 	if(isNull()) return 0;
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -411,7 +411,7 @@ int CuteSyncTaggedFile::getDiscNumber() const
 					return 0;
 			}
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -478,13 +478,13 @@ int CuteSyncTaggedFile::getDiscNumber() const
  *
  * \return The number of discs in our set.
  */
-int CuteSyncTaggedFile::getDiscCount() const
+int CSTaggedFile::getDiscCount() const
 {
 	if(isNull()) return 0;
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -502,7 +502,7 @@ int CuteSyncTaggedFile::getDiscCount() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -552,7 +552,7 @@ int CuteSyncTaggedFile::getDiscCount() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return 0;
 			}
@@ -575,13 +575,13 @@ int CuteSyncTaggedFile::getDiscCount() const
  *
  * \return The number of tracks on this track's disc.
  */
-int CuteSyncTaggedFile::getTrackCount() const
+int CSTaggedFile::getTrackCount() const
 {
 	if(isNull()) return 0;
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -599,7 +599,7 @@ int CuteSyncTaggedFile::getTrackCount() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -649,7 +649,7 @@ int CuteSyncTaggedFile::getTrackCount() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return 0;
 			}
@@ -672,13 +672,13 @@ int CuteSyncTaggedFile::getTrackCount() const
  *
  * \return The track's composer.
  */
-QString CuteSyncTaggedFile::getComposer() const
+QString CSTaggedFile::getComposer() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -696,7 +696,7 @@ QString CuteSyncTaggedFile::getComposer() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -718,7 +718,7 @@ QString CuteSyncTaggedFile::getComposer() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -741,13 +741,13 @@ QString CuteSyncTaggedFile::getComposer() const
  *
  * \return The track's copyright information.
  */
-QString CuteSyncTaggedFile::getCopyright() const
+QString CSTaggedFile::getCopyright() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -765,7 +765,7 @@ QString CuteSyncTaggedFile::getCopyright() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -787,7 +787,7 @@ QString CuteSyncTaggedFile::getCopyright() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -810,19 +810,19 @@ QString CuteSyncTaggedFile::getCopyright() const
  *
  * \return The track's user-specified URL.
  */
-QString CuteSyncTaggedFile::getURL() const
+QString CSTaggedFile::getURL() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				return "";
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -844,7 +844,7 @@ QString CuteSyncTaggedFile::getURL() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -867,13 +867,13 @@ QString CuteSyncTaggedFile::getURL() const
  *
  * \return The track's user-specified encoded by field.
  */
-QString CuteSyncTaggedFile::getEncodedBy() const
+QString CSTaggedFile::getEncodedBy() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -891,7 +891,7 @@ QString CuteSyncTaggedFile::getEncodedBy() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -913,7 +913,7 @@ QString CuteSyncTaggedFile::getEncodedBy() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -936,19 +936,19 @@ QString CuteSyncTaggedFile::getEncodedBy() const
  *
  * \return The track's "original artist."
  */
-QString CuteSyncTaggedFile::getOriginalArtist() const
+QString CSTaggedFile::getOriginalArtist() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				return "";
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -970,7 +970,7 @@ QString CuteSyncTaggedFile::getOriginalArtist() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -993,13 +993,13 @@ QString CuteSyncTaggedFile::getOriginalArtist() const
  *
  * \return The track's keywords.
  */
-QString CuteSyncTaggedFile::getKeywords() const
+QString CSTaggedFile::getKeywords() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -1017,13 +1017,13 @@ QString CuteSyncTaggedFile::getKeywords() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				return "";
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -1046,13 +1046,13 @@ QString CuteSyncTaggedFile::getKeywords() const
  *
  * \return The artist for the album this track is on.
  */
-QString CuteSyncTaggedFile::getAlbumArtist() const
+QString CSTaggedFile::getAlbumArtist() const
 {
 	if(isNull()) return "";
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -1070,13 +1070,13 @@ QString CuteSyncTaggedFile::getAlbumArtist() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				return "";
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return "";
 			}
@@ -1100,7 +1100,7 @@ QString CuteSyncTaggedFile::getAlbumArtist() const
  *
  * \return The embedded cover artwork for this song.
  */
-gpointer CuteSyncTaggedFile::getCoverArtwork() const
+gpointer CSTaggedFile::getCoverArtwork() const
 {
 	if(isNull()) return NULL;
 
@@ -1108,7 +1108,7 @@ gpointer CuteSyncTaggedFile::getCoverArtwork() const
 
 	switch(getFileType())
 	{
-		case CuteSyncTaggedFile::MP4:
+		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
 				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
@@ -1140,7 +1140,7 @@ gpointer CuteSyncTaggedFile::getCoverArtwork() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::MPEG:
+		case CSTaggedFile::MPEG:
 			{
 				// Setup our variables and make sure everything is kosher.
 
@@ -1189,7 +1189,7 @@ gpointer CuteSyncTaggedFile::getCoverArtwork() const
 			}
 			break;
 
-		case CuteSyncTaggedFile::RIFFAIFF:
+		case CSTaggedFile::RIFFAIFF:
 			{
 				return NULL;
 			}

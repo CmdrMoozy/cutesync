@@ -63,8 +63,8 @@ SET(libcute_HEADERS
 	src/libcute/collections/IPodTrack.h
 	src/libcute/collections/Track.h
 
-	src/libcute/tags/FileTypeResolver.h
-	src/libcute/tags/TaggedFile.h
+	src/libcute/tags/filetyperesolver.h
+	src/libcute/tags/taggedfile.h
 
 	src/libcute/thread/collectionthreadpool.h
 
@@ -91,8 +91,8 @@ SET(libcute_SOURCES
 	src/libcute/collections/IPodTrack.cpp
 	src/libcute/collections/Track.cpp
 
-	src/libcute/tags/FileTypeResolver.cpp
-	src/libcute/tags/TaggedFile.cpp
+	src/libcute/tags/filetyperesolver.cpp
+	src/libcute/tags/taggedfile.cpp
 
 	src/libcute/thread/collectionthreadpool.cpp
 

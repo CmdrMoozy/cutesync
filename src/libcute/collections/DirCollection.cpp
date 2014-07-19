@@ -29,8 +29,8 @@
 #include "libcute/defines.h"
 #include "libcute/collections/DirCollectionConfigWidget.h"
 #include "libcute/collections/DirTrack.h"
-#include "libcute/tags/FileTypeResolver.h"
-#include "libcute/tags/TaggedFile.h"
+#include "libcute/tags/filetyperesolver.h"
+#include "libcute/tags/taggedfile.h"
 #include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
@@ -791,8 +791,8 @@ QString CuteSyncDirCollection::getAbsoluteWritePath(
 
 	if(isAutoOrganized())
 	{
-		CuteSyncFileTypeResolver resolv;
-		CuteSyncTaggedFile t(s->getAbsolutePath(k), resolv, false);
+		CSFileTypeResolver resolv;
+		CSTaggedFile t(s->getAbsolutePath(k), resolv, false);
 
 		// Formulate the relative path - "/Artist/Album/TN Title.ext".
 
