@@ -31,13 +31,14 @@ class CSAbstractCollection;
  * collection types; if you are subclassing CSAbstractCollection for a custom type, you should
  * also subclass this class to provide detection for it.
  */
-class CuteSyncCollectionTypeResolver
+class CSCollectionTypeResolver
 {
 	public:
-		CuteSyncCollectionTypeResolver();
-		virtual ~CuteSyncCollectionTypeResolver();
+		CSCollectionTypeResolver();
+		virtual ~CSCollectionTypeResolver();
 
-		virtual CSAbstractCollection *createCollection(const QString &n, const QString &p) const;
+		virtual CSAbstractCollection *createCollection(
+			const QString &n, const QString &p) const;
 };
 
 #endif

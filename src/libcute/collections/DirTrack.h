@@ -19,16 +19,18 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_DIR_TRACK_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_DIR_TRACK_H
 
-#include "libcute/collections/Track.h"
+#include "libcute/collections/track.h"
 
 /*!
- * \brief This class provides a track descriptor for tracks loaded from flat files.
+ * \brief This class provides a track descriptor for dir collection tracks.
  *
- * Track attributes are retrieved via some combination of custom MMIO code and taglib. This is fairly fast, but
- * still quite slow compared to reading cached data. Because of this, it is reccommended you serialize these
- * track descriptors where applicable, and try to avoid calling refresh() if possible.
+ * Track attributes are retrieved via some combination of custom MMIO code and
+ * taglib. This is fairly fast, but still quite slow compared to reading cached
+ * data. Because of this, it is reccommended you serialize these track
+ * descriptors where applicable, and try to avoid calling refresh() if
+ * possible.
  */
-class CuteSyncDirTrack : public CuteSyncTrack
+class CuteSyncDirTrack : public CSTrack
 {
 	public:
 		CuteSyncDirTrack(const QString &p);
@@ -58,8 +60,21 @@ class CuteSyncDirTrack : public CuteSyncTrack
 		virtual bool refresh();
 
 	private:
-		QString path, title, artist, album, comment, genre, albumartist, composer;
-		int year, trackNumber, trackCount, cdNumber, length, bitrate, samplerate;
+		QString path;
+		QString title;
+		QString artist;
+		QString album;
+		QString comment;
+		QString genre;
+		QString albumartist;
+		QString composer;
+		int year;
+		int trackNumber;
+		int trackCount;
+		int cdNumber;
+		int length;
+		int bitrate;
+		int samplerate;
 		int64_t size;
 		QDateTime modifyTime;
 };

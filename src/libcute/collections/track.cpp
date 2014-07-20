@@ -16,20 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Track.h"
+#include "track.h"
 
-CuteSyncTrack::~CuteSyncTrack()
+CSTrack::~CSTrack()
 {
 }
 
 /*!
- * This is a utility function that converts a length in seconds to a string fit to be displayed for
- * the user. For instance, if s = 172, the resulting string would be: 2:52.
+ * This is a utility function that converts a length in seconds to a string fit
+ * to be displayed for the user. For instance, if s = 172, the resulting string
+ * would be: 2:52.
  *
  * \param s A time length, in seconds.
  * \return A nicely formatted string version of the given time.
  */
-QString CuteSyncTrack::getLengthDisplay(int s)
+QString CSTrack::getLengthDisplay(int s)
 {
 	int h=0, m=0;
 
@@ -41,32 +42,35 @@ QString CuteSyncTrack::getLengthDisplay(int s)
 	h = (m / 60);
 	m -= (h * 60);
 
-	QString r = (h > 0) ?
-		QString("%1:%2:%3").arg(h).arg(m, 2, 10, QChar('0')).arg(s, 2, 10, QChar('0')) :
-		QString("%1:%2").arg(m).arg(s, 2, 10, QChar('0'));
+	QString r = (h > 0)
+		? QString("%1:%2:%3").arg(h).arg(m, 2, 10, QChar('0'))
+			.arg(s, 2, 10, QChar('0'))
+		: QString("%1:%2").arg(m).arg(s, 2, 10, QChar('0'));
 
 	return r;
 }
 
 /*!
- * This operator tests if this track is equivalent to a given other track. We determine this by
- * comparing the track hashes, which should uniquely identify a track.
+ * This operator tests if this track is equivalent to a given other track. We
+ * determine this by comparing the track hashes, which should uniquely identify
+ * a track.
  *
  * \param o The other track to compare ourself to.
  * \return True if we are equal, or false otherwise.
  */
-bool CuteSyncTrack::operator==(const CuteSyncTrack &o) const
+bool CSTrack::operator==(const CSTrack &o) const
 {
 	return ( getHash() == o.getHash() );
 }
 
 /*!
- * This function returns our current "track hash." This is not necessarily a normal hexadecimal hash value;
- * rather, it is just a string representing our attributes which should uniquely identify this track.
+ * This function returns our current "track hash." This is not necessarily a
+ * normal hexadecimal hash value; rather, it is just a string representing our
+ * attributes which should uniquely identify this track.
  *
  * \return Our track's current "track hash."
  */
-QString CuteSyncTrack::getHash() const
+QString CSTrack::getHash() const
 {
 	QString r = "";
 
@@ -85,13 +89,14 @@ QString CuteSyncTrack::getHash() const
 }
 
 /*!
- * This function returns the value of the attribute indicated by the given collection column. This makes it easy
- * to display our track descriptors in a table view.
+ * This function returns the value of the attribute indicated by the given
+ * collection column. This makes it easy to display our track descriptors in a
+ * table view.
  *
  * \param c The column desired.
  * \return The desired data.
  */
-QVariant CuteSyncTrack::getColumn(CSAbstractCollection::Column c) const
+QVariant CSTrack::getColumn(CSAbstractCollection::Column c) const
 {
 	switch(c)
 	{

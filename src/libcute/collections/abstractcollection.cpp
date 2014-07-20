@@ -22,8 +22,8 @@
 
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollectionconfigwidget.h"
-#include "libcute/collections/GeneralCollectionConfigWidget.h"
-#include "libcute/collections/Track.h"
+#include "libcute/collections/generalcollectionconfigwidget.h"
+#include "libcute/collections/track.h"
 #include "libcute/widgets/collectionmodel.h"
 
 /*!
@@ -131,8 +131,8 @@ CSAbstractCollection::~CSAbstractCollection()
 CSAbstractCollectionConfigWidget *
 	CSAbstractCollection::getConfigurationWidget() const
 {
-	CuteSyncGeneralCollectionConfigWidget *w =
-		new CuteSyncGeneralCollectionConfigWidget();
+	CSGeneralCollectionConfigWidget *w =
+		new CSGeneralCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));
@@ -167,7 +167,7 @@ QVariant CSAbstractCollection::getDisplayData(int r, int c) const
 	{
 		// Convert the length to an hh:mm:ss format.
 		case CSAbstractCollection::Length:
-			d = QVariant(CuteSyncTrack::getLengthDisplay(
+			d = QVariant(CSTrack::getLengthDisplay(
 				d.value<int>()));
 			break;
 
@@ -728,7 +728,7 @@ void CSAbstractCollection::setInterrupted(bool i)
  *
  * \return A list of all of the tracks in our collection.
  */
-QList<CuteSyncTrack *> CSAbstractCollection::allTracks() const
+QList<CSTrack *> CSAbstractCollection::allTracks() const
 {
 	return trackHash.values();
 }
@@ -741,7 +741,7 @@ QList<CuteSyncTrack *> CSAbstractCollection::allTracks() const
  * \param r The row of the desired track.
  * \return The desired track descriptor, or NULL.
  */
-CuteSyncTrack *CSAbstractCollection::trackAt(int r) const
+CSTrack *CSAbstractCollection::trackAt(int r) const
 {
 	if( (r < 0) || (r >= count()) ) return NULL;
 	return trackSort.at(r);
@@ -755,7 +755,7 @@ CuteSyncTrack *CSAbstractCollection::trackAt(int r) const
  * \param k They key of the desired track.
  * \return The desired track descriptor, or NULL.
  */
-CuteSyncTrack *CSAbstractCollection::trackAt(const QString &k) const
+CSTrack *CSAbstractCollection::trackAt(const QString &k) const
 {
 	return trackHash.value(k, NULL);
 }
@@ -772,7 +772,7 @@ void CSAbstractCollection::removeTrack(int r)
 {
 	if( (r < 0) || (r >= count()) ) return;
 
-	CuteSyncTrack *track = trackSort.takeAt(r);
+	CSTrack *track = trackSort.takeAt(r);
 	trackHash.remove(track->getHash());
 	delete track;
 }
@@ -787,7 +787,7 @@ void CSAbstractCollection::removeTrack(int r)
  */
 void CSAbstractCollection::removeTrack(const QString &k)
 {
-	CuteSyncTrack *track = trackHash.value(k, NULL);
+	CSTrack *track = trackHash.value(k, NULL);
 	if(track == NULL) return;
 	trackSort.removeAll(track);
 	delete track;
@@ -806,7 +806,7 @@ void CSAbstractCollection::removeTrack(const QString &k)
  * \param t The track descriptor to add.
  * \return True if the track was added, or false otherwise.
  */
-bool CSAbstractCollection::addTrack(CuteSyncTrack *t)
+bool CSAbstractCollection::addTrack(CSTrack *t)
 {
 	if(t == NULL) return false;
 	if(trackHash.contains(t->getHash())) return false;
@@ -1025,8 +1025,8 @@ void CSAbstractCollection::doJobFinished()
 void CSAbstractCollection::doConfigurationApply()
 { /* SLOT */
 
-	CuteSyncGeneralCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
+	CSGeneralCollectionConfigWidget *w =
+		dynamic_cast<CSGeneralCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -1042,8 +1042,8 @@ void CSAbstractCollection::doConfigurationApply()
 void CSAbstractCollection::doConfigurationReset()
 { /* SLOT */
 
-	CuteSyncGeneralCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncGeneralCollectionConfigWidget *>(sender());
+	CSGeneralCollectionConfigWidget *w =
+		dynamic_cast<CSGeneralCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{

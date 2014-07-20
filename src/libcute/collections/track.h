@@ -29,17 +29,18 @@
 /*!
  * \brief This class provides a base class for a track descriptor.
  *
- * It should be subclassed for your particular collection type, to provide collection-specific
- * functionality, on top of the base functionality provided here.
+ * It should be subclassed for your particular collection type, to provide
+ * collection-specific functionality, on top of the base functionality provided
+ * here.
  */
-class CuteSyncTrack
+class CSTrack
 {
 	public:
-		virtual ~CuteSyncTrack();
+		virtual ~CSTrack();
 
 		static QString getLengthDisplay(int s);
 
-		virtual bool operator==(const CuteSyncTrack &o) const;
+		virtual bool operator==(const CSTrack &o) const;
 
 		virtual QString getPath() const = 0;
 		virtual QString getTitle() const = 0;

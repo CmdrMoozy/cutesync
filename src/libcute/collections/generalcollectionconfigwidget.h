@@ -25,14 +25,14 @@ class QGridLayout;
 class QGroupBox;
 class QCheckBox;
 
-class CuteSyncGeneralCollectionConfigWidget :
+class CSGeneralCollectionConfigWidget :
 	public CSAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncGeneralCollectionConfigWidget();
-		virtual ~CuteSyncGeneralCollectionConfigWidget();
+		CSGeneralCollectionConfigWidget();
+		virtual ~CSGeneralCollectionConfigWidget();
 
 		virtual void apply();
 		virtual void reset();

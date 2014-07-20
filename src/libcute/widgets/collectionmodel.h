@@ -23,7 +23,7 @@
 #include <QList>
 #include <QThread>
 
-#include "libcute/collections/CollectionTypeResolver.h"
+#include "libcute/collections/collectiontyperesolver.h"
 
 class CSAbstractCollection;
 
@@ -75,7 +75,7 @@ class CSCollectionModel : public QAbstractListModel
 		// copy() delete()
 
 	private:
-		CuteSyncCollectionTypeResolver resolver;
+		CSCollectionTypeResolver resolver;
 		QList<CSAbstractCollection *> itemList;
 		CSAbstractCollection *currentJob;
 

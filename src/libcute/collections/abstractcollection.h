@@ -28,9 +28,9 @@
 #include <QStringList>
 
 class CSCollectionModel;
-class CuteSyncTrack;
+class CSTrack;
 class CSAbstractCollectionConfigWidget;
-class CuteSyncGeneralCollectionConfigWidget;
+class CSGeneralCollectionConfigWidget;
 
 /*!
  * \brief This class provides an interface for music collections.
@@ -198,12 +198,12 @@ class CSAbstractCollection : public QAbstractTableModel
 		void setInterrupted(bool i);
 
 	protected:
-		QList<CuteSyncTrack *> allTracks() const;
-		CuteSyncTrack *trackAt(int r) const;
-		CuteSyncTrack *trackAt(const QString &k) const;
+		QList<CSTrack *> allTracks() const;
+		CSTrack *trackAt(int r) const;
+		CSTrack *trackAt(const QString &k) const;
 		void removeTrack(int r);
 		void removeTrack(const QString &k);
-		bool addTrack(CuteSyncTrack *t);
+		bool addTrack(CSTrack *t);
 
 		void setInterruptible(bool i);
 		bool isInterrupted() const;
@@ -261,8 +261,8 @@ class CSAbstractCollection : public QAbstractTableModel
 		bool active;
 		bool saveOnExit;
 		const DisplayDescriptor *displayDescriptor;
-		mutable QList<CuteSyncTrack *> trackSort;
-		QHash<QString, CuteSyncTrack *> trackHash;
+		mutable QList<CSTrack *> trackSort;
+		QHash<QString, CSTrack *> trackHash;
 };
 
 #endif

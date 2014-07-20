@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "CollectionTypeResolver.h"
+#include "collectiontyperesolver.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -29,43 +29,56 @@
 /*!
  * This is our default constructor, which creates a new resolver object.
  */
-CuteSyncCollectionTypeResolver::CuteSyncCollectionTypeResolver()
+CSCollectionTypeResolver::CSCollectionTypeResolver()
 {
 }
 
 /*!
  * This is our default destructor, which cleans up & destroys our object.
  */
-CuteSyncCollectionTypeResolver::~CuteSyncCollectionTypeResolver()
+CSCollectionTypeResolver::~CSCollectionTypeResolver()
 {
 }
 
 /*!
- * This function provides our class's main functionality - namely, taking an input name and path and creating the
- * appropriate type of collection object to handle it. Note that this function doesn't necessarily need to be threaded;
- * we leave the actual calling of loadCollectionFromPath() to our user.
+ * This function provides our class's main functionality - namely, taking an
+ * input name and path and creating the appropriate type of collection object
+ * to handle it. Note that this function doesn't necessarily need to be
+ * threaded; we leave the actual calling of loadCollectionFromPath() to our
+ * user.
  *
- * Also note that we don't do any validity checking on the collection name; it is assumed that the caller did that
- * before calling this.
+ * Also note that we don't do any validity checking on the collection name; it
+ * is assumed that the caller did that before calling this.
  *
- * /Also/ note that we do not retain ownership of the object returned; if we return non-NULL, it is YOUR responsibility
- * as the user to delete it as necessary.
+ * /Also/ note that we do not retain ownership of the object returned; if we
+ * return non-NULL, it is YOUR responsibility as the user to delete it as
+ * necessary.
  *
  * \param n The name for the new collection.
  * \param p The path to the collection.
  * \return A collection object, or NULL on error.
  */
-CSAbstractCollection *CuteSyncCollectionTypeResolver::createCollection(const QString &n, const QString &p) const
+CSAbstractCollection *CSCollectionTypeResolver::createCollection(
+	const QString &n, const QString &p) const
 {
 	CSAbstractCollection *c = NULL;
 
-	// Check if it's an iPod collection - this implies (path)/iPod_Control/iTunes/iTunesDB exists.
+	/*
+	 * Check if it's an iPod collection - this implies
+	 * (path)/iPod_Control/iTunes/iTunesDB exists.
+	 */
 
-	QFileInfo itdb(QDir::cleanPath(p).append( QString("/iPod_Control/iTunes/iTunesDB").replace('/', QDir::separator()) ));
+	QFileInfo itdb(QDir::cleanPath(p).append(
+		QString("/iPod_Control/iTunes/iTunesDB")
+		.replace('/', QDir::separator())));
+
 	if(itdb.exists())
 		c = new CuteSyncIPodCollection(n);
 
-	// If we didn't recognize it as anything special, treat it as simply a directory collection.
+	/*
+	 * If we didn't recognize it as anything special, treat it as simply
+	 * a directory collection.
+	 */
 
 	if(c == NULL)
 		c = new CuteSyncDirCollection(n);

@@ -53,15 +53,15 @@ SET(libcute_HEADERS
 
 	src/libcute/collections/abstractcollection.h
 	src/libcute/collections/abstractcollectionconfigwidget.h
-	src/libcute/collections/CollectionTypeResolver.h
+	src/libcute/collections/collectiontyperesolver.h
 	src/libcute/collections/DirCollection.h
 	src/libcute/collections/DirCollectionConfigWidget.h
 	src/libcute/collections/DirTrack.h
-	src/libcute/collections/GeneralCollectionConfigWidget.h
+	src/libcute/collections/generalcollectionconfigwidget.h
 	src/libcute/collections/IPodCollection.h
 	src/libcute/collections/IPodCollectionConfigWidget.h
 	src/libcute/collections/IPodTrack.h
-	src/libcute/collections/Track.h
+	src/libcute/collections/track.h
 
 	src/libcute/tags/filetyperesolver.h
 	src/libcute/tags/taggedfile.h
@@ -81,15 +81,15 @@ SET(libcute_SOURCES
 
 	src/libcute/collections/abstractcollection.cpp
 	src/libcute/collections/abstractcollectionconfigwidget.cpp
-	src/libcute/collections/CollectionTypeResolver.cpp
+	src/libcute/collections/collectiontyperesolver.cpp
 	src/libcute/collections/DirCollection.cpp
 	src/libcute/collections/DirCollectionConfigWidget.cpp
 	src/libcute/collections/DirTrack.cpp
-	src/libcute/collections/GeneralCollectionConfigWidget.cpp
+	src/libcute/collections/generalcollectionconfigwidget.cpp
 	src/libcute/collections/IPodCollection.cpp
 	src/libcute/collections/IPodCollectionConfigWidget.cpp
 	src/libcute/collections/IPodTrack.cpp
-	src/libcute/collections/Track.cpp
+	src/libcute/collections/track.cpp
 
 	src/libcute/tags/filetyperesolver.cpp
 	src/libcute/tags/taggedfile.cpp

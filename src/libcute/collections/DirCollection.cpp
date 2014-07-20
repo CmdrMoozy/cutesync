@@ -223,7 +223,7 @@ bool CuteSyncDirCollection::refresh()
 	// Some temporary variables.
 
 	int pcount = 0;
-	CuteSyncTrack *track;
+	CSTrack *track;
 	QList<int> toRemove;
 	QSet<QString> paths;
 
@@ -341,7 +341,7 @@ QString CuteSyncDirCollection::getRelativePath(const QString &k) const
  */
 QString CuteSyncDirCollection::getAbsolutePath(const QString &k) const
 {
-	CuteSyncTrack *track = trackAt(k);
+	CSTrack *track = trackAt(k);
 	return(track != NULL ? track->getPath() : QString(""));
 }
 

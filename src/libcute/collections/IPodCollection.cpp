@@ -439,7 +439,7 @@ bool CuteSyncIPodCollection::flush()
 
 		// Update all of our tracks' sorting information.
 
-		QList<CuteSyncTrack *> tracks = allTracks();
+		QList<CSTrack *> tracks = allTracks();
 		while(!tracks.empty())
 		{
 			CuteSyncIPodTrack *t =

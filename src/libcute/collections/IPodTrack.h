@@ -19,7 +19,7 @@
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_IPOD_TRACK_H
 #define INCLUDE_LIBCUTE_COLLECTIONS_IPOD_TRACK_H
 
-#include "libcute/collections/Track.h"
+#include "libcute/collections/track.h"
 
 #include <cstdint>
 
@@ -31,17 +31,18 @@ extern "C" {
 /*!
  * \brief This class provides a track descriptor for tracks on an iPod device.
  *
- * Track attributes are retrieved via libgpod, rather than by reading the tags from the track
- * files themselves.
+ * Track attributes are retrieved via libgpod, rather than by reading the tags
+ * from the track files themselves.
  *
- * Also note that this track descriptor doesn't do serialization: because of how fast it is to read
- * track data fro the iTunes DB file on iPod devices, it isn't worthwhile to serialize the data encapsulated
- * by one of these objects.
+ * Also note that this track descriptor doesn't do serialization: because of
+ * how fast it is to read track data fro the iTunes DB file on iPod devices, it
+ * isn't worthwhile to serialize the data encapsulated by one of these objects.
  */
-class CuteSyncIPodTrack : public CuteSyncTrack
+class CuteSyncIPodTrack : public CSTrack
 {
 	public:
-		static CuteSyncIPodTrack *createTrackFromFile(const QString &p);
+		static CuteSyncIPodTrack *createTrackFromFile(
+			const QString &p);
 
 		CuteSyncIPodTrack(Itdb_Track *t);
 		virtual ~CuteSyncIPodTrack();

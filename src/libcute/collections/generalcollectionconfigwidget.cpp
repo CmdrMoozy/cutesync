@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GeneralCollectionConfigWidget.h"
+#include "generalcollectionconfigwidget.h"
 
 #include <QGridLayout>
 #include <QGroupBox>
@@ -27,7 +27,7 @@
  *
  * \param p The GUI thread we should be a member of.
  */
-CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget()
+CSGeneralCollectionConfigWidget::CSGeneralCollectionConfigWidget()
 	: CSAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
@@ -35,7 +35,8 @@ CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget()
 	groupBox = new QGroupBox(tr("General Options"), this);
 	optionsLayout = new QGridLayout(groupBox);
 
-	saveCheckBox = new QCheckBox(tr("Save collection information"), groupBox);
+	saveCheckBox = new QCheckBox(
+		tr("Save collection information"), groupBox);
 
 	optionsLayout->addWidget(saveCheckBox, 0, 0, 1, 1);
 	optionsLayout->setRowStretch(1, 1);
@@ -48,22 +49,23 @@ CuteSyncGeneralCollectionConfigWidget::CuteSyncGeneralCollectionConfigWidget()
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncGeneralCollectionConfigWidget::~CuteSyncGeneralCollectionConfigWidget()
+CSGeneralCollectionConfigWidget::~CSGeneralCollectionConfigWidget()
 {
 }
 
 /*!
  * This function applies our current state to our parent collection.
  */
-void CuteSyncGeneralCollectionConfigWidget::apply()
+void CSGeneralCollectionConfigWidget::apply()
 {
 	Q_EMIT applyRequest();
 }
 
 /*!
- * This function resets our widget's options to the values currently set by our owning collection.
+ * This function resets our widget's options to the values currently set by our
+ * owning collection.
  */
-void CuteSyncGeneralCollectionConfigWidget::reset()
+void CSGeneralCollectionConfigWidget::reset()
 {
 	Q_EMIT resetRequest();
 }
@@ -73,7 +75,7 @@ void CuteSyncGeneralCollectionConfigWidget::reset()
  *
  * \return Our current save state value.
  */
-bool CuteSyncGeneralCollectionConfigWidget::getSaveState() const
+bool CSGeneralCollectionConfigWidget::getSaveState() const
 {
 	switch(saveCheckBox->checkState())
 	{
@@ -93,7 +95,7 @@ bool CuteSyncGeneralCollectionConfigWidget::getSaveState() const
  *
  * \param s True for save collection information, or false for discard.
  */
-void CuteSyncGeneralCollectionConfigWidget::setSaveState(bool s)
+void CSGeneralCollectionConfigWidget::setSaveState(bool s)
 {
 	switch(s)
 	{
