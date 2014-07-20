@@ -39,20 +39,20 @@ class CSCollectionModel;
  * It is designed to load a collection of music from a flat directory,
  * interpreting the files literally.
  */
-class CuteSyncDirCollection : public CSAbstractCollection
+class CSDirCollection : public CSAbstractCollection
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncDirCollection(CSCollectionModel *p = 0);
-		CuteSyncDirCollection(const QString &n,
+		CSDirCollection(CSCollectionModel *p = 0);
+		CSDirCollection(const QString &n,
 			CSCollectionModel *p = 0);
-		CuteSyncDirCollection(const DisplayDescriptor *d,
+		CSDirCollection(const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		CuteSyncDirCollection(const QString &n,
+		CSDirCollection(const QString &n,
 			const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		virtual ~CuteSyncDirCollection();
+		virtual ~CSDirCollection();
 
 		virtual QIcon getDisplayIcon() const;
 		virtual QString getAboutText() const;

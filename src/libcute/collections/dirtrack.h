@@ -30,11 +30,11 @@
  * descriptors where applicable, and try to avoid calling refresh() if
  * possible.
  */
-class CuteSyncDirTrack : public CSTrack
+class CSDirTrack : public CSTrack
 {
 	public:
-		CuteSyncDirTrack(const QString &p);
-		virtual ~CuteSyncDirTrack();
+		CSDirTrack(const QString &p);
+		virtual ~CSDirTrack();
 
 		virtual QString getPath() const;
 		virtual QString getTitle() const;

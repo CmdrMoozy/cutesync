@@ -19,7 +19,7 @@
 #include "collectionlistwidget.h"
 
 #include "libcute/collections/abstractcollection.h"
-#include "libcute/collections/DirCollection.h"
+#include "libcute/collections/dircollection.h"
 #include "libcute/collections/IPodCollection.h"
 #include "cutesync/widgets/collectiondelegate.h"
 #include "libcute/widgets/collectionmodel.h"

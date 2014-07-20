@@ -32,14 +32,14 @@ class QCheckBox;
  * widgets do; namely sync options, e.g. allowing for our application to handle
  * file naming / directory structure for this collection.
  */
-class CuteSyncDirCollectionConfigWidget :
+class CSDirCollectionConfigWidget :
 	public CSAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncDirCollectionConfigWidget();
-		virtual ~CuteSyncDirCollectionConfigWidget();
+		CSDirCollectionConfigWidget();
+		virtual ~CSDirCollectionConfigWidget();
 
 		virtual void apply();
 		virtual void reset();

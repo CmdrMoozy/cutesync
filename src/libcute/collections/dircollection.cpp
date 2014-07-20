@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DirCollection.h"
+#include "dircollection.h"
 
 #include <QDirIterator>
 #include <QIcon>
@@ -27,8 +27,8 @@
 #include <QThread>
 
 #include "libcute/defines.h"
-#include "libcute/collections/DirCollectionConfigWidget.h"
-#include "libcute/collections/DirTrack.h"
+#include "libcute/collections/dircollectionconfigwidget.h"
+#include "libcute/collections/dirtrack.h"
 #include "libcute/tags/filetyperesolver.h"
 #include "libcute/tags/taggedfile.h"
 #include "libcute/util/systemutils.h"
@@ -40,7 +40,7 @@
  *
  * \param p Our parent object.
  */
-CuteSyncDirCollection::CuteSyncDirCollection(CSCollectionModel *p)
+CSDirCollection::CSDirCollection(CSCollectionModel *p)
 	: CSAbstractCollection(p), recursive(true), organize(true),
 		root("")
 {
@@ -53,7 +53,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(CSCollectionModel *p)
  * \param n Our collection's name.
  * \param p Our parent object.
  */
-CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
+CSDirCollection::CSDirCollection(const QString &n,
 	CSCollectionModel *p)
 	: CSAbstractCollection(n, p), recursive(true), organize(true),
 		root("")
@@ -67,7 +67,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
+CSDirCollection::CSDirCollection(const DisplayDescriptor *d,
 	CSCollectionModel *p)
 	: CSAbstractCollection(d, p), recursive(true), organize(true),
 		root("")
@@ -82,7 +82,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const DisplayDescriptor *d,
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
+CSDirCollection::CSDirCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: CSAbstractCollection(n, d, p), recursive(true), organize(true),
 		root("")
@@ -92,7 +92,7 @@ CuteSyncDirCollection::CuteSyncDirCollection(const QString &n,
 /*!
  * This is our default destructor, which cleans up & destroys our collection.
  */
-CuteSyncDirCollection::~CuteSyncDirCollection()
+CSDirCollection::~CSDirCollection()
 {
 	clear(true);
 }
@@ -103,7 +103,7 @@ CuteSyncDirCollection::~CuteSyncDirCollection()
  *
  * \return Our collection's preferred icon.
  */
-QIcon CuteSyncDirCollection::getDisplayIcon() const
+QIcon CSDirCollection::getDisplayIcon() const
 {
 	return QIcon(":/icons/collections/directory.png");
 }
@@ -115,7 +115,7 @@ QIcon CuteSyncDirCollection::getDisplayIcon() const
  *
  * \return Our about text.
  */
-QString CuteSyncDirCollection::getAboutText() const
+QString CSDirCollection::getAboutText() const
 {
 	QString r;
 
@@ -148,7 +148,7 @@ QString CuteSyncDirCollection::getAboutText() const
  * \param f Whether the current collection should be flushed or discarded.
  * \return True on success, or false otherwise.
  */
-bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
+bool CSDirCollection::loadCollectionFromPath(const QString &p, bool f)
 {
 	setInterruptible(true);
 	Q_EMIT jobStarted(tr("Loading collection from path..."));
@@ -164,7 +164,7 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 
 	// Iterate through again to process each file.
 
-	CuteSyncDirTrack *track;
+	CSDirTrack *track;
 	QDirIterator walker(p, QDir::Files | QDir::NoSymLinks,
 		getRecursive() ? QDirIterator::Subdirectories :
 		QDirIterator::NoIteratorFlags);
@@ -180,7 +180,7 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
 
 		walker.next();
 
-		track = new CuteSyncDirTrack(
+		track = new CSDirTrack(
 			walker.fileInfo().absoluteFilePath());
 
 		if(!track->refresh())
@@ -209,7 +209,7 @@ bool CuteSyncDirCollection::loadCollectionFromPath(const QString &p, bool f)
  *
  * \return True on success, or false on failure.
  */
-bool CuteSyncDirCollection::refresh()
+bool CSDirCollection::refresh()
 {
 	setInterruptible(true);
 	Q_EMIT jobStarted(tr("Refreshing collection..."));
@@ -285,7 +285,7 @@ bool CuteSyncDirCollection::refresh()
 
 		if(!paths.contains(walker.fileInfo().absoluteFilePath()))
 		{
-			track = new CuteSyncDirTrack(
+			track = new CSDirTrack(
 				walker.fileInfo().absoluteFilePath());
 
 			if(!track->refresh())
@@ -314,7 +314,7 @@ bool CuteSyncDirCollection::refresh()
  *
  * \return Our collection's mount point.
  */
-QString CuteSyncDirCollection::getMountPoint() const
+QString CSDirCollection::getMountPoint() const
 {
 	return root;
 }
@@ -327,7 +327,7 @@ QString CuteSyncDirCollection::getMountPoint() const
  * \param k The key to search for.
  * \return The relative path of the specified track.
  */
-QString CuteSyncDirCollection::getRelativePath(const QString &k) const
+QString CSDirCollection::getRelativePath(const QString &k) const
 {
 	return getAbsolutePath(k).replace(getMountPoint(), "");
 }
@@ -339,7 +339,7 @@ QString CuteSyncDirCollection::getRelativePath(const QString &k) const
  * \param k The key to search for.
  * \return The absolute path of the specified track.
  */
-QString CuteSyncDirCollection::getAbsolutePath(const QString &k) const
+QString CSDirCollection::getAbsolutePath(const QString &k) const
 {
 	CSTrack *track = trackAt(k);
 	return(track != NULL ? track->getPath() : QString(""));
@@ -353,7 +353,7 @@ QString CuteSyncDirCollection::getAbsolutePath(const QString &k) const
  *
  * \return True if we are in recursive mode, or false otherwise.
  */
-bool CuteSyncDirCollection::getRecursive() const
+bool CSDirCollection::getRecursive() const
 {
 	return recursive;
 }
@@ -364,7 +364,7 @@ bool CuteSyncDirCollection::getRecursive() const
  *
  * \param r Whether or not we should look for tracks recursively.
  */
-void CuteSyncDirCollection::setRecursive(bool r)
+void CSDirCollection::setRecursive(bool r)
 {
 	recursive = r;
 }
@@ -376,7 +376,7 @@ void CuteSyncDirCollection::setRecursive(bool r)
  *
  * \return True if we are automatically organized, or false otherwise.
  */
-bool CuteSyncDirCollection::isAutoOrganized() const
+bool CSDirCollection::isAutoOrganized() const
 {
 	return organize;
 }
@@ -388,7 +388,7 @@ bool CuteSyncDirCollection::isAutoOrganized() const
  *
  * \param o Whether or not we are automatically organized.
  */
-void CuteSyncDirCollection::setAutoOrganized(bool o)
+void CSDirCollection::setAutoOrganized(bool o)
 {
 	organize = o;
 }
@@ -400,7 +400,7 @@ void CuteSyncDirCollection::setAutoOrganized(bool o)
  *
  * \return True on success, or false on failure.
  */
-bool CuteSyncDirCollection::flush()
+bool CSDirCollection::flush()
 {
 	setModified(false);
 	return true;
@@ -412,7 +412,7 @@ bool CuteSyncDirCollection::flush()
  *
  * \param f Whether or not we should flush before clearing our collection.
  */
-void CuteSyncDirCollection::clear(bool f)
+void CSDirCollection::clear(bool f)
 {
 	CSAbstractCollection::clear(f);
 	root = "";
@@ -428,7 +428,7 @@ void CuteSyncDirCollection::clear(bool f)
  *
  * \return A QByteArray containing a serialized version of our collection.
  */
-QByteArray CuteSyncDirCollection::serialize() const
+QByteArray CSDirCollection::serialize() const
 {
 	QByteArray obuf;
 	QDataStream out(&obuf, QIODevice::ReadWrite);
@@ -470,7 +470,7 @@ QByteArray CuteSyncDirCollection::serialize() const
  *
  * \param d The QByteArray to load our state from.
  */
-void CuteSyncDirCollection::unserialize(const QByteArray &d)
+void CSDirCollection::unserialize(const QByteArray &d)
 {
 	qint32 version;
 	QString n;
@@ -511,13 +511,13 @@ void CuteSyncDirCollection::unserialize(const QByteArray &d)
 
 	// Read the track descriptors!
 
-	CuteSyncDirTrack *t = NULL;
+	CSDirTrack *t = NULL;
 	QByteArray td;
 	for(qint32 i = 0; i < tc; ++i)
 	{
 #pragma message "TODO - We should provide a parameterless constructor for tracks or make unserialize static"
 
-		t = new CuteSyncDirTrack("");
+		t = new CSDirTrack("");
 		in >> td;
 		t->unserialize(td);
 
@@ -539,10 +539,10 @@ void CuteSyncDirCollection::unserialize(const QByteArray &d)
  * \return A Pointer to the new configuration widget.
  */
 CSAbstractCollectionConfigWidget *
-	CuteSyncDirCollection::getConfigurationWidget() const
+	CSDirCollection::getConfigurationWidget() const
 {
-	CuteSyncDirCollectionConfigWidget *w =
-		new CuteSyncDirCollectionConfigWidget();
+	CSDirCollectionConfigWidget *w =
+		new CSDirCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));
@@ -559,9 +559,9 @@ CSAbstractCollectionConfigWidget *
  * \param k The key of the track to be deleted.
  * \return True on success, or false on failure.
  */
-bool CuteSyncDirCollection::quietDeleteTrack(const QString &k)
+bool CSDirCollection::quietDeleteTrack(const QString &k)
 {
-	CuteSyncDirTrack *track = dynamic_cast<CuteSyncDirTrack *>(trackAt(k));
+	CSDirTrack *track = dynamic_cast<CSDirTrack *>(trackAt(k));
 	if(track == NULL) return false;
 
 	if(!QFile::remove(track->getPath())) return false;
@@ -578,7 +578,7 @@ bool CuteSyncDirCollection::quietDeleteTrack(const QString &k)
  * \param k The key identifying the track we want in the source collection.
  * \return True on success, or false on failure.
  */
-bool CuteSyncDirCollection::quietCopyTrack(const CSAbstractCollection *s,
+bool CSDirCollection::quietCopyTrack(const CSAbstractCollection *s,
 	const QString &k)
 {
 	// Do some sanity checks.
@@ -628,7 +628,7 @@ bool CuteSyncDirCollection::quietCopyTrack(const CSAbstractCollection *s,
 
 	// Add the new track to our collection.
 
-	CuteSyncDirTrack *track = new CuteSyncDirTrack(dPath);
+	CSDirTrack *track = new CSDirTrack(dPath);
 	if(!track->refresh())
 	{
 		delete track;
@@ -651,7 +651,7 @@ bool CuteSyncDirCollection::quietCopyTrack(const CSAbstractCollection *s,
  * \param s The original string to process.
  * \return The new, filename-friendly string.
  */
-QString CuteSyncDirCollection::filenameProcess(const QString &s) const
+QString CSDirCollection::filenameProcess(const QString &s) const
 {
 	// Remove or replace nonstandard characters.
 
@@ -777,7 +777,7 @@ QString CuteSyncDirCollection::filenameProcess(const QString &s) const
  * \param k The key identifying the track we want in the source collection.
  * \return The absolute path to which the given track should be written.
  */
-QString CuteSyncDirCollection::getAbsoluteWritePath(
+QString CSDirCollection::getAbsoluteWritePath(
 	const CSAbstractCollection *s, const QString &k) const
 {
 	QString r;
@@ -853,11 +853,11 @@ QString CuteSyncDirCollection::getAbsoluteWritePath(
  * This slot handles one of our configuration widgets requesting that its
  * current state be applied to our collection.
  */
-void CuteSyncDirCollection::doConfigurationApply()
+void CSDirCollection::doConfigurationApply()
 { /* SLOT */
 
-	CuteSyncDirCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncDirCollectionConfigWidget *>(sender());
+	CSDirCollectionConfigWidget *w =
+		dynamic_cast<CSDirCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -871,11 +871,11 @@ void CuteSyncDirCollection::doConfigurationApply()
  * This slot handles our configuration widget requesting a reset by resetting
  * its options to our currently stored values.
  */
-void CuteSyncDirCollection::doConfigurationReset()
+void CSDirCollection::doConfigurationReset()
 { /* SLOT */
 
-	CuteSyncDirCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncDirCollectionConfigWidget *>(sender());
+	CSDirCollectionConfigWidget *w =
+		dynamic_cast<CSDirCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{

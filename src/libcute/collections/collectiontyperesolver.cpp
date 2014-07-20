@@ -23,7 +23,7 @@
 #include <QString>
 
 #include "libcute/collections/abstractcollection.h"
-#include "libcute/collections/DirCollection.h"
+#include "libcute/collections/dircollection.h"
 #include "libcute/collections/IPodCollection.h"
 
 /*!
@@ -81,7 +81,7 @@ CSAbstractCollection *CSCollectionTypeResolver::createCollection(
 	 */
 
 	if(c == NULL)
-		c = new CuteSyncDirCollection(n);
+		c = new CSDirCollection(n);
 
 	return c;
 }

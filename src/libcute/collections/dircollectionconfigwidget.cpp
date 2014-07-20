@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DirCollectionConfigWidget.h"
+#include "dircollectionconfigwidget.h"
 
 #include <QThread>
 #include <QGridLayout>
@@ -28,7 +28,7 @@
  *
  * \param p The GUI thread we should be a member of.
  */
-CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget()
+CSDirCollectionConfigWidget::CSDirCollectionConfigWidget()
 	: CSAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
@@ -36,7 +36,8 @@ CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget()
 	generalGroupBox = new QGroupBox(tr("General Options"), this);
 	generalLayout = new QGridLayout(generalGroupBox);
 
-	saveCheckBox = new QCheckBox(tr("Save collection information"), generalGroupBox);
+	saveCheckBox = new QCheckBox(tr("Save collection information"),
+		generalGroupBox);
 
 	generalLayout->addWidget(saveCheckBox, 0, 0, 1, 1);
 	generalGroupBox->setLayout(generalLayout);
@@ -44,7 +45,8 @@ CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget()
 	syncGroupBox = new QGroupBox(tr("Sync Options"), this);
 	syncLayout = new QGridLayout(syncGroupBox);
 
-	organizeCheckBox = new QCheckBox(tr("Automatic file organization"), syncGroupBox);
+	organizeCheckBox = new QCheckBox(tr("Automatic file organization"),
+		syncGroupBox);
 
 	syncLayout->addWidget(organizeCheckBox, 0, 0, 1, 1);
 	syncGroupBox->setLayout(syncLayout);
@@ -58,22 +60,23 @@ CuteSyncDirCollectionConfigWidget::CuteSyncDirCollectionConfigWidget()
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncDirCollectionConfigWidget::~CuteSyncDirCollectionConfigWidget()
+CSDirCollectionConfigWidget::~CSDirCollectionConfigWidget()
 {
 }
 
 /*!
  * This function applies our current state to our parent collection.
  */
-void CuteSyncDirCollectionConfigWidget::apply()
+void CSDirCollectionConfigWidget::apply()
 {
 	Q_EMIT applyRequest();
 }
 
 /*!
- * This function resets our widget's options to the values currently set by our owning collection.
+ * This function resets our widget's options to the values currently set by our
+ * owning collection.
  */
-void CuteSyncDirCollectionConfigWidget::reset()
+void CSDirCollectionConfigWidget::reset()
 {
 	Q_EMIT resetRequest();
 }
@@ -83,7 +86,7 @@ void CuteSyncDirCollectionConfigWidget::reset()
  *
  * \return Our current save state value.
  */
-bool CuteSyncDirCollectionConfigWidget::getSaveState() const
+bool CSDirCollectionConfigWidget::getSaveState() const
 {
 	switch(saveCheckBox->checkState())
 	{
@@ -103,7 +106,7 @@ bool CuteSyncDirCollectionConfigWidget::getSaveState() const
  *
  * \param s True for save collection information, or false for discard.
  */
-void CuteSyncDirCollectionConfigWidget::setSaveState(bool s)
+void CSDirCollectionConfigWidget::setSaveState(bool s)
 {
 	switch(s)
 	{
@@ -122,7 +125,7 @@ void CuteSyncDirCollectionConfigWidget::setSaveState(bool s)
  *
  * \return Our current auto-organize state value.
  */
-bool CuteSyncDirCollectionConfigWidget::getOrganizeState() const
+bool CSDirCollectionConfigWidget::getOrganizeState() const
 {
 	switch(organizeCheckBox->checkState())
 	{
@@ -138,11 +141,12 @@ bool CuteSyncDirCollectionConfigWidget::getOrganizeState() const
 }
 
 /*!
- * This function sets our widget's auto-organize state value to the given value.
+ * This function sets our widget's auto-organize state value to the given
+ * value.
  *
- * \param o True for automatically organize collection, or false for no organization.
+ * \param o True for automatically organize collection, or false otherwise.
  */
-void CuteSyncDirCollectionConfigWidget::setOrganizeState(bool o)
+void CSDirCollectionConfigWidget::setOrganizeState(bool o)
 {
 	switch(o)
 	{
