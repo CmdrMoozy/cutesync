@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "IPodCollection.h"
+#include "ipodcollection.h"
 
 #include <cstdint>
 #include <cstdlib>
@@ -33,8 +33,8 @@
 #include <QFileInfo>
 
 #include "libcute/defines.h"
-#include "libcute/collections/IPodCollectionConfigWidget.h"
-#include "libcute/collections/IPodTrack.h"
+#include "libcute/collections/ipodcollectionconfigwidget.h"
+#include "libcute/collections/ipodtrack.h"
 #include "libcute/tags/filetyperesolver.h"
 #include "libcute/tags/taggedfile.h"
 #include "libcute/util/systemutils.h"
@@ -50,7 +50,7 @@ extern "C" {
  *
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(CSCollectionModel *p)
+CSIPodCollection::CSIPodCollection(CSCollectionModel *p)
 	: CSAbstractCollection(p), optionsModified(false), artwork(true),
 		caselessSort(true), ignorePrefixes(true), itdb(NULL), root("")
 {
@@ -63,7 +63,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(CSCollectionModel *p)
  * \param n Our collection's name.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
+CSIPodCollection::CSIPodCollection(const QString &n,
 	CSCollectionModel *p)
 	: CSAbstractCollection(n, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
@@ -78,7 +78,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
+CSIPodCollection::CSIPodCollection(const DisplayDescriptor *d,
 	CSCollectionModel *p)
 	: CSAbstractCollection(d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
@@ -94,7 +94,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const DisplayDescriptor *d,
  * \param d Our collection's display descriptor.
  * \param p Our parent object.
  */
-CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
+CSIPodCollection::CSIPodCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: CSAbstractCollection(n, d, p), optionsModified(false),
 		artwork(true), caselessSort(true), ignorePrefixes(true),
@@ -106,7 +106,7 @@ CuteSyncIPodCollection::CuteSyncIPodCollection(const QString &n,
  * This is our default destructor. It flushes the current iTunes DB to the disk
  * (if any), and then frees any memory we still have allocated.
  */
-CuteSyncIPodCollection::~CuteSyncIPodCollection()
+CSIPodCollection::~CSIPodCollection()
 {
 	clear(true);
 }
@@ -117,7 +117,7 @@ CuteSyncIPodCollection::~CuteSyncIPodCollection()
  *
  * \return Our collection's preferred icon.
  */
-QIcon CuteSyncIPodCollection::getDisplayIcon() const
+QIcon CSIPodCollection::getDisplayIcon() const
 {
 	return QIcon(":/icons/collections/ipod.png");
 }
@@ -129,7 +129,7 @@ QIcon CuteSyncIPodCollection::getDisplayIcon() const
  *
  * \return Our about text.
  */
-QString CuteSyncIPodCollection::getAboutText() const
+QString CSIPodCollection::getAboutText() const
 {
 	QString r;
 
@@ -192,7 +192,7 @@ QString CuteSyncIPodCollection::getAboutText() const
  * \param f Whether or not we flush the current collection or just discard it.
  * \return True on success, or false on failure.
  */
-bool CuteSyncIPodCollection::loadCollectionFromPath(const QString &p, bool f)
+bool CSIPodCollection::loadCollectionFromPath(const QString &p, bool f)
 {
 #pragma message "TODO - Use slotsignal error reporting"
 
@@ -256,7 +256,7 @@ std::cout << "Unknown error while loading collection from path.\n";
 		if(t->mediatype == 0x00000001)
 		{
 			// 0x 00 00 00 01 means AUDIO; all we care about.
-			addTrack(new CuteSyncIPodTrack(t));
+			addTrack(new CSIPodTrack(t));
 		}
 	}
 
@@ -284,7 +284,7 @@ std::cout << "Unknown error while loading collection from path.\n";
  *
  * \return Our collection's mount point.
  */
-QString CuteSyncIPodCollection::getMountPoint() const
+QString CSIPodCollection::getMountPoint() const
 {
 	return root;
 }
@@ -297,9 +297,9 @@ QString CuteSyncIPodCollection::getMountPoint() const
  * \param k The key to search for.
  * \return The track's path relative to our mount point.
  */
-QString CuteSyncIPodCollection::getRelativePath(const QString &k) const
+QString CSIPodCollection::getRelativePath(const QString &k) const
 {
-	CuteSyncIPodTrack *t = dynamic_cast<CuteSyncIPodTrack *>(trackAt(k));
+	CSIPodTrack *t = dynamic_cast<CSIPodTrack *>(trackAt(k));
 	if(t == NULL) return QString("");
 
 	gchar *p = g_strdup(t->getTrack()->ipod_path);
@@ -319,7 +319,7 @@ QString CuteSyncIPodCollection::getRelativePath(const QString &k) const
  * \param k The key to search for.
  * \return The track's absolute path.
  */
-QString CuteSyncIPodCollection::getAbsolutePath(const QString &k) const
+QString CSIPodCollection::getAbsolutePath(const QString &k) const
 {
 	return containsKey(k) ? (getMountPoint() +
 		getRelativePath(k)) : QString("");
@@ -333,7 +333,7 @@ QString CuteSyncIPodCollection::getAbsolutePath(const QString &k) const
  *
  * \return True if album artwork is enabled, or false otherwise.
  */
-bool CuteSyncIPodCollection::getAlbumArtworkEnabled() const
+bool CSIPodCollection::getAlbumArtworkEnabled() const
 {
 	return artwork;
 }
@@ -346,7 +346,7 @@ bool CuteSyncIPodCollection::getAlbumArtworkEnabled() const
  *
  * \param a True if album artwork should be enabled, or false otherwise.
  */
-void CuteSyncIPodCollection::setAlbumArtworkEnabled(bool a)
+void CSIPodCollection::setAlbumArtworkEnabled(bool a)
 {
 	artwork = a;
 }
@@ -357,7 +357,7 @@ void CuteSyncIPodCollection::setAlbumArtworkEnabled(bool a)
  *
  * \return True if sorting should be case-insensitive, or false otherwise.
  */
-bool CuteSyncIPodCollection::getCaseInsensitiveSort() const
+bool CSIPodCollection::getCaseInsensitiveSort() const
 {
 	return caselessSort;
 }
@@ -368,7 +368,7 @@ bool CuteSyncIPodCollection::getCaseInsensitiveSort() const
  *
  * \param c True if sorting should be case-insensitive, or false otherwise.
  */
-void CuteSyncIPodCollection::setCaseInsensitiveSort(bool c)
+void CSIPodCollection::setCaseInsensitiveSort(bool c)
 {
 	optionsModified |= (c != caselessSort);
 	caselessSort = c;
@@ -381,7 +381,7 @@ void CuteSyncIPodCollection::setCaseInsensitiveSort(bool c)
  *
  * \return True if we should ignore common title prefixes, or false otherwise.
  */
-bool CuteSyncIPodCollection::getIgnoreCommonPrefixes() const
+bool CSIPodCollection::getIgnoreCommonPrefixes() const
 {
 	return ignorePrefixes;
 }
@@ -393,7 +393,7 @@ bool CuteSyncIPodCollection::getIgnoreCommonPrefixes() const
  *
  * \param i True if we should ignore common title prefixes, or false otherwise.
  */
-void CuteSyncIPodCollection::setIgnoreCommonPrefixes(bool i)
+void CSIPodCollection::setIgnoreCommonPrefixes(bool i)
 {
 	optionsModified |= (i != ignorePrefixes);
 	ignorePrefixes = i;
@@ -406,7 +406,7 @@ void CuteSyncIPodCollection::setIgnoreCommonPrefixes(bool i)
  *
  * \return True on success, or false on failure.
  */
-bool CuteSyncIPodCollection::flush()
+bool CSIPodCollection::flush()
 {
 	if(itdb == NULL) return false;
 
@@ -442,8 +442,8 @@ bool CuteSyncIPodCollection::flush()
 		QList<CSTrack *> tracks = allTracks();
 		while(!tracks.empty())
 		{
-			CuteSyncIPodTrack *t =
-				dynamic_cast<CuteSyncIPodTrack *>(
+			CSIPodTrack *t =
+				dynamic_cast<CSIPodTrack *>(
 				tracks.takeFirst());
 
 			if(t != NULL)
@@ -500,7 +500,7 @@ std::cout << "Unknown error writing iTunes DB.\n";
  *
  * \param f Whether or not we should flush before clearing our collection.
  */
-void CuteSyncIPodCollection::clear(bool f)
+void CSIPodCollection::clear(bool f)
 {
 	CSAbstractCollection::clear(f);
 
@@ -521,7 +521,7 @@ void CuteSyncIPodCollection::clear(bool f)
  *
  * \return A QByteArray containing our collection's state.
  */
-QByteArray CuteSyncIPodCollection::serialize() const
+QByteArray CSIPodCollection::serialize() const
 {
 	QByteArray obuf;
 	QDataStream out(&obuf, QIODevice::ReadWrite);
@@ -552,7 +552,7 @@ QByteArray CuteSyncIPodCollection::serialize() const
  *
  * \param d The QByteArray to restore our state from.
  */
-void CuteSyncIPodCollection::unserialize(const QByteArray &d)
+void CSIPodCollection::unserialize(const QByteArray &d)
 {
 	qint32 version;
 	QString n;
@@ -603,10 +603,10 @@ void CuteSyncIPodCollection::unserialize(const QByteArray &d)
  * \return A Pointer to the new configuration widget.
  */
 CSAbstractCollectionConfigWidget *
-	CuteSyncIPodCollection::getConfigurationWidget() const
+	CSIPodCollection::getConfigurationWidget() const
 {
-	CuteSyncIPodCollectionConfigWidget *w =
-		new CuteSyncIPodCollectionConfigWidget();
+	CSIPodCollectionConfigWidget *w =
+		new CSIPodCollectionConfigWidget();
 
 	QObject::connect(w, SIGNAL(applyRequest()),
 		this, SLOT(doConfigurationApply()));
@@ -631,10 +631,10 @@ CSAbstractCollectionConfigWidget *
  * \param k The key of the track that we are about to remove.
  * \return True on success, or false on failure.
  */
-bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
+bool CSIPodCollection::quietDeleteTrack(const QString &k)
 {
 	if(itdb == NULL) return false;
-	CuteSyncIPodTrack *track = dynamic_cast<CuteSyncIPodTrack *>(
+	CSIPodTrack *track = dynamic_cast<CSIPodTrack *>(
 		trackAt(k));
 	if(track == NULL) return false;
 
@@ -694,7 +694,7 @@ bool CuteSyncIPodCollection::quietDeleteTrack(const QString &k)
  * \param k The key of the track we are copying.
  * \return True on success, or false on failure.
  */
-bool CuteSyncIPodCollection::quietCopyTrack(
+bool CSIPodCollection::quietCopyTrack(
 	const CSAbstractCollection *s, const QString &k)
 {
 #pragma message "TODO - Use slotsignal error reporting"
@@ -706,7 +706,7 @@ bool CuteSyncIPodCollection::quietCopyTrack(
 
 	QString p = s->getAbsolutePath(k);
 
-	CuteSyncIPodTrack *track = CuteSyncIPodTrack::createTrackFromFile(p);
+	CSIPodTrack *track = CSIPodTrack::createTrackFromFile(p);
 	if(track == NULL)
 	{
 #ifdef CUTESYNC_DEBUG
@@ -800,7 +800,7 @@ std::cout << "Unknown error copying track to iPod!\n";
  * \param k The key for the track in the source collection.
  * \return A GdkPixbuf object of the artwork, or NULL if it cannot be found.
  */
-gpointer CuteSyncIPodCollection::getTrackCoverArt(
+gpointer CSIPodCollection::getTrackCoverArt(
 	const CSAbstractCollection *s, const QString &k)
 {
 	gpointer pixbuf = NULL;
@@ -884,7 +884,7 @@ gpointer CuteSyncIPodCollection::getTrackCoverArt(
  * collection, or sets them to our normal defaults if they haven't ever been
  * set before.
  */
-void CuteSyncIPodCollection::refreshCollectionOptions()
+void CSIPodCollection::refreshCollectionOptions()
 {
 	if(itdb != NULL)
 	{
@@ -928,11 +928,11 @@ void CuteSyncIPodCollection::refreshCollectionOptions()
  * This slot handles one of our configuration widgets requesting that its
  * current state be applied to our collection.
  */
-void CuteSyncIPodCollection::doConfigurationApply()
+void CSIPodCollection::doConfigurationApply()
 { /* SLOT */
 
-	CuteSyncIPodCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
+	CSIPodCollectionConfigWidget *w =
+		dynamic_cast<CSIPodCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{
@@ -948,11 +948,11 @@ void CuteSyncIPodCollection::doConfigurationApply()
  * This slot handles our configuration widget requesting a reset by resetting
  * its options to our currently stored values.
  */
-void CuteSyncIPodCollection::doConfigurationReset()
+void CSIPodCollection::doConfigurationReset()
 { /* SLOT */
 
-	CuteSyncIPodCollectionConfigWidget *w =
-		dynamic_cast<CuteSyncIPodCollectionConfigWidget *>(sender());
+	CSIPodCollectionConfigWidget *w =
+		dynamic_cast<CSIPodCollectionConfigWidget *>(sender());
 
 	if(w != NULL)
 	{

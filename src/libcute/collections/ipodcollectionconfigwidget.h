@@ -31,14 +31,14 @@ class QCheckBox;
  * We offer some advanced options specifically for the iPod, e.g. allowing
  * advanced track sorting (case-insensitivity, ignoring "The" in titles, etc.).
  */
-class CuteSyncIPodCollectionConfigWidget :
+class CSIPodCollectionConfigWidget :
 	public CSAbstractCollectionConfigWidget
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncIPodCollectionConfigWidget();
-		virtual ~CuteSyncIPodCollectionConfigWidget();
+		CSIPodCollectionConfigWidget();
+		virtual ~CSIPodCollectionConfigWidget();
 
 		virtual void apply();
 		virtual void reset();

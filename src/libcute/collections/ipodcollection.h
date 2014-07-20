@@ -39,20 +39,20 @@ class CSCollectionModel;
  * It is designed to load an iTunes DB stored on an iPod device via libgpod and
  * parse the information into a usable format.
  */
-class CuteSyncIPodCollection : public CSAbstractCollection
+class CSIPodCollection : public CSAbstractCollection
 {
 	Q_OBJECT
 
 	public:
-		CuteSyncIPodCollection(CSCollectionModel *p = 0);
-		CuteSyncIPodCollection(const QString &n,
+		CSIPodCollection(CSCollectionModel *p = 0);
+		CSIPodCollection(const QString &n,
 			CSCollectionModel *p = 0);
-		CuteSyncIPodCollection(const DisplayDescriptor *d,
+		CSIPodCollection(const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		CuteSyncIPodCollection(const QString &n,
+		CSIPodCollection(const QString &n,
 			const DisplayDescriptor *d,
 			CSCollectionModel *p = 0);
-		virtual ~CuteSyncIPodCollection();
+		virtual ~CSIPodCollection();
 
 		virtual QIcon getDisplayIcon() const;
 		virtual QString getAboutText() const;

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "IPodTrack.h"
+#include "ipodtrack.h"
 
 #include "libcute/defines.h"
 #include "libcute/tags/filetyperesolver.h"
@@ -37,7 +37,7 @@
  * \param p The path to the file we are looking at.
  * \return A new track, or NULL on failure.
  */
-CuteSyncIPodTrack *CuteSyncIPodTrack::createTrackFromFile(const QString &p)
+CSIPodTrack *CSIPodTrack::createTrackFromFile(const QString &p)
 {
 	Itdb_Track *track = itdb_track_new();
 
@@ -72,7 +72,7 @@ CuteSyncIPodTrack *CuteSyncIPodTrack::createTrackFromFile(const QString &p)
 	track->filetype = g_strdup(f.getSuffix().toUpper()
 		.append("-File").toUtf8().data());
 
-	return new CuteSyncIPodTrack(track);
+	return new CSIPodTrack(track);
 }
 
 /*!
@@ -82,7 +82,7 @@ CuteSyncIPodTrack *CuteSyncIPodTrack::createTrackFromFile(const QString &p)
  *
  * \param t The track object we will represent.
  */
-CuteSyncIPodTrack::CuteSyncIPodTrack(Itdb_Track *t)
+CSIPodTrack::CSIPodTrack(Itdb_Track *t)
 	: track(t)
 {
 }
@@ -91,7 +91,7 @@ CuteSyncIPodTrack::CuteSyncIPodTrack(Itdb_Track *t)
  * This is our default destructor, which frees our libgpod track (if any) and
  * cleans up our object.
  */
-CuteSyncIPodTrack::~CuteSyncIPodTrack()
+CSIPodTrack::~CSIPodTrack()
 {
 	if(track != NULL)
 		itdb_track_free(track);
@@ -109,7 +109,7 @@ CuteSyncIPodTrack::~CuteSyncIPodTrack()
  *
  * \return A pointer to the libgpod track we represent.
  */
-Itdb_Track *CuteSyncIPodTrack::getTrack() const
+Itdb_Track *CSIPodTrack::getTrack() const
 {
 	return track;
 }
@@ -120,7 +120,7 @@ Itdb_Track *CuteSyncIPodTrack::getTrack() const
  *
  * \return Our track's absolute path.
  */
-QString CuteSyncIPodTrack::getPath() const
+QString CSIPodTrack::getPath() const
 {
 #pragma message "TODO - Implement me"
 
@@ -134,7 +134,7 @@ QString CuteSyncIPodTrack::getPath() const
  *
  * \return Our track's title.
  */
-QString CuteSyncIPodTrack::getTitle() const
+QString CSIPodTrack::getTitle() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->title);
@@ -149,7 +149,7 @@ QString CuteSyncIPodTrack::getTitle() const
  *
  * \return Our track's artist.
  */
-QString CuteSyncIPodTrack::getArtist() const
+QString CSIPodTrack::getArtist() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->artist);
@@ -164,7 +164,7 @@ QString CuteSyncIPodTrack::getArtist() const
  *
  * \return Our track's album.
  */
-QString CuteSyncIPodTrack::getAlbum() const
+QString CSIPodTrack::getAlbum() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->album);
@@ -179,7 +179,7 @@ QString CuteSyncIPodTrack::getAlbum() const
  *
  * \return Our track's comment.
  */
-QString CuteSyncIPodTrack::getComment() const
+QString CSIPodTrack::getComment() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->comment);
@@ -194,7 +194,7 @@ QString CuteSyncIPodTrack::getComment() const
  *
  * \return Our track's genre.
  */
-QString CuteSyncIPodTrack::getGenre() const
+QString CSIPodTrack::getGenre() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->genre);
@@ -209,7 +209,7 @@ QString CuteSyncIPodTrack::getGenre() const
  *
  * \return Our track's album artist.
  */
-QString CuteSyncIPodTrack::getAlbumArtist() const
+QString CSIPodTrack::getAlbumArtist() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->albumartist);
@@ -224,7 +224,7 @@ QString CuteSyncIPodTrack::getAlbumArtist() const
  *
  * \return Our track's composer.
  */
-QString CuteSyncIPodTrack::getComposer() const
+QString CSIPodTrack::getComposer() const
 {
 	if(track != NULL)
 		return QString::fromUtf8(track->composer);
@@ -239,7 +239,7 @@ QString CuteSyncIPodTrack::getComposer() const
  *
  * \return Our track's year.
  */
-int CuteSyncIPodTrack::getYear() const
+int CSIPodTrack::getYear() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->year);
@@ -254,7 +254,7 @@ int CuteSyncIPodTrack::getYear() const
  *
  * \return Our track's track number on the CD it is a part of.
  */
-int CuteSyncIPodTrack::getTrackNumber() const
+int CSIPodTrack::getTrackNumber() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->track_nr);
@@ -269,7 +269,7 @@ int CuteSyncIPodTrack::getTrackNumber() const
  *
  * \return The number of tracks on the CD this track is a part of.
  */
-int CuteSyncIPodTrack::getTrackCount() const
+int CSIPodTrack::getTrackCount() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->tracks);
@@ -284,7 +284,7 @@ int CuteSyncIPodTrack::getTrackCount() const
  *
  * \return Which CD number in a set this track is a part of.
  */
-int CuteSyncIPodTrack::getCDNumber() const
+int CSIPodTrack::getCDNumber() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->cd_nr);
@@ -299,7 +299,7 @@ int CuteSyncIPodTrack::getCDNumber() const
  *
  * \return The length of the track, in seconds.
  */
-int CuteSyncIPodTrack::getLength() const
+int CSIPodTrack::getLength() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->tracklen / 1000);
@@ -314,7 +314,7 @@ int CuteSyncIPodTrack::getLength() const
  *
  * \return Our track's bitrate (exact for CBR, an average for VBR).
  */
-int CuteSyncIPodTrack::getBitrate() const
+int CSIPodTrack::getBitrate() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->bitrate);
@@ -329,7 +329,7 @@ int CuteSyncIPodTrack::getBitrate() const
  *
  * \return Our track's sample rate, in hertz.
  */
-int CuteSyncIPodTrack::getSamplerate() const
+int CSIPodTrack::getSamplerate() const
 {
 	if(track != NULL)
 		return static_cast<int>(track->samplerate);
@@ -344,7 +344,7 @@ int CuteSyncIPodTrack::getSamplerate() const
  *
  * \return Our track's filesize, in bytes.
  */
-int64_t CuteSyncIPodTrack::getSize() const
+int64_t CSIPodTrack::getSize() const
 {
 	if(track != NULL)
 		return static_cast<int64_t>(track->size);
@@ -359,7 +359,7 @@ int64_t CuteSyncIPodTrack::getSize() const
  *
  * \return Our track's last modified time.
  */
-QDateTime CuteSyncIPodTrack::getModifyTime() const
+QDateTime CSIPodTrack::getModifyTime() const
 {
 	if(track != NULL)
 		return QDateTime::fromTime_t(track->time_modified);
@@ -375,7 +375,7 @@ QDateTime CuteSyncIPodTrack::getModifyTime() const
  *
  * \return An empty byte array.
  */
-QByteArray CuteSyncIPodTrack::serialize() const
+QByteArray CSIPodTrack::serialize() const
 {
 	return QByteArray();
 }
@@ -390,7 +390,7 @@ QByteArray CuteSyncIPodTrack::serialize() const
  *
  * \return A byte array to unserialize (unused).
  */
-void CuteSyncIPodTrack::unserialize(const QByteArray &UNUSED(d))
+void CSIPodTrack::unserialize(const QByteArray &UNUSED(d))
 {
 }
 
@@ -401,7 +401,7 @@ void CuteSyncIPodTrack::unserialize(const QByteArray &UNUSED(d))
  *
  * \return True, indicating success.
  */
-bool CuteSyncIPodTrack::refresh()
+bool CSIPodTrack::refresh()
 {
 	return true;
 }
@@ -412,7 +412,7 @@ bool CuteSyncIPodTrack::refresh()
  * \param c True means sorting should be case-insensitive.
  * \param i True means ignore common prefixes like 'The ...'.
  */
-void CuteSyncIPodTrack::applySortOptions(bool c, bool i)
+void CSIPodTrack::applySortOptions(bool c, bool i)
 {
 	if(track != NULL)
 	{

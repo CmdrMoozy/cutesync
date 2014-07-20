@@ -24,7 +24,7 @@
 
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/dircollection.h"
-#include "libcute/collections/IPodCollection.h"
+#include "libcute/collections/ipodcollection.h"
 
 /*!
  * This is our default constructor, which creates a new resolver object.
@@ -73,7 +73,7 @@ CSAbstractCollection *CSCollectionTypeResolver::createCollection(
 		.replace('/', QDir::separator())));
 
 	if(itdb.exists())
-		c = new CuteSyncIPodCollection(n);
+		c = new CSIPodCollection(n);
 
 	/*
 	 * If we didn't recognize it as anything special, treat it as simply

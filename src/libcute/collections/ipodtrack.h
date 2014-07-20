@@ -38,14 +38,14 @@ extern "C" {
  * how fast it is to read track data fro the iTunes DB file on iPod devices, it
  * isn't worthwhile to serialize the data encapsulated by one of these objects.
  */
-class CuteSyncIPodTrack : public CSTrack
+class CSIPodTrack : public CSTrack
 {
 	public:
-		static CuteSyncIPodTrack *createTrackFromFile(
+		static CSIPodTrack *createTrackFromFile(
 			const QString &p);
 
-		CuteSyncIPodTrack(Itdb_Track *t);
-		virtual ~CuteSyncIPodTrack();
+		CSIPodTrack(Itdb_Track *t);
+		virtual ~CSIPodTrack();
 
 		Itdb_Track *getTrack() const;
 

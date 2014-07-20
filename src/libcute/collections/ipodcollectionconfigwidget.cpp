@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "IPodCollectionConfigWidget.h"
+#include "ipodcollectionconfigwidget.h"
 
 #include <QGridLayout>
 #include <QGroupBox>
@@ -27,7 +27,7 @@
  *
  * \param t The GUI thread for our widget.
  */
-CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
+CSIPodCollectionConfigWidget::CSIPodCollectionConfigWidget()
 	: CSAbstractCollectionConfigWidget()
 {
 	layout = new QGridLayout(this);
@@ -35,7 +35,8 @@ CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
 	generalGroupBox = new QGroupBox(tr("General Options"), this);
 	generalLayout = new QGridLayout(generalGroupBox);
 
-	saveCheckBox = new QCheckBox(tr("Save collection information"), generalGroupBox);
+	saveCheckBox = new QCheckBox(tr("Save collection information"),
+		generalGroupBox);
 
 	generalLayout->addWidget(saveCheckBox, 0, 0, 1, 1);
 	generalGroupBox->setLayout(generalLayout);
@@ -43,11 +44,15 @@ CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
 	syncGroupBox = new QGroupBox(tr("Collection Options"), this);
 	syncLayout = new QGridLayout(syncGroupBox);
 
-	albumArtworkCheckBox = new QCheckBox(tr("Enable album artwork"), syncGroupBox);
+	albumArtworkCheckBox = new QCheckBox(tr("Enable album artwork"),
+		syncGroupBox);
 
-	caseSortCheckBox = new QCheckBox(tr("Case-insensitive track sorting"), syncGroupBox);
+	caseSortCheckBox = new QCheckBox(tr("Case-insensitive track sorting"),
+		syncGroupBox);
 
-	ignoreCommonPrefixCheckBox = new QCheckBox(tr("Ignore common title prefixes for sorting ('The ...')"), syncGroupBox);
+	ignoreCommonPrefixCheckBox = new QCheckBox(
+		tr("Ignore common title prefixes for sorting ('The ...')"),
+		syncGroupBox);
 
 	syncLayout->addWidget(albumArtworkCheckBox, 0, 0, 1, 1);
 	syncLayout->addWidget(caseSortCheckBox, 1, 0, 1, 1);
@@ -63,22 +68,23 @@ CuteSyncIPodCollectionConfigWidget::CuteSyncIPodCollectionConfigWidget()
 /*!
  * This is our default destructor, which cleans up and destroys our object.
  */
-CuteSyncIPodCollectionConfigWidget::~CuteSyncIPodCollectionConfigWidget()
+CSIPodCollectionConfigWidget::~CSIPodCollectionConfigWidget()
 {
 }
 
 /*!
  * This function applies our current state to our parent collection.
  */
-void CuteSyncIPodCollectionConfigWidget::apply()
+void CSIPodCollectionConfigWidget::apply()
 {
 	Q_EMIT applyRequest();
 }
 
 /*!
- * This function resets our widget's options to the values currently set by our owning collection.
+ * This function resets our widget's options to the values currently set by our
+ * owning collection.
  */
-void CuteSyncIPodCollectionConfigWidget::reset()
+void CSIPodCollectionConfigWidget::reset()
 {
 	Q_EMIT resetRequest();
 }
@@ -88,7 +94,7 @@ void CuteSyncIPodCollectionConfigWidget::reset()
  *
  * \return Our current save state value.
  */
-bool CuteSyncIPodCollectionConfigWidget::getSaveState() const
+bool CSIPodCollectionConfigWidget::getSaveState() const
 {
 	switch(saveCheckBox->checkState())
 	{
@@ -108,7 +114,7 @@ bool CuteSyncIPodCollectionConfigWidget::getSaveState() const
  *
  * \param s True for save collection information, or false for discard.
  */
-void CuteSyncIPodCollectionConfigWidget::setSaveState(bool s)
+void CSIPodCollectionConfigWidget::setSaveState(bool s)
 {
 	switch(s)
 	{
@@ -127,7 +133,7 @@ void CuteSyncIPodCollectionConfigWidget::setSaveState(bool s)
  *
  * \return Our current album artwork state value.
  */
-bool CuteSyncIPodCollectionConfigWidget::getAlbumArtworkState() const
+bool CSIPodCollectionConfigWidget::getAlbumArtworkState() const
 {
 	switch(albumArtworkCheckBox->checkState())
 	{
@@ -143,11 +149,12 @@ bool CuteSyncIPodCollectionConfigWidget::getAlbumArtworkState() const
 }
 
 /*!
- * This function sets our widget's album artwork state value to the given value.
+ * This function sets our widget's album artwork state value to the given
+ * value.
  *
  * \param a True for enable album artwork, or false otherwise.
  */
-void CuteSyncIPodCollectionConfigWidget::setAlbumArtworkState(bool a)
+void CSIPodCollectionConfigWidget::setAlbumArtworkState(bool a)
 {
 	switch(a)
 	{
@@ -162,11 +169,12 @@ void CuteSyncIPodCollectionConfigWidget::setAlbumArtworkState(bool a)
 }
 
 /*!
- * This function retrieves our widget's current case-insensitive sorting state value.
+ * This function retrieves our widget's current case-insensitive sorting state
+ * value.
  *
  * \return Our current case-insensitive sorting state value.
  */
-bool CuteSyncIPodCollectionConfigWidget::getCaseSortState() const
+bool CSIPodCollectionConfigWidget::getCaseSortState() const
 {
 	switch(caseSortCheckBox->checkState())
 	{
@@ -182,11 +190,12 @@ bool CuteSyncIPodCollectionConfigWidget::getCaseSortState() const
 }
 
 /*!
- * This function sets our widget's case-insensitive sorting state value to the given value.
+ * This function sets our widget's case-insensitive sorting state value to the
+ * given value.
  *
  * \param c True for case-insensitive sorting, or false otherwise.
  */
-void CuteSyncIPodCollectionConfigWidget::setCaseSortState(bool c)
+void CSIPodCollectionConfigWidget::setCaseSortState(bool c)
 {
 	switch(c)
 	{
@@ -201,11 +210,12 @@ void CuteSyncIPodCollectionConfigWidget::setCaseSortState(bool c)
 }
 
 /*!
- * This function retrieves our widget's current ignore common prefixes state value.
+ * This function retrieves our widget's current ignore common prefixes state
+ * value.
  *
  * \return Our current ignore common prefixes state value.
  */
-bool CuteSyncIPodCollectionConfigWidget::getIgnoreCommonPrefixState() const
+bool CSIPodCollectionConfigWidget::getIgnoreCommonPrefixState() const
 {
 	switch(ignoreCommonPrefixCheckBox->checkState())
 	{
@@ -221,11 +231,13 @@ bool CuteSyncIPodCollectionConfigWidget::getIgnoreCommonPrefixState() const
 }
 
 /*!
- * This function sets our widget's ignore common prefixes state value to the given value.
+ * This function sets our widget's ignore common prefixes state value to the
+ * given value.
  *
  * \param i True for ignore common prefixes when sorting, or false otherwise.
  */
-void CuteSyncIPodCollectionConfigWidget::setIgnoreCommonPrefixState(bool i)
+void CSIPodCollectionConfigWidget::setIgnoreCommonPrefixState(
+	bool i)
 {
 	switch(i)
 	{
@@ -234,7 +246,8 @@ void CuteSyncIPodCollectionConfigWidget::setIgnoreCommonPrefixState(bool i)
 			break;
 
 		case false:
-			ignoreCommonPrefixCheckBox->setCheckState(Qt::Unchecked);
+			ignoreCommonPrefixCheckBox->setCheckState(
+				Qt::Unchecked);
 			break;
 	};
 }

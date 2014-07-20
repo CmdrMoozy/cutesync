@@ -58,9 +58,9 @@ SET(libcute_HEADERS
 	src/libcute/collections/dircollectionconfigwidget.h
 	src/libcute/collections/dirtrack.h
 	src/libcute/collections/generalcollectionconfigwidget.h
-	src/libcute/collections/IPodCollection.h
-	src/libcute/collections/IPodCollectionConfigWidget.h
-	src/libcute/collections/IPodTrack.h
+	src/libcute/collections/ipodcollection.h
+	src/libcute/collections/ipodcollectionconfigwidget.h
+	src/libcute/collections/ipodtrack.h
 	src/libcute/collections/track.h
 
 	src/libcute/tags/filetyperesolver.h
@@ -86,9 +86,9 @@ SET(libcute_SOURCES
 	src/libcute/collections/dircollectionconfigwidget.cpp
 	src/libcute/collections/dirtrack.cpp
 	src/libcute/collections/generalcollectionconfigwidget.cpp
-	src/libcute/collections/IPodCollection.cpp
-	src/libcute/collections/IPodCollectionConfigWidget.cpp
-	src/libcute/collections/IPodTrack.cpp
+	src/libcute/collections/ipodcollection.cpp
+	src/libcute/collections/ipodcollectionconfigwidget.cpp
+	src/libcute/collections/ipodtrack.cpp
 	src/libcute/collections/track.cpp
 
 	src/libcute/tags/filetyperesolver.cpp
