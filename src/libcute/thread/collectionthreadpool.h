@@ -23,6 +23,9 @@
 
 class QThread;
 
+class CSCollectionTypeResolver;
+class CSCollectionListItem;
+
 class CSCollectionThreadPool : public QObject
 {
 	Q_OBJECT
@@ -33,6 +36,10 @@ class CSCollectionThreadPool : public QObject
 
 	private:
 		QThread *thread;
+		CSCollectionTypeResolver *resolver;
+
+	Q_SIGNALS:
+		void collectionCreated(CSCollectionListItem *);
 
 };
 

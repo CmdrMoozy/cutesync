@@ -20,13 +20,20 @@
 
 #include <QThread>
 
+#include "libcute/collections/collectiontyperesolver.h"
+#include "libcute/widgets/collectionlistitem.h"
+
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	: QObject(p)
 {
 	thread = new QThread(this);
 	thread->start();
+
+	resolver = new CSCollectionTypeResolver();
+	resolver->moveToThread(thread);
 }
 
 CSCollectionThreadPool::~CSCollectionThreadPool()
 {
+	delete resolver;
 }

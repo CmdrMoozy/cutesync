@@ -17,28 +17,40 @@
  */
 
 #ifndef INCLUDE_LIBCUTE_COLLECTIONS_COLLECTION_TYPE_RESOLVER_H
-#define INCLUDE_LIBCUTE_COLLECTIONS_COLLECTION_TYPE_RESULVER_H
+#define INCLUDE_LIBCUTE_COLLECTIONS_COLLECTION_TYPE_RESOLVER_H
+
+#include <QObject>
 
 class QString;
+class QByteArray;
 
 class CSAbstractCollection;
+class CSCollectionListItem;
 
 /*!
- * \brief This class provides a way to determine the type of collection a directory contains.
+ * \brief This class can determine the type of collection a path contains.
  *
- * Using the createCollection() function, the user can provide simply a path and a name and get a
- * valid and correct collection pointer in return. This class supports fully all of the built-in
- * collection types; if you are subclassing CSAbstractCollection for a custom type, you should
- * also subclass this class to provide detection for it.
+ * Using the createCollection() function, the user can provide simply a path
+ * and a name and get a valid and correct collection pointer in return. This
+ * class supports fully all of the built-in collection types; if you are
+ * subclassing CSAbstractCollection for a custom type, you should also subclass
+ * this class to provide detection for it.
  */
-class CSCollectionTypeResolver
+class CSCollectionTypeResolver : public QObject
 {
+	Q_OBJECT
+
 	public:
-		CSCollectionTypeResolver();
+		CSCollectionTypeResolver(QObject *p = 0);
 		virtual ~CSCollectionTypeResolver();
 
-		virtual CSAbstractCollection *createCollection(
-			const QString &n, const QString &p) const;
+	public Q_SLOTS:
+		void createCollection(const QString &n,
+			const QString &p) const;
+		void unserializeCollection(const QByteArray &d) const;
+
+	Q_SIGNALS:
+		void collectionCreated(CSCollectionListItem *);
 };
 
 #endif

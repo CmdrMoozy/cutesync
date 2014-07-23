@@ -21,15 +21,18 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QString>
+#include <QByteArray>
 
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/dircollection.h"
 #include "libcute/collections/ipodcollection.h"
+#include "libcute/widgets/collectionlistitem.h"
 
 /*!
  * This is our default constructor, which creates a new resolver object.
  */
-CSCollectionTypeResolver::CSCollectionTypeResolver()
+CSCollectionTypeResolver::CSCollectionTypeResolver(QObject *p)
+	: QObject(p)
 {
 }
 
@@ -43,30 +46,36 @@ CSCollectionTypeResolver::~CSCollectionTypeResolver()
 /*!
  * This function provides our class's main functionality - namely, taking an
  * input name and path and creating the appropriate type of collection object
- * to handle it. Note that this function doesn't necessarily need to be
- * threaded; we leave the actual calling of loadCollectionFromPath() to our
- * user.
+ * to handle it. Note that this function should probably not be run in the
+ * event dispatch thread; we load the collection from the path given, which can
+ * take a nontrivial amount of time.
  *
  * Also note that we don't do any validity checking on the collection name; it
- * is assumed that the caller did that before calling this.
+ * is assumed that the caller did that before calling this function.
  *
- * /Also/ note that we do not retain ownership of the object returned; if we
- * return non-NULL, it is YOUR responsibility as the user to delete it as
- * necessary.
+ * The returned collection will have this object as a parent, so deleting this
+ * object will also delete any collections it created. The new collection will
+ * also have the same thread affinity as this object.
+ *
+ * The new collection, instead of being returned directly, will be given to our
+ * caller (and potentially others) via a signal emission once the collection is
+ * loaded. This means that this operation can be done in a different thread
+ * from our caller.
  *
  * \param n The name for the new collection.
  * \param p The path to the collection.
- * \return A collection object, or NULL on error.
  */
-CSAbstractCollection *CSCollectionTypeResolver::createCollection(
+void CSCollectionTypeResolver::createCollection(
 	const QString &n, const QString &p) const
-{
-	CSAbstractCollection *c = NULL;
+{ /* SLOT */
 
 	/*
+	CSAbstractCollection *c = NULL;
+
+	/
 	 * Check if it's an iPod collection - this implies
 	 * (path)/iPod_Control/iTunes/iTunesDB exists.
-	 */
+	 /
 
 	QFileInfo itdb(QDir::cleanPath(p).append(
 		QString("/iPod_Control/iTunes/iTunesDB")
@@ -75,13 +84,22 @@ CSAbstractCollection *CSCollectionTypeResolver::createCollection(
 	if(itdb.exists())
 		c = new CSIPodCollection(n);
 
-	/*
+	/
 	 * If we didn't recognize it as anything special, treat it as simply
 	 * a directory collection.
-	 */
+	 /
 
 	if(c == NULL)
 		c = new CSDirCollection(n);
 
 	return c;
+	*/
+
+}
+
+void CSCollectionTypeResolver::unserializeCollection(const QByteArray &d) const
+{ /* SLOT */
+
+
+
 }

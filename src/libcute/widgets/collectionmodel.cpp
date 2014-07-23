@@ -301,6 +301,8 @@ QList<QVariant> CSCollectionModel::getSerializedList() const
  */
 void CSCollectionModel::loadSerializedList(const QList<QVariant> &c)
 {
+
+	/*
 	for(int i = 0; i < c.count(); ++i)
 	{
 		qint32 version;
@@ -377,6 +379,8 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
 		appendCollection(collection);
 		collection->unserialize(c.at(i).value<QByteArray>());
 	}
+	*/
+
 }
 
 /*!
@@ -393,6 +397,8 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
 void CSCollectionModel::newCollection(const QString &n,
 	const QString &p, bool s)
 {
+
+	/*
 	CSAbstractCollection *c = NULL;
 
 	// Make sure our name is unique.
@@ -440,6 +446,8 @@ void CSCollectionModel::newCollection(const QString &n,
 
 	appendCollection(c);
 	c->loadCollectionFromPath(p);
+	*/
+
 }
 
 /*!
