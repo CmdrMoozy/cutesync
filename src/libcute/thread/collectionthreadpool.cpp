@@ -20,20 +20,48 @@
 
 #include <QThread>
 
+#include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
 #include "libcute/widgets/collectionlistitem.h"
 
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	: QObject(p)
 {
+	// Create a new thread, as well as our collection type resolver.
+
 	thread = new QThread(this);
 	thread->start();
 
 	resolver = new CSCollectionTypeResolver();
 	resolver->moveToThread(thread);
+
+	// Connect the collection type resolver's progress signals.
+
+	QObject::connect(resolver, SIGNAL(jobStarted(const QString &)),
+		this, SIGNAL(jobStarted(const QString &)));
+	QObject::connect(resolver, SIGNAL(progressLimitsUpdated(int, int)),
+		this, SIGNAL(progressLimitsUpdated(int, int)));
+	QObject::connect(resolver, SIGNAL(progressUpdated(int)),
+		this, SIGNAL(progressUpdated(int)));
+	QObject::connect(resolver, SIGNAL(jobFinished(const QString &)),
+		this, SIGNAL(jobFinished(const QString &)));
+
+	// Connect our action signals to the collection type resolver.
+
+	QObject::connect(this, SIGNAL(startNew(const QString &,
+		const QString &, bool)), resolver, SLOT(newCollection(
+		const QString &, const QString &, bool)));
 }
 
 CSCollectionThreadPool::~CSCollectionThreadPool()
 {
 	delete resolver;
+}
+
+void CSCollectionThreadPool::newCollection(const QString &n,
+	const QString &p, bool s)
+{ /* SLOT */
+
+	Q_EMIT(startNew(n, p, s));
+
 }

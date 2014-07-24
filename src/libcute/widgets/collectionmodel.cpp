@@ -29,6 +29,7 @@
 
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
+#include "libcute/thread/collectionthreadpool.h"
 
 /*!
  * This is our default constructor, which creates a new model object with the
@@ -37,8 +38,13 @@
  * \param p Our parent object.
  */
 CSCollectionModel::CSCollectionModel(QObject *p)
-	: QAbstractListModel(p), currentJob(NULL)
+	: QAbstractListModel(p)
 {
+	threadPool = new CSCollectionThreadPool(this);
+
+	QObject::connect(this, SIGNAL(startNew(const QString &,
+		const QString &, bool)), threadPool, SLOT(newCollection(
+		const QString &, const QString &, bool)));
 }
 
 /*!
@@ -235,43 +241,6 @@ QList<QString> CSCollectionModel::getCollectionNameList() const
 }
 
 /*!
- * This function tests whether or not all of the collections in our model are
- * currently idle.
- *
- * \return True if we are totally idle, or false otherwise.
- */
-bool CSCollectionModel::isIdle() const
-{
-	return (currentJob == NULL);
-}
-
-/*!
- * This function tests if the current job is easily interruptible or not.
- *
- * \return True if we can interrupt the current job, or false otherwise.
- */
-bool CSCollectionModel::isInterruptAdvised() const
-{
-	if(currentJob != NULL)
-		return currentJob->isInterruptible();
-
-	return true;
-}
-
-/*!
- * This function sets the interrupt flag on the current job, if any. When a job
- * is interrupted, it will try to halt itself as quickly as possible. Note that
- * this DOES NOT take into account whether it is considered interruptible.
- *
- * \param i
- */
-void CSCollectionModel::setInterrupted(bool i)
-{
-	if(currentJob != NULL)
-		currentJob->setInterrupted(i);
-}
-
-/*!
  * This function returns a list of QByteArrays, each of which stores a
  * serialized collection. Note that only collections that have the
  * "isSafedOnExit()" property will be included in this list.
@@ -398,15 +367,13 @@ void CSCollectionModel::newCollection(const QString &n,
 	const QString &p, bool s)
 {
 
-	/*
-	CSAbstractCollection *c = NULL;
-
 	// Make sure our name is unique.
 
 	for(int i = 0; i < count(); ++i)
 	{
 		if(collectionAt(i)->getName() == n)
 		{
+#pragma message "TODO - Improve warning generation?"
 			QMessageBox::critical(0, tr("Error"),
 				tr("Collection name already in use!"));
 
@@ -414,39 +381,7 @@ void CSCollectionModel::newCollection(const QString &n,
 		}
 	}
 
-	// Create our new collection object.
-
-	c = resolver.createCollection(n, p);
-
-	// If we didn't create one, its type must be invalid.
-
-	if(c == NULL)
-	{
-		QMessageBox::critical(0, tr("Error"),
-			tr("Unknown/invalid collection type!"));
-
-		return;
-	}
-
-	// Set our collectin's save property.
-
-	c->setSaveOnExit(s);
-
-	// Connect the collection to our slots.
-	QObject::connect(c, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted(const QString &)));
-	QObject::connect(c, SIGNAL(progressLimitsUpdated(int, int)),
-		this, SLOT(doProgressLimitsUpdated(int, int)));
-	QObject::connect(c, SIGNAL(progressUpdated(int)),
-		this, SLOT(doProgressUpdated(int)));
-	QObject::connect(c, SIGNAL(jobFinished(const QString &)),
-		this, SLOT(doJobFinished(const QString &)));
-
-	// Try to load the collection from the path provided.
-
-	appendCollection(c);
-	c->loadCollectionFromPath(p);
-	*/
+	Q_EMIT startNew(n, p, s);
 
 }
 
@@ -516,70 +451,5 @@ void CSCollectionModel::doCollectionEnabledChanged()
 		return;
 
 	Q_EMIT rowEnabledChanged(createIndex(i, 0));
-
-}
-
-/*!
- * This slot handles a new job being started by updating our job member, and
- * emitting an appropriate signal.
- *
- * \param j The string describing the job.
- */
-void CSCollectionModel::doJobStarted(const QString &j)
-{ /* SLOT */
-
-	CSAbstractCollection *s =
-		dynamic_cast<CSAbstractCollection *>(sender());
-	currentJob = s;
-
-	if(s != NULL) s->setEnabled(false);
-
-	Q_EMIT jobStarted(j);
-
-}
-
-/*!
- * This slot handles the progress limits on a job being updated by emitting an
- * appropriate signal.
- *
- * \param min The new minimum limit.
- * \param max The new maximum limit.
- */
-void CSCollectionModel::doProgressLimitsUpdated(int min, int max)
-{ /* SLOT */
-
-	Q_EMIT progressLimitsUpdated(min, max);
-
-}
-
-/*!
- * This slot handles the current progress of a job being updated by emitting an
- * appropriate signal.
- *
- * \param p The new current progress of the current job.
- */
-void CSCollectionModel::doProgressUpdated(int p)
-{ /* SLOT */
-
-	Q_EMIT progressUpdated(p);
-
-}
-
-/*!
- * This slot handles the current job being finished by clearing out our job
- * member, and by emitting an appropriate signal.
- *
- * \param r The return text from the job (e.g., errors or whatever).
- */
-void CSCollectionModel::doJobFinished(const QString &r)
-{ /* SLOT */
-
-	CSAbstractCollection *c =
-		dynamic_cast<CSAbstractCollection *>(sender());
-	if(c != NULL) c->setEnabled(true);
-
-	currentJob = NULL;
-
-	Q_EMIT jobFinished(r);
 
 }

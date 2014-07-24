@@ -38,9 +38,18 @@ class CSCollectionThreadPool : public QObject
 		QThread *thread;
 		CSCollectionTypeResolver *resolver;
 
-	Q_SIGNALS:
-		void collectionCreated(CSCollectionListItem *);
+	public Q_SLOTS:
+		void newCollection(const QString &n, const QString &p, bool s);
 
+	Q_SIGNALS:
+		void jobStarted(const QString &);
+		void progressLimitsUpdated(int, int);
+		void progressUpdated(int);
+		void jobFinished(const QString &);
+
+		void startNew(const QString &, const QString &, bool);
+
+		void collectionCreated(CSCollectionListItem *);
 };
 
 #endif

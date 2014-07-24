@@ -44,13 +44,27 @@ class CSCollectionTypeResolver : public QObject
 		CSCollectionTypeResolver(QObject *p = 0);
 		virtual ~CSCollectionTypeResolver();
 
-	public Q_SLOTS:
-		void createCollection(const QString &n,
+	private:
+		CSAbstractCollection *createCollection(const QString &n,
 			const QString &p) const;
-		void unserializeCollection(const QByteArray &d) const;
+
+	public Q_SLOTS:
+		void newCollection(const QString &n,
+			const QString &p, bool s);
+
+	private Q_SLOTS:
+		void doJobStarted(const QString &j);
+		void doProgressLimitsUpdated(int min, int max);
+		void doProgressUpdated(int p);
+		void doJobFinished(const QString &r);
 
 	Q_SIGNALS:
-		void collectionCreated(CSCollectionListItem *);
+		void jobStarted(const QString &);
+		void progressLimitsUpdated(int, int);
+		void progressUpdated(int);
+		void jobFinished(const QString &);
+
+		void collectionCreated(CSAbstractCollection *);
 };
 
 #endif

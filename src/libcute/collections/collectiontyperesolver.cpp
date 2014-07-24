@@ -43,6 +43,34 @@ CSCollectionTypeResolver::~CSCollectionTypeResolver()
 {
 }
 
+CSAbstractCollection *CSCollectionTypeResolver::createCollection(
+	const QString &n, const QString &p) const
+{
+	CSAbstractCollection *c = NULL;
+
+	/*
+	 * Check if it's an iPod collection - this implies
+	 * (path)/iPod_Control/iTunes/iTunesDB exists.
+	 */
+
+	QFileInfo itdb(QDir::cleanPath(p).append(
+		QString("/iPod_Control/iTunes/iTunesDB")
+		.replace('/', QDir::separator())));
+
+	if(itdb.exists())
+		c = new CSIPodCollection(n);
+
+	/*
+	 * If we didn't recognize it as anything special, treat it as simply
+	 * a directory collection.
+	 */
+
+	if(c == NULL)
+		c = new CSDirCollection(n);
+
+	return c;
+}
+
 /*!
  * This function provides our class's main functionality - namely, taking an
  * input name and path and creating the appropriate type of collection object
@@ -64,42 +92,112 @@ CSCollectionTypeResolver::~CSCollectionTypeResolver()
  *
  * \param n The name for the new collection.
  * \param p The path to the collection.
+ * \param s Whether or not to remember the collection for next time.
  */
-void CSCollectionTypeResolver::createCollection(
-	const QString &n, const QString &p) const
+void CSCollectionTypeResolver::newCollection(const QString &n,
+	const QString &p, bool s)
 { /* SLOT */
 
-	/*
 	CSAbstractCollection *c = NULL;
 
-	/
-	 * Check if it's an iPod collection - this implies
-	 * (path)/iPod_Control/iTunes/iTunesDB exists.
-	 /
+	// Create our new collection object.
 
-	QFileInfo itdb(QDir::cleanPath(p).append(
-		QString("/iPod_Control/iTunes/iTunesDB")
-		.replace('/', QDir::separator())));
+	c = createCollection(n, p);
 
-	if(itdb.exists())
-		c = new CSIPodCollection(n);
-
-	/
-	 * If we didn't recognize it as anything special, treat it as simply
-	 * a directory collection.
-	 /
+	// If we didn't create one, its type must be invalid.
 
 	if(c == NULL)
-		c = new CSDirCollection(n);
+	{
+#pragma message "TODO - Errors need to be handled here by emitting a signal"
+		return;
+	}
 
-	return c;
-	*/
+	// Set our collection's save property.
+
+	c->setSaveOnExit(s);
+
+	// Connect the collection to our slots.
+
+	QObject::connect(c, SIGNAL(jobStarted(const QString &)),
+		this, SLOT(doJobStarted(const QString &)));
+	QObject::connect(c, SIGNAL(progressLimitsUpdated(int, int)),
+		this, SLOT(doProgressLimitsUpdated(int, int)));
+	QObject::connect(c, SIGNAL(progressUpdated(int)),
+		this, SLOT(doProgressUpdated(int)));
+	QObject::connect(c, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
+
+	// Try to load the collection from the path provided.
+
+	c->loadCollectionFromPath(p);
+
+	// The collection is loaded! Emit an appropriate signal.
+
+	Q_EMIT(collectionCreated(c));
 
 }
 
-void CSCollectionTypeResolver::unserializeCollection(const QByteArray &d) const
+/*!
+ * This slot handles a new job being started by updating our job member, and
+ * emitting an appropriate signal.
+ *
+ * \param j The string describing the job.
+ */
+void CSCollectionTypeResolver::doJobStarted(const QString &j)
 { /* SLOT */
 
+	CSAbstractCollection *s =
+		dynamic_cast<CSAbstractCollection *>(sender());
 
+	if(s != NULL)
+		s->setEnabled(false);
+
+	Q_EMIT jobStarted(j);
+
+}
+
+/*!
+ * This slot handles the progress limits on a job being updated by emitting an
+ * appropriate signal.
+ *
+ * \param min The new minimum limit.
+ * \param max The new maximum limit.
+ */
+void CSCollectionTypeResolver::doProgressLimitsUpdated(int min, int max)
+{ /* SLOT */
+
+	Q_EMIT progressLimitsUpdated(min, max);
+
+}
+
+/*!
+ * This slot handles the current progress of a job being updated by emitting an
+ * appropriate signal.
+ *
+ * \param p The new current progress of the current job.
+ */
+void CSCollectionTypeResolver::doProgressUpdated(int p)
+{ /* SLOT */
+
+	Q_EMIT progressUpdated(p);
+
+}
+
+/*!
+ * This slot handles the current job being finished by clearing out our job
+ * member, and by emitting an appropriate signal.
+ *
+ * \param r The return text from the job (e.g., errors or whatever).
+ */
+void CSCollectionTypeResolver::doJobFinished(const QString &r)
+{ /* SLOT */
+
+	CSAbstractCollection *c =
+		dynamic_cast<CSAbstractCollection *>(sender());
+
+	if(c != NULL)
+		c->setEnabled(true);
+
+	Q_EMIT jobFinished(r);
 
 }

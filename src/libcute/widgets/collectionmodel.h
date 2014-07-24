@@ -26,6 +26,7 @@
 #include "libcute/collections/collectiontyperesolver.h"
 
 class CSAbstractCollection;
+class CSCollectionThreadPool;
 
 /*!
  * \brief This class provides a storage container for a list of collections.
@@ -59,10 +60,6 @@ class CSCollectionModel : public QAbstractListModel
 
 		QList<QString> getCollectionNameList() const;
 
-		bool isIdle() const;
-		bool isInterruptAdvised() const;
-		void setInterrupted(bool i);
-
 		QList<QVariant> getSerializedList() const;
 
 	public Q_SLOTS:
@@ -75,20 +72,16 @@ class CSCollectionModel : public QAbstractListModel
 		// copy() delete()
 
 	private:
-		CSCollectionTypeResolver resolver;
+		CSCollectionThreadPool *threadPool;
 		QList<CSAbstractCollection *> itemList;
-		CSAbstractCollection *currentJob;
 
 	private Q_SLOTS:
 		void doCollectionEnabledChanged();
 
-		void doJobStarted(const QString &j);
-		void doProgressLimitsUpdated(int min, int max);
-		void doProgressUpdated(int p);
-		void doJobFinished(const QString &r);
-
 	Q_SIGNALS:
 		void rowEnabledChanged(const QModelIndex &i);
+
+		void startNew(const QString &, const QString &, bool);
 
 		void jobStarted(const QString &);
 		void progressLimitsUpdated(int, int);
