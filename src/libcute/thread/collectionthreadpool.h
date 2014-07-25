@@ -24,7 +24,7 @@
 class QThread;
 
 class CSCollectionTypeResolver;
-class CSCollectionListItem;
+class CSAbstractCollection;
 
 class CSCollectionThreadPool : public QObject
 {
@@ -49,7 +49,7 @@ class CSCollectionThreadPool : public QObject
 
 		void startNew(const QString &, const QString &, bool);
 
-		void collectionCreated(CSCollectionListItem *);
+		void collectionCreated(CSAbstractCollection *);
 };
 
 #endif

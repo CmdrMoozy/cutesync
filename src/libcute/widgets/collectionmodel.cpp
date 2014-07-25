@@ -30,6 +30,7 @@
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/thread/collectionthreadpool.h"
+#include "libcute/widgets/collectionlistitem.h"
 
 /*!
  * This is our default constructor, which creates a new model object with the
@@ -45,6 +46,10 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), threadPool, SLOT(newCollection(
 		const QString &, const QString &, bool)));
+
+	QObject::connect(threadPool, SIGNAL(collectionCreated(
+		CSAbstractCollection *)), this, SLOT(doCollectionCreated(
+		CSAbstractCollection *)));
 }
 
 /*!
@@ -124,11 +129,12 @@ QVariant CSCollectionModel::headerData(int UNUSED(s),
  */
 void CSCollectionModel::clear()
 {
-	CSAbstractCollection *c;
+	CSCollectionListItem *i;
+
 	while(!itemList.isEmpty())
 	{
-		c = itemList.takeFirst();
-		delete c;
+		i = itemList.takeFirst();
+		delete i;
 	}
 }
 
@@ -154,8 +160,10 @@ int CSCollectionModel::count() const
  */
 CSAbstractCollection *CSCollectionModel::collectionAt(int i) const
 {
-	if( (i < 0) || (i >= count()) ) return NULL;
-	return itemList.at(i);
+	if( (i < 0) || (i >= count()) )
+		return NULL;
+
+	return itemList.at(i)->getCollection();
 }
 
 /*!
@@ -168,9 +176,15 @@ CSAbstractCollection *CSCollectionModel::collectionAt(int i) const
 CSAbstractCollection *CSCollectionModel::collectionFromName(
 	const QString &n) const
 {
+	CSAbstractCollection *c;
+
 	for(int i = 0; i < count(); ++i)
-		if(collectionAt(i)->getName() == n)
-			return collectionAt(i);
+	{
+		c = collectionAt(i);
+
+		if(c->getName() == n)
+			return c;
+	}
 
 	return NULL;
 }
@@ -190,12 +204,15 @@ CSAbstractCollection *CSCollectionModel::collectionFromName(
  */
 void CSCollectionModel::removeCollectionAt(int i)
 {
-	if( (i < 0) || (i >= count()) ) return;
+	if( (i < 0) || (i >= count()) )
+		return;
 
 	Q_EMIT beginResetModel();
 
 	itemList.at(i)->disconnect();
-	CSAbstractCollection *c = itemList.takeAt(i);
+	CSCollectionListItem *c = itemList.takeAt(i);
+
+	c->getCollection()->deleteLater();
 	c->deleteLater();
 
 	Q_EMIT endResetModel();
@@ -212,16 +229,22 @@ void CSCollectionModel::removeCollectionAt(int i)
  */
 void CSCollectionModel::appendCollection(CSAbstractCollection *c)
 {
-	if( (c != NULL) && (!itemList.contains(c)) )
-	{
-		QObject::connect(c, SIGNAL(enabledChanged()),
-			this, SLOT(doCollectionEnabledChanged()));
+	if(c == NULL)
+		return;
 
-		itemList.append(c);
+	for(int i = 0; i < count(); ++i)
+		if(collectionAt(i) == c)
+			return;
 
-		Q_EMIT dataChanged(createIndex(itemList.count()-1, 0),
-			createIndex(itemList.count()-1, 0));
-	}
+	CSCollectionListItem *i = new CSCollectionListItem(c, this);
+
+	QObject::connect(c, SIGNAL(enabledChanged()),
+		this, SLOT(doCollectionEnabledChanged()));
+
+	itemList.append(i);
+
+	Q_EMIT dataChanged(createIndex(itemList.count() - 1, 0),
+		createIndex(itemList.count() - 1, 0));
 }
 
 /*!
@@ -253,10 +276,15 @@ QList<QString> CSCollectionModel::getCollectionNameList() const
 QList<QVariant> CSCollectionModel::getSerializedList() const
 {
 	QList<QVariant> r;
+	CSAbstractCollection *c;
 
-	for(int i = 0; i < itemList.count(); ++i)
-		if(itemList.at(i)->isSavedOnExit())
-			r.append(QVariant(itemList.at(i)->serialize()));
+	for(int i = 0; i < count(); ++i)
+	{
+		c = collectionAt(i);
+
+		if(c->isSavedOnExit())
+			r.append(QVariant(c->serialize()));
+	}
 
 	return r;
 }
@@ -443,13 +471,30 @@ void CSCollectionModel::doCollectionEnabledChanged()
 	CSAbstractCollection *c =
 		dynamic_cast<CSAbstractCollection *>(sender());
 
-	if(c == NULL) return;
-
-	int i = itemList.indexOf(c);
-
-	if(i == -1)
+	if(c == NULL)
 		return;
 
-	Q_EMIT rowEnabledChanged(createIndex(i, 0));
+	int idx = -1;
+
+	for(int i = 0; i < count(); ++i)
+	{
+		if(collectionAt(i) == c)
+		{
+			idx = i;
+			break;
+		}
+	}
+
+	if(idx == -1)
+		return;
+
+	Q_EMIT rowEnabledChanged(createIndex(idx, 0));
+
+}
+
+void CSCollectionModel::doCollectionCreated(CSAbstractCollection *c)
+{ /* SLOT */
+
+	appendCollection(c);
 
 }

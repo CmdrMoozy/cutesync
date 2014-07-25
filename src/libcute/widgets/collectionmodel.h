@@ -27,6 +27,7 @@
 
 class CSAbstractCollection;
 class CSCollectionThreadPool;
+class CSCollectionListItem;
 
 /*!
  * \brief This class provides a storage container for a list of collections.
@@ -73,10 +74,12 @@ class CSCollectionModel : public QAbstractListModel
 
 	private:
 		CSCollectionThreadPool *threadPool;
-		QList<CSAbstractCollection *> itemList;
+		QList<CSCollectionListItem *> itemList;
 
 	private Q_SLOTS:
 		void doCollectionEnabledChanged();
+
+		void doCollectionCreated(CSAbstractCollection *);
 
 	Q_SIGNALS:
 		void rowEnabledChanged(const QModelIndex &i);

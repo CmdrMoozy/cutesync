@@ -22,7 +22,6 @@
 
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
-#include "libcute/widgets/collectionlistitem.h"
 
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	: QObject(p)
@@ -51,6 +50,12 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), resolver, SLOT(newCollection(
 		const QString &, const QString &, bool)));
+
+	// Connect the type resolver's other signals to our signals.
+
+	QObject::connect(resolver, SIGNAL(collectionCreated(
+		CSAbstractCollection *)), this, SIGNAL(collectionCreated(
+		CSAbstractCollection *)));
 }
 
 CSCollectionThreadPool::~CSCollectionThreadPool()
