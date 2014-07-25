@@ -1,16 +1,13 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 	<qresource>
-		<file>icons/about.png</file>
-		<file>icons/exit.png</file>
-		<file>icons/new.png</file>
-		<file>icons/remove.png</file>
-		<file>icons/sync.png</file>
-		
-		<file>icons/collections/default.png</file>
-		<file>icons/collections/directory.png</file>
-		<file>icons/collections/ipod.png</file>
-		
-		<file>icons/inspector/configure.png</file>
+		<file>icons/application-exit.png</file>
+		<file>icons/folder-sound.png</file>
+		<file>icons/help-about.png</file>
+		<file>icons/list-add.png</file>
+		<file>icons/list-remove.png</file>
+		<file>icons/multimedia-player-apple-ipod.png</file>
+		<file>icons/preferences-other.png</file>
+		<file>icons/sync-synchronizing.png</file>
 	</qresource>
 </RCC>

@@ -28,7 +28,6 @@
 #include <QFile>
 #include <QList>
 #include <QDir>
-#include <QIcon>
 #include <QDataStream>
 #include <QFileInfo>
 
@@ -37,6 +36,7 @@
 #include "libcute/collections/ipodtrack.h"
 #include "libcute/tags/filetyperesolver.h"
 #include "libcute/tags/taggedfile.h"
+#include "libcute/util/guiutils.h"
 #include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
@@ -119,7 +119,7 @@ CSIPodCollection::~CSIPodCollection()
  */
 QIcon CSIPodCollection::getDisplayIcon() const
 {
-	return QIcon(":/icons/collections/ipod.png");
+	return CSGUIUtils::getIconFromTheme("multimedia-player-apple-ipod");
 }
 
 /*!

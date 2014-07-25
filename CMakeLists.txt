@@ -69,6 +69,7 @@ SET(libcute_HEADERS
 	src/libcute/thread/collectionthreadpool.h
 
 	src/libcute/util/bitwise.h
+	src/libcute/util/guiutils.h
 	src/libcute/util/mmiohandle.h
 	src/libcute/util/systemutils.h
 
@@ -97,6 +98,7 @@ SET(libcute_SOURCES
 	src/libcute/thread/collectionthreadpool.cpp
 
 	src/libcute/util/bitwise.cpp
+	src/libcute/util/guiutils.cpp
 	src/libcute/util/mmiohandle.cpp
 	src/libcute/util/systemutils.cpp
 

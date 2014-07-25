@@ -19,7 +19,6 @@
 #include "dircollection.h"
 
 #include <QDirIterator>
-#include <QIcon>
 #include <QDataStream>
 #include <QSet>
 #include <QFileInfo>
@@ -31,6 +30,7 @@
 #include "libcute/collections/dirtrack.h"
 #include "libcute/tags/filetyperesolver.h"
 #include "libcute/tags/taggedfile.h"
+#include "libcute/util/guiutils.h"
 #include "libcute/util/systemutils.h"
 #include "libcute/widgets/collectionmodel.h"
 
@@ -105,7 +105,7 @@ CSDirCollection::~CSDirCollection()
  */
 QIcon CSDirCollection::getDisplayIcon() const
 {
-	return QIcon(":/icons/collections/directory.png");
+	return CSGUIUtils::getIconFromTheme("folder-sound");
 }
 
 /*!

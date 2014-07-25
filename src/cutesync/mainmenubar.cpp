@@ -21,8 +21,8 @@
 #include <QMenu>
 #include <QAction>
 #include <QApplication>
-#include <QIcon>
 
+#include "libcute/util/guiutils.h"
 #include "cutesync/dialogs/aboutdialog.h"
 
 /*!
@@ -43,25 +43,27 @@ CSMainMenuBar::CSMainMenuBar(QWidget *p)
 	fileMenu = addMenu(tr("&File"));
 
 	newCollectionAction = fileMenu->addAction(tr("&New Collection..."));
-	newCollectionAction->setIcon(QIcon(":/icons/new.png"));
+	newCollectionAction->setIcon(CSGUIUtils::getIconFromTheme("list-add"));
 	newCollectionAction->setShortcut(Qt::CTRL + Qt::Key_N);
 	newCollectionAction->setStatusTip(tr("Create a new collection"));
 
 	syncAction = fileMenu->addAction(tr("&Sync..."));
-	syncAction->setIcon(QIcon(":/icons/sync.png"));
+	syncAction->setIcon(
+		CSGUIUtils::getIconFromTheme("sync-synchronizing"));
 	syncAction->setShortcut(Qt::CTRL + Qt::Key_S);
 	syncAction->setStatusTip(tr("Sync two collections"));
 
 	removeCollectionAction = fileMenu->addAction(
 		tr("&Remove Collection..."));
-	removeCollectionAction->setIcon(QIcon(":/icons/remove.png"));
+	removeCollectionAction->setIcon(
+		CSGUIUtils::getIconFromTheme("list-remove"));
 	removeCollectionAction->setStatusTip(
 		tr("Remove the current collection"));
 
 	fileMenu->addSeparator();
 
 	exitAction = fileMenu->addAction(tr("E&xit"));
-	exitAction->setIcon(QIcon(":/icons/exit.png"));
+	exitAction->setIcon(CSGUIUtils::getIconFromTheme("application-exit"));
 	exitAction->setStatusTip(tr("Exit CuteSync"));
 
 	// Initialize the settings menu.
@@ -77,12 +79,13 @@ CSMainMenuBar::CSMainMenuBar(QWidget *p)
 	helpMenu = addMenu(tr("&Help"));
 
 	aboutCuteSyncAction = helpMenu->addAction(tr("&About CuteSync..."));
-	aboutCuteSyncAction->setIcon(QIcon(":/icons/about.png"));
+	aboutCuteSyncAction->setIcon(
+		CSGUIUtils::getIconFromTheme("help-about"));
 	aboutCuteSyncAction->setStatusTip(
 		tr("Display CuteSync's about dialog"));
 
 	aboutQtAction = helpMenu->addAction(tr("About &Qt..."));
-	aboutQtAction->setIcon(QIcon(":/icons/about.png"));
+	aboutQtAction->setIcon(CSGUIUtils::getIconFromTheme("help-about"));
 	aboutQtAction->setStatusTip(
 		tr("Display the Qt library's about dialog"));
 

@@ -28,6 +28,7 @@
 #include <QTimerEvent>
 
 #include "libcute/collections/abstractcollection.h"
+#include "libcute/util/guiutils.h"
 #include "libcute/util/systemutils.h"
 #include "cutesync/dialogs/inspector/inspectoraboutdialog.h"
 #include "cutesync/dialogs/inspector/inspectorcollectionconfigdialog.h"
@@ -205,7 +206,8 @@ void CSCollectionInspector::createGUI()
 
 	configButton = new QPushButton(tr("Options..."), actionsList);
 
-	sortButton = new QPushButton(QIcon(":/icons/inspector/configure.png"),
+	sortButton = new QPushButton(
+		CSGUIUtils::getIconFromTheme("preferences-other"),
 		QString(), actionsList);
 	sortButton->setToolTip(tr("Configure Inspector"));
 
