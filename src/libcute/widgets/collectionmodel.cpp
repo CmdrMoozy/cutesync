@@ -43,9 +43,24 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 {
 	threadPool = new CSCollectionThreadPool(this);
 
+	// Connect the thread pool's progress signals to our signals.
+
+	QObject::connect(threadPool, SIGNAL(jobStarted(const QString &)),
+		this, SIGNAL(jobStarted(const QString &)));
+	QObject::connect(threadPool, SIGNAL(progressLimitsUpdated(int, int)),
+		this, SIGNAL(progressLimitsUpdated(int, int)));
+	QObject::connect(threadPool, SIGNAL(progressUpdated(int)),
+		this, SIGNAL(progressUpdated(int)));
+	QObject::connect(threadPool, SIGNAL(jobFinished(const QString &)),
+		this, SIGNAL(jobFinished(const QString &)));
+
+	// Connect our actions to the thread pool's slots.
+
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), threadPool, SLOT(newCollection(
 		const QString &, const QString &, bool)));
+
+	// Connect the thread pool's result signals to our slots / signals.
 
 	QObject::connect(threadPool, SIGNAL(collectionCreated(
 		CSAbstractCollection *)), this, SLOT(doCollectionCreated(
