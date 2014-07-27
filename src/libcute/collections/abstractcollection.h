@@ -27,6 +27,8 @@
 #include <QHash>
 #include <QStringList>
 
+class QMutex;
+
 class CSCollectionModel;
 class CSTrack;
 class CSAbstractCollectionConfigWidget;
@@ -193,6 +195,7 @@ class CSAbstractCollection : public QAbstractTableModel
 		virtual QVariant headerData(int s, Qt::Orientation o,
 			int r = Qt::DisplayRole) const;
 
+		bool isInterruptible() const;
 		void setInterrupted(bool i);
 
 	public Q_SLOTS:
@@ -214,9 +217,14 @@ class CSAbstractCollection : public QAbstractTableModel
 		void quicksort(int l, int r) const;
 		int sortCmp(int ra, int rb) const;
 
+		void setInterruptible(bool i);
+
 	private Q_SLOTS:
 		void doConfigurationApply();
 		void doConfigurationReset();
+
+		void doJobStarted(const QString &j, bool i);
+		void doJobFinished(const QString &r);
 
 	/*
 	 * Static utility methods we provide. (Don't override these either.)
@@ -253,6 +261,8 @@ class CSAbstractCollection : public QAbstractTableModel
 		QString name;
 		bool modified;
 		bool enabled;
+		mutable QMutex *interruptibleMutex;
+		bool interruptible;
 		bool interrupted;
 		bool saveOnExit;
 		const DisplayDescriptor *displayDescriptor;

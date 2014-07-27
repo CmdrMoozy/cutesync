@@ -219,15 +219,30 @@ CSAbstractCollection *CSCollectionModel::collectionFromName(
  */
 void CSCollectionModel::removeCollectionAt(int i)
 {
-	if( (i < 0) || (i >= count()) )
+	CSAbstractCollection *c = collectionAt(i);
+
+	if(c == NULL)
+		return;
+
+	CSCollectionListItem *it = itemForCollection(c);
+
+	if(it == NULL)
 		return;
 
 	Q_EMIT beginResetModel();
+#pragma message "TODO - Lock the collection from starting any new jobs."
+	bool inter = c->isInterruptible();
 
-	itemList.at(i)->disconnect();
-	CSCollectionListItem *c = itemList.takeAt(i);
+	if(!inter)
+	{
+#pragma message "TODO - Prompt the user to ask if they want to remove anyway."
+	}
 
-	c->getCollection()->deleteLater();
+	itemList.removeAt(itemList.indexOf(it));
+
+	c->setInterrupted(true);
+
+	delete it;
 	c->deleteLater();
 
 	Q_EMIT endResetModel();
@@ -482,6 +497,24 @@ void CSCollectionModel::syncCollections(CSAbstractCollection *s,
 
 	d->syncFrom(s);
 
+}
+
+/*!
+ * This function returns the collection list item which represents the given
+ * collection in our model. If no such list item could be found, then we return
+ * NULL instead.
+ *
+ * \param c The collection to find an item for.
+ * \return A pointer to the list item representing the given collection.
+ */
+CSCollectionListItem *CSCollectionModel::itemForCollection(
+	const CSAbstractCollection *c)
+{
+	for(int i = 0; i < itemList.count(); ++i)
+		if(itemList.at(i)->getCollection() == c)
+			return itemList.at(i);
+
+	return NULL;
 }
 
 /*!

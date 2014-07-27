@@ -19,6 +19,8 @@
 #include "abstractcollection.h"
 
 #include <QDataStream>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollectionconfigwidget.h"
@@ -35,8 +37,15 @@
 CSAbstractCollection::CSAbstractCollection(
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
-		interrupted(false), saveOnExit(false), displayDescriptor(NULL)
+		interruptible(true), interrupted(false), saveOnExit(false),
+		displayDescriptor(NULL)
 {
+	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+
+	QObject::connect(this, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
 }
 
 /*!
@@ -49,8 +58,15 @@ CSAbstractCollection::CSAbstractCollection(
 CSAbstractCollection::CSAbstractCollection(const QString &n,
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
-		interrupted(false), saveOnExit(false), displayDescriptor(NULL)
+		interruptible(true), interrupted(false), saveOnExit(false),
+		displayDescriptor(NULL)
 {
+	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+
+	QObject::connect(this, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
 }
 
 /*!
@@ -63,8 +79,15 @@ CSAbstractCollection::CSAbstractCollection(const QString &n,
 CSAbstractCollection::CSAbstractCollection(
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
-		interrupted(false), saveOnExit(false), displayDescriptor(d)
+		interruptible(true), interrupted(false), saveOnExit(false),
+		displayDescriptor(d)
 {
+	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+
+	QObject::connect(this, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
 }
 
 /*!
@@ -80,6 +103,12 @@ CSAbstractCollection::CSAbstractCollection(const QString &n,
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
 		interrupted(false), saveOnExit(false), displayDescriptor(d)
 {
+	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+
+	QObject::connect(this, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
 }
 
 /*!
@@ -655,6 +684,21 @@ QVariant CSAbstractCollection::headerData(
 }
 
 /*!
+ * This function returns whether or not whatever current action is being
+ * performed by this object is gracefully interruptible.
+ *
+ * \return Whether or not our current action is interruptible.
+ */
+bool CSAbstractCollection::isInterruptible() const
+{
+	interruptibleMutex->lock();
+	bool i = interruptible;
+	interruptibleMutex->unlock();
+
+	return i;
+}
+
+/*!
  * This function sets whether or not our current job has been interrupted. If
  * you interrupt a job, then the job is expected to notice and halt itself
  * after some reasonably short amount of time. Note that this will work
@@ -946,6 +990,18 @@ int CSAbstractCollection::sortCmp(int ra, int rb) const
 }
 
 /*!
+ * This function sets our internal interruptible status to the given value.
+ * This function is completely thread-safe.
+ *
+ * \param i The new interruptible status for this object.
+ */
+void CSAbstractCollection::setInterruptible(bool i)
+{
+	QMutexLocker locker(interruptibleMutex);
+	interruptible = i;
+}
+
+/*!
  * This slot handles one of our configuration widgets requesting that its
  * current state be applied to our collection.
  */
@@ -976,6 +1032,33 @@ void CSAbstractCollection::doConfigurationReset()
 	{
 		w->setSaveState(isSavedOnExit());
 	}
+
+}
+
+/*!
+ * This function handles our own jobStarted() signal being emitted by updating
+ * our internal interruptible status to the reported value.
+ *
+ * \param j The job description (UNUSED).
+ * \param i The new interruptible status for this object.
+ */
+void CSAbstractCollection::doJobStarted(const QString &UNUSED(j), bool i)
+{ /* SLOT */
+
+	setInterruptible(i);
+
+}
+
+/*!
+ * This function handles our own jobFinished() signal by resetting our internal
+ * interruptible status back to true.
+ *
+ * \param r The result string for the job (UNUSED).
+ */
+void CSAbstractCollection::doJobFinished(const QString &UNUSED(r))
+{ /* SLOT */
+
+	setInterruptible(true);
 
 }
 

@@ -134,6 +134,7 @@ void CSCollectionInspector::setCollection(CSAbstractCollection *c)
 { /* SLOT */
 
 	// Disconnect our old collection.
+
 	if(collection != NULL)
 		collection->disconnect(this);
 

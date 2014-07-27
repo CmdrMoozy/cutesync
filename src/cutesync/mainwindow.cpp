@@ -310,34 +310,14 @@ void CSMainWindow::doSync()
 void CSMainWindow::doRemoveCollection()
 { /* SLOT */
 
-//TODO - We need to stop the collection from doing anything else.
-	/*
 	int r = collectionsListWidget->getSelectedRow();
+
 	if(r == -1)
 		return;
 
-	CSAbstractCollection *c = collectionsListModel->collectionAt(r);
-	if(c == NULL)
-		return;
-
-	c->setEnabled(false);
-
-	/
-	 * Collections shouldn't be active; active collections are not
-	 * clickable, but check anyway.
-	 /
-
-	if(c->isActive())
-	{
-		QMessageBox::critical(this, tr("Error Removing Collection"),
-			tr("The collection specified is still active. Wait for it to finish to remove it."));
-
-		return;
-	}
-
-	c->flush();
+	collectionInspector->setCollection(NULL);
 	collectionsListModel->removeCollectionAt(r);
-	*/
+
 }
 
 /*!

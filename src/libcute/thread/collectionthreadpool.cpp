@@ -85,7 +85,7 @@ bool CSCollectionThreadPool::isInterruptible()
 bool CSCollectionThreadPool::stopGracefully()
 {
 	bool i = isInterruptible();
-
+#pragma message "TODO - Lock all collections from starting new jobs."
 	if(!i)
 	{
 #pragma message "TODO - Prompt the user to interrupt this dangerous job."

@@ -78,6 +78,9 @@ class CSCollectionModel : public QAbstractListModel
 		CSCollectionThreadPool *threadPool;
 		QList<CSCollectionListItem *> itemList;
 
+		CSCollectionListItem *itemForCollection(
+			const CSAbstractCollection *c);
+
 	private Q_SLOTS:
 		void doCollectionEnabledChanged();
 
