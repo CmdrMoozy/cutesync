@@ -195,6 +195,9 @@ class CSAbstractCollection : public QAbstractTableModel
 
 		void setInterrupted(bool i);
 
+	public Q_SLOTS:
+		void setInterrupted();
+
 	protected:
 		QList<CSTrack *> allTracks() const;
 		CSTrack *trackAt(int r) const;

@@ -57,6 +57,8 @@ class CSCollectionThreadPool : public QObject
 		void doJobFinished(const QString &r);
 
 	Q_SIGNALS:
+		void interruptAllJobs();
+
 		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);
 		void progressUpdated(int);

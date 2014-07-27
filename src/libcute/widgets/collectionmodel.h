@@ -63,6 +63,8 @@ class CSCollectionModel : public QAbstractListModel
 
 		QList<QVariant> getSerializedList() const;
 
+		void stopGracefully();
+
 	public Q_SLOTS:
 		void loadSerializedList(const QList<QVariant> &c);
 		void newCollection(const QString &n, const QString &p, bool s);

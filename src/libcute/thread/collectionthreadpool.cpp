@@ -86,6 +86,16 @@ bool CSCollectionThreadPool::stopGracefully()
 {
 	bool i = isInterruptible();
 
+	if(!i)
+	{
+#pragma message "TODO - Prompt the user to interrupt this dangerous job."
+	}
+
+	Q_EMIT(interruptAllJobs());
+
+	thread->quit();
+	thread->wait();
+
 	return true;
 }
 
@@ -106,7 +116,8 @@ void CSCollectionThreadPool::newCollection(const QString &n,
 void CSCollectionThreadPool::doCollectionCreated(CSAbstractCollection *c)
 { /* SLOT */
 
-//TODO - connect our "interrupt" signal to the collection's "setInterrupted()" slot
+	QObject::connect(this, SIGNAL(interruptAllJobs()),
+		c, SLOT(setInterrupted()));
 
 }
 

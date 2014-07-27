@@ -177,6 +177,10 @@ CSMainWindow::~CSMainWindow()
  */
 void CSMainWindow::closeEvent(QCloseEvent *e)
 {
+	// Stop our worker thread(s).
+
+	collectionsListModel->stopGracefully();
+
 	// Save everything.
 
 	settingsManager->setSetting("display-descriptor",

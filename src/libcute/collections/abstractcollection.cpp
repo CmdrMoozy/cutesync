@@ -670,6 +670,18 @@ void CSAbstractCollection::setInterrupted(bool i)
 }
 
 /*!
+ * This function sets our current job as being "interrupted". This is
+ * equivalent to calling setInterrupted(true), except that, since it is a slot,
+ * it can be safely called from other threads.
+ */
+void CSAbstractCollection::setInterrupted()
+{ /* SLOT */
+
+	setInterrupted(true);
+
+}
+
+/*!
  * This is a utility function for our subclasses which returns a list of all of
  * our tracks, in an arbitrary order. This is useful if the subclass, for
  * instance, needs to perform some action to ALL tracks, so using trackAt()
