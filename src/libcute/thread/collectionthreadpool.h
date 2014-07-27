@@ -27,6 +27,12 @@ class QMutex;
 class CSCollectionTypeResolver;
 class CSAbstractCollection;
 
+/*!
+ * \brief This class manages a pool of worker threads for our application.
+ *
+ * We deal with creating collections and moving them to an appropriate worker
+ * thread, as well as gracefully stopping collection actions.
+ */
 class CSCollectionThreadPool : public QObject
 {
 	Q_OBJECT

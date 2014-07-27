@@ -24,8 +24,6 @@
 
 /*!
  * This is our default constructor, which creates a new configuration widget.
- *
- * \param t The GUI thread for our widget.
  */
 CSIPodCollectionConfigWidget::CSIPodCollectionConfigWidget()
 	: CSAbstractCollectionConfigWidget()

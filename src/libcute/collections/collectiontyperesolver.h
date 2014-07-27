@@ -44,13 +44,13 @@ class CSCollectionTypeResolver : public QObject
 		CSCollectionTypeResolver(QObject *p = 0);
 		virtual ~CSCollectionTypeResolver();
 
-	private:
-		CSAbstractCollection *createCollection(const QString &n,
-			const QString &p) const;
-
 	public Q_SLOTS:
 		void newCollection(const QString &n,
 			const QString &p, bool s);
+
+	private:
+		CSAbstractCollection *createCollection(const QString &n,
+			const QString &p) const;
 
 	private Q_SLOTS:
 		void doJobStarted(const QString &j, bool i);

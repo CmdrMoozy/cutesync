@@ -20,6 +20,13 @@
 
 #include "libcute/collections/abstractcollection.h"
 
+/*!
+ * This constructor creates a new collection list item which represents the
+ * given collection, with the given parent object.
+ *
+ * \param c The collection this item will represent.
+ * \param p Our parent object.
+ */
 CSCollectionListItem::CSCollectionListItem(CSAbstractCollection *c,
 	QObject *p)
 	: QObject(p), collection(NULL)
@@ -27,15 +34,30 @@ CSCollectionListItem::CSCollectionListItem(CSAbstractCollection *c,
 	setCollection(c);
 }
 
+/*!
+ * This is our default destructor, which cleans up & destroys our object.
+ */
 CSCollectionListItem::~CSCollectionListItem()
 {
 }
 
+/*!
+ * This function returns a pointer to the collection our object is
+ * representing.
+ *
+ * \return The collection we're representing.
+ */
 CSAbstractCollection *CSCollectionListItem::getCollection()
 {
 	return collection;
 }
 
+/*!
+ * This function sets the collection our object is representing, disconnecting
+ * any old collections's signals from this object.
+ *
+ * \param c The new collection to represent.
+ */
 void CSCollectionListItem::setCollection(CSAbstractCollection *c)
 {
 	if(collection != NULL)

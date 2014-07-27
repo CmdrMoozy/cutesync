@@ -18,6 +18,9 @@
 
 #include "track.h"
 
+/*!
+ * This is our default destructor which cleans up & destroys our object.
+ */
 CSTrack::~CSTrack()
 {
 }

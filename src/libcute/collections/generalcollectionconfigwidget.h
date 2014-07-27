@@ -25,6 +25,9 @@ class QGridLayout;
 class QGroupBox;
 class QCheckBox;
 
+/*!
+ * \brief This class implements a very basic collection configuration widget.
+ */
 class CSGeneralCollectionConfigWidget :
 	public CSAbstractCollectionConfigWidget
 {

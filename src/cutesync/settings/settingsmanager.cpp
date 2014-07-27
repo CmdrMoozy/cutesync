@@ -61,11 +61,21 @@ CSSettingsManager::~CSSettingsManager()
 	delete settings;
 }
 
+/*!
+ * This function returns th enumber of settings keys this object is currently
+ * keeping track of.
+ *
+ * \return The number of settings keys.
+ */
 int CSSettingsManager::count() const
 {
 	return settings->allKeys().count();
 }
 
+/*!
+ * This function resets all of the settings in our settings manager back to
+ * their default values.
+ */
 void CSSettingsManager::resetDefaults()
 {
 	QMutexLocker locker(sync);
@@ -74,6 +84,12 @@ void CSSettingsManager::resetDefaults()
 		setSetting(defaults.at(i).first, defaults.at(i).second);
 }
 
+/*!
+ * This function resets the value of the given settings key back to its default
+ * value. If the given key is invalid, then no action is taken.
+ *
+ * \param k The settings key to reset back to its default value.
+ */
 void CSSettingsManager::resetDefault(const QString &k)
 {
 	QMutexLocker locker(sync);
@@ -88,6 +104,12 @@ void CSSettingsManager::resetDefault(const QString &k)
 	}
 }
 
+/*!
+ * This function sets a given setitng key to the given value.
+ *
+ * \param k The key whose value will be set.
+ * \param v The new value for the given settings key.
+ */
 void CSSettingsManager::setSetting(const QString &k, const QVariant &v)
 {
 	QMutexLocker locker(sync);
@@ -96,6 +118,13 @@ void CSSettingsManager::setSetting(const QString &k, const QVariant &v)
 	Q_EMIT settingChanged(k, v);
 }
 
+/*!
+ * This function returns whether or not our settings object currently contians
+ * a value for the given settings key.
+ *
+ * \param k The key to search for in our settings object.
+ * \return Whether or not our object contains a value for the given key.
+ */
 bool CSSettingsManager::containsSetting(const QString &k) const
 {
 	QMutexLocker locker(sync);
@@ -103,6 +132,14 @@ bool CSSettingsManager::containsSetting(const QString &k) const
 	return settings->contains(k);
 }
 
+/*!
+ * This function returns the current value for the given settings key. If the
+ * given key is invalid, then a default-constructed QVariant() is returned
+ * instead.
+ *
+ * \param k The key to search for in our settings object.
+ * \return The value associated with the given key.
+ */
 QVariant CSSettingsManager::getSetting(const QString &k) const
 {
 	QMutexLocker locker(sync);

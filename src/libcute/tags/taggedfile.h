@@ -34,9 +34,10 @@ extern "C" {
 /*!
  * \brief This class is a wrapper that extends the functionality of TagLib.
  *
- * We provide extra functionality that vanilla TagLib doesn't offer (or only offers with a large
- * amount of confusing code to retrieve it) such as: file information (size, extensions, paths, etc.)
- * and extra tagging information (track count, disc number/count, composer, etc.).
+ * We provide extra functionality that vanilla TagLib doesn't offer (or only
+ * offers with a large amount of confusing code to retrieve it) such as: file
+ * information (size, extensions, paths, etc.) and extra tagging information
+ * (track count, disc number/count, composer, etc.).
  */
 class CSTaggedFile
 {
@@ -60,8 +61,11 @@ class CSTaggedFile
 			Invalid
 		};
 
-		CSTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap = true,
-			TagLib::AudioProperties::ReadStyle aps = TagLib::AudioProperties::Average);
+		CSTaggedFile(const QString &p,
+			const TagLib::FileRef::FileTypeResolver &r,
+			bool ap = true,
+			TagLib::AudioProperties::ReadStyle aps =
+			TagLib::AudioProperties::Average);
 		virtual ~CSTaggedFile();
 
 		bool isNull() const;

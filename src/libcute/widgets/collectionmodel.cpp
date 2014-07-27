@@ -549,6 +549,12 @@ void CSCollectionModel::doCollectionEnabledChanged()
 
 }
 
+/*!
+ * This slot handles a new collection being created by appending that
+ * collection to our model.
+ *
+ * \param c The newly-created collection.
+ */
 void CSCollectionModel::doCollectionCreated(CSAbstractCollection *c)
 { /* SLOT */
 

@@ -26,6 +26,12 @@
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
 
+/*!
+ * This is our default constructor, which initializes a new thread pool with
+ * the given parent object.
+ *
+ * \param p Our parent object.
+ */
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	: QObject(p), interruptible(true)
 {
@@ -68,11 +74,22 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 		CSAbstractCollection *)));
 }
 
+/*!
+ * This is our default destructor, which cleans up and destroys our object.
+ */
 CSCollectionThreadPool::~CSCollectionThreadPool()
 {
 	delete resolver;
 }
 
+/*!
+ * This function returns whether or not our thread pool's currently executing
+ * job is easily interruptible. Jobs that aren't interruptible might include
+ * things like synchronizing collections, which can leave the destination
+ * collection in a semi-broken state if it is interrupted.
+ *
+ * \return Whether our not our current job is interruptible.
+ */
 bool CSCollectionThreadPool::isInterruptible()
 {
 	interruptibleMutex->lock();
@@ -82,6 +99,15 @@ bool CSCollectionThreadPool::isInterruptible()
 	return i;
 }
 
+/*!
+ * This function stops all of our threads gracefully. Note that this function
+ * will block until all of the threads have stopped.
+ *
+ * Note that, in certain circumstances, we prompt the user and allow them to
+ * abort the stop operation; hence our return value.
+ *
+ * \return True if we stopped gracefully, or false otherwise.
+ */
 bool CSCollectionThreadPool::stopGracefully()
 {
 	bool i = isInterruptible();
@@ -99,12 +125,27 @@ bool CSCollectionThreadPool::stopGracefully()
 	return true;
 }
 
+/*!
+ * This function sets whether or not our current job is interruptible. Note
+ * that this function is completely thread-safe.
+ *
+ * \param i The new interruptible status for our object.
+ */
 void CSCollectionThreadPool::setInterruptible(bool i)
 {
 	QMutexLocker locker(interruptibleMutex);
 	interruptible = i;
 }
 
+/*!
+ * This slot handles a request to create a new collection using the given
+ * details. This schedules a new collection action to be executed in a worker
+ * thread at the end of any current event queue.
+ *
+ * \param n The name of the new collection.
+ * \param p The path of the collection.
+ * \param s Whether or not the collection should be saved on exit.
+ */
 void CSCollectionThreadPool::newCollection(const QString &n,
 	const QString &p, bool s)
 { /* SLOT */
@@ -113,6 +154,12 @@ void CSCollectionThreadPool::newCollection(const QString &n,
 
 }
 
+/*!
+ * This function handles a new collection being created by connecting to some
+ * of its signals / slots.
+ *
+ * \param c The newly-created collection.
+ */
 void CSCollectionThreadPool::doCollectionCreated(CSAbstractCollection *c)
 { /* SLOT */
 
@@ -121,6 +168,13 @@ void CSCollectionThreadPool::doCollectionCreated(CSAbstractCollection *c)
 
 }
 
+/*!
+ * This function handles a new job being started by setting our interruptible
+ * status to the reported value.
+ *
+ * \param j The job's description (UNUSED).
+ * \param i Whether or not the job is interruptible.
+ */
 void CSCollectionThreadPool::doJobStarted(const QString &UNUSED(j), bool i)
 { /* SLOT */
 
@@ -128,6 +182,12 @@ void CSCollectionThreadPool::doJobStarted(const QString &UNUSED(j), bool i)
 
 }
 
+/*!
+ * This function handles a job being finished by resetting our interruptible
+ * state back to true.
+ *
+ * \param r The result of the job (UNUSED).
+ */
 void CSCollectionThreadPool::doJobFinished(const QString &UNUSED(r))
 { /* SLOT */
 

@@ -24,6 +24,12 @@
 
 class CSAbstractCollection;
 
+/*!
+ * \brief This class represents a collection in a list model.
+ *
+ * Because collections are run in a different thread than the GUI thread, this
+ * class exists to create a bridge between the collection and the GUI.
+ */
 class CSCollectionListItem : public QObject
 {
 	Q_OBJECT

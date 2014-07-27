@@ -44,34 +44,6 @@ CSCollectionTypeResolver::~CSCollectionTypeResolver()
 {
 }
 
-CSAbstractCollection *CSCollectionTypeResolver::createCollection(
-	const QString &n, const QString &p) const
-{
-	CSAbstractCollection *c = NULL;
-
-	/*
-	 * Check if it's an iPod collection - this implies
-	 * (path)/iPod_Control/iTunes/iTunesDB exists.
-	 */
-
-	QFileInfo itdb(QDir::cleanPath(p).append(
-		QString("/iPod_Control/iTunes/iTunesDB")
-		.replace('/', QDir::separator())));
-
-	if(itdb.exists())
-		c = new CSIPodCollection(n);
-
-	/*
-	 * If we didn't recognize it as anything special, treat it as simply
-	 * a directory collection.
-	 */
-
-	if(c == NULL)
-		c = new CSDirCollection(n);
-
-	return c;
-}
-
 /*!
  * This function provides our class's main functionality - namely, taking an
  * input name and path and creating the appropriate type of collection object
@@ -141,6 +113,42 @@ void CSCollectionTypeResolver::newCollection(const QString &n,
 
 	c->loadCollectionFromPath(p);
 
+}
+
+/*!
+ * This is a private utility function which creates a new collection using
+ * the given collection details. We resolve the type of the collection, and
+ * return an appropriate subclass of CSAbstractCollection.
+ *
+ * \param n The name of the collection.
+ * \param p The path of the collection.
+ */
+CSAbstractCollection *CSCollectionTypeResolver::createCollection(
+	const QString &n, const QString &p) const
+{
+	CSAbstractCollection *c = NULL;
+
+	/*
+	 * Check if it's an iPod collection - this implies
+	 * (path)/iPod_Control/iTunes/iTunesDB exists.
+	 */
+
+	QFileInfo itdb(QDir::cleanPath(p).append(
+		QString("/iPod_Control/iTunes/iTunesDB")
+		.replace('/', QDir::separator())));
+
+	if(itdb.exists())
+		c = new CSIPodCollection(n);
+
+	/*
+	 * If we didn't recognize it as anything special, treat it as simply
+	 * a directory collection.
+	 */
+
+	if(c == NULL)
+		c = new CSDirCollection(n);
+
+	return c;
 }
 
 /*!

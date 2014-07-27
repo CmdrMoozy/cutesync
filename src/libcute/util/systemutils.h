@@ -31,6 +31,9 @@
 	}
 #endif
 
+/*!
+ * \brief This class provides several OS-specific utility functions.
+ */
 class CSSystemUtils
 {
 	public:
@@ -40,13 +43,17 @@ class CSSystemUtils
 		static uint64_t getDeviceCapacity(const std::string &p);
 		static double getDeviceUsedPercent(const std::string &p);
 
-		static int64_t getFileCount(const std::string &p, bool r = true);
+		static int64_t getFileCount(const std::string &p,
+			bool r = true);
 
 	private:
 		#ifdef _WIN32
-			static int64_t getFileCountRec(HANDLE h, const std::string &p, WIN32_FIND_DATA e, bool r);
+			static int64_t getFileCountRec(HANDLE h,
+				const std::string &p, WIN32_FIND_DATA e,
+				bool r);
 		#else
-			static int64_t getFileCountRec(DIR *d, const std::string &p, struct stat *s, bool r);
+			static int64_t getFileCountRec(DIR *d,
+				const std::string &p, struct stat *s, bool r);
 		#endif
 };
 

@@ -47,7 +47,9 @@ extern "C" {
  * \param ap Whether or not we should read audio properties.
  * \param aps How accurate (but slow) audio property reading should be.
  */
-CSTaggedFile::CSTaggedFile(const QString &p, const TagLib::FileRef::FileTypeResolver &r, bool ap, TagLib::AudioProperties::ReadStyle aps)
+CSTaggedFile::CSTaggedFile(const QString &p,
+	const TagLib::FileRef::FileTypeResolver &r, bool ap,
+	TagLib::AudioProperties::ReadStyle aps)
 	: file(NULL), info(NULL)
 {
 	file = r.createFile(p.toUtf8().data(), ap, aps);
@@ -65,8 +67,9 @@ CSTaggedFile::~CSTaggedFile()
 }
 
 /*!
- * This function tests whether our file is NULL. If it is indeed NULL, then either the path you
- * provided was invalid, or it was a file type your resolver didn't recognize.
+ * This function tests whether our file is NULL. If it is indeed NULL, then
+ * either the path you provided was invalid, or it was a file type your
+ * resolver didn't recognize.
  *
  * \return True if we are NULL, or false otherwise.
  */
@@ -76,7 +79,8 @@ bool CSTaggedFile::isNull() const
 }
 
 /*!
- * This function tests whether or not our loaded file has any audio properties associated with it.
+ * This function tests whether or not our loaded file has any audio properties
+ * associated with it.
  *
  * \return True if we have audio properties, or false otherwise.
  */
@@ -87,10 +91,11 @@ bool CSTaggedFile::hasAudioProperties() const
 }
 
 /*!
- * This function returns what type of file we have loaded. By default this class supports any file type
- * that TagLib supports, but you can subclass us to extend that support. Note that if we are NULL, then a
- * type of Invalid is returned. If we loaded the file successfully but it isn't a subclass we recognize,
- * then a type of Other is returned.
+ * This function returns what type of file we have loaded. By default this
+ * class supports any file type that TagLib supports, but you can subclass us
+ * to extend that support. Note that if we are NULL, then a type of Invalid is
+ * returned. If we loaded the file successfully but it isn't a subclass we
+ * recognize, then a type of Other is returned.
  *
  * \return The type of file we are referencing.
  */
@@ -129,7 +134,8 @@ CSTaggedFile::FileType CSTaggedFile::getFileType() const
 }
 
 /*!
- * This is a convenience function which returns the appropriate file extension for our current file type.
+ * This is a convenience function which returns the appropriate file extension
+ * for our current file type.
  *
  * \return Our file extension.
  */
@@ -156,9 +162,9 @@ QString CSTaggedFile::getFileExtension() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then QString() is returned instead. Note that the string returned will
- * be UTF-8.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then QString() is returned instead. Note that
+ * the string returned will be UTF-8.
  *
  * \return Our file's title.
  */
@@ -169,9 +175,9 @@ QString CSTaggedFile::getTitle() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then QString() is returned instead. Note that the string returned will
- * be UTF-8.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then QString() is returned instead. Note that
+ * the string returned will be UTF-8.
  *
  * \return Our file's artist.
  */
@@ -182,9 +188,9 @@ QString CSTaggedFile::getArtist() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then QString() is returned instead. Note that the string returned will
- * be UTF-8.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then QString() is returned instead. Note that
+ * the string returned will be UTF-8.
  *
  * \return Our file's album.
  */
@@ -195,9 +201,9 @@ QString CSTaggedFile::getAlbum() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then QString() is returned instead. Note that the string returned will
- * be UTF-8.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then QString() is returned instead. Note that
+ * the string returned will be UTF-8.
  *
  * \return Our file's comment.
  */
@@ -208,9 +214,9 @@ QString CSTaggedFile::getComment() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then QString() is returned instead. Note that the string returned will
- * be UTF-8.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then QString() is returned instead. Note that
+ * the string returned will be UTF-8.
  *
  * \return Our file's genre.
  */
@@ -221,8 +227,8 @@ QString CSTaggedFile::getGenre() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's year.
  */
@@ -233,8 +239,8 @@ int CSTaggedFile::getYear() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::Tag.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::Tag. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's track number.
  */
@@ -245,8 +251,8 @@ int CSTaggedFile::getTrackNumber() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::AudioProperties.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::AudioProperties. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's length, in SECONDS.
  */
@@ -257,8 +263,8 @@ int CSTaggedFile::getTrackLength() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::AudioProperties.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::AudioProperties. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's bitrate.
  */
@@ -269,8 +275,8 @@ int CSTaggedFile::getBitrate() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::AudioProperties.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::AudioProperties. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's sample rate.
  */
@@ -281,8 +287,8 @@ int CSTaggedFile::getSampleRate() const
 }
 
 /*!
- * This is one of our retrieval functions that provide the same interface as TagLib::AudioProperties.
- * If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide the same interface as
+ * TagLib::AudioProperties. If we are NULL, then 0 is returned instead.
  *
  * \return Our track's number of channels.
  */
@@ -293,8 +299,9 @@ int CSTaggedFile::getChannels() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return The absolute path to the directory our file is in.
  */
@@ -305,8 +312,9 @@ QString CSTaggedFile::getAbsoluteDir() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return The absolute path to the file itself.
  */
@@ -317,8 +325,9 @@ QString CSTaggedFile::getAbsolutePath() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return The filename portion of our file's path, including extensions.
  */
@@ -329,8 +338,9 @@ QString CSTaggedFile::getFileName() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return The filename portion of our file's path, EXCLUDING extensions.
  */
@@ -341,8 +351,9 @@ QString CSTaggedFile::getBaseName() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return The right-most file extension of our file.
  */
@@ -353,8 +364,9 @@ QString CSTaggedFile::getSuffix() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then QString() is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then QString() is returned instead.
  *
  * \return Our file's complete file extension (everything after the first '.').
  */
@@ -365,8 +377,9 @@ QString CSTaggedFile::getCompleteSuffix() const
 }
 
 /*!
- * This is one of our retrieval functions that provide information about the file itself that isn't
- * normally accessible via vanilla TagLib. If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that provide information about the
+ * file itself that isn't normally accessible via vanilla TagLib. If we are
+ * NULL, then 0 is returned instead.
  *
  * \return The size of our file, in BYTES.
  */
@@ -377,10 +390,12 @@ uint64_t CSTaggedFile::getSize() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then 0 is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -397,37 +412,63 @@ int CSTaggedFile::getDiscNumber() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the disc number.
+
 				if(tag->itemListMap().contains("disk"))
-					return tag->itemListMap()["disk"].toIntPair().first;
+				{
+					return tag->itemListMap()
+						["disk"].toIntPair().first;
+				}
 				else
+				{
 					return 0;
+				}
 			}
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make all's well.
 
 				int cdn;
 				bool ok;
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return 0;
-				if(sf->ID3v2Tag() == NULL) return 0;
+				if(sf == NULL)
+					return 0;
+
+				if(sf->ID3v2Tag() == NULL)
+					return 0;
 
 				// Retrieve the tag frame we want - TPOS.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TPOS"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TPOS"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(
+					framelist.front()->toString()
+					.toCString(true));
 
 				// Look for a '/' character in the tag frame.
 
@@ -445,13 +486,21 @@ int CSTaggedFile::getDiscNumber() const
 
 				if(pos != -1)
 				{
-					// We found a '/', so the tag is in the format "CD Number/CD Count".
+					/*
+					 * We found a '/', so the tag is in the
+					 * format "CD Number/CD Count".
+					 */
+
 					cdn = s.left(pos).toInt(&ok);
 					if(!ok) return 0;
 				}
 				else
 				{
-					// No '/', so the tag is assumed to represent solely the CD number.
+					/*
+					 * No '/', so the tag is assumed to
+					 * represent solely the CD number.
+					 */
+
 					cdn = s.toInt(&ok);
 					if(!ok) return 0;
 				}
@@ -467,10 +516,12 @@ int CSTaggedFile::getDiscNumber() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then 0 is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -487,38 +538,60 @@ int CSTaggedFile::getDiscCount() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the disc count.
+
 				if(tag->itemListMap().contains("disk"))
-					return tag->itemListMap()["disk"].toIntPair().second;
+				{
+					return tag->itemListMap()["disk"]
+						.toIntPair().second;
+				}
 				else
+				{
 					return 0;
+				}
 			}
 			break;
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
 				int cdc;
 				bool ok;
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
 				if(sf == NULL) return 0;
 				if(sf->ID3v2Tag() == NULL) return 0;
 
 				// Retrieve the tag frame we want - TPOS.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TPOS"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TPOS"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Look for a '/' character in the tag frame.
 
@@ -536,13 +609,25 @@ int CSTaggedFile::getDiscCount() const
 
 				if(pos != -1)
 				{
-					// We found a '/', so the tag is in the format "CD Number/CD Count".
-					cdc = s.right(s.length() - (pos+1)).toInt(&ok);
-					if(!ok) return 0;
+					/*
+					 * We found a '/', so the tag is in the
+					 * format "CD Number/CD Count".
+					 */
+
+					cdc = s.right(s.length() -
+						(pos+1)).toInt(&ok);
+
+					if(!ok)
+						return 0;
 				}
 				else
 				{
-					// No '/', so the tag is assumed to represent solely the CD number - nothing to return.
+					/*
+					 * No '/', so the tag is assumed to
+					 * represent solely the CD number -
+					 * nothing to return.
+					 */
+
 					return 0;
 				}
 
@@ -564,10 +649,12 @@ int CSTaggedFile::getDiscCount() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then 0 is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then 0 is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -584,38 +671,62 @@ int CSTaggedFile::getTrackCount() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the track count.
 				if(tag->itemListMap().contains("trkn"))
-					return tag->itemListMap()["trkn"].toIntPair().second;
+				{
+					return tag->itemListMap()["trkn"]
+						.toIntPair().second;
+				}
 				else
+				{
 					return 0;
+				}
 			}
 			break;
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
 				int tc;
 				bool ok;
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return 0;
-				if(sf->ID3v2Tag() == NULL) return 0;
+				if(sf == NULL)
+					return 0;
+
+				if(sf->ID3v2Tag() == NULL)
+					return 0;
 
 				// Retrieve the tag frame we want - TRCK.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TRCK"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TRCK"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Look for a '/' character in the tag frame.
 
@@ -633,13 +744,25 @@ int CSTaggedFile::getTrackCount() const
 
 				if(pos != -1)
 				{
-					// We found a '/', so the tag is in the format "CD Number/CD Count".
-					tc = s.right(s.length() - (pos+1)).toInt(&ok);
-					if(!ok) return 0;
+					/*
+					 * We found a '/', so the tag is in the
+					 * format "CD Number/CD Count".
+					 */
+
+					tc = s.right(s.length() -
+						(pos+1)).toInt(&ok);
+
+					if(!ok)
+						return 0;
 				}
 				else
 				{
-					// No '/', so the tag is assumed to represent solely track number - nothing to return.
+					/*
+					 * No '/', so the tag is assumed to
+					 * represent solely track number -
+					 * nothing to return.
+					 */
+
 					return 0;
 				}
 
@@ -661,10 +784,12 @@ int CSTaggedFile::getTrackCount() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -681,36 +806,62 @@ QString CSTaggedFile::getComposer() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
 				if(tag == NULL) return 0;
 
 				// Grab the composer.
+
 				if(tag->itemListMap().contains("@wrt"))
-					return QString::fromUtf8(tag->itemListMap()["@wrt"].toStringList().toString().toCString(true));
+				{
+					return QString::fromUtf8(
+						tag->itemListMap()["@wrt"]
+						.toStringList().toString()
+						.toCString(true));
+				}
 				else
+				{
 					return "";
+				}
 			}
 			break;
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's good.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return "";
-				if(sf->ID3v2Tag() == NULL) return "";
+				if(sf == NULL)
+					return "";
+
+				if(sf->ID3v2Tag() == NULL)
+					return "";
 
 				// Retrieve the tag frame we want - TCOM.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TCOM"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TCOM"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Return our result.
 
@@ -730,10 +881,12 @@ QString CSTaggedFile::getComposer() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -750,36 +903,63 @@ QString CSTaggedFile::getCopyright() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the copyright information.
+
 				if(tag->itemListMap().contains("cprt"))
-					return QString::fromUtf8(tag->itemListMap()["cprt"].toStringList().toString().toCString(true));
+				{
+					return QString::fromUtf8(
+						tag->itemListMap()["cprt"]
+						.toStringList().toString()
+						.toCString(true));
+				}
 				else
+				{
 					return "";
+				}
 			}
 			break;
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return "";
-				if(sf->ID3v2Tag() == NULL) return "";
+				if(sf == NULL)
+					return "";
+
+				if(sf->ID3v2Tag() == NULL)
+					return "";
 
 				// Retrieve the tag frame we want - TCOP.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TCOP"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TCOP"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Return our result.
 
@@ -799,13 +979,16 @@ QString CSTaggedFile::getCopyright() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
- *     - MP4 (i.e., AAC/ALAC) - NOTE: This format doesn't store a URL field, so an empty string is always returned.
+ *     - MP4 (i.e., AAC/ALAC) - NOTE: This format doesn't store a URL field, so
+ *       an empty string is always returned.
  *     - MPEG (i.e., MP3/etc.)
  *
  * \return The track's user-specified URL.
@@ -824,19 +1007,28 @@ QString CSTaggedFile::getURL() const
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return "";
-				if(sf->ID3v2Tag() == NULL) return "";
+				if(sf == NULL)
+					return "";
+
+				if(sf->ID3v2Tag() == NULL)
+					return "";
 
 				// Retrieve the tag frame we want - WXXX.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["WXXX"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["WXXX"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Return our result.
 
@@ -856,10 +1048,12 @@ QString CSTaggedFile::getURL() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
@@ -876,36 +1070,63 @@ QString CSTaggedFile::getEncodedBy() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the encoded by information.
+
 				if(tag->itemListMap().contains("@enc"))
-					return QString::fromUtf8(tag->itemListMap()["©enc"].toStringList().toString().toCString(true));
+				{
+					return QString::fromUtf8(
+						tag->itemListMap()["©enc"]
+						.toStringList().toString()
+						.toCString(true));
+				}
 				else
+				{
 					return "";
+				}
 			}
 			break;
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return "";
-				if(sf->ID3v2Tag() == NULL) return "";
+				if(sf == NULL)
+					return "";
+
+				if(sf->ID3v2Tag() == NULL)
+					return "";
 
 				// Retrieve the tag frame we want - TENC.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TENC"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TENC"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Return our result.
 
@@ -925,13 +1146,16 @@ QString CSTaggedFile::getEncodedBy() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
- *     - MP4 (i.e., AAC/ALAC) - NOTE: This format doesn't store an original artist field, so an empty string is always returned.
+ *     - MP4 (i.e., AAC/ALAC) - NOTE: This format doesn't store an original
+ *       artist field, so an empty string is always returned.
  *     - MPEG (i.e., MP3/etc.)
  *
  * \return The track's "original artist."
@@ -950,19 +1174,28 @@ QString CSTaggedFile::getOriginalArtist() const
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return "";
-				if(sf->ID3v2Tag() == NULL) return "";
+				if(sf == NULL)
+					return "";
+
+				if(sf->ID3v2Tag() == NULL)
+					return "";
 
 				// Retrieve the tag frame we want - TOPE.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["TOPE"];
-				if(framelist.isEmpty()) return 0;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["TOPE"];
 
-				QString s = QString::fromUtf8(framelist.front()->toString().toCString(true));
+				if(framelist.isEmpty())
+					return 0;
+
+				QString s = QString::fromUtf8(framelist
+					.front()->toString().toCString(true));
 
 				// Return our result.
 
@@ -982,14 +1215,17 @@ QString CSTaggedFile::getOriginalArtist() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
- *     - MPEG (i.e., MP3/etc.) - NOTE: This format doesn't store a keywords field, so an empty string is always returned.
+ *     - MPEG (i.e., MP3/etc.) - NOTE: This format doesn't store a keywords
+ *       field, so an empty string is always returned.
  *
  * \return The track's keywords.
  */
@@ -1002,18 +1238,36 @@ QString CSTaggedFile::getKeywords() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the keywords.
+
 				if(tag->itemListMap().contains("keyw"))
-					return QString::fromUtf8(tag->itemListMap()["keyw"].toStringList().toString().toCString(true));
+				{
+					return QString::fromUtf8(
+						tag->itemListMap()["keyw"]
+						.toStringList().toString()
+						.toCString(true));
+				}
 				else
+				{
 					return "";
+				}
 			}
 			break;
 
@@ -1035,14 +1289,17 @@ QString CSTaggedFile::getKeywords() const
 }
 
 /*!
- * This is one of our retrieval functions that gather information that is technically available via TagLib,
- * but that is hard to get to because it isn't available via the common TagLib::Tag API for all formats.
- * Because of this, not all formats are supported -- if you need to support a weird format, then you should
- * subclass us and override this function. If we are NULL, then an empty string is returned instead.
+ * This is one of our retrieval functions that gather information that is
+ * technically available via TagLib, but that is hard to get to because it
+ * isn't available via the common TagLib::Tag API for all formats. Because of
+ * this, not all formats are supported -- if you need to support a weird
+ * format, then you should subclass us and override this function. If we are
+ * NULL, then an empty string is returned instead.
  *
  * Formats currently supported:
  *     - MP4 (i.e., AAC/ALAC)
- *     - MPEG (i.e., MP3/etc.) - NOTE: This format doesn't store an album artist field, so an empty string is always returned.
+ *     - MPEG (i.e., MP3/etc.) - NOTE: This format doesn't store an album
+ *       artist field, so an empty string is always returned.
  *
  * \return The artist for the album this track is on.
  */
@@ -1055,18 +1312,36 @@ QString CSTaggedFile::getAlbumArtist() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return 0;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return 0;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return 0;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return 0;
 
 				// Grab the album artist.
+
 				if(tag->itemListMap().contains("aART"))
-					return QString::fromUtf8(tag->itemListMap()["aART"].toStringList().toString().toCString(true));
+				{
+					return QString::fromUtf8(
+						tag->itemListMap()["aART"]
+						.toStringList().toString()
+						.toCString(true));
+				}
 				else
+				{
 					return "";
+				}
 			}
 			break;
 
@@ -1088,11 +1363,13 @@ QString CSTaggedFile::getAlbumArtist() const
 }
 
 /*!
- * This function returns, as a GdkPixbuf object, the embedded cover artwork in this file. If the file doesn't contain any
- * embedded artwork, NULL is returned instead. Note that different formats do embedded artwork differently, so this function
- * is format-specific.
+ * This function returns, as a GdkPixbuf object, the embedded cover artwork in
+ * this file. If the file doesn't contain any embedded artwork, NULL is
+ * returned instead. Note that different formats do embedded artwork
+ * differently, so this function is format-specific.
  *
- * Note that it is up to the caller to free the memory occupied by the returned pixbuf object.
+ * Note that it is up to the caller to free the memory occupied by the returned
+ * pixbuf object.
  *
  * Formats currently supported:
  *      - MP4 (i.e., AAC/ALAC)
@@ -1111,20 +1388,32 @@ gpointer CSTaggedFile::getCoverArtwork() const
 		case CSTaggedFile::MP4:
 			{
 				// Try casting the file pointer.
-				TagLib::MP4::File *sf = dynamic_cast<TagLib::MP4::File *>(file);
-				if(sf == NULL) return NULL;
+
+				TagLib::MP4::File *sf =
+					dynamic_cast<TagLib::MP4::File *>(
+					file);
+
+				if(sf == NULL)
+					return NULL;
 
 				// Try retrieving its format-specific tags.
-				TagLib::MP4::Tag *tag = dynamic_cast<TagLib::MP4::Tag *>(sf->tag());
-				if(tag == NULL) return NULL;
+
+				TagLib::MP4::Tag *tag =
+					dynamic_cast<TagLib::MP4::Tag *>(
+					sf->tag());
+
+				if(tag == NULL)
+					return NULL;
 
 				// Try to grab the cover art from the file.
 
 				if(tag->itemListMap().contains("covr"))
 				{
-					TagLib::List<TagLib::MP4::CoverArt> covr = tag->itemListMap()["covr"].toCoverArtList();
+					TagLib::List<TagLib::MP4::CoverArt>
+						covr = tag->itemListMap()
+						["covr"].toCoverArtList();
 
-					// We expect only a single cover art item in a file.
+					// Expect only a 1 cover item in a file.
 
 					if(covr.size() != 1)
 						return NULL;
@@ -1142,41 +1431,62 @@ gpointer CSTaggedFile::getCoverArtwork() const
 
 		case CSTaggedFile::MPEG:
 			{
-				// Setup our variables and make sure everything is kosher.
+				// Setup our variables and make sure all's well.
 
-				TagLib::MPEG::File *sf = dynamic_cast<TagLib::MPEG::File *>(file);
+				TagLib::MPEG::File *sf =
+					dynamic_cast<TagLib::MPEG::File *>(
+					file);
 
-				if(sf == NULL) return NULL;
-				if(sf->ID3v2Tag() == NULL) return NULL;
+				if(sf == NULL)
+					return NULL;
+
+				if(sf->ID3v2Tag() == NULL)
+					return NULL;
 
 				// Retrieve the tag frame we want - APIC.
 
-				TagLib::ID3v2::FrameList framelist = sf->ID3v2Tag()->frameListMap()["APIC"];
-				TagLib::List<TagLib::ID3v2::AttachedPictureFrame *> covr;
+				TagLib::ID3v2::FrameList framelist =
+					sf->ID3v2Tag()->frameListMap()["APIC"];
+				TagLib::List<TagLib::ID3v2::AttachedPictureFrame *>
+					covr;
 				TagLib::ID3v2::AttachedPictureFrame *apic;
 
-				// Look for pictures with the type FrontCover first.
+				// Look for FrontCover images first.
 
 				for(uint32_t i = 0; i < framelist.size(); ++i)
 				{
-					apic = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(framelist[i]);
+					apic = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(
+						framelist[i]);
 
 					if(apic != NULL)
-						if(apic->type() == TagLib::ID3v2::AttachedPictureFrame::FrontCover)
+					{
+						if(apic->type() ==
+							TagLib::ID3v2::AttachedPictureFrame::FrontCover)
+						{
 							covr.append(apic);
+						}
+					}
 				}
 
 				if(covr.size() == 0)
 				{
-					// Try looking for "Other" pictures as a fallback.
+					// Fallback to "Other" pictures.
 
-					for(uint32_t i = 0; i < framelist.size(); ++i)
+					for(uint32_t i = 0;
+						i < framelist.size(); ++i)
 					{
-						apic = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(framelist[i]);
+						apic =
+							dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(
+							framelist[i]);
 
 						if(apic != NULL)
-							if(apic->type() == TagLib::ID3v2::AttachedPictureFrame::Other)
+						{
+							if(apic->type() ==
+								TagLib::ID3v2::AttachedPictureFrame::Other)
+							{
 								covr.append(apic);
+							}
+						}
 					}
 				}
 
@@ -1204,9 +1514,12 @@ gpointer CSTaggedFile::getCoverArtwork() const
 	if(!data.isEmpty())
 	{
 		GError *error = NULL;
-		GInputStream *reader = g_memory_input_stream_new_from_data(data.data(), data.size(), NULL);
+		GInputStream *reader = g_memory_input_stream_new_from_data(
+			data.data(), data.size(), NULL);
 
-		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_stream(reader, NULL, &error);
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_stream(
+			reader, NULL, &error);
+
 		if(error != NULL)
 		{
 			g_error_free(error);
