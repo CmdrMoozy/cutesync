@@ -85,7 +85,7 @@ class CSMainWindow : public QMainWindow
 		void doRemoveCollection();
 		void doResetSettings();
 
-		void doWorkerJobStarted(const QString &j);
+		void doWorkerJobStarted(const QString &j, bool i);
 		void doWorkerProgressLimitsUpdated(int min, int max);
 		void doWorkerProgressUpdated(int p);
 		void doWorkerJobFinished(const QString &r);

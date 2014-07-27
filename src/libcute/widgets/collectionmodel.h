@@ -86,7 +86,7 @@ class CSCollectionModel : public QAbstractListModel
 
 		void startNew(const QString &, const QString &, bool);
 
-		void jobStarted(const QString &);
+		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);
 		void progressUpdated(int);
 		void jobFinished(const QString &);

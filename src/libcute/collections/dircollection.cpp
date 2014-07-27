@@ -150,8 +150,7 @@ QString CSDirCollection::getAboutText() const
  */
 bool CSDirCollection::loadCollectionFromPath(const QString &p, bool f)
 {
-	setInterruptible(true);
-	Q_EMIT jobStarted(tr("Loading collection from path..."));
+	Q_EMIT jobStarted(tr("Loading collection from path..."), true);
 
 	// Clear the old collection.
 	clear(f);
@@ -211,8 +210,7 @@ bool CSDirCollection::loadCollectionFromPath(const QString &p, bool f)
  */
 bool CSDirCollection::refresh()
 {
-	setInterruptible(true);
-	Q_EMIT jobStarted(tr("Refreshing collection..."));
+	Q_EMIT jobStarted(tr("Refreshing collection..."), true);
 
 	// Setup progress bounds.
 

@@ -35,13 +35,8 @@
 CSAbstractCollection::CSAbstractCollection(
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
-		interruptible(true), interrupted(false), active(false),
-		saveOnExit(false), displayDescriptor(NULL)
+		interrupted(false), saveOnExit(false), displayDescriptor(NULL)
 {
-	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted()));
-	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
-		this, SLOT(doJobFinished()));
 }
 
 /*!
@@ -54,13 +49,8 @@ CSAbstractCollection::CSAbstractCollection(
 CSAbstractCollection::CSAbstractCollection(const QString &n,
 	CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
-		interruptible(true), interrupted(false), active(false),
-		saveOnExit(false), displayDescriptor(NULL)
+		interrupted(false), saveOnExit(false), displayDescriptor(NULL)
 {
-	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted()));
-	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
-		this, SLOT(doJobFinished()));
 }
 
 /*!
@@ -73,13 +63,8 @@ CSAbstractCollection::CSAbstractCollection(const QString &n,
 CSAbstractCollection::CSAbstractCollection(
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(""), modified(false), enabled(true),
-		interruptible(true), interrupted(false), active(false),
-		saveOnExit(false), displayDescriptor(d)
+		interrupted(false), saveOnExit(false), displayDescriptor(d)
 {
-	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted()));
-	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
-		this, SLOT(doJobFinished()));
 }
 
 /*!
@@ -93,13 +78,8 @@ CSAbstractCollection::CSAbstractCollection(
 CSAbstractCollection::CSAbstractCollection(const QString &n,
 	const DisplayDescriptor *d, CSCollectionModel *p)
 	: QAbstractTableModel(p), name(n), modified(false), enabled(true),
-		interruptible(true), interrupted(false), active(false),
-		saveOnExit(false), displayDescriptor(d)
+		interrupted(false), saveOnExit(false), displayDescriptor(d)
 {
-	QObject::connect(this, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted()));
-	QObject::connect(this, SIGNAL(jobFinished(const QString &)),
-		this, SLOT(doJobFinished()));
 }
 
 /*!
@@ -340,9 +320,8 @@ void CSAbstractCollection::setSaveOnExit(bool s)
 bool CSAbstractCollection::deleteTracks(const QStringList &k)
 { /* SLOT */
 	QString r, t;
-	interruptible = false;
 
-	Q_EMIT jobStarted(tr("Deleting tracks..."));
+	Q_EMIT jobStarted(tr("Deleting tracks..."), false);
 	Q_EMIT progressLimitsUpdated(0, k.count());
 
 	for(int p = 0; p < k.count(); ++p)
@@ -380,9 +359,8 @@ bool CSAbstractCollection::copyTracks(
 	const CSAbstractCollection *s, const QStringList &k)
 { /* SLOT */
 	QString r, t;
-	interruptible = false;
 
-	Q_EMIT jobStarted(tr("Copying tracks..."));
+	Q_EMIT jobStarted(tr("Copying tracks..."), false);
 	Q_EMIT progressLimitsUpdated(0, k.count());
 
 	for(int p = 0; p < k.count(); ++p)
@@ -416,9 +394,8 @@ bool CSAbstractCollection::copyTracks(
 bool CSAbstractCollection::syncFrom(CSAbstractCollection *o)
 { /* SLOT */
 	QString r, t;
-	interruptible = false;
 
-	Q_EMIT jobStarted(tr("Synchronizing collections..."));
+	Q_EMIT jobStarted(tr("Synchronizing collections..."), false);
 	o->setEnabled(false);
 
 	QList<QString> del = keysDifference(o), cp = o->keysDifference(this);
@@ -678,34 +655,6 @@ QVariant CSAbstractCollection::headerData(
 }
 
 /*!
- * This function tests whether or not our collection is currently active -
- * i.e., if a job is running in our worker thread.
- *
- * \return True if we are doing something, or false otherwise.
- */
-bool CSAbstractCollection::isActive() const
-{
-	return active;
-}
-
-/*!
- * This function returns whether or not the current job we are performing (if
- * any) is considered interruptible. If a job is interruptible, that means that
- * if it is stopped part-way through completion, it is guaranteed to not cause
- * any damage to the collection. For instance, loading a collection from the
- * disk is interruptible, but copying tracks to a collection is not.
- *
- * If no action is being performed, then this function is guaranteed to return
- * false.
- *
- * \return True if we are interruptible, or false otherwise.
- */
-bool CSAbstractCollection::isInterruptible() const
-{
-	return interruptible;
-}
-
-/*!
  * This function sets whether or not our current job has been interrupted. If
  * you interrupt a job, then the job is expected to notice and halt itself
  * after some reasonably short amount of time. Note that this will work
@@ -814,18 +763,6 @@ bool CSAbstractCollection::addTrack(CSTrack *t)
 	trackHash.insert(t->getHash(), t);
 	trackSort.append(t);
 	return true;
-}
-
-/*!
- * This function sets whether or not the current job is interruptible. See
- * isInterruptible() for more information. This function should be called by
- * subclasses whenever a new job is started.
- *
- * \param i Whether or not the current job is interruptible.
- */
-void CSAbstractCollection::setInterruptible(bool i)
-{
-	interruptible = i;
 }
 
 /*!
@@ -994,28 +931,6 @@ int CSAbstractCollection::sortCmp(int ra, int rb) const
 	}
 
 	return 0;
-}
-
-/*!
- * This slot handles our job started signal being emitted by updating our
- * active status.
- */
-void CSAbstractCollection::doJobStarted()
-{ /* SLOT */
-
-	active = true;
-
-}
-
-/*!
- * This slot handles our job finished signal being emitted by updating our
- * active status.
- */
-void CSAbstractCollection::doJobFinished()
-{ /* SLOT */
-
-	active = false;
-
 }
 
 /*!

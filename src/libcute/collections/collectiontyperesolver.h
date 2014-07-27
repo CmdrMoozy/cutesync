@@ -53,13 +53,13 @@ class CSCollectionTypeResolver : public QObject
 			const QString &p, bool s);
 
 	private Q_SLOTS:
-		void doJobStarted(const QString &j);
+		void doJobStarted(const QString &j, bool i);
 		void doProgressLimitsUpdated(int min, int max);
 		void doProgressUpdated(int p);
 		void doJobFinished(const QString &r);
 
 	Q_SIGNALS:
-		void jobStarted(const QString &);
+		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);
 		void progressUpdated(int);
 		void jobFinished(const QString &);

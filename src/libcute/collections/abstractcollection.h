@@ -193,8 +193,6 @@ class CSAbstractCollection : public QAbstractTableModel
 		virtual QVariant headerData(int s, Qt::Orientation o,
 			int r = Qt::DisplayRole) const;
 
-		bool isActive() const;
-		bool isInterruptible() const;
 		void setInterrupted(bool i);
 
 	protected:
@@ -205,7 +203,6 @@ class CSAbstractCollection : public QAbstractTableModel
 		void removeTrack(const QString &k);
 		bool addTrack(CSTrack *t);
 
-		void setInterruptible(bool i);
 		bool isInterrupted() const;
 
 		void setModified(bool m);
@@ -215,9 +212,6 @@ class CSAbstractCollection : public QAbstractTableModel
 		int sortCmp(int ra, int rb) const;
 
 	private Q_SLOTS:
-		void doJobStarted();
-		void doJobFinished();
-
 		void doConfigurationApply();
 		void doConfigurationReset();
 
@@ -243,7 +237,7 @@ class CSAbstractCollection : public QAbstractTableModel
 		void enabledChanged();
 		void contentsChanged();
 
-		void jobStarted(const QString &);
+		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);
 		void progressUpdated(int);
 		void jobFinished(const QString &);
@@ -256,9 +250,7 @@ class CSAbstractCollection : public QAbstractTableModel
 		QString name;
 		bool modified;
 		bool enabled;
-		bool interruptible;
 		bool interrupted;
-		bool active;
 		bool saveOnExit;
 		const DisplayDescriptor *displayDescriptor;
 		mutable QList<CSTrack *> trackSort;

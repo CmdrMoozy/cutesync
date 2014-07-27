@@ -23,6 +23,7 @@
 #include <QString>
 #include <QByteArray>
 
+#include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/dircollection.h"
 #include "libcute/collections/ipodcollection.h"
@@ -118,8 +119,8 @@ void CSCollectionTypeResolver::newCollection(const QString &n,
 
 	// Connect the collection to our slots.
 
-	QObject::connect(c, SIGNAL(jobStarted(const QString &)),
-		this, SLOT(doJobStarted(const QString &)));
+	QObject::connect(c, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
 	QObject::connect(c, SIGNAL(progressLimitsUpdated(int, int)),
 		this, SLOT(doProgressLimitsUpdated(int, int)));
 	QObject::connect(c, SIGNAL(progressUpdated(int)),
@@ -127,13 +128,18 @@ void CSCollectionTypeResolver::newCollection(const QString &n,
 	QObject::connect(c, SIGNAL(jobFinished(const QString &)),
 		this, SLOT(doJobFinished(const QString &)));
 
+	/*
+	 * The collection has been created, but we still need to load its data.
+	 * Emit the signal indicating that the collection exists, but set it
+	 * disabled (until it has been loaded).
+	 */
+
+	c->setEnabled(false);
+	Q_EMIT(collectionCreated(c));
+
 	// Try to load the collection from the path provided.
 
 	c->loadCollectionFromPath(p);
-
-	// The collection is loaded! Emit an appropriate signal.
-
-	Q_EMIT(collectionCreated(c));
 
 }
 
@@ -142,8 +148,9 @@ void CSCollectionTypeResolver::newCollection(const QString &n,
  * emitting an appropriate signal.
  *
  * \param j The string describing the job.
+ * \param i Whether or not the job is interruptible.
  */
-void CSCollectionTypeResolver::doJobStarted(const QString &j)
+void CSCollectionTypeResolver::doJobStarted(const QString &j, bool i)
 { /* SLOT */
 
 	CSAbstractCollection *s =
@@ -152,7 +159,7 @@ void CSCollectionTypeResolver::doJobStarted(const QString &j)
 	if(s != NULL)
 		s->setEnabled(false);
 
-	Q_EMIT jobStarted(j);
+	Q_EMIT jobStarted(j, i);
 
 }
 

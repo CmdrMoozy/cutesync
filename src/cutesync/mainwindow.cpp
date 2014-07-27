@@ -110,8 +110,8 @@ CSMainWindow::CSMainWindow(QWidget *p, Qt::WindowFlags f)
 		SLOT(setCollection(CSAbstractCollection *)));
 
 	QObject::connect(collectionsListModel,
-		SIGNAL(jobStarted(const QString &)), this,
-		SLOT(doWorkerJobStarted(const QString &)));
+		SIGNAL(jobStarted(const QString &, bool)), this,
+		SLOT(doWorkerJobStarted(const QString &, bool)));
 	QObject::connect(collectionsListModel,
 		SIGNAL(progressLimitsUpdated(int, int)), this,
 		SLOT(doWorkerProgressLimitsUpdated(int, int)));
@@ -306,6 +306,8 @@ void CSMainWindow::doSync()
 void CSMainWindow::doRemoveCollection()
 { /* SLOT */
 
+//TODO - We need to stop the collection from doing anything else.
+	/*
 	int r = collectionsListWidget->getSelectedRow();
 	if(r == -1)
 		return;
@@ -316,10 +318,10 @@ void CSMainWindow::doRemoveCollection()
 
 	c->setEnabled(false);
 
-	/*
+	/
 	 * Collections shouldn't be active; active collections are not
 	 * clickable, but check anyway.
-	 */
+	 /
 
 	if(c->isActive())
 	{
@@ -331,6 +333,7 @@ void CSMainWindow::doRemoveCollection()
 
 	c->flush();
 	collectionsListModel->removeCollectionAt(r);
+	*/
 }
 
 /*!
@@ -358,8 +361,9 @@ void CSMainWindow::doResetSettings()
  * appropriate text on our status label.
  *
  * \param j A string describing the job that was just started.
+ * \param i Whether or not the job is interruptible (UNUSED).
  */
-void CSMainWindow::doWorkerJobStarted(const QString &j)
+void CSMainWindow::doWorkerJobStarted(const QString &j, bool UNUSED(i))
 { /* SLOT */
 
 	taskLabel->setText(j);

@@ -201,8 +201,7 @@ bool CSIPodCollection::loadCollectionFromPath(const QString &p, bool f)
 	Itdb_iTunesDB *i = NULL;
 	int pr = 0;
 
-	setInterruptible(true);
-	Q_EMIT jobStarted(tr("Loading collection from path..."));
+	Q_EMIT jobStarted(tr("Loading collection from path..."), true);
 
 	// Clean up the current collection.
 

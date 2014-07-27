@@ -22,6 +22,7 @@
 #include <QObject>
 
 class QThread;
+class QMutex;
 
 class CSCollectionTypeResolver;
 class CSAbstractCollection;
@@ -34,15 +35,29 @@ class CSCollectionThreadPool : public QObject
 		CSCollectionThreadPool(QObject *p = 0);
 		virtual ~CSCollectionThreadPool();
 
+		bool isInterruptible();
+
+		bool stopGracefully();
+
 	private:
+		QMutex *interruptibleMutex;
+		bool interruptible;
+
 		QThread *thread;
 		CSCollectionTypeResolver *resolver;
+
+		void setInterruptible(bool i);
 
 	public Q_SLOTS:
 		void newCollection(const QString &n, const QString &p, bool s);
 
+	private Q_SLOTS:
+		void doCollectionCreated(CSAbstractCollection *c);
+		void doJobStarted(const QString &j, bool i);
+		void doJobFinished(const QString &r);
+
 	Q_SIGNALS:
-		void jobStarted(const QString &);
+		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);
 		void progressUpdated(int);
 		void jobFinished(const QString &);

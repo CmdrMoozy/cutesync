@@ -45,8 +45,8 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 
 	// Connect the thread pool's progress signals to our signals.
 
-	QObject::connect(threadPool, SIGNAL(jobStarted(const QString &)),
-		this, SIGNAL(jobStarted(const QString &)));
+	QObject::connect(threadPool, SIGNAL(jobStarted(const QString &, bool)),
+		this, SIGNAL(jobStarted(const QString &, bool)));
 	QObject::connect(threadPool, SIGNAL(progressLimitsUpdated(int, int)),
 		this, SIGNAL(progressLimitsUpdated(int, int)));
 	QObject::connect(threadPool, SIGNAL(progressUpdated(int)),

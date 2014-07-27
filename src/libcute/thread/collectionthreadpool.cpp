@@ -19,13 +19,18 @@
 #include "collectionthreadpool.h"
 
 #include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
 
+#include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
 
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
-	: QObject(p)
+	: QObject(p), interruptible(true)
 {
+	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+
 	// Create a new thread, as well as our collection type resolver.
 
 	thread = new QThread(this);
@@ -36,14 +41,19 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 
 	// Connect the collection type resolver's progress signals.
 
-	QObject::connect(resolver, SIGNAL(jobStarted(const QString &)),
-		this, SIGNAL(jobStarted(const QString &)));
+	QObject::connect(resolver, SIGNAL(jobStarted(const QString &, bool)),
+		this, SIGNAL(jobStarted(const QString &, bool)));
 	QObject::connect(resolver, SIGNAL(progressLimitsUpdated(int, int)),
 		this, SIGNAL(progressLimitsUpdated(int, int)));
 	QObject::connect(resolver, SIGNAL(progressUpdated(int)),
 		this, SIGNAL(progressUpdated(int)));
 	QObject::connect(resolver, SIGNAL(jobFinished(const QString &)),
 		this, SIGNAL(jobFinished(const QString &)));
+
+	QObject::connect(resolver, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(resolver, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
 
 	// Connect our action signals to the collection type resolver.
 
@@ -63,10 +73,53 @@ CSCollectionThreadPool::~CSCollectionThreadPool()
 	delete resolver;
 }
 
+bool CSCollectionThreadPool::isInterruptible()
+{
+	interruptibleMutex->lock();
+	bool i = interruptible;
+	interruptibleMutex->unlock();
+
+	return i;
+}
+
+bool CSCollectionThreadPool::stopGracefully()
+{
+	bool i = isInterruptible();
+
+	return true;
+}
+
+void CSCollectionThreadPool::setInterruptible(bool i)
+{
+	QMutexLocker locker(interruptibleMutex);
+	interruptible = i;
+}
+
 void CSCollectionThreadPool::newCollection(const QString &n,
 	const QString &p, bool s)
 { /* SLOT */
 
 	Q_EMIT(startNew(n, p, s));
+
+}
+
+void CSCollectionThreadPool::doCollectionCreated(CSAbstractCollection *c)
+{ /* SLOT */
+
+//TODO - connect our "interrupt" signal to the collection's "setInterrupted()" slot
+
+}
+
+void CSCollectionThreadPool::doJobStarted(const QString &UNUSED(j), bool i)
+{ /* SLOT */
+
+	setInterruptible(i);
+
+}
+
+void CSCollectionThreadPool::doJobFinished(const QString &UNUSED(r))
+{ /* SLOT */
+
+	setInterruptible(true);
 
 }
