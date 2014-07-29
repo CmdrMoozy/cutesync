@@ -18,13 +18,13 @@
 
 #include "collectionthreadpool.h"
 
-#include <QThread>
 #include <QMutex>
 #include <QMutexLocker>
 
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
+#include "libcute/thread/pausablethread.h"
 
 /*!
  * This is our default constructor, which initializes a new thread pool with
@@ -35,11 +35,11 @@
 CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	: QObject(p), interruptible(true)
 {
-	interruptibleMutex = new QMutex(QMutex::NonRecursive);
+	controlMutex = new QMutex(QMutex::NonRecursive);
 
 	// Create a new thread, as well as our collection type resolver.
 
-	thread = new QThread(this);
+	thread = new CSPausableThread(this);
 	thread->start();
 
 	resolver = new CSCollectionTypeResolver();
@@ -92,11 +92,30 @@ CSCollectionThreadPool::~CSCollectionThreadPool()
  */
 bool CSCollectionThreadPool::isInterruptible()
 {
-	interruptibleMutex->lock();
+	controlMutex->lock();
 	bool i = interruptible;
-	interruptibleMutex->unlock();
+	controlMutex->unlock();
 
 	return i;
+}
+
+/*!
+ * This function pauses our worker thread(s). See our CSPausableThread class
+ * for more details. The thread(s) can later be resumed with our resume()
+ * function.
+ */
+void CSCollectionThreadPool::pause()
+{
+	thread->pause();
+}
+
+/*!
+ * This function resumes our worker thread(s). See our CSPausableThread class
+ * for more details.
+ */
+void CSCollectionThreadPool::resume()
+{
+	thread->resume();
 }
 
 /*!
@@ -111,7 +130,7 @@ bool CSCollectionThreadPool::isInterruptible()
 bool CSCollectionThreadPool::stopGracefully()
 {
 	bool i = isInterruptible();
-#pragma message "TODO - Lock all collections from starting new jobs."
+
 	if(!i)
 	{
 #pragma message "TODO - Prompt the user to interrupt this dangerous job."
@@ -133,7 +152,7 @@ bool CSCollectionThreadPool::stopGracefully()
  */
 void CSCollectionThreadPool::setInterruptible(bool i)
 {
-	QMutexLocker locker(interruptibleMutex);
+	QMutexLocker locker(controlMutex);
 	interruptible = i;
 }
 

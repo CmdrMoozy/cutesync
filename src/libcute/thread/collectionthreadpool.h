@@ -26,6 +26,7 @@ class QMutex;
 
 class CSCollectionTypeResolver;
 class CSAbstractCollection;
+class CSPausableThread;
 
 /*!
  * \brief This class manages a pool of worker threads for our application.
@@ -43,13 +44,16 @@ class CSCollectionThreadPool : public QObject
 
 		bool isInterruptible();
 
+		void pause();
+		void resume();
 		bool stopGracefully();
 
 	private:
-		QMutex *interruptibleMutex;
+		QMutex *controlMutex;
+		bool paused;
 		bool interruptible;
 
-		QThread *thread;
+		CSPausableThread *thread;
 		CSCollectionTypeResolver *resolver;
 
 		void setInterruptible(bool i);
