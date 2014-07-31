@@ -70,7 +70,7 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	// Connect the type resolver's other signals to our signals.
 
 	QObject::connect(resolver, SIGNAL(collectionCreated(
-		CSAbstractCollection *)), this, SIGNAL(collectionCreated(
+		CSAbstractCollection *)), this, SLOT(doCollectionCreated(
 		CSAbstractCollection *)));
 }
 
@@ -182,8 +182,18 @@ void CSCollectionThreadPool::newCollection(const QString &n,
 void CSCollectionThreadPool::doCollectionCreated(CSAbstractCollection *c)
 { /* SLOT */
 
+	/*
+	 * Connect the signal/slot we use to interrupt collection actions. Note
+	 * that this MUST be a Qt::DirectConnection, or otherwise the
+	 * interruption won't actually occur until the collection's thread
+	 * returns control to the event dispatch loop (i.e., after the job is
+	 * already completely done anyway).
+	 */
+
 	QObject::connect(this, SIGNAL(interruptAllJobs()),
-		c, SLOT(setInterrupted()));
+		c, SLOT(setInterrupted()), Qt::DirectConnection);
+
+	Q_EMIT collectionCreated(c);
 
 }
 
