@@ -322,10 +322,12 @@ QList<QVariant> CSCollectionModel::getSerializedList() const
 /*!
  * This function attempts to our worker thread(s) gracefully by telling our
  * thread pool to stop gracefully.
+ *
+ * \return True if we stopped gracefully, or false otherwise.
  */
-void CSCollectionModel::stopGracefully()
+bool CSCollectionModel::stopGracefully()
 {
-	threadPool->stopGracefully();
+	return threadPool->stopGracefully();
 }
 
 /*!

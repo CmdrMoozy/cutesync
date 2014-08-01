@@ -179,7 +179,11 @@ void CSMainWindow::closeEvent(QCloseEvent *e)
 {
 	// Stop our worker thread(s).
 
-	collectionsListModel->stopGracefully();
+	if(!collectionsListModel->stopGracefully())
+	{
+		e->ignore();
+		return;
+	}
 
 	// Save everything.
 

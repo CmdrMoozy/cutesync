@@ -20,6 +20,7 @@
 
 #include <QMutex>
 #include <QMutexLocker>
+#include <QMessageBox>
 
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
@@ -133,7 +134,24 @@ bool CSCollectionThreadPool::stopGracefully()
 
 	if(!i)
 	{
-#pragma message "TODO - Prompt the user to interrupt this dangerous job."
+
+		pause();
+
+		QMessageBox prompt(QMessageBox::Warning,
+			tr("Confirm Interruption"),
+			tr("There are jobs running which can't be interrupted "
+				"safely. Interrupt the jobs anyway?"),
+			QMessageBox::Yes | QMessageBox::Cancel);
+
+		QMessageBox::StandardButton result =
+			static_cast<QMessageBox::StandardButton>(prompt.exec());
+
+		if(result != QMessageBox::Yes)
+		{
+			resume();
+			return false;
+		}
+
 	}
 
 	Q_EMIT(interruptAllJobs());
