@@ -130,6 +130,7 @@ SET(cutesync_HEADERS
 	src/cutesync/mainwindow.h
 
 	src/cutesync/dialogs/aboutdialog.h
+	src/cutesync/dialogs/createipoddialog.h
 	src/cutesync/dialogs/newcollectiondialog.h
 	src/cutesync/dialogs/syncdialog.h
 
@@ -156,6 +157,7 @@ SET(cutesync_SOURCES
 	src/cutesync/mainwindow.cpp
 
 	src/cutesync/dialogs/aboutdialog.cpp
+	src/cutesync/dialogs/createipoddialog.cpp
 	src/cutesync/dialogs/newcollectiondialog.cpp
 	src/cutesync/dialogs/syncdialog.cpp
 

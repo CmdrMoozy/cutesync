@@ -39,6 +39,10 @@ class CSSyncDialog;
 class CSAbstractCollection;
 class CSSettingsManager;
 
+#ifdef CUTESYNC_DEBUG
+	class CSCreateIPodDialog;
+#endif
+
 /*!
  * \brief This class defines the main window for our application.
  */
@@ -58,6 +62,10 @@ class CSMainWindow : public QMainWindow
 
 		CSNewCollectionDialog *newCollectionDialog;
 		CSSyncDialog *syncDialog;
+
+		#ifdef CUTESYNC_DEBUG
+			CSCreateIPodDialog *createIPodDialog;
+		#endif
 
 		CSMainMenuBar *mainMenuBar;
 

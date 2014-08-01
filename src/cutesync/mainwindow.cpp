@@ -39,6 +39,10 @@
 #include "cutesync/widgets/collectioninspector.h"
 #include "cutesync/widgets/collectionlistwidget.h"
 
+#ifdef CUTESYNC_DEBUG
+	#include "cutesync/dialogs/createipoddialog.h"
+#endif
+
 /*!
  * Create a new main window object with the given parent object and window
  * flags.
@@ -238,6 +242,10 @@ void CSMainWindow::createDialogs()
 	newCollectionDialog = new CSNewCollectionDialog(this);
 	syncDialog = new CSSyncDialog(collectionsListModel, this);
 
+	#ifdef CUTESYNC_DEBUG
+		createIPodDialog = new CSCreateIPodDialog(this);
+	#endif
+
 	QObject::connect(newCollectionDialog, SIGNAL(accepted()),
 		this, SLOT(doNewCollectionAccepted()));
 	QObject::connect(syncDialog, SIGNAL(accepted(
@@ -359,10 +367,15 @@ void CSMainWindow::doCheckIPod()
 }
 
 #ifdef CUTESYNC_DEBUG
+	/*!
+	 * This slot deals with a "create iPod" signal being received by
+	 * showing our "create iPod" dialog so the user can create false iPod
+	 * directory structures for testing purposes.
+	 */
 	void CSMainWindow::doCreateIPod()
 	{ /* SLOT */
 
-
+		createIPodDialog->show();
 
 	}
 #endif
