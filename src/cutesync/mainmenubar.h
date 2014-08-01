@@ -49,6 +49,13 @@ class CSMainMenuBar : public QMenuBar
 		QMenu *settingsMenu;
 		QAction *resetSettingsAction;
 
+		QMenu *toolsMenu;
+		QAction *checkIPodAction;
+
+		#ifdef CUTESYNC_DEBUG
+			QAction *createIPodAction;
+		#endif
+
 		QMenu *helpMenu;
 		QAction *aboutCuteSyncAction;
 		QAction *aboutQtAction;
@@ -62,6 +69,11 @@ class CSMainMenuBar : public QMenuBar
 		void removeTriggered();
 		void exitTriggered();
 		void resetSettingsTriggered();
+		void checkIPodTriggered();
+
+		#ifdef CUTESYNC_DEBUG
+			void createIPodTriggered();
+		#endif
 };
 
 #endif

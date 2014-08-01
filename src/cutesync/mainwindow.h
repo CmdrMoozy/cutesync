@@ -84,6 +84,11 @@ class CSMainWindow : public QMainWindow
 		void doSync();
 		void doRemoveCollection();
 		void doResetSettings();
+		void doCheckIPod();
+
+		#ifdef CUTESYNC_DEBUG
+			void doCreateIPod();
+		#endif
 
 		void doWorkerJobStarted(const QString &j, bool i);
 		void doWorkerProgressLimitsUpdated(int min, int max);

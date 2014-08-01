@@ -74,6 +74,21 @@ CSMainMenuBar::CSMainMenuBar(QWidget *p)
 	resetSettingsAction->setStatusTip(
 		tr("Reset all saved data to its default state"));
 
+	// Initialize the tools menu.
+
+	toolsMenu = addMenu(tr("&Tools"));
+
+	checkIPodAction = toolsMenu->addAction(tr("Check iPod Filesystem"));
+	checkIPodAction->setStatusTip(
+		tr("Check an iPod's filesystem for errors."));
+
+	#ifdef CUTESYNC_DEBUG
+		createIPodAction = toolsMenu->addAction(
+			tr("Create Testing iPod"));
+		createIPodAction->setStatusTip(
+			tr("Create a false iPod for testing purposes."));
+	#endif
+
 	// Initialize the help menu.
 
 	helpMenu = addMenu(tr("&Help"));
@@ -101,6 +116,14 @@ CSMainMenuBar::CSMainMenuBar(QWidget *p)
 		this, SIGNAL(exitTriggered()));
 	QObject::connect(resetSettingsAction, SIGNAL(triggered()),
 		this, SIGNAL(resetSettingsTriggered()));
+	QObject::connect(checkIPodAction, SIGNAL(triggered()),
+		this, SIGNAL(checkIPodTriggered()));
+
+	#ifdef CUTESYNC_DEBUG
+		QObject::connect(createIPodAction, SIGNAL(triggered()),
+			this, SIGNAL(createIPodTriggered()));
+	#endif
+
 	QObject::connect(aboutCuteSyncAction, SIGNAL(triggered()),
 		this, SLOT(doAboutCuteSync()));
 	QObject::connect(aboutQtAction, SIGNAL(triggered()),

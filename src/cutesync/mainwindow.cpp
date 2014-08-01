@@ -221,6 +221,13 @@ void CSMainWindow::createMenus()
 		this, SLOT(close()));
 	QObject::connect(mainMenuBar, SIGNAL(resetSettingsTriggered()),
 		this, SLOT(doResetSettings()));
+	QObject::connect(mainMenuBar, SIGNAL(checkIPodTriggered()),
+		this, SLOT(doCheckIPod()));
+
+	#ifdef CUTESYNC_DEBUG
+		QObject::connect(mainMenuBar, SIGNAL(createIPodTriggered()),
+			this, SLOT(doCreateIPod()));
+	#endif
 }
 
 /*!
@@ -343,6 +350,22 @@ void CSMainWindow::doResetSettings()
 	}
 
 }
+
+void CSMainWindow::doCheckIPod()
+{ /* SLOT */
+
+
+
+}
+
+#ifdef CUTESYNC_DEBUG
+	void CSMainWindow::doCreateIPod()
+	{ /* SLOT */
+
+
+
+	}
+#endif
 
 /*!
  * This function handles a new job being started by our worker by setting the
