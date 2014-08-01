@@ -45,6 +45,9 @@
 		private:
 			QGridLayout *layout;
 
+			QLabel *nameLabel;
+			QLineEdit *nameLineEdit;
+
 			QLabel *pathLabel;
 			QLineEdit *pathLineEdit;
 			QPushButton *browseButton;
@@ -57,6 +60,9 @@
 		private Q_SLOTS:
 			void doBrowse();
 			void doCreate();
+
+		Q_SIGNALS:
+			void ipodCreated(const QString &, const QString &);
 	};
 
 	#endif

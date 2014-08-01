@@ -24,6 +24,9 @@
 	#include <QLineEdit>
 	#include <QPushButton>
 	#include <QFileDialog>
+	#include <QMessageBox>
+
+	#include "libcute/collections/ipodcollection.h"
 
 	/*!
 	 * This is our default constructor, which creates a new "create iPod"
@@ -69,7 +72,11 @@
 	{
 		layout = new QGridLayout(this);
 
-		pathLabel = new QLabel(tr("New iPod path:"), this);
+		nameLabel = new QLabel(tr("Name:"), this);
+
+		nameLineEdit = new QLineEdit(this);
+
+		pathLabel = new QLabel(tr("Path:"), this);
 
 		pathLineEdit = new QLineEdit(this);
 
@@ -79,12 +86,14 @@
 
 		cancelButton = new QPushButton(tr("&Cancel"), this);
 
-		layout->addWidget(pathLabel, 0, 0, 1, 1);
-		layout->addWidget(pathLineEdit, 0, 1, 1, 2);
-		layout->addWidget(browseButton, 0, 3, 1, 1);
-		layout->addWidget(createButton, 2, 2, 1, 1);
-		layout->addWidget(cancelButton, 2, 3, 1, 1);
-		layout->setRowStretch(1, 1);
+		layout->addWidget(nameLabel, 0, 0, 1, 1);
+		layout->addWidget(nameLineEdit, 0, 1, 1, 3);
+		layout->addWidget(pathLabel, 1, 0, 1, 1);
+		layout->addWidget(pathLineEdit, 1, 1, 1, 2);
+		layout->addWidget(browseButton, 1, 3, 1, 1);
+		layout->addWidget(createButton, 3, 2, 1, 1);
+		layout->addWidget(cancelButton, 3, 3, 1, 1);
+		layout->setRowStretch(2, 1);
 		layout->setColumnStretch(1, 1);
 		setLayout(layout);
 
@@ -111,10 +120,28 @@
 
 	}
 
+	/*!
+	 * This function handles our create button being clicked by attemping
+	 * to create a new iPod directory structure, and (if successful)
+	 * notifying any listeners that this has occurred.
+	 */
 	void CSCreateIPodDialog::doCreate()
 	{ /* SLOT */
 
+		bool r = CSIPodCollection::createFalseIPod(
+			nameLineEdit->text(), pathLineEdit->text());
 
+		if(!r)
+		{
+			QMessageBox::critical(this, tr("Creating iPod Failed"),
+				tr("Failed to create false iPod structure."));
+
+			return;
+		}
+
+		Q_EMIT ipodCreated(nameLineEdit->text(), pathLineEdit->text());
+
+		accept();
 
 	}
 #endif

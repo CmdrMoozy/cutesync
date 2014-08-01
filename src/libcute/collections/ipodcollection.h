@@ -44,6 +44,11 @@ class CSIPodCollection : public CSAbstractCollection
 	Q_OBJECT
 
 	public:
+		#ifdef CUTESYNC_DEBUG
+			static bool createFalseIPod(
+				const QString &n, const QString &p);
+		#endif
+
 		CSIPodCollection(CSCollectionModel *p = 0);
 		CSIPodCollection(const QString &n,
 			CSCollectionModel *p = 0);

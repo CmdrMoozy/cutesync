@@ -96,6 +96,7 @@ class CSMainWindow : public QMainWindow
 
 		#ifdef CUTESYNC_DEBUG
 			void doCreateIPod();
+			void doIPodCreated(const QString &n, const QString &p);
 		#endif
 
 		void doWorkerJobStarted(const QString &j, bool i);

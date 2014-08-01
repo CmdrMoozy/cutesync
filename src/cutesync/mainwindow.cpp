@@ -252,6 +252,12 @@ void CSMainWindow::createDialogs()
 		CSAbstractCollection *, CSAbstractCollection *)),
 		this, SLOT(doSyncAccepted(CSAbstractCollection *,
 		CSAbstractCollection *)));
+
+	#ifdef CUTESYNC_DEBUG
+		QObject::connect(createIPodDialog, SIGNAL(ipodCreated(
+			const QString &, const QString &)), this, SLOT(
+			doIPodCreated(const QString &, const QString &)));
+	#endif
 }
 
 /*!
@@ -376,6 +382,20 @@ void CSMainWindow::doCheckIPod()
 	{ /* SLOT */
 
 		createIPodDialog->show();
+
+	}
+
+	/*!
+	 * This slot handles a false iPod structure being successfully created
+	 * by adding that new collection to our UI.
+	 *
+	 * \param n The new iPod structure's name.
+	 * \param p The path to the new iPod structure.
+	 */
+	void CSMainWindow::doIPodCreated(const QString &n, const QString &p)
+	{ /* SLOT */
+
+		Q_EMIT startNew(n, p, false);
 
 	}
 #endif

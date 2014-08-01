@@ -190,20 +190,6 @@ SET(ifsck_SOURCES
 
 )
 
-# Define mkipod's source files.
-
-SET(mkipod_HEADERS
-
-
-
-)
-
-SET(mkipod_SOURCES
-
-	src/mkipod/mkipod.cpp
-
-)
-
 # Build our project!
 
 SET(CUTESYNC_LIBS m ${GLIB_GIO_LIBRARIES} ${GLIB_GOBJECT_LIBRARIES})
@@ -222,10 +208,6 @@ TARGET_LINK_LIBRARIES(CuteSync cute ${CUTESYNC_LIBS})
 ADD_EXECUTABLE(ifsck ${ifsck_SOURCES})
 TARGET_LINK_LIBRARIES(ifsck cute ${CUTESYNC_LIBS})
 
-ADD_EXECUTABLE(mkipod ${mkipod_SOURCES})
-TARGET_LINK_LIBRARIES(mkipod cute ${CUTESYNC_LIBS})
-
 QT5_USE_MODULES(cute Widgets Network)
 QT5_USE_MODULES(CuteSync Widgets Network)
 QT5_USE_MODULES(ifsck Widgets Network)
-QT5_USE_MODULES(mkipod Widgets Network)

@@ -44,6 +44,34 @@ extern "C" {
 	#include <gdk-pixbuf/gdk-pixbuf.h>
 }
 
+#ifdef CUTESYNC_DEBUG
+	/*!
+	 * This is a debugging function which creates a new false iPod
+	 * directory structure in the given path. This is mainly useful for
+	 * testing purposes.
+	 *
+	 * \param n The name of the new iPod.
+	 * \param p The path in which to initialize a new iPod structure.
+	 * \return True on success, or false otherwise.
+	 */
+	bool CSIPodCollection::createFalseIPod(
+		const QString &n, const QString &p)
+	{
+		GError *error = NULL;
+
+		if(!itdb_init_ipod(p.toStdString().c_str(), "C297",
+			n.toStdString().c_str(), &error))
+		{
+			if(error != NULL)
+				g_error_free(error);
+
+			return false;
+		}
+
+		return true;
+	}
+#endif
+
 /*!
  * This is our default constructor, which creates a new uninitialized
  * IPodCollection with the given QObject as a parent.
