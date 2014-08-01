@@ -59,6 +59,8 @@ class CSCollectionThreadPool : public QObject
 		void setInterruptible(bool i);
 
 	public Q_SLOTS:
+		void unserializeCollection(const QString &n,
+			const QString &p, const QByteArray &d);
 		void newCollection(const QString &n, const QString &p, bool s);
 
 	private Q_SLOTS:
@@ -74,6 +76,8 @@ class CSCollectionThreadPool : public QObject
 		void progressUpdated(int);
 		void jobFinished(const QString &);
 
+		void startUnserialize(const QString &,
+			const QString &, const QByteArray &);
 		void startNew(const QString &, const QString &, bool);
 
 		void collectionCreated(CSAbstractCollection *);

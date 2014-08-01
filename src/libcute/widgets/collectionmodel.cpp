@@ -18,10 +18,6 @@
 
 #include "collectionmodel.h"
 
-#ifdef CUTESYNC_DEBUG
-	#include <iostream>
-#endif
-
 #include <QIcon>
 #include <QDataStream>
 #include <QFileInfo>
@@ -56,6 +52,10 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 
 	// Connect our actions to the thread pool's slots.
 
+	QObject::connect(this, SIGNAL(startUnserialize(const QString &,
+		const QString &, const QByteArray &)), threadPool,
+		SLOT(unserializeCollection(const QString &, const QString &,
+		const QByteArray &)));
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), threadPool, SLOT(newCollection(
 		const QString &, const QString &, bool)));
@@ -338,26 +338,34 @@ bool CSCollectionModel::stopGracefully()
  * \param c The list of serialized collections to load.
  */
 void CSCollectionModel::loadSerializedList(const QList<QVariant> &c)
-{
+{ /* SLOT */
 
-	/*
-	for(int i = 0; i < c.count(); ++i)
+	int i;
+	qint32 version;
+	QString name;
+	QString path;
+
+	for(i = 0; i < c.count(); ++i)
 	{
-		qint32 version;
-		QString name, path;
-
+#pragma message "TODO - Emit warnings via signals and deal with them properly."
 		// Create our input stream.
 
 		QDataStream in(c.at(i).value<QByteArray>());
-		if(in.status() != QDataStream::Ok) continue;
+
+		if(in.status() != QDataStream::Ok)
+			continue;
 
 		// Read our version.
 
 		in >> version;
-		if(version > SERIALIZATION_VERSION) continue;
+
+		if(version > SERIALIZATION_VERSION)
+			continue;
 
 		in.setVersion(version);
-		if(in.status() != QDataStream::Ok) continue;
+
+		if(in.status() != QDataStream::Ok)
+			continue;
 
 		// Read our name and path.
 
@@ -367,57 +375,23 @@ void CSCollectionModel::loadSerializedList(const QList<QVariant> &c)
 		// Ensure the path actually exists.
 
 		QFileInfo f(path);
+
 		if( (!f.isDir()) || (!f.exists()) )
+			continue;
+
+		// Make sure our name is unique.
+
+		if(alreadyContainsName(name))
 		{
-#ifdef CUTESYNC_DEBUG
-std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
-#endif
+			QMessageBox::critical(0, tr("Error"),
+				tr("Collection name already in use!"));
+
 			continue;
 		}
 
-		// Try creating new collection object from the given info.
-
-		CSAbstractCollection *collection = NULL;
-
-		bool u = true;
-		for(int j = 0; j < count(); ++j)
-		{
-			if(collectionAt(j)->getName() == name)
-			{
-				u = false;
-				break;
-			}
-		}
-		if(!u) continue;
-
-		collection = resolver.createCollection(name, path);
-		if(collection == NULL)
-		{
-#ifdef CUTESYNC_DEBUG
-std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
-#endif
-			continue;
-		}
-
-		// Connect the collection to our slots.
-
-		QObject::connect(collection,
-			SIGNAL(jobStarted(const QString &)), this,
-			SLOT(doJobStarted(const QString &)));
-		QObject::connect(collection,
-			SIGNAL(progressLimitsUpdated(int, int)), this,
-			SLOT(doProgressLimitsUpdated(int, int)));
-		QObject::connect(collection, SIGNAL(progressUpdated(int)),
-			this, SLOT(doProgressUpdated(int)));
-		QObject::connect(collection,
-			SIGNAL(jobFinished(const QString &)), this,
-			SLOT(doJobFinished(const QString &)));
-
-		// Load the collection from the serialized data.
-		appendCollection(collection);
-		collection->unserialize(c.at(i).value<QByteArray>());
+		Q_EMIT startUnserialize(name,
+			path, c.at(i).value<QByteArray>());
 	}
-	*/
 
 }
 
@@ -434,20 +408,15 @@ std::cout << "Failed to load collection: " << name.toLatin1().data() << "\n";
  */
 void CSCollectionModel::newCollection(const QString &n,
 	const QString &p, bool s)
-{
+{ /* SLOT */
 
-	// Make sure our name is unique.
-
-	for(int i = 0; i < count(); ++i)
+	if(alreadyContainsName(n))
 	{
-		if(collectionAt(i)->getName() == n)
-		{
 #pragma message "TODO - Improve warning generation?"
-			QMessageBox::critical(0, tr("Error"),
-				tr("Collection name already in use!"));
+		QMessageBox::critical(0, tr("Error"),
+			tr("Collection name already in use!"));
 
-			return;
-		}
+		return;
 	}
 
 	Q_EMIT startNew(n, p, s);
@@ -517,6 +486,23 @@ CSCollectionListItem *CSCollectionModel::itemForCollection(
 			return itemList.at(i);
 
 	return NULL;
+}
+
+/*!
+ * This function returns whether or not our model already contains a collection
+ * with the given name. This is useful when adding new collections to the
+ * model, since collection names must be unique.
+ *
+ * \param n The name to search for.
+ * \return Whether or not we already contain a collection with the given name.
+ */
+bool CSCollectionModel::alreadyContainsName(const QString &n) const
+{
+	for(int i = 0; i < count(); ++i)
+		if(collectionAt(i)->getName() == n)
+			return true;
+
+	return false;
 }
 
 /*!

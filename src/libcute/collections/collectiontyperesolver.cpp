@@ -45,6 +45,72 @@ CSCollectionTypeResolver::~CSCollectionTypeResolver()
 }
 
 /*!
+ * This function uses our class's resolver to create a new collection but,
+ * instead of loading the collection from a path, we instead load the given
+ * serialized collection data.
+ *
+ * Other than that small detail, this function behaves identically to our
+ * newCollection() function. See that function's documentation for more
+ * information.
+ *
+ * \param n The name for the new collection.
+ * \param p The path to the collection.
+ * \param d The serialized collection data to load.
+ */
+void CSCollectionTypeResolver::unserializeCollection(const QString &n,
+	const QString &p, const QByteArray &d)
+{ /* SLOT */
+
+	CSAbstractCollection *c = NULL;
+
+	/*
+	bool u = true;
+	for(int j = 0; j < count(); ++j)
+	{
+		if(collectionAt(j)->getName() == name)
+		{
+			u = false;
+			break;
+		}
+	}
+	if(!u) continue;
+	*/
+
+	c = createCollection(n, p);
+
+	if(c == NULL)
+	{
+#pragma message "TODO - Errors need to be handled here by emitting a signal"
+		return;
+	}
+
+	// Connect the collection to our slots.
+
+	QObject::connect(c, SIGNAL(jobStarted(const QString &, bool)),
+		this, SLOT(doJobStarted(const QString &, bool)));
+	QObject::connect(c, SIGNAL(progressLimitsUpdated(int, int)),
+		this, SLOT(doProgressLimitsUpdated(int, int)));
+	QObject::connect(c, SIGNAL(progressUpdated(int)),
+		this, SLOT(doProgressUpdated(int)));
+	QObject::connect(c, SIGNAL(jobFinished(const QString &)),
+		this, SLOT(doJobFinished(const QString &)));
+
+	/*
+	 * The collection has been created, but we still need to load its data.
+	 * Emit the signal indicating that the collection exists, but set it
+	 * disabled (until it has been loaded).
+	 */
+
+	c->setEnabled(false);
+	Q_EMIT(collectionCreated(c));
+
+	// Try to load the collection from the path provided.
+
+	c->unserialize(d);
+
+}
+
+/*!
  * This function provides our class's main functionality - namely, taking an
  * input name and path and creating the appropriate type of collection object
  * to handle it. Note that this function should probably not be run in the

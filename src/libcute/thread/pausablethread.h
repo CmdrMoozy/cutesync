@@ -36,7 +36,7 @@ class CSPausableThread : public QThread
 	Q_OBJECT
 
 	public:
-		CSPausableThread(QObject *parent = 0);
+		CSPausableThread(QObject *p = 0);
 		virtual ~CSPausableThread();
 
 		void pause();

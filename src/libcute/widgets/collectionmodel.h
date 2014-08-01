@@ -81,6 +81,8 @@ class CSCollectionModel : public QAbstractListModel
 		CSCollectionListItem *itemForCollection(
 			const CSAbstractCollection *c);
 
+		bool alreadyContainsName(const QString &n) const;
+
 	private Q_SLOTS:
 		void doCollectionEnabledChanged();
 
@@ -89,6 +91,8 @@ class CSCollectionModel : public QAbstractListModel
 	Q_SIGNALS:
 		void rowEnabledChanged(const QModelIndex &i);
 
+		void startUnserialize(const QString &, const QString &,
+			const QByteArray &);
 		void startNew(const QString &, const QString &, bool);
 
 		void jobStarted(const QString &, bool);

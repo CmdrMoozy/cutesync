@@ -57,6 +57,8 @@ CSSettingsManager::CSSettingsManager(QObject *p)
  */
 CSSettingsManager::~CSSettingsManager()
 {
+	settings->sync();
+
 	delete sync;
 	delete settings;
 }

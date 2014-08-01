@@ -27,8 +27,8 @@
  *
  * \param parent The thread's parent object.
  */
-CSPausableThread::CSPausableThread(QObject *parent)
-	: QThread(parent), paused(false), resumeScheduled(false)
+CSPausableThread::CSPausableThread(QObject *p)
+	: QThread(p), paused(false), resumeScheduled(false)
 {
 	controlMutex = new QMutex(QMutex::NonRecursive);
 

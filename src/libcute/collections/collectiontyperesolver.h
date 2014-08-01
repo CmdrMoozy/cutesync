@@ -45,6 +45,8 @@ class CSCollectionTypeResolver : public QObject
 		virtual ~CSCollectionTypeResolver();
 
 	public Q_SLOTS:
+		void unserializeCollection(const QString &n,
+			const QString &p, const QByteArray &d);
 		void newCollection(const QString &n,
 			const QString &p, bool s);
 

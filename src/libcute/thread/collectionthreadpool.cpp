@@ -64,6 +64,10 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 
 	// Connect our action signals to the collection type resolver.
 
+	QObject::connect(this, SIGNAL(startUnserialize(const QString &,
+		const QString &, const QByteArray &)), resolver, SLOT(
+		unserializeCollection(const QString &, const QString &,
+		const QByteArray &)));
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), resolver, SLOT(newCollection(
 		const QString &, const QString &, bool)));
@@ -177,6 +181,25 @@ void CSCollectionThreadPool::setInterruptible(bool i)
 /*!
  * This slot handles a request to create a new collection using the given
  * details. This schedules a new collection action to be executed in a worker
+ * thread at the end of any current event queue. The collection will be loaded
+ * from the given serialized collection data, instead of loaded from the
+ * given path.
+ *
+ * \param n The name of the new collection.
+ * \param p The path of the collection.
+ * \param d The serialized collection data to load.
+ */
+void CSCollectionThreadPool::unserializeCollection(const QString &n,
+	const QString &p, const QByteArray &d)
+{ /* SLOT */
+
+	Q_EMIT startUnserialize(n, p, d);
+
+}
+
+/*!
+ * This slot handles a request to create a new collection using the given
+ * details. This schedules a new collection action to be executed in a worker
  * thread at the end of any current event queue.
  *
  * \param n The name of the new collection.
@@ -187,7 +210,7 @@ void CSCollectionThreadPool::newCollection(const QString &n,
 	const QString &p, bool s)
 { /* SLOT */
 
-	Q_EMIT(startNew(n, p, s));
+	Q_EMIT startNew(n, p, s);
 
 }
 
