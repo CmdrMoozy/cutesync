@@ -59,6 +59,9 @@ CSCollectionModel::CSCollectionModel(QObject *p)
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), threadPool, SLOT(newCollection(
 		const QString &, const QString &, bool)));
+	QObject::connect(this, SIGNAL(startSync(CSAbstractCollection *,
+		CSAbstractCollection *)), threadPool, SLOT(syncCollections(
+		CSAbstractCollection *, CSAbstractCollection *)));
 
 	// Connect the thread pool's result signals to our slots / signals.
 
@@ -462,11 +465,11 @@ void CSCollectionModel::refreshCollection(CSAbstractCollection *c)
  * \param s The source collection.
  * \param d The destination collection.
  */
-void CSCollectionModel::syncCollections(CSAbstractCollection *s,
-	CSAbstractCollection *d)
+void CSCollectionModel::syncCollections(
+	CSAbstractCollection *s, CSAbstractCollection *d)
 { /* SLOT */
 
-	d->syncFrom(s);
+	Q_EMIT startSync(s, d);
 
 }
 

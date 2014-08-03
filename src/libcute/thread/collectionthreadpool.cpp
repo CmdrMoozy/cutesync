@@ -25,6 +25,7 @@
 #include "libcute/defines.h"
 #include "libcute/collections/abstractcollection.h"
 #include "libcute/collections/collectiontyperesolver.h"
+#include "libcute/thread/collectionjobexecutor.h"
 #include "libcute/thread/pausablethread.h"
 
 /*!
@@ -45,6 +46,8 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 
 	resolver = new CSCollectionTypeResolver();
 	resolver->moveToThread(thread);
+
+	executor = new CSCollectionJobExecutor(thread);
 
 	// Connect the collection type resolver's progress signals.
 
@@ -71,6 +74,12 @@ CSCollectionThreadPool::CSCollectionThreadPool(QObject *p)
 	QObject::connect(this, SIGNAL(startNew(const QString &,
 		const QString &, bool)), resolver, SLOT(newCollection(
 		const QString &, const QString &, bool)));
+
+	// Connect our action signals to the collection job executor.
+
+	QObject::connect(this, SIGNAL(startSync(CSAbstractCollection *,
+		CSAbstractCollection *)), executor, SLOT(syncCollections(
+		CSAbstractCollection *, CSAbstractCollection *)));
 
 	// Connect the type resolver's other signals to our signals.
 
@@ -211,6 +220,22 @@ void CSCollectionThreadPool::newCollection(const QString &n,
 { /* SLOT */
 
 	Q_EMIT startNew(n, p, s);
+
+}
+
+/*!
+ * This slot handles a request to start a synchronization job between two
+ * collections. This synchronization action will be executed in a worker thread
+ * at the end of any current event queue.
+ *
+ * \param s The source collection being synchronized from.
+ * \param d The destination collection being synchronized to.
+ */
+void CSCollectionThreadPool::syncCollections(
+	CSAbstractCollection *s, CSAbstractCollection *d)
+{ /* SLOT */
+
+	Q_EMIT startSync(s, d);
 
 }
 

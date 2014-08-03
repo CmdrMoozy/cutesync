@@ -71,6 +71,7 @@ SET(libcute_HEADERS
 	src/libcute/tags/filetyperesolver.h
 	src/libcute/tags/taggedfile.h
 
+	src/libcute/thread/collectionjobexecutor.h
 	src/libcute/thread/collectionthreadpool.h
 	src/libcute/thread/pausablethread.h
 
@@ -101,6 +102,7 @@ SET(libcute_SOURCES
 	src/libcute/tags/filetyperesolver.cpp
 	src/libcute/tags/taggedfile.cpp
 
+	src/libcute/thread/collectionjobexecutor.cpp
 	src/libcute/thread/collectionthreadpool.cpp
 	src/libcute/thread/pausablethread.cpp
 

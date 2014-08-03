@@ -94,6 +94,7 @@ class CSCollectionModel : public QAbstractListModel
 		void startUnserialize(const QString &, const QString &,
 			const QByteArray &);
 		void startNew(const QString &, const QString &, bool);
+		void startSync(CSAbstractCollection *, CSAbstractCollection *);
 
 		void jobStarted(const QString &, bool);
 		void progressLimitsUpdated(int, int);

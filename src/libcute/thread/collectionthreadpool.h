@@ -27,6 +27,7 @@ class QMutex;
 class CSCollectionTypeResolver;
 class CSAbstractCollection;
 class CSPausableThread;
+class CSCollectionJobExecutor;
 
 /*!
  * \brief This class manages a pool of worker threads for our application.
@@ -55,6 +56,7 @@ class CSCollectionThreadPool : public QObject
 
 		CSPausableThread *thread;
 		CSCollectionTypeResolver *resolver;
+		CSCollectionJobExecutor *executor;
 
 		void setInterruptible(bool i);
 
@@ -62,6 +64,8 @@ class CSCollectionThreadPool : public QObject
 		void unserializeCollection(const QString &n,
 			const QString &p, const QByteArray &d);
 		void newCollection(const QString &n, const QString &p, bool s);
+		void syncCollections(CSAbstractCollection *s,
+			CSAbstractCollection *d);
 
 	private Q_SLOTS:
 		void doCollectionCreated(CSAbstractCollection *c);
@@ -79,6 +83,7 @@ class CSCollectionThreadPool : public QObject
 		void startUnserialize(const QString &,
 			const QString &, const QByteArray &);
 		void startNew(const QString &, const QString &, bool);
+		void startSync(CSAbstractCollection *, CSAbstractCollection *);
 
 		void collectionCreated(CSAbstractCollection *);
 };
