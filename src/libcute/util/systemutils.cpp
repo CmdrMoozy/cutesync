@@ -512,9 +512,9 @@ int64_t CSSystemUtils::getFileCountRec(DIR *d, const std::string &p,
 			{
 				fcnt += CSSystemUtils::getFileCountRec(subdir,
 					(p + entry->d_name + "/"), s, r);
-			}
 
-			closedir(subdir);
+				closedir(subdir);
+			}
 		}
 
 		entry = readdir(d);
