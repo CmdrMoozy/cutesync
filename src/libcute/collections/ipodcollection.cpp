@@ -704,8 +704,9 @@ bool CSIPodCollection::quietDeleteTrack(const QString &k)
 
 	// Remove the track itself from our collection and the iTunes DB.
 
+	QString hash = track->getHash();
 	itdb_track_remove(track->getTrack());
-	removeTrack(track->getHash());
+	removeTrack(hash);
 
 	// Set our database as having been modified.
 

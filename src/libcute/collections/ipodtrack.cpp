@@ -22,6 +22,8 @@
 #include "libcute/tags/filetyperesolver.h"
 #include "libcute/tags/taggedfile.h"
 
+#include <functional>
+
 /*!
  * This function constructs a new Itdb_Track from a normal flat file. If for
  * whatever reason we are unable to read the file given, NULL is returned
@@ -44,14 +46,27 @@ CSIPodTrack *CSIPodTrack::createTrackFromFile(const QString &p)
 	CSFileTypeResolver resolver;
 	CSTaggedFile f(p, resolver);
 
-	track->title = g_strdup(f.getTitle().toUtf8().data());
-	track->album = g_strdup(f.getAlbum().toUtf8().data());
-	track->artist = g_strdup(f.getArtist().toUtf8().data());
-	track->genre = g_strdup(f.getGenre().toUtf8().data());
-	track->comment = g_strdup(f.getComment().toUtf8().data());
-	track->composer = g_strdup(f.getComposer().toUtf8().data());
-	track->albumartist = g_strdup(f.getAlbumArtist().toUtf8().data());
-	track->keywords = g_strdup(f.getKeywords().toUtf8().data());
+	auto toGString = [](const QString &s) -> gchar *
+	{
+		if(s.isNull())
+			return nullptr;
+
+		QByteArray sb = s.toUtf8();
+
+		if((sb.length() == 0) || (sb[sb.length() - 1] != '\0'))
+			sb.append('\0');
+
+		return g_strndup(sb.data(), sb.length());
+	};
+
+	track->title = toGString(f.getTitle());
+	track->album = toGString(f.getAlbum());
+	track->artist = toGString(f.getArtist());
+	track->genre = toGString(f.getGenre());
+	track->comment = toGString(f.getComment());
+	track->composer = toGString(f.getComposer());
+	track->albumartist = toGString(f.getAlbumArtist());
+	track->keywords = toGString(f.getKeywords());
 
 	track->size = static_cast<gint32>(f.getSize());
 
@@ -69,8 +84,7 @@ CSIPodTrack *CSIPodTrack::createTrackFromFile(const QString &p)
 	track->mediatype  = static_cast<guint32>(0x00000001);
 
 	// E.g., "MP3-File"
-	track->filetype = g_strdup(f.getSuffix().toUpper()
-		.append("-File").toUtf8().data());
+	track->filetype = toGString(f.getSuffix().toUpper().append("-File"));
 
 	return new CSIPodTrack(track);
 }
@@ -136,7 +150,7 @@ QString CSIPodTrack::getPath() const
  */
 QString CSIPodTrack::getTitle() const
 {
-	if(track != NULL)
+	if(track != NULL && track->title != NULL)
 		return QString::fromUtf8(track->title);
 
 	return QString("");
@@ -151,7 +165,7 @@ QString CSIPodTrack::getTitle() const
  */
 QString CSIPodTrack::getArtist() const
 {
-	if(track != NULL)
+	if(track != NULL && track->artist != NULL)
 		return QString::fromUtf8(track->artist);
 
 	return QString("");
@@ -166,7 +180,7 @@ QString CSIPodTrack::getArtist() const
  */
 QString CSIPodTrack::getAlbum() const
 {
-	if(track != NULL)
+	if(track != NULL && track->album != NULL)
 		return QString::fromUtf8(track->album);
 
 	return QString("");
@@ -181,7 +195,7 @@ QString CSIPodTrack::getAlbum() const
  */
 QString CSIPodTrack::getComment() const
 {
-	if(track != NULL)
+	if(track != NULL && track->comment != NULL)
 		return QString::fromUtf8(track->comment);
 
 	return QString("");
@@ -196,7 +210,7 @@ QString CSIPodTrack::getComment() const
  */
 QString CSIPodTrack::getGenre() const
 {
-	if(track != NULL)
+	if(track != NULL && track->genre != NULL)
 		return QString::fromUtf8(track->genre);
 
 	return QString("");
@@ -211,7 +225,7 @@ QString CSIPodTrack::getGenre() const
  */
 QString CSIPodTrack::getAlbumArtist() const
 {
-	if(track != NULL)
+	if(track != NULL && track->albumartist != NULL)
 		return QString::fromUtf8(track->albumartist);
 
 	return QString("");
@@ -226,7 +240,7 @@ QString CSIPodTrack::getAlbumArtist() const
  */
 QString CSIPodTrack::getComposer() const
 {
-	if(track != NULL)
+	if(track != NULL && track->composer != NULL)
 		return QString::fromUtf8(track->composer);
 
 	return QString("");
